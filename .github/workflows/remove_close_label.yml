@@ -1,0 +1,18 @@
+name: "Closeしたら優先度系の Label を外す"
+
+on:
+  issues:
+    types: [closed]
+jobs:
+  remove_priority_labels:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-ecosystem/action-remove-labels@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          labels: |
+            🔥emergency
+            👀needs_review
+            🧑🏻‍🎓needs_investigation
+            🚧wip
