@@ -50,7 +50,7 @@ body:
   - type: textarea
     id: logs
     attributes:
-      label: 関連ログ
+      label: Relevant log output
       description: 関連するログの出力をコピーしてペーストしてください。 これは自動的にコードにフォーマットされるので、バックティックは不要です。
       render: shell
   - type: textarea
