@@ -36,16 +36,6 @@ body:
       description: その機能がするべきはずの動作を教えてください
     validations:
       required: false
-
-  - type: dropdown
-    id: browsers
-    attributes:
-      label: エラーが発生したOSを教えて下さい。
-      multiple: true
-      options:
-        - Android, iOS
-        - Androidのみ
-        - iOSのみ
         
   - type: textarea
     id: logs
