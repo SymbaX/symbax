@@ -12,7 +12,7 @@
 イベント共有プラットフォーム
 
 ## 起動方法
-[Issue #1](https://github.com/SymbaX/symbax/issues/4)を参照。
+[Wiki](https://github.com/SymbaX/symbax/wiki)を参照。
 
 ## URL
 `.env`で指定したポート番号になるため環境によっては違う場合がある。
