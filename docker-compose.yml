@@ -62,6 +62,8 @@ services:
             MYSQL_USERNAME: '${DB_USERNAME}'
             MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
             PMA_HOST: mysql
+            PMA_USER: '${DB_USERNAME}'
+            PMA_PASSWORD: '${DB_PASSWORD}'
         networks:
             - sail
     redis:
