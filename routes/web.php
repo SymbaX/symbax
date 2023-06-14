@@ -14,6 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+
+// HTTP ステータスコードを引数に、該当するエラーページを表示させる
+Route::get('error/{code}', function ($code) {
+    abort($code);
+});
+
+
 Route::get('/', function () {
     return view('welcome');
 });
