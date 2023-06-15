@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use DateTime;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -13,48 +14,9 @@ class departmentsTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $param  = [
-            'ID' => 'screen',
-            'colleges'=> 'creators',
-            'deparmentname'=>'放送芸術科'
-        ];
-        DB::table('departments')->insert($param);
-
-        $param  = [
-            'ID' => 'actor',
-            'colleges'=> 'creators',
-            'deparmentname'=>'声優・演劇科'
-        ];
-        DB::table('departments')->insert($param);
-
-        $param  = [
-            'ID' => 'show',
-            'colleges'=> 'creators',
-            'deparmentname'=>'演劇スタッフ科'
-        ];
-        DB::table('departments')->insert($param);
-
-        $param  = [
-            'ID' => 'manga_anime_4yeaars',
-            'colleges'=> 'creators',
-            'deparmentname'=>'マンガ・アニメーション科四年制'
-        ];
-        DB::table('departments')->insert($param);
-
-        $param  = [
-            'ID' => 'manga_anime_2yeaars',
-            'colleges'=> 'creators',
-            'deparmentname'=>'マンガ・アニメーション科'
-        ];
-        DB::table('departments')->insert($param);
-
-        $param  = [
-            'ID' => 'gamecreator_4yeaars',
-            'colleges'=> 'design',
-            'deparmentname'=>'ゲームクリエイター科四年制'
-        ];
-        DB::table('departments')->insert($param);
-
-        
+        DB::table('departments')->insert([
+            ['id' => 'department_1',  'colleges_id' => 'college_1', 'name' => '学科 1', 'created_at' => new DateTime()],
+            ['id' => 'department_2',  'colleges_id' => 'college_2', 'name' => '学科 2', 'created_at' => new DateTime()],
+        ]);
     }
 }
