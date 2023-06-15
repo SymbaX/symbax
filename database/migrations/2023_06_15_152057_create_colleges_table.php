@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('colleges', function (Blueprint $table) {
             $table->string('id')->unique();
-            $table->string('collegename');$table->id();
+            $table->string('collegename');
             $table->timestamps();
         });
     }
