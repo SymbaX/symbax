@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('departments', function (Blueprint $table) {
             $table->string('id')->unique();
-            $table->string('colleges');
-            $table->string('departmentname');
+            $table->string('colleges_id');
+            $table->foreign('colleges_id')->references('id')->on('colleges');
+            $table->string('name');
             $table->timestamps();
         });
     }
