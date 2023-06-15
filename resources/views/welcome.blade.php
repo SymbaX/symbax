@@ -5,27 +5,112 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>SymbaX</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            
+            background-image: url('https://www.homepage-tukurikata.com/image/lion.jpg');
+            
+            background-size: auto;
+            background-position: center;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            top: 50%;
+            left: 50%;
+            position: absolute;
+            transform: translate(-50%,-50%);
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .subtitle {
+            font-size: 24px;
+            font-weight: bold;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        .lion-image {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .buttons {
+            margin-top: 30px;
+        }
+
+        .buttons a {
+            display: inline-block;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            color: #fff;
+            background-color: #007bff;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        /*
+        .buttons a:hover {
+            background-color: #0056b3;
+        }
+        */
+
+        .footer {
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px solid #ccc;
+            color: #999;
+            position: absolute;/*←絶対位置*/
+            bottom: 0; /*下に固定*/
+            width: 100%;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 14px;
+        }
+    </style>
 </head>
 
-<body class="antialiased">
-    <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
-        @if (Route::has('login'))
-        <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
+<body>
+    <div class="container">
+        <h1>SymbaX</h1>
+        <p class="subtitle">Powerful Web Solutions</p>
+        <!--
+        <img src="https://www.homepage-tukurikata.com/image/lion.jpg" alt="Lion Image" class="lion-image">
+    -->
+        <p>
+            Welcome to SymbaX, your partner for innovative web development.
+            We combine the strength and agility of a lion with the vastness and endurance of the desert to deliver powerful web solutions that drive your business forward.
+        </p>
+        <div class="buttons">
+            @if (Route::has('login'))
             @auth
-            <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">ダッシュボード</a>
+            <a href="{{ url('/dashboard') }}">Go to Dashboard</a>
             @else
-            <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">ログイン</a>
-
+            <a href="{{ route('login') }}">Login</a>
             @if (Route::has('register'))
-            <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">新規登録</a>
+            <a href="{{ route('register') }}" class="ml-4">Sign Up</a>
             @endif
             @endauth
+            @endif
         </div>
-        @endif
-
-        <h1>トップページです。</h1>
-
+    </div>
+    <div class="footer">
+        <p>&copy; 2023 SymbaX. All rights reserved.</p>
     </div>
 </body>
 
