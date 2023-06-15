@@ -9,8 +9,10 @@
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;
+            
             background-image: url('https://www.homepage-tukurikata.com/image/lion.jpg');
-            background-size: cover;
+            
+            background-size: auto;
             background-position: center;
         }
 
@@ -20,6 +22,10 @@
             padding: 40px;
             text-align: center;
             background-color: rgba(255, 255, 255, 0.8);
+            top: 50%;
+            left: 50%;
+            position: absolute;
+            transform: translate(-50%,-50%);
         }
 
         h1 {
@@ -67,6 +73,9 @@
             padding-top: 20px;
             border-top: 1px solid #ccc;
             color: #999;
+            position: absolute;/*←絶対位置*/
+            bottom: 0; /*下に固定*/
+            width: 100%;
         }
 
         .footer p {
