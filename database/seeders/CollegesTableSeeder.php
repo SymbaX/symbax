@@ -16,8 +16,11 @@ class CollegesTableSeeder extends Seeder
     {
         //
         DB::table('colleges')->insert([
-            ['id' => 'college_1', 'name' => 'カレッジ 1', 'created_at' => new DateTime()],
-            ['id' => 'college_2', 'name' => 'カレッジ 2', 'created_at' => new DateTime()],
+            [' id' => 'creators', ' name' => 'クリエイターズカレッジ', 'created_at' => new DateTime()],
+            [' id' => 'design', ' name' => 'デザインカレッジ', 'created_at' => new DateTime()],
+            [' id' => 'music', ' name' => 'ミュージックカレッジ', 'created_at' => new DateTime()],
+            [' id' => 'it', ' name' => 'ITカレッジ', 'created_at' => new DateTime()],
+            [' id' => 'technology', ' name' => 'テクノロジーカレッジ', 'created_at' => new DateTime()],
         ]);
     }
 }
