@@ -18,6 +18,7 @@
 
         <!-- College -->
         <select name="college_id" id="college">
+            <option value="" data-default="true">選択してください</option>
             @foreach ($colleges as $college)
                 <option value="{{ $college->id }}">{{ $college->name }}</option>
             @endforeach
