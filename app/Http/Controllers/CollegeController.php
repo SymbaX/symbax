@@ -9,6 +9,7 @@ class CollegeController extends Controller
     public function index()
     {
         $colleges = DB::select('select * from colleges');
-        return view('develop-test', ['colleges' => $colleges]);
+        $departments = DB::select('select * from departments');
+        return view('develop-test', ['colleges' => $colleges, 'departments' => $departments]);
     }
 }

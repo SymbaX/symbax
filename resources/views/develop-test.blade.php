@@ -13,7 +13,12 @@
         <h1>SymbaX</h1>
         <ul>
             @foreach ($colleges as $college)
-            <li>{{ $college->name }}</li>
+            <li>{{ $college->id }} / {{ $college->name }}</li>
+            @endforeach
+        </ul>
+        <ul>
+            @foreach ($departments as $department)
+            <li>{{ $department->id }} / {{ $department->name }}</li>
             @endforeach
         </ul>
     </div>
