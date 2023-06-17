@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use App\Models\College;
+use App\Models\Department;
+use Illuminate\Validation\Rule;
 
 class RegisteredUserController extends Controller
 {
@@ -20,7 +23,19 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+        $colleges = College::all();
+        $departments = Department::all();
+
+        // 登録フォームの初期値として選択されているカレッジとデパートメントの ID を取得
+        $selectedCollegeId = old('college', null);
+        $selectedDepartmentId = old('department', null);
+        
+        return view('auth.register', [
+            'colleges' => $colleges,
+            'departments' => $departments,
+            'selectedCollegeId' => $selectedCollegeId,
+            'selectedDepartmentId' => $selectedDepartmentId,
+        ]);
     }
 
     /**
@@ -34,12 +49,18 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'college' => ['required', 'exists:colleges,id'],
+            'department' => ['required', 'exists:departments,id', Rule::exists('departments', 'id')->where(function ($query) use ($request) {
+                $query->where('college_id', $request->input('college'));
+            })],
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'college_id' => $request->college,
+            'department_id' => $request->department,
         ]);
 
         event(new Registered($user));
