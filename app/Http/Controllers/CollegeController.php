@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
+use App\Models\College;
+use App\Models\Department;
 
 class CollegeController extends Controller
 {
     public function index()
     {
-        $colleges = DB::select('select * from colleges');
-        $departments = DB::select('select * from departments');
+        $colleges = College::all();
+        $departments = Department::all();
         return view('develop-test', ['colleges' => $colleges, 'departments' => $departments]);
     }
 }
