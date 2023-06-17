@@ -27,9 +27,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// TODO: TESTコード
-Route::get('/develop-test', [CollegeDepartmentController::class, 'index']);
-
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['verified'])->name('dashboard');
