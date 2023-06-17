@@ -17,18 +17,18 @@
         </div>
 
         <!-- College -->
-        <ul>
+        <select name="college_id">
             @foreach ($colleges as $college)
-            <li>{{ $college->id }} / {{ $college->name }}</li>
+                <option value="{{ $college->id }}">{{ $college->name }}</option>
             @endforeach
-        </ul>
+        </select>
 
         <!-- Department -->
-        <ul>
+        <select name="department_id">
             @foreach ($departments as $department)
-            <li>{{ $department->id }} / {{ $department->name }}</li>
+                <option value="{{ $department->id }}">{{ $department->colleges_id }} {{ $department->name }}</option>
             @endforeach
-        </ul>
+        </select>
         
         <!-- Password -->
         <div class="mt-4">
