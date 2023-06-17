@@ -14,6 +14,7 @@ use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 use App\Models\College;
 use App\Models\Department;
+use Illuminate\Validation\Rule;
 
 class RegisteredUserController extends Controller
 {
@@ -48,8 +49,10 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'college' => ['required', 'string', 'max:255'],
-            'department' => ['required', 'string', 'max:255'],
+            'college' => ['required', 'exists:colleges,id'],
+            'department' => ['required', 'exists:departments,id', Rule::exists('departments', 'id')->where(function ($query) use ($request) {
+                $query->where('college_id', $request->input('college'));
+            })],
         ]);
 
         $user = User::create([
