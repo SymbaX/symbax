@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\College;
 use App\Models\Department;
 
-class CollegeController extends Controller
+class CollegeDepartmentController extends Controller
 {
     public function index()
     {

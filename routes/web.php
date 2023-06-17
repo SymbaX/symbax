@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CollegeController;
+use App\Http\Controllers\CollegeDepartmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,7 +28,7 @@ Route::get('/', function () {
 });
 
 // TODO: TESTコード
-Route::get('/develop-test', [CollegeController::class, 'index']);
+Route::get('/develop-test', [CollegeDepartmentController::class, 'index']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
