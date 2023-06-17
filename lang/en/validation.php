@@ -179,6 +179,9 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'college' => 'ENカレッジ',
+        'department' => 'EN学科',
+    ],
 
 ];
