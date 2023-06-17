@@ -22,7 +22,7 @@
             <select name="college" id="college" class="block mt-1 w-full">
                 <option value="" data-default="true">選択してください</option>
                 @foreach ($colleges as $college)
-                <option value="{{ $college->id }}">{{ $college->name }}</option>
+                    <option value="{{ $college->id }}" {{ $selectedCollegeId == $college->id ? 'selected' : '' }}>{{ $college->name }}</option>
                 @endforeach
             </select>
             <x-input-error :messages="$errors->get('college')" class="mt-2" />
@@ -31,14 +31,16 @@
         <!-- Department -->
         <div class="mt-4">
             <x-input-label for="department" :value="__('Department')" />
-            <select name="department" id="department" class="block mt-1 w-full" disabled>
+            <select name="department" id="department" class="block mt-1 w-full" {{ $selectedCollegeId ? '' : 'disabled' }}>
                 <option value="" data-default="true">選択してください</option>
                 @foreach ($departments as $department)
-                <option value="{{ $department->id }}" data-college-id="{{ $department->college_id }}">{{ $department->name }}</option>
+                    <option value="{{ $department->id }}" data-college-id="{{ $department->college_id }}" {{ $selectedDepartmentId == $department->id ? 'selected' : '' }} style="{{ $selectedCollegeId == $department->college_id ? '' : 'display: none' }}">{{ $department->name }}</option>
                 @endforeach
             </select>
             <x-input-error :messages="$errors->get('department')" class="mt-2" />
         </div>
+
+
 
         <script>
             // Collegeの選択肢が変更されたときの処理

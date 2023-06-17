@@ -24,7 +24,17 @@ class RegisteredUserController extends Controller
     {
         $colleges = College::all();
         $departments = Department::all();
-        return view('auth.register', ['colleges' => $colleges, 'departments' => $departments]);
+
+        // 登録フォームの初期値として選択されているカレッジとデパートメントの ID を取得
+        $selectedCollegeId = old('college', null);
+        $selectedDepartmentId = old('department', null);
+        
+        return view('auth.register', [
+            'colleges' => $colleges,
+            'departments' => $departments,
+            'selectedCollegeId' => $selectedCollegeId,
+            'selectedDepartmentId' => $selectedDepartmentId,
+        ]);
     }
 
     /**
