@@ -20,7 +20,7 @@
         <select name="college_id" id="college">
             <option value="" data-default="true">選択してください</option>
             @foreach ($colleges as $college)
-                <option value="{{ $college->id }}">{{ $college->name }}</option>
+            <option value="{{ $college->id }}">{{ $college->name }}</option>
             @endforeach
         </select>
 
@@ -30,55 +30,52 @@
             <option value="" data-default="true">選択してください</option>
             <!-- その他のオプション -->
             @foreach ($departments as $department)
-                <option value="{{ $department->id }}" data-college-id="{{ $department->college_id }}">{{ $department->name }}</option>
+            <option value="{{ $department->id }}" data-college-id="{{ $department->college_id }}">{{ $department->name }}</option>
             @endforeach
         </select>
 
         <script>
-    // Collegeの選択肢が変更されたときの処理
-    document.getElementById('college').addEventListener('change', function() {
-        var selectedCollegeId = this.value; // 選択されたCollegeのID
+            // Collegeの選択肢が変更されたときの処理
+            document.getElementById('college').addEventListener('change', function() {
+                var selectedCollegeId = this.value; // 選択されたCollegeのID
 
-        // Departmentの選択肢を絞り込む
-        var departmentSelect = document.getElementById('department');
-        var departments = departmentSelect.getElementsByTagName('option');
+                // Departmentの選択肢を絞り込む
+                var departmentSelect = document.getElementById('department');
+                var departments = departmentSelect.getElementsByTagName('option');
 
-        // 全てのDepartmentを非表示にし、選択を解除する
-        for (var i = 0; i < departments.length; i++) {
-            departments[i].style.display = 'none';
-            departments[i].selected = false;
-        }
+                // 全てのDepartmentを非表示にし、選択を解除する
+                for (var i = 0; i < departments.length; i++) {
+                    departments[i].style.display = 'none';
+                    departments[i].selected = false;
+                }
 
-        // 選択してくださいのオプションを表示し、選択状態にする
-        var defaultOption = departmentSelect.querySelector('option[data-default="true"]');
-        defaultOption.style.display = '';
-        defaultOption.selected = true;
+                // 選択してくださいのオプションを表示し、選択状態にする
+                var defaultOption = departmentSelect.querySelector('option[data-default="true"]');
+                defaultOption.style.display = '';
+                defaultOption.selected = true;
 
-        // 選択されたCollegeに一致するDepartmentを表示し、選択状態にする
-        for (var i = 0; i < departments.length; i++) {
-            var department = departments[i];
-            var collegeId = department.getAttribute('data-college-id');
+                // 選択されたCollegeに一致するDepartmentを表示し、選択状態にする
+                for (var i = 0; i < departments.length; i++) {
+                    var department = departments[i];
+                    var collegeId = department.getAttribute('data-college-id');
 
-            if (collegeId === selectedCollegeId) {
-                department.style.display = ''; // 選択肢を表示する
-            }
-        }
+                    if (collegeId === selectedCollegeId) {
+                        department.style.display = ''; // 選択肢を表示する
+                    }
+                }
 
-        // Departmentの選択肢を有効化する
-        departmentSelect.disabled = false;
-    });
-</script>
+                // Departmentの選択肢を有効化する
+                departmentSelect.disabled = false;
+            });
+        </script>
 
 
-        
+
         <!-- Password -->
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
+            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
 
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
@@ -87,9 +84,7 @@
         <div class="mt-4">
             <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
 
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
+            <x-text-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
 
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
