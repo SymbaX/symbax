@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('departments', function (Blueprint $table) {
             $table->string('id')->unique();
-            $table->string('colleges_id');
-            $table->foreign('colleges_id')->references('id')->on('colleges');
+            $table->string('college_id');
+            $table->foreign('college_id')->references('id')->on('colleges');
             $table->string('name');
             $table->timestamps();
         });

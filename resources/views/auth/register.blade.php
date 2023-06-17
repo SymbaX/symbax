@@ -30,7 +30,7 @@
             <option value="" data-default="true">選択してください</option>
             <!-- その他のオプション -->
             @foreach ($departments as $department)
-                <option value="{{ $department->id }}">{{ $department->colleges_id }} {{ $department->name }}</option>
+                <option value="{{ $department->id }}">{{ $department->college_id }} {{ $department->name }}</option>
             @endforeach
         </select>
 
