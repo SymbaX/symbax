@@ -30,44 +30,45 @@
             <option value="" data-default="true">選択してください</option>
             <!-- その他のオプション -->
             @foreach ($departments as $department)
-                <option value="{{ $department->id }}">{{ $department->college_id }} {{ $department->name }}</option>
+                <option value="{{ $department->id }}" data-college-id="{{ $department->college_id }}">{{ $department->name }}</option>
             @endforeach
         </select>
 
         <script>
-            // Collegeの選択肢が変更されたときの処理
-            document.getElementById('college').addEventListener('change', function() {
-                var selectedCollegeId = this.value; // 選択されたCollegeのID
+    // Collegeの選択肢が変更されたときの処理
+    document.getElementById('college').addEventListener('change', function() {
+        var selectedCollegeId = this.value; // 選択されたCollegeのID
 
-                // Departmentの選択肢を絞り込む
-                var departmentSelect = document.getElementById('department');
-                var departments = departmentSelect.getElementsByTagName('option');
+        // Departmentの選択肢を絞り込む
+        var departmentSelect = document.getElementById('department');
+        var departments = departmentSelect.getElementsByTagName('option');
 
-                // 全てのDepartmentを非表示にし、選択を解除する
-                for (var i = 0; i < departments.length; i++) {
-                    departments[i].style.display = 'none';
-                    departments[i].selected = false;
-                }
+        // 全てのDepartmentを非表示にし、選択を解除する
+        for (var i = 0; i < departments.length; i++) {
+            departments[i].style.display = 'none';
+            departments[i].selected = false;
+        }
 
-                // 選択してくださいのオプションを表示し、選択状態にする
-                var defaultOption = departmentSelect.querySelector('option[data-default="true"]');
-                defaultOption.style.display = '';
-                defaultOption.selected = true;
+        // 選択してくださいのオプションを表示し、選択状態にする
+        var defaultOption = departmentSelect.querySelector('option[data-default="true"]');
+        defaultOption.style.display = '';
+        defaultOption.selected = true;
 
-                // 選択されたCollegeに一致するDepartmentを表示し、選択状態にする
-                for (var i = 0; i < departments.length; i++) {
-                    var department = departments[i];
-                    var collegeId = department.textContent.split(' ')[0]; // Departmentの表示テキストの先頭がCollegeのID
+        // 選択されたCollegeに一致するDepartmentを表示し、選択状態にする
+        for (var i = 0; i < departments.length; i++) {
+            var department = departments[i];
+            var collegeId = department.getAttribute('data-college-id');
 
-                    if (collegeId.trim() === selectedCollegeId) {
-                        department.style.display = ''; // 選択肢を表示する
-                    }
-                }
+            if (collegeId === selectedCollegeId) {
+                department.style.display = ''; // 選択肢を表示する
+            }
+        }
 
-                // Departmentの選択肢を有効化する
-                departmentSelect.disabled = false;
-            });
-        </script>
+        // Departmentの選択肢を有効化する
+        departmentSelect.disabled = false;
+    });
+</script>
+
 
         
         <!-- Password -->
