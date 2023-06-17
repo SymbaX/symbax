@@ -18,30 +18,26 @@
 
         <!-- College -->
         <div class="mt-4">
-            <x-input-label for="college" :value="__('College')" />
+            <x-input-label for="college_id" :value="__('College')" />
             <select name="college_id" id="college" class="block mt-1 w-full @error('college_id') border-red-500 @enderror">
                 <option value="" data-default="true">選択してください</option>
                 @foreach ($colleges as $college)
                 <option value="{{ $college->id }}">{{ $college->name }}</option>
                 @endforeach
             </select>
-            @error('college_id')
-            <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
-            @enderror
+            <x-input-error :messages="$errors->get('college_id')" class="mt-2" />
         </div>
 
         <!-- Department -->
         <div class="mt-4">
-            <x-input-label for="department" :value="__('Department')" />
+            <x-input-label for="department_id" :value="__('Department')" />
             <select name="department_id" id="department" class="block mt-1 w-full @error('department_id') border-red-500 @enderror" disabled>
                 <option value="" data-default="true">選択してください</option>
                 @foreach ($departments as $department)
                 <option value="{{ $department->id }}" data-college-id="{{ $department->college_id }}">{{ $department->name }}</option>
                 @endforeach
             </select>
-            @error('department_id')
-            <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
-            @enderror
+            <x-input-error :messages="$errors->get('department_id')" class="mt-2" />
         </div>
 
         <script>
