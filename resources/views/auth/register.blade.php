@@ -16,6 +16,20 @@
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
+        <!-- College -->
+        <ul>
+            @foreach ($colleges as $college)
+            <li>{{ $college->id }} / {{ $college->name }}</li>
+            @endforeach
+        </ul>
+
+        <!-- Department -->
+        <ul>
+            @foreach ($departments as $department)
+            <li>{{ $department->id }} / {{ $department->name }}</li>
+            @endforeach
+        </ul>
+        
         <!-- Password -->
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />

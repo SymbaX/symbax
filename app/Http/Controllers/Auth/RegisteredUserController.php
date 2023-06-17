@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use App\Models\College;
+use App\Models\Department;
 
 class RegisteredUserController extends Controller
 {
@@ -20,7 +22,9 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+        $colleges = College::all();
+        $departments = Department::all();
+        return view('auth.register', ['colleges' => $colleges, 'departments' => $departments]);
     }
 
     /**
