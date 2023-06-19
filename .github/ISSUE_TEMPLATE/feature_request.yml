@@ -1,5 +1,5 @@
-name: 新規タスク(New Task)
-description: 新規タスク用issueを作成する
+name: 新規タスク
+description: 新規タスク用Issueを作成する
 title: "[Feature]: "
 labels: ["🌟feature"]
 body:
@@ -7,7 +7,7 @@ body:
     id: purpose
     attributes:
       label: 目的
-      description: このissueの目的を記入してください。
+      description: このIssueの目的を記入してください。
       placeholder:
     validations:
       required: true
@@ -24,7 +24,7 @@ body:
     id: reference
     attributes:
       label: 参考
-      description: 関連する資料やissueがあれば教えてください。
+      description: 関連する資料やIssueがあれば教えてください。
     validations:
       required: false
   - type: textarea
@@ -42,4 +42,4 @@ body:
   - type: markdown
     attributes:
       value: |
-        この機能の開発を始める際、feature/#issue番号_動詞_機能 でブランチを切ってください。
+        この機能の開発を始める際、feature/#Issue番号_動詞_機能 でブランチを切ってください。

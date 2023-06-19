@@ -1,7 +1,9 @@
-name: "issue close when label deletion"
+name: "Closeしたタイミングでラベルを削除"
 
 on:
   issues:
+    types: [closed]
+  pull_request:
     types: [closed]
 jobs:
   remove_priority_labels:
@@ -13,4 +15,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           labels: |
             🔥emergency
+            ⏳low_priority
             👀needs_review
+            🧑🏻‍🎓needs_investigation
+            🚧wip

@@ -3,12 +3,15 @@ changelog:
     authors:
       - github-actions
   categories:
+    - title: Release 💎
+      labels:
+        - "💎release"
     - title: New Features 🎉
       labels:
         - "🌟feature"
     - title: Bug Fix 🕷️
       labels:
-        - "🕷️bug"
+        - "🕷️bug"     
     - title: Other Changes 🛠
       labels:
         - "*"
