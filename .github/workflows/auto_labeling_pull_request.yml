@@ -1,4 +1,4 @@
-name: Automatically labeling pull request.
+name: "プルリクエストに変更内容のラベルを付ける"
 
 on:
   pull_request:
@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Get label name
+      - name: "ブランチ名からラベルを選択する"
         id: label_name
         run: |
           branch_type=$(echo ${{github.head_ref}} | cut -d "/" -f1)
@@ -22,12 +22,14 @@ jobs:
             label_name=$(echo '🌟feature')
           elif [ $branch_type == 'fix' ] || [ $branch_type == 'hotfix' ]; then
             label_name=$(echo '🕷️bug')
+          elif [ $branch_type == 'develop' ]; then
+            label_name=$(echo '💎release')
           else
-            label_name=""
+            label_name="🛠️fix"
           fi
           echo "::set-output name=label_name::$label_name"
 
-      - name: Auto labeling
+      - name: "ラベルを付ける"
         if: ${{ steps.label_name.outputs.label_name }}
         run: |
           number=$(echo $GITHUB_REF | sed -e 's/[^0-9]//g')
