@@ -1,8 +1,8 @@
-name: "Add Review Label"
+name: "プルリクエストに自動的にラベルを付ける/外す"
 
 on:
   pull_request:
-    types: [opened, ready_for_review]
+    types: [opened, ready_for_review, reopened]
 jobs:
   add_review_label:
     if: github.event.pull_request.draft != true

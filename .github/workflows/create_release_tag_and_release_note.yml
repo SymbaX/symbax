@@ -1,4 +1,4 @@
-name: Create release tag and release note.
+name: "リリースタグとノートを作成する"
 
 on:
   push:
@@ -15,12 +15,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Get previous tag
+      - name: "前回のリリースタグを取得"
         id: pre_tag
         run: |
           echo "::set-output name=pre_tag::$(curl -H 'Accept: application/vnd.github.v3+json' -H 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' https://api.github.com/repos/${{ github.repository }}/releases/latest | jq -r .tag_name)"
 
-      - name: Generate release tag
+      - name: "リリースタグを生成する 「{YYYY.MM.DD}-{当日リリース回数}」"
         id: release_tag
         run: |
           today=$(date +'%Y.%m.%d')
@@ -32,12 +32,12 @@ jobs:
           fi
           echo "::set-output name=release_tag::$today-$(($pre_release_count + 1))"
 
-      - name: Generate release note
+      - name: "前回リリースからの差分をもとに、リリースノートの本文を生成する"
         id: release_note
         run: |
           echo "::set-output name=release_note::$(curl -X POST -H 'Accept: application/vnd.github.v3+json' -H 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' https://api.github.com/repos/${{ github.repository }}/releases/generate-notes -d '{"tag_name":"${{ steps.release_tag.outputs.release_tag }}", "previous_tag_name":"${{ steps.pre_tag.outputs.pre_tag }}"}' | jq .body | sed 's/"//g')"
 
-      - name: Create Release
+      - name: "タグを切り、リリースノートを作成する"
         run: |
           curl -X POST \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \

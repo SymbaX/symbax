@@ -1,4 +1,4 @@
-name: 不具合報告(Bug report)
+name: 不具合報告
 description: File a bug report
 title: "[BUG]: "
 labels: ["🕷️bug"]
@@ -40,13 +40,13 @@ body:
   - type: textarea
     id: logs
     attributes:
-      label: Relevant log output
+      label: ログ
       description: 関連するログの出力をコピーしてペーストしてください。 これは自動的にコードにフォーマットされるので、バックティックは不要です。
       render: shell
   - type: textarea
     id: other
     attributes:
-      label: その他(other)
+      label: その他
         
   - type: markdown
     attributes:
