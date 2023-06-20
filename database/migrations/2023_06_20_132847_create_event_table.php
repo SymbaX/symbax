@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('event', function (Blueprint $table) {
             $table->string('id')->unique();
-            $table->varchar('name');
-            $table->varchar('details');
-            $table->varchar('category');
-            $table->varchar('tag');
-            $table->varchar('conditions_of_participation');
-            $table->varchar('extarnal_links');
+            $table->string('name');
+            $table->string('details',1000);
+            $table->string('category');
+            $table->string('tag');
+            $table->string('conditions_of_participation');
+            $table->string('extarnal_links');
             $table->datetime('datetime');
-            $table->varchar('place');
-            $table->int('number_of_people');
+            $table->string('place');
+            $table->integer('number_of_people');
             $table->timestamps();
         });
     }
