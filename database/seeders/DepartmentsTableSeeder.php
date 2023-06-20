@@ -32,7 +32,7 @@ class DepartmentsTableSeeder extends Seeder
             ['id' => 'aisystem',            'college_id' => 'it',          'name' => 'AIシステム科',                   'created_at' => new DateTime()],
             ['id' => 'ip',                  'college_id' => 'it',          'name' => '情報処理科',                     'created_at' => new DateTime()],
             ['id' => 'network',             'college_id' => 'it',          'name' => 'ネットワークセキュリティ科',     'created_at' => new DateTime()],
-            ['id' => 'business',            'college_id' => 'technology',  'name' => '情報ビジネス科',                 'created_at' => new DateTime()],
+            ['id' => 'business',            'college_id' => 'it',          'name' => '情報ビジネス科',                 'created_at' => new DateTime()],
             ['id' => 'electronic',          'college_id' => 'technology',  'name' => '電子・電気科',                   'created_at' => new DateTime()],
             ['id' => 'architecture_4year',  'college_id' => 'technology',  'name' => '建築学科四年制',                 'created_at' => new DateTime()],
             ['id' => 'architecture_2year',  'college_id' => 'technology',  'name' => '建築学科',                       'created_at' => new DateTime()],
