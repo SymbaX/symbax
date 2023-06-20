@@ -19,7 +19,7 @@
         <!-- College -->
         <div class="mt-4">
             <x-input-label for="college" :value="__('College')" />
-            <select name="college" id="college" class="block mt-1 w-full">
+            <select name="college" id="college" class ="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
                 <option value="" data-default="true">選択してください</option>
                 @foreach ($colleges as $college)
                     <option value="{{ $college->id }}" {{ $selectedCollegeId == $college->id ? 'selected' : '' }}>{{ $college->name }}</option>
@@ -31,7 +31,7 @@
         <!-- Department -->
         <div class="mt-4">
             <x-input-label for="department" :value="__('Department')" />
-            <select name="department" id="department" class="block mt-1 w-full" {{ $selectedCollegeId ? '' : 'disabled' }}>
+            <select name="department" id="department" class ="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" {{ $selectedCollegeId ? '' : 'disabled' }}>
                 <option value="" data-default="true">選択してください</option>
                 @foreach ($departments as $department)
                     <option value="{{ $department->id }}" data-college-id="{{ $department->college_id }}" {{ $selectedDepartmentId == $department->id ? 'selected' : '' }} style="{{ $selectedCollegeId == $department->college_id ? '' : 'display: none' }}">{{ $department->name }}</option>
