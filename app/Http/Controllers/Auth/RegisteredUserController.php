@@ -47,7 +47,7 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string','max:255', 'unique:users' ,function ($attribute, $value, $fail) {
+            'email' => ['required', 'string','email','max:255', 'unique:users' ,function ($attribute, $value, $fail) {
                 if (!strpos($value, '@g.neec.ac.jp$')) {
                     $fail('正しい形式のメールアドレスを入力してください。');
                 }
