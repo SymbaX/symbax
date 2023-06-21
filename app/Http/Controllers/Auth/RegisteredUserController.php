@@ -47,11 +47,7 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string','email','max:255', 'unique:users' ,function ($attribute, $value, $fail) {
-                if (!strpos($value, '@g.neec.ac.jp$')) {
-                    $fail('正しい形式のメールアドレスを入力してください。');
-                }
-                }],
+            'email' => ['required','string','email','max:255',Rule::unique('users'),'regex:/^[^@]+@g\.neec\.ac\.jp$/',],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'college' => ['required', 'exists:colleges,id'],
             'department' => ['required', 'exists:departments,id', Rule::exists('departments', 'id')->where(function ($query) use ($request) {
