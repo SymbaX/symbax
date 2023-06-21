@@ -47,13 +47,18 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string','max:255', 'unique:users' ,function ($attribute, $value, $fail) {
+                if (!strpos($value, '@g.neec.ac.jp')) {
+                    $fail('正しい形式のメールアドレスを入力してください。');
+                }
+                }],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'college' => ['required', 'exists:colleges,id'],
             'department' => ['required', 'exists:departments,id', Rule::exists('departments', 'id')->where(function ($query) use ($request) {
                 $query->where('college_id', $request->input('college'));
-            })],
-        ]);
+            })
+        ],
+    ],);
 
         $user = User::create([
             'name' => $request->name,
@@ -62,6 +67,7 @@ class RegisteredUserController extends Controller
             'college_id' => $request->college,
             'department_id' => $request->department,
         ]);
+
 
         event(new Registered($user));
 
