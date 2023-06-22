@@ -145,5 +145,7 @@
     "Datetime": "開催日",
     "Place": "場所",
     "Number of people": "人数",
-    "Create a new event.": "新しいイベントを作成します。"
+    "Create a new event.": "新しいイベントを作成します。",
+    "Event list": "イベント一覧",
+    "Event details": "イベント詳細"
 }

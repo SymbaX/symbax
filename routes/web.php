@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Event;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,6 +29,16 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['verified'])->name('dashboard');
 
+Route::get('/list', function () {
+    $events = Event::all();
+    return view('event/list', ['events' => $events]);
+})->middleware(['verified'])->name('list');
+
+Route::get('/details/{id}', function ($id) {
+    $event = Event::findOrFail($id);
+    return view('event/details', ['event' => $event]);
+})->middleware(['verified'])->name('details');
+
 Route::get('/new', function () {
     return view('event/new');
 })->middleware(['verified'])->name('new');
@@ -37,7 +48,6 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // 新しいイベント作成のルート
     Route::patch('/event/create', [EventController::class, 'create'])->name('event.create');
 });
 
