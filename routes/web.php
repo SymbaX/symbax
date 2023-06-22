@@ -32,7 +32,7 @@ Route::get('/dashboard', function () {
 })->middleware(['verified'])->name('dashboard');
 
 Route::get('/new', function () {
-    return view('new');
+    return view('event/new');
 })->middleware(['verified'])->name('new');
 
 Route::middleware('auth')->group(function () {
