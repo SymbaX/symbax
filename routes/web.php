@@ -30,7 +30,8 @@ Route::get('/dashboard', function () {
 })->middleware(['verified'])->name('dashboard');
 
 Route::get('/list', function () {
-    return view('event/list');
+    $events = Event::all();
+    return view('event/list', ['events' => $events]);
 })->middleware(['verified'])->name('list');
 
 Route::get('/details/{id}', function ($id) {
