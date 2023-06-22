@@ -28,7 +28,7 @@ class EventController extends Controller
 
     public function list()
     {
-        $events = Event::paginate(3);
+        $events = Event::paginate(12);
         return view('event.list', ['events' => $events]);
     }
 

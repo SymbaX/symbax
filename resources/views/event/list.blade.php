@@ -17,11 +17,10 @@
                         <li><a href="details/{{$event->id}}">{{ $event->name }}</a></li>
                         @endforeach
                     </ul>
-
-                    {{ $events->links() }}
-
                     @endif
                 </div>
+                <br />
+                {{ $events->links() }}
             </div>
         </div>
     </div>
