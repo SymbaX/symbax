@@ -31,4 +31,10 @@ class EventController extends Controller
         $events = Event::paginate(3);
         return view('event.list', ['events' => $events]);
     }
+
+    public function details($id)
+    {
+        $event = Event::findOrFail($id);
+        return view('event.details', ['event' => $event]);
+    }
 }
