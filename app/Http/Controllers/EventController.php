@@ -25,4 +25,10 @@ class EventController extends Controller
 
         return redirect()->back()->with('status', 'event-create');
     }
+
+    public function list()
+    {
+        $events = Event::paginate(3);
+        return view('event.list', ['events' => $events]);
+    }
 }

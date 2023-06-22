@@ -29,10 +29,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['verified'])->name('dashboard');
 
-Route::get('/list', function () {
-    $events = Event::paginate(2); // 1ページあたり10件のデータを表示する場合
-    return view('event.list', ['events' => $events]);
-})->middleware(['verified'])->name('list');
+Route::get('/list', [EventController::class, 'list'])->middleware(['verified'])->name('list');
 
 Route::get('/details/{id}', function ($id) {
     $event = Event::findOrFail($id);
