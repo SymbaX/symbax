@@ -17,8 +17,10 @@
                         <li><a href="details/{{$event->id}}">{{ $event->name }}</a></li>
                         @endforeach
                     </ul>
-                    @endif
 
+                    {{ $events->links() }}
+
+                    @endif
                 </div>
             </div>
         </div>
