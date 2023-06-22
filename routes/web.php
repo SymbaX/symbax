@@ -28,6 +28,10 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['verified'])->name('dashboard');
 
+Route::get('/list', function () {
+    return view('event/list');
+})->middleware(['verified'])->name('list');
+
 Route::get('/new', function () {
     return view('event/new');
 })->middleware(['verified'])->name('new');
@@ -37,7 +41,6 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // 新しいイベント作成のルート
     Route::patch('/event/create', [EventController::class, 'create'])->name('event.create');
 });
 
