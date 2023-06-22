@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Event;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,9 +34,9 @@ Route::get('/list', function () {
 })->middleware(['verified'])->name('list');
 
 Route::get('/details/{id}', function ($id) {
-    return view('event/details', ['id' => $id]);
+    $event = Event::findOrFail($id);
+    return view('event/details', ['event' => $event]);
 })->middleware(['verified'])->name('details');
-
 
 Route::get('/new', function () {
     return view('event/new');
