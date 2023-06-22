@@ -32,6 +32,11 @@ Route::get('/list', function () {
     return view('event/list');
 })->middleware(['verified'])->name('list');
 
+Route::get('/details/{id}', function ($id) {
+    return view('event/details', ['id' => $id]);
+})->middleware(['verified'])->name('details');
+
+
 Route::get('/new', function () {
     return view('event/new');
 })->middleware(['verified'])->name('new');
