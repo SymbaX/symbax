@@ -13,63 +13,71 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('event.create') }}" class="mt-6 space-y-6">
         @csrf
         @method('patch')
 
         <div>
-            <x-input-label for="event_name" :value="__('Event Name')" />
-            <x-text-input id="event_name" name="event_name" type="text" class="mt-1 block w-full" :value="old('event_name', 'test')" required autofocus autocomplete="event_name" />
-            <x-input-error class="mt-2" :messages="$errors->get('event_name')" />
+            <x-input-label for="name" :value="__('Event Name')" />
+            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', '')" required autofocus autocomplete="name" />
+            <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
 
         <div>
-            <x-input-label for="event_details" :value="__('Details')" />
-            <x-text-input id="event_details" name="event_details" type="text" class="mt-1 block w-full" :value="old('event_details', 'test')" required autofocus autocomplete="event_details" />
-            <x-input-error class="mt-2" :messages="$errors->get('event_details')" />
+            <x-input-label for="details" :value="__('Details')" />
+            <x-text-input id="details" name="details" type="text" class="mt-1 block w-full" :value="old('details', '')" required autofocus autocomplete="details" />
+            <x-input-error class="mt-2" :messages="$errors->get('details')" />
         </div>
 
         <div>
-            <x-input-label for="event_category" :value="__('Category')" />
-            <x-text-input id="event_category" name="event_category" type="text" class="mt-1 block w-full" :value="old('event_category', 'test')" required autofocus autocomplete="event_category" />
-            <x-input-error class="mt-2" :messages="$errors->get('event_category')" />
+            <x-input-label for="category" :value="__('Category')" />
+            <x-text-input id="category" name="category" type="text" class="mt-1 block w-full" :value="old('category', '')" required autofocus autocomplete="category" />
+            <x-input-error class="mt-2" :messages="$errors->get('category')" />
         </div>
 
         <div>
-            <x-input-label for="event_tag" :value="__('Tag')" />
-            <x-text-input id="event_tag" name="event_tag" type="text" class="mt-1 block w-full" :value="old('event_tag', 'test')" required autofocus autocomplete="event_tag" />
-            <x-input-error class="mt-2" :messages="$errors->get('event_tag')" />
+            <x-input-label for="tag" :value="__('Tag')" />
+            <x-text-input id="tag" name="tag" type="text" class="mt-1 block w-full" :value="old('tag', '')" required autofocus autocomplete="tag" />
+            <x-input-error class="mt-2" :messages="$errors->get('tag')" />
         </div>
 
         <div>
-            <x-input-label for="event_conditions_of_participation" :value="__('Conditions of participation')" />
-            <x-text-input id="event_conditions_of_participation" name="event_conditions_of_participation" type="text" class="mt-1 block w-full" :value="old('event_conditions_of_participation', 'test')" required autofocus autocomplete="event_conditions_of_participation" />
-            <x-input-error class="mt-2" :messages="$errors->get('event_conditions_of_participation')" />
+            <x-input-label for="conditions_of_participation" :value="__('Conditions of participation')" />
+            <x-text-input id="conditions_of_participation" name="conditions_of_participation" type="text" class="mt-1 block w-full" :value="old('conditions_of_participation', '')" required autofocus autocomplete="conditions_of_participation" />
+            <x-input-error class="mt-2" :messages="$errors->get('conditions_of_participation')" />
         </div>
 
         <div>
-            <x-input-label for="event_extarnal_links" :value="__('Extarnal links')" />
-            <x-text-input id="event_extarnal_links" name="event_extarnal_links" type="text" class="mt-1 block w-full" :value="old('event_extarnal_links', 'test')" required autofocus autocomplete="event_extarnal_links" />
-            <x-input-error class="mt-2" :messages="$errors->get('event_extarnal_links')" />
+            <x-input-label for="extarnal_links" :value="__('Extarnal links')" />
+            <x-text-input id="extarnal_links" name="extarnal_links" type="text" class="mt-1 block w-full" :value="old('extarnal_links', '')" required autofocus autocomplete="extarnal_links" />
+            <x-input-error class="mt-2" :messages="$errors->get('extarnal_links')" />
+        </div>
+
+        
+        <div>
+            <x-input-label for="datetime" :value="__('Datetime')" />
+            <x-text-input id="datetime" name="datetime" type="text" class="mt-1 block w-full" :value="old('datetime', '')" required autofocus autocomplete="datetime" />
+            <x-input-error class="mt-2" :messages="$errors->get('datetime')" />
+        </div>
+
+
+        <div>
+            <x-input-label for="place" :value="__('Place')" />
+            <x-text-input id="place" name="place" type="text" class="mt-1 block w-full" :value="old('place', '')" required autofocus autocomplete="place" />
+            <x-input-error class="mt-2" :messages="$errors->get('place')" />
         </div>
 
         <div>
-            <x-input-label for="event_patetime" :value="__('Place')" />
-            <x-text-input id="event_patetime" name="event_patetime" type="text" class="mt-1 block w-full" :value="old('event_patetime', 'test')" required autofocus autocomplete="event_patetime" />
-            <x-input-error class="mt-2" :messages="$errors->get('event_patetime')" />
-        </div>
-
-        <div>
-            <x-input-label for="event_number_of_people" :value="__('Number of people')" />
-            <x-text-input id="event_number_of_people" name="event_number_of_people" type="text" class="mt-1 block w-full" :value="old('event_number_of_people', 'test')" required autofocus autocomplete="event_number_of_people" />
-            <x-input-error class="mt-2" :messages="$errors->get('event_number_of_people')" />
+            <x-input-label for="number_of_people" :value="__('Number of people')" />
+            <x-text-input id="number_of_people" name="number_of_people" type="text" class="mt-1 block w-full" :value="old('number_of_people', '')" required autofocus autocomplete="number_of_people" />
+            <x-input-error class="mt-2" :messages="$errors->get('number_of_people')" />
         </div>
 
 
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 
-            @if (session('status') === 'profile-updated')
+            @if (session('status') === 'event-create')
             <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)" class="text-sm text-gray-600">{{ __('Saved.') }}</p>
             @endif
         </div>
