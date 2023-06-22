@@ -136,5 +136,14 @@
     "College": "カレッジ",
     "Department": "学科",
     "New event": "新規イベント",
+    "Event Name": "イベント名",
+    "Details": "詳細",
+    "Category": "カテゴリー",
+    "Tag": "タグ",
+    "Conditions of participation": "参加条件",
+    "Extarnal links": "外部リンク",
+    "Datetime": "開催日",
+    "Place": "場所",
+    "Number of people": "人数",
     "Create a new event.": "新しいイベントを作成します。"
 }
