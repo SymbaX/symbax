@@ -14,7 +14,7 @@
                     @else
                     <ul>
                         @foreach ($events as $event)
-                        <li>{{ $event->name }}</li>
+                        <li><a href="details/{{$event->id}}">{{ $event->name }}</a></li>
                         @endforeach
                     </ul>
                     @endif
