@@ -18,15 +18,12 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        $user = $request->user();
+        $user = $request->user()->load('college', 'department');
 
-        $college = College::findOrFail($user->college_id);
-        $department = Department::findOrFail($user->department_id);
-    
         return view('profile.edit', [
             'user' => $user,
-            'college' => $college,
-            'department' => $department,
+            'college' => $user->college,
+            'department' => $user->department,
         ]);
     }
 
