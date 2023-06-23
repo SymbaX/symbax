@@ -24,13 +24,13 @@
         </div>
         
         <div>
-            <x-input-label for="college_id" :value="__('College')" />
-            <x-text-input id="college_id" name="college_id" type="text" class="mt-1 block w-full" :value="old('college_id', $user->college_id)"  />
+            <x-input-label for="college" :value="__('College')" />
+            <x-text-input id="college" name="college" type="text" class="mt-1 block w-full" :value="old('college', $college->name)"  />
         </div>
 
         <div>
-            <x-input-label for="department_id" :value="__('Department')" />
-            <x-text-input id="department_id" name="department_id" type="text" class="mt-1 block w-full" :value="old('department_id', $user->department_id)"  />
+            <x-input-label for="department" :value="__('Department')" />
+            <x-text-input id="department" name="department" type="text" class="mt-1 block w-full" :value="old('department', $department->name)"  />
         </div>
 
         <div>
