@@ -1,8 +1,9 @@
 <?php
 
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Event;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CollegeDepartmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,13 +16,10 @@ use App\Http\Controllers\CollegeDepartmentController;
 |
 */
 
-
-
 // HTTP ステータスコードを引数に、該当するエラーページを表示させる
 Route::get('error/{code}', function ($code) {
     abort($code);
 });
-
 
 Route::get('/', function () {
     return view('welcome');
@@ -31,14 +29,20 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['verified'])->name('dashboard');
 
+Route::get('/list', [EventController::class, 'list'])->middleware(['verified'])->name('list');
+
+Route::get('/details/{id}', [EventController::class, 'details'])->middleware(['verified'])->name('details');
+
 Route::get('/new', function () {
-    return view('new');
+    return view('event/new');
 })->middleware(['verified'])->name('new');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::patch('/event/create', [EventController::class, 'create'])->name('event.create');
 });
 
 require __DIR__ . '/auth.php';
