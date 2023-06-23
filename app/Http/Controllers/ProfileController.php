@@ -20,8 +20,8 @@ class ProfileController extends Controller
     {
         $user = $request->user();
 
-        $college = College::find($user->college_id);
-        $department = Department::find($user->department_id);
+        $college = College::findOrFail($user->college_id);
+        $department = Department::findOrFail($user->department_id);
     
         return view('profile.edit', [
             'user' => $user,
