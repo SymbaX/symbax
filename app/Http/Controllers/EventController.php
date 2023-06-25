@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use Illuminate\Http\Request;
+use Illuminate\Mail\Markdown;
 
 class EventController extends Controller
 {
@@ -35,6 +36,9 @@ class EventController extends Controller
     public function details($id)
     {
         $event = Event::findOrFail($id);
-        return view('event.details', ['event' => $event]);
+        $detail_markdown = Markdown::parse(e($event->details));
+
+
+        return view('event.details', ['event' => $event, 'detail_markdown' => $detail_markdown]);
     }
 }

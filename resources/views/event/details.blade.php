@@ -12,7 +12,7 @@
                     @if ($event)
                     <div class="max-w-xl">
                         <h1>{{ $event->name }}</h1>
-                        <p>{{ $event->details }}</p>
+                        <p>{{ $detail_markdown }}</p>
                         <p>{{ $event->category }}</p>
                         <p>{{ $event->tag }}</p>
                         <p>{{ $event->conditions_of_participation }}</p>
