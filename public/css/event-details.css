@@ -42,6 +42,11 @@
 
 .event-details a {
     color: blue;
+    text-decoration: underline;
+}
+
+.event-details a:hover {
+    text-decoration: none;
 }
 
 .event-details hr {
