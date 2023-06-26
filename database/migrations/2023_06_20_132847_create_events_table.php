@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('events', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('details',1000);
+            $table->string('details', 1000);
             $table->string('category');
             $table->string('tag');
             $table->string('conditions_of_participation');

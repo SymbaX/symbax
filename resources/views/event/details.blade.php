@@ -10,19 +10,19 @@
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="max-w-xl">
                     @if ($event)
-                    <div class="max-w-xl">
-                        <h1>{{ $event->name }}</h1>
-                        <p>{{ $detail_markdown }}</p>
-                        <p>{{ $event->category }}</p>
-                        <p>{{ $event->tag }}</p>
-                        <p>{{ $event->conditions_of_participation }}</p>
-                        <p>{{ $event->external_links }}</p>
-                        <p>{{ $event->datetime }}</p>
-                        <p>{{ $event->place }}</p>
-                        <p>{{ $event->number_of_people }}</p>
-                    </div>
+                        <div class="max-w-xl">
+                            <h1>{{ $event->name }}</h1>
+                            <p>{{ $detail_markdown }}</p>
+                            <p>{{ $event->category }}</p>
+                            <p>{{ $event->tag }}</p>
+                            <p>{{ $event->conditions_of_participation }}</p>
+                            <p>{{ $event->external_links }}</p>
+                            <p>{{ $event->datetime }}</p>
+                            <p>{{ $event->place }}</p>
+                            <p>{{ $event->number_of_people }}</p>
+                        </div>
                     @else
-                    <p>Event not found.</p>
+                        <p>Event not found.</p>
                     @endif
                 </div>
             </div>
