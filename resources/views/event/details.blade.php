@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="{{ asset('css/event-details.css') }}">
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -12,7 +13,9 @@
                     @if ($event)
                     <div class="max-w-xl">
                         <h1>{{ $event->name }}</h1>
-                        <p>{{ $detail_markdown }}</p>
+                        <div class="event-details">
+                            {{ $detail_markdown }}
+                        </div>
                         <p>{{ $event->category }}</p>
                         <p>{{ $event->tag }}</p>
                         <p>{{ $event->conditions_of_participation }}</p>
