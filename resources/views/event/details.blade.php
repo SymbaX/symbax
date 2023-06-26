@@ -9,21 +9,17 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="max-w-xl">
-                    @if ($event)
-                        <div class="max-w-xl">
-                            <h1>{{ $event->name }}</h1>
-                            <p>{{ $detail_markdown }}</p>
-                            <p>{{ $event->category }}</p>
-                            <p>{{ $event->tag }}</p>
-                            <p>{{ $event->conditions_of_participation }}</p>
-                            <p>{{ $event->external_links }}</p>
-                            <p>{{ $event->datetime }}</p>
-                            <p>{{ $event->place }}</p>
-                            <p>{{ $event->number_of_people }}</p>
-                        </div>
-                    @else
-                        <p>Event not found.</p>
-                    @endif
+                    <h1>イベント名：{{ $event->name }}</h1><br /><br />
+                    <div class="event-details">
+                        {{ $detail_markdown }}
+                    </div><br /><br />
+                    <p>カテゴリー：{{ $event->category }}</p><br />
+                    <p>タグ：{{ $event->tag }}</p><br />
+                    <p>参加条件：{{ $event->conditions_of_participation }}</p><br />
+                    <p>外部リンク：{{ $event->external_links }}</p><br />
+                    <p>開催日：{{ $event->datetime }}</p><br />
+                    <p>開催場所：{{ $event->place }}</p><br />
+                    <p>人数：{{ $event->number_of_people }}</p><br />
                 </div>
             </div>
         </div>
