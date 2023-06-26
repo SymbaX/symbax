@@ -20,6 +20,5 @@ class DatabaseSeeder extends Seeder
         // ]);
         $this->call(CollegesTableSeeder::class);
         $this->call(DepartmentsTableSeeder::class);
-
     }
 }
