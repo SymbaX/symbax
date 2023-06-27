@@ -247,7 +247,5 @@ return [
         'username' => 'ユーザー名',
         'year' => '年',
         'college' => 'カレッジ',
-        'department' => '学科',
-    ],
-
-];
+        'department' => '学科'
+    ]];
