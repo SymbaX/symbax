@@ -20,7 +20,7 @@ jobs:
           branch_type=$(echo ${{github.head_ref}} | cut -d "/" -f1)
           if [ $branch_type == 'feature' ]; then
             label_name=$(echo '🌟feature')
-          elif [ $branch_type == 'fix' ] || [ $branch_type == 'hotfix' ]; then
+          elif [ $branch_type == 'bugfix' ] || [ $branch_type == 'hotfix' ]; then
             label_name=$(echo '🕷️bug')
           elif [ $branch_type == 'develop' ]; then
             label_name=$(echo '💎release')

@@ -9,9 +9,9 @@
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;
-            
+
             background-image: url('https://www.homepage-tukurikata.com/image/lion.jpg');
-            
+
             background-size: auto;
             background-position: center;
         }
@@ -25,7 +25,7 @@
             top: 50%;
             left: 50%;
             position: absolute;
-            transform: translate(-50%,-50%);
+            transform: translate(-50%, -50%);
         }
 
         h1 {
@@ -62,6 +62,7 @@
             border-radius: 4px;
             transition: background-color 0.3s ease;
         }
+
         /*
         .buttons a:hover {
             background-color: #0056b3;
@@ -73,8 +74,10 @@
             padding-top: 20px;
             border-top: 1px solid #ccc;
             color: #999;
-            position: absolute;/*←絶対位置*/
-            bottom: 0; /*下に固定*/
+            position: absolute;
+            /*←絶対位置*/
+            bottom: 0;
+            /*下に固定*/
             width: 100%;
         }
 
@@ -94,18 +97,19 @@
     -->
         <p>
             Welcome to SymbaX, your partner for innovative web development.
-            We combine the strength and agility of a lion with the vastness and endurance of the desert to deliver powerful web solutions that drive your business forward.
+            We combine the strength and agility of a lion with the vastness and endurance of the desert to deliver
+            powerful web solutions that drive your business forward.
         </p>
         <div class="buttons">
             @if (Route::has('login'))
-            @auth
-            <a href="{{ url('/dashboard') }}">Go to Dashboard</a>
-            @else
-            <a href="{{ route('login') }}">Login</a>
-            @if (Route::has('register'))
-            <a href="{{ route('register') }}" class="ml-4">Sign Up</a>
-            @endif
-            @endauth
+                @auth
+                    <a href="{{ url('/dashboard') }}">Go to Dashboard</a>
+                @else
+                    <a href="{{ route('login') }}">Login</a>
+                    @if (Route::has('register'))
+                        <a href="{{ route('register') }}" class="ml-4">Sign Up</a>
+                    @endif
+                @endauth
             @endif
         </div>
     </div>

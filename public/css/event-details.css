@@ -1,0 +1,66 @@
+.event-details h1 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.event-details h2 {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.event-details h3 {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.event-details h4 {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.event-details h5 {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.event-details h6 {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.event-details p {
+    margin-bottom: 10px;
+}
+
+.event-details strong {
+    font-weight: bold;
+}
+
+.event-details em {
+    font-style: italic;
+}
+
+.event-details a {
+    color: blue;
+    text-decoration: underline;
+}
+
+.event-details a:hover {
+    text-decoration: none;
+}
+
+.event-details hr {
+    border: none;
+    border-top: 1px solid black;
+    margin: 10px 0;
+}
+
+.event-details ul {
+    list-style-type: disc;
+    margin-left: 20px;
+}
+
+.event-details ol {
+    list-style-type: decimal;
+    margin-left: 20px;
+}
