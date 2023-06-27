@@ -22,6 +22,9 @@ return new class extends Migration
             $table->datetime('datetime');
             $table->string('place');
             $table->integer('number_of_people');
+            $table->string('product_image');
+            $table->unsignedBigInteger('creator_id');
+            $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

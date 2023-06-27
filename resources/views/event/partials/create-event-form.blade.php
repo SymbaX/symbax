@@ -13,7 +13,7 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('event.create') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('event.create') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
         @csrf
         @method('patch')
 
@@ -83,6 +83,11 @@
             <x-input-error class="mt-2" :messages="$errors->get('number_of_people')" />
         </div>
 
+        <div>
+            <x-input-label for="product_image" :value="__('product_image')" />
+            <x-text-input id="product_image" name="product_image" type="file" class="mt-1 block w-full" :value="old('product_image', '')" required autofocus autocomplete="product_image" />
+            <x-input-error class="mt-2" :messages="$errors->get('product_image')" />
+        </div>
 
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
