@@ -22,18 +22,10 @@ class EventController extends Controller
             'product_image'  => 'required',
         ]);
 
-        $productImage = $request->product_image;
-        if ($productImage) {
 
-            //一意のファイル名を自動生成しつつ保存し、かつファイルパス（$productImagePath）を生成
-            //ここでstore()メソッドを使っているが、これは画像データをstorageに保存している
-            $productImagePath = $productImage->store('public/uploads');
-        } else {
-            $productImagePath = "";
-        }
+        $validatedData['product_image'] = $request->file('product_image')->store('public/events');
 
-        $validatedData['product_image'] = $productImagePath;
-        
+
 
         Event::create($validatedData);
 
