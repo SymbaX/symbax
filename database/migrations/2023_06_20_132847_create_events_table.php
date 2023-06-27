@@ -22,6 +22,7 @@ return new class extends Migration
             $table->datetime('datetime');
             $table->string('place');
             $table->integer('number_of_people');
+            $table->string('product_image');
             $table->timestamps();
         });
     }

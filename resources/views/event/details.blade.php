@@ -20,6 +20,7 @@
                         <p>{{ $event->datetime }}</p>
                         <p>{{ $event->place }}</p>
                         <p>{{ $event->number_of_people }}</p>
+                        <p>{{ $event->product_image }}</p>
                     </div>
                     @else
                     <p>Event not found.</p>
