@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Markdown;
+use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
 {
@@ -21,6 +22,8 @@ class EventController extends Controller
             'place' => 'required',
             'number_of_people' => 'required',
         ]);
+
+        $validatedData['creator_id'] = Auth::id();
 
         Event::create($validatedData);
 
