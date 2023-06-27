@@ -247,5 +247,15 @@ return [
         'username' => 'ユーザー名',
         'year' => '年',
         'college' => 'カレッジ',
-        'department' => '学科'
+        'department' => '学科',
+        'details'=>'詳細',
+        'category'=>'カテゴリー',
+        'tag'=>'タグ',
+        'conditions_of_participation'=>'参加条件',
+        'extarnal_links'=>'外部リンク',
+        'datetime'=>'開催日時',
+        'place'=>'場所',
+        'number_of_people'=>'人数',
+
+
         ]];
