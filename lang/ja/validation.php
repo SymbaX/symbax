@@ -248,4 +248,4 @@ return [
         'year' => '年',
         'college' => 'カレッジ',
         'department' => '学科'
-    ]];
+        ]];
