@@ -15,9 +15,9 @@
                         <ul>
                             @foreach ($events as $event)
                                 <li><a href="details/{{ $event->id }}">{{ $event->name }}
-                                    <img class="product_image" src="{{ Storage::url($event->product_image) }}" alt="" width="150px" height="100px">
-                                </a></li>
-
+                                        <img class="product_image" src="{{ Storage::url($event->product_image) }}"
+                                            alt="" width="150px" height="100px">
+                                    </a></li>
                             @endforeach
                         </ul>
                     @endif

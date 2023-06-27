@@ -26,9 +26,9 @@
 
         <div>
             <x-input-label for="details" :value="__('Details')" />
-            <x-textarea id="details" name="details" type="text" class="mt-1 block w-full"
-                 required autocomplete="off">
-                 {{ old('details','')}}
+            <x-textarea id="details" name="details" type="text" class="mt-1 block w-full" required
+                autocomplete="off">
+                {{ old('details', '') }}
             </x-textarea>
             <x-input-error class="mt-2" :messages="$errors->get('details')" />
         </div>
@@ -50,8 +50,7 @@
         <div>
             <x-input-label for="conditions_of_participation" :value="__('Conditions of participation')" />
             <x-text-input id="conditions_of_participation" name="conditions_of_participation" type="text"
-                class="mt-1 block w-full" :value="old('conditions_of_participation', '')" required
-                autocomplete="off" />
+                class="mt-1 block w-full" :value="old('conditions_of_participation', '')" required autocomplete="off" />
             <x-input-error class="mt-2" :messages="$errors->get('conditions_of_participation')" />
         </div>
 
@@ -87,7 +86,8 @@
 
         <div>
             <x-input-label for="product_image" :value="__('product_image')" />
-            <x-text-input id="product_image" name="product_image" type="file" class="mt-1 block w-full" :value="old('product_image', '')" required autocomplete="off" />
+            <x-text-input id="product_image" name="product_image" type="file" class="mt-1 block w-full"
+                :value="old('product_image', '')" required autocomplete="off" />
             <x-input-error class="mt-2" :messages="$errors->get('product_image')" />
         </div>
 
