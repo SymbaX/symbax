@@ -26,8 +26,10 @@
 
         <div>
             <x-input-label for="details" :value="__('Details')" />
-            <x-textarea id="details" name="details" type="text" class="mt-1 block w-full" :value="old('details', '')"
-                required autofocus autocomplete="details" />
+            <x-textarea id="details" name="details" type="text" class="mt-1 block w-full"
+                 required autofocus autocomplete="details">
+                 {{ old('details','')}}
+            </x-textarea>
             <x-input-error class="mt-2" :messages="$errors->get('details')" />
         </div>
 
