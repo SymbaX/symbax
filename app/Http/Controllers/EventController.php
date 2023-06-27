@@ -21,10 +21,13 @@ class EventController extends Controller
             'datetime' => 'required',
             'place' => 'required',
             'number_of_people' => 'required',
+            'product_image'  => ['required', 'max:5000', 'mimes:jpg,jpeg,png,gif'],
         ]);
 
-        $validatedData['creator_id'] = Auth::id();
+        $validatedData['product_image'] = $request->file('product_image')->store('public/events');
 
+        $validatedData['creator_id'] = Auth::id();
+      
         Event::create($validatedData);
 
         return redirect()->back()->with('status', 'event-create');
