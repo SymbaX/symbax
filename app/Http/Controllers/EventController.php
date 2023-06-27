@@ -19,7 +19,7 @@ class EventController extends Controller
             'datetime' => 'required',
             'place' => 'required',
             'number_of_people' => 'required',
-            'product_image'  => 'required',
+            'product_image'  => ['required', 'max:5000', 'mimes:jpg,jpeg,png,gif'],
         ]);
 
 
