@@ -10,13 +10,13 @@
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="max-w-xl">
                     @if ($events->isEmpty())
-                    <p>No events found.</p>
+                        <p>No events found.</p>
                     @else
-                    <ul>
-                        @foreach ($events as $event)
-                        <li><a href="details/{{$event->id}}">{{ $event->name }}</a></li>
-                        @endforeach
-                    </ul>
+                        <ul>
+                            @foreach ($events as $event)
+                                <li><a href="details/{{ $event->id }}">{{ $event->name }}</a></li>
+                            @endforeach
+                        </ul>
                     @endif
                 </div>
                 <br />

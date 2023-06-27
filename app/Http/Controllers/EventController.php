@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use Illuminate\Http\Request;
+use Illuminate\Mail\Markdown;
+use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
 {
@@ -22,11 +24,10 @@ class EventController extends Controller
             'product_image'  => ['required', 'max:5000', 'mimes:jpg,jpeg,png,gif'],
         ]);
 
-
         $validatedData['product_image'] = $request->file('product_image')->store('public/events');
 
-
-
+        $validatedData['creator_id'] = Auth::id();
+      
         Event::create($validatedData);
 
         return redirect()->back()->with('status', 'event-create');
@@ -41,6 +42,9 @@ class EventController extends Controller
     public function details($id)
     {
         $event = Event::findOrFail($id);
-        return view('event.details', ['event' => $event]);
+        $detail_markdown = Markdown::parse(e($event->details));
+
+
+        return view('event.details', ['event' => $event, 'detail_markdown' => $detail_markdown]);
     }
 }

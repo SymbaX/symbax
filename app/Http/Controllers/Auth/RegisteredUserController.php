@@ -29,7 +29,7 @@ class RegisteredUserController extends Controller
         // 登録フォームの初期値として選択されているカレッジとデパートメントの ID を取得
         $selectedCollegeId = old('college', null);
         $selectedDepartmentId = old('department', null);
-        
+
         return view('auth.register', [
             'colleges' => $colleges,
             'departments' => $departments,
@@ -47,14 +47,15 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required','string','email','max:255',Rule::unique('users'),'regex:/^[^@]+@g\.neec\.ac\.jp$/',],
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users'), 'regex:/^[^@]+@g\.neec\.ac\.jp$/',],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'college' => ['required', 'exists:colleges,id'],
-            'department' => ['required', 'exists:departments,id', Rule::exists('departments', 'id')->where(function ($query) use ($request) {
-                $query->where('college_id', $request->input('college'));
-            })
-        ],
-    ],);
+            'department' => [
+                'required', 'exists:departments,id', Rule::exists('departments', 'id')->where(function ($query) use ($request) {
+                    $query->where('college_id', $request->input('college'));
+                })
+            ],
+        ],);
 
         $user = User::create([
             'name' => $request->name,

@@ -17,5 +17,6 @@ class Event extends Model
         'place',
         'number_of_people',
         'product_image',
+        'creator_id',
     ];
 }
