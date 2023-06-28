@@ -28,25 +28,30 @@
 
                         {{ $event->id }}
 
-                        <form method="post" action="{{ route('event.join') }}" class="mt-6 space-y-6"
-                            enctype="multipart/form-data">
-                            @csrf
-                            @method('patch')
-                            <input type="hidden" name="event_id" value="{{ $event->id }}">
+                        @if ($event->creator_id !== Auth::id())
+                            <form method="post" action="{{ route('event.join') }}" class="mt-6 space-y-6"
+                                enctype="multipart/form-data">
+                                @csrf
+                                @method('patch')
+                                <input type="hidden" name="event_id" value="{{ $event->id }}">
 
-                            <div class="flex items-center gap-4">
-                                <x-primary-button>{{ __('Join') }}</x-primary-button>
+                                <div class="flex items-center gap-4">
+                                    <x-primary-button>{{ __('Join') }}</x-primary-button>
 
-                                @if (session('status') === 'joined-event')
-                                    <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
-                                        class="text-sm text-gray-600">{{ __('Joined event.') }}</p>
-                                @endif
-                                @if (session('status') === 'your-event-owner')
-                                    <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
-                                        class="text-sm text-gray-600">{{ __('I cant join an event I created') }}</p>
-                                @endif
-                            </div>
-                        </form>
+                                    @if (session('status') === 'joined-event')
+                                        <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                                            class="text-sm text-gray-600">{{ __('Joined event.') }}</p>
+                                    @endif
+                                    @if (session('status') === 'your-event-owner')
+                                        <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                                            class="text-sm text-gray-600">{{ __('I cant join an event I created') }}
+                                        </p>
+                                    @endif
+                                </div>
+                            </form>
+                        @else
+                            <p class="text-sm text-gray-600">{{ __('This event was created by you.') }}</p>
+                        @endif
                     @else
                         <p>Event not found.</p>
                     @endif
