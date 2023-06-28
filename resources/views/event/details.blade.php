@@ -28,7 +28,9 @@
 
                         {{ $event->id }}
                         <p>Number of Participants: {{ $participantCount }}</p>
-
+                        @foreach ($participantNames as $participantName)
+                            <li>{{ $participantName }}</li>
+                        @endforeach
 
                         @if ($event->creator_id !== Auth::id())
                             <form method="post" action="{{ route('event.join') }}" class="mt-6 space-y-6"
