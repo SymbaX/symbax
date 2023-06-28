@@ -54,6 +54,11 @@ class EventController extends Controller
         $user_id = Auth::id();
         $event_id = $request->input('event_id');
 
+        $event = Event::findOrFail($event_id);
+        if ($event->creator_id == $user_id) {
+            return redirect()->route('details', ['id' => $event_id])->with('status', 'your-event-owner');
+        }
+
         $eventParticipant = EventParticipant::create([
             'user_id' => $user_id,
             'event_id' => $event_id,
