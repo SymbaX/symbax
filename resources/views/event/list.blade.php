@@ -12,14 +12,16 @@
                     @if ($events->isEmpty())
                         <p>No events found.</p>
                     @else
+                        <div class="max-w-xl text-center">
                         <ul>
                             @foreach ($events as $event)
                                 <li><a href="details/{{ $event->id }}">{{ $event->name }}
-                                        <img class="product_image" src="{{ Storage::url($event->product_image) }}"
-                                            alt="" width="150px" height="100px">
+                                        <img class="product_image mx-auto" src="{{ Storage::url($event->product_image) }}"
+                                            alt="" width="300px" height="200px">
                                     </a></li>
                             @endforeach
                         </ul>
+                        </div>
                     @endif
                 </div>
                 <br />
