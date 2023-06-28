@@ -45,18 +45,27 @@ class EventController extends Controller
         $event = Event::findOrFail($id);
         $detail_markdown = Markdown::parse(e($event->details));
 
+        $participantCount = EventParticipant::where('event_id', $id)->count();
 
-        return view('event.details', ['event' => $event, 'detail_markdown' => $detail_markdown]);
+
+        return view('event.details', ['event' => $event, 'detail_markdown' => $detail_markdown, 'participantCount' => $participantCount]);
     }
 
     public function join(Request $request)
     {
         $user_id = Auth::id();
         $event_id = $request->input('event_id');
-
         $event = Event::findOrFail($event_id);
+        $participantCount = EventParticipant::where('event_id', $event_id)->count();
+
+        // 自分が作成したイベントであればエラー
         if ($event->creator_id == $user_id) {
             return redirect()->route('details', ['id' => $event_id])->with('status', 'your-event-owner');
+        }
+
+        // 参加可能な枠がなければエラー
+        if ($event->number_of_people <= $participantCount) {
+            return redirect()->route('details', ['id' => $event_id])->with('status', 'no-participation-slots');
         }
 
         $eventParticipant = EventParticipant::create([

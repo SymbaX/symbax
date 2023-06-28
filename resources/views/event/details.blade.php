@@ -27,6 +27,8 @@
                             width="150px" height="100px">
 
                         {{ $event->id }}
+                        <p>Number of Participants: {{ $participantCount }}</p>
+
 
                         @if ($event->creator_id !== Auth::id())
                             <form method="post" action="{{ route('event.join') }}" class="mt-6 space-y-6"
@@ -47,6 +49,12 @@
                                             class="text-sm text-gray-600">{{ __('I cant join an event I created') }}
                                         </p>
                                     @endif
+                                    @if (session('status') === 'no-participation-slots')
+                                        <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                                            class="text-sm text-gray-600">{{ __('There are no participation slots.') }}
+                                        </p>
+                                    @endif
+
                                 </div>
                             </form>
                         @else
