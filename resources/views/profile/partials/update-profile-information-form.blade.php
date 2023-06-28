@@ -5,7 +5,7 @@
         </h2>
 
         <p class="mt-1 text-sm text-gray-600">
-            {{ __("Update your account's profile information and email address.") }}
+            {{ __("Update your account's name.") }}
         </p>
     </header>
 
@@ -22,6 +22,21 @@
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)"
                 required autofocus autocomplete="name" />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
+        </div>
+
+        <div>
+            <x-input-label for="college" :value="__('College')" />
+            <?php echo $college->name; ?>
+        </div>
+
+        <div>
+            <x-input-label for="department" :value="__('Department')" />
+            <?php echo $department->name; ?>
+        </div>
+
+        <div>
+            <x-input-label for="email" :value="__('Email')" />
+            <?php echo $user->email; ?>
         </div>
 
         <div class="flex items-center gap-4">
