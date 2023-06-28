@@ -154,5 +154,8 @@
     "I cant join an event I created": "自分が作成したイベントには参加できません。",
     "This event was created by you.": "このイベントはあなたが作成しました。",
     "There are no participation slots.": "参加可能な枠がありません。",
-    "I have already attended the event.": "既にイベントに参加済みです。"
+    "Cancel Join": "キャンセルする",
+    "I have already attended the event.": "既にイベントに参加済みです。",
+    "I have not attended the event.": "イベントに参加していません。",
+    "I canceled my participation in the event.": "イベントへの参加を取り消しました。"
 }

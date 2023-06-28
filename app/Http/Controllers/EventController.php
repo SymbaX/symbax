@@ -46,11 +46,10 @@ class EventController extends Controller
         $event = Event::findOrFail($id);
         $detail_markdown = Markdown::parse(e($event->details));
 
-        $participantCount = EventParticipant::where('event_id', $id)->count();
-        $participants = EventParticipant::where('event_id', $id)->pluck('user_id');
-        $participantNames = User::whereIn('id', $participants)->pluck('name');
+        $participants = EventParticipant::where('event_id', $id);
+        $participantNames = User::whereIn('id', $participants->pluck('user_id'))->pluck('name');
 
-        return view('event.details', ['event' => $event, 'detail_markdown' => $detail_markdown, 'participantCount' => $participantCount, 'participantNames' => $participantNames]);
+        return view('event.details', ['event' => $event, 'detail_markdown' => $detail_markdown, 'participants' => $participants, 'participantNames' => $participantNames]);
     }
 
     public function join(Request $request)
@@ -82,5 +81,25 @@ class EventController extends Controller
         ]);
 
         return redirect()->route('details', ['id' => $event_id])->with('status', 'joined-event');
+    }
+
+    public function cancelJoin(Request $request)
+    {
+        $user_id = Auth::id();
+        $event_id = $request->input('event_id');
+        $event = Event::findOrFail($event_id);
+
+        // ユーザーが参加しているか確認
+        $participant = EventParticipant::where('event_id', $event_id)->where('user_id', $user_id)->first();
+
+        // 参加していない場合はエラー
+        if (!$participant) {
+            return redirect()->route('details', ['id' => $event_id])->with('status', 'not-joined');
+        }
+
+        // 参加をキャンセル
+        $participant->delete();
+
+        return redirect()->route('details', ['id' => $event_id])->with('status', 'canceled-join');
     }
 }

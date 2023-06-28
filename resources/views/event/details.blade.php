@@ -27,12 +27,12 @@
                             width="150px" height="100px">
 
                         {{ $event->id }}
-                        <p>Number of Participants: {{ $participantCount }}</p>
+                        {{-- <p>Number of Participants: {{ $participants->Count() }}</p> --}}
                         @foreach ($participantNames as $participantName)
                             <li>{{ $participantName }}</li>
                         @endforeach
 
-                        @if ($event->creator_id !== Auth::id())
+                        @if ($event->creator_id !== Auth::id() && !$participants->pluck('user_id')->contains(Auth::user()->id))
                             <form method="post" action="{{ route('event.join') }}" class="mt-6 space-y-6"
                                 enctype="multipart/form-data">
                                 @csrf
@@ -65,8 +65,30 @@
 
                                 </div>
                             </form>
-                        @else
+                        @elseif ($event->creator_id === Auth::id())
                             <p class="text-sm text-gray-600">{{ __('This event was created by you.') }}</p>
+                        @endif
+
+                        @if ($participants->pluck('user_id')->contains(Auth::user()->id))
+                            <form action="{{ route('cancel-join') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="event_id" value="{{ $event->id }}">
+                                <x-primary-button>{{ __('Cancel Join') }}</x-primary-button>
+
+                                <div class="flex items-center gap-4">
+
+                                    @if (session('status') === 'not-joined')
+                                        <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                                            class="text-sm text-gray-600">
+                                            {{ __('I have not attended the event.') }}</p>
+                                    @endif
+                                    @if (session('status') === 'canceled-join')
+                                        <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                                            class="text-sm text-gray-600">
+                                            {{ __('I canceled my participation in the event.') }}</p>
+                                    @endif
+                                </div>
+                            </form>
                         @endif
                     @else
                         <p>Event not found.</p>

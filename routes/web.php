@@ -44,6 +44,7 @@ Route::middleware('auth')->group(function () {
 
     Route::patch('/event/create', [EventController::class, 'create'])->name('event.create');
     Route::patch('/event/join', [EventController::class, 'join'])->name('event.join');
+    Route::post('/cancel-join', [EventController::class, 'cancelJoin'])->name('cancel-join');
 });
 
 require __DIR__ . '/auth.php';
