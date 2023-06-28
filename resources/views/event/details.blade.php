@@ -27,7 +27,7 @@
                             width="150px" height="100px">
 
                         {{ $event->id }}
-                        <p>Number of Participants: {{ $participantCount }}</p>
+                        {{-- <p>Number of Participants: {{ $participants->Count() }}</p> --}}
                         @foreach ($participantNames as $participantName)
                             <li>{{ $participantName }}</li>
                         @endforeach
@@ -65,6 +65,14 @@
 
                                 </div>
                             </form>
+
+                            @if ($participants->pluck('user_id')->contains(Auth::user()->id))
+                                <form action="{{ route('cancel-join') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="event_id" value="{{ $event->id }}">
+                                    <button type="submit">Cancel Join</button>
+                                </form>
+                            @endif
                         @else
                             <p class="text-sm text-gray-600">{{ __('This event was created by you.') }}</p>
                         @endif
