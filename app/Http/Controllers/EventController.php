@@ -64,15 +64,15 @@ class EventController extends Controller
             return redirect()->route('details', ['id' => $event_id])->with('status', 'your-event-owner');
         }
 
-        // 参加可能な枠がなければエラー
-        if ($event->number_of_people <= $participantCount) {
-            return redirect()->route('details', ['id' => $event_id])->with('status', 'no-participation-slots');
-        }
-
         // ユーザーが既に参加している場合はエラー
         $alreadyJoined = EventParticipant::where('event_id', $event_id)->where('user_id', $user_id)->exists();
         if ($alreadyJoined) {
             return redirect()->route('details', ['id' => $event_id])->with('status', 'already-joined');
+        }
+
+        // 参加可能な枠がなければエラー
+        if ($event->number_of_people <= $participantCount) {
+            return redirect()->route('details', ['id' => $event_id])->with('status', 'no-participation-slots');
         }
 
         $eventParticipant = EventParticipant::create([

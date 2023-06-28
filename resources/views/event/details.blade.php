@@ -42,26 +42,7 @@
                                 <div class="flex items-center gap-4">
                                     <x-primary-button>{{ __('Join') }}</x-primary-button>
 
-                                    @if (session('status') === 'joined-event')
-                                        <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
-                                            class="text-sm text-gray-600">{{ __('Joined event.') }}</p>
-                                    @endif
-                                    @if (session('status') === 'your-event-owner')
-                                        <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
-                                            class="text-sm text-gray-600">{{ __('I cant join an event I created') }}
-                                        </p>
-                                    @endif
-                                    @if (session('status') === 'no-participation-slots')
-                                        <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
-                                            class="text-sm text-gray-600">{{ __('There are no participation slots.') }}
-                                        </p>
-                                    @endif
-                                    @if (session('status') === 'already-joined')
-                                        <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
-                                            class="text-sm text-gray-600">
-                                            {{ __('I have already attended the event.') }}
-                                        </p>
-                                    @endif
+
 
                                 </div>
                             </form>
@@ -74,22 +55,41 @@
                                 @csrf
                                 <input type="hidden" name="event_id" value="{{ $event->id }}">
                                 <x-primary-button>{{ __('Cancel Join') }}</x-primary-button>
-
-                                <div class="flex items-center gap-4">
-
-                                    @if (session('status') === 'not-joined')
-                                        <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
-                                            class="text-sm text-gray-600">
-                                            {{ __('I have not attended the event.') }}</p>
-                                    @endif
-                                    @if (session('status') === 'canceled-join')
-                                        <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
-                                            class="text-sm text-gray-600">
-                                            {{ __('I canceled my participation in the event.') }}</p>
-                                    @endif
-                                </div>
                             </form>
                         @endif
+
+                        <div class="flex items-center gap-4">
+                            @if (session('status') === 'joined-event')
+                                <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                                    class="text-sm text-gray-600">{{ __('Joined event.') }}</p>
+                            @endif
+                            @if (session('status') === 'your-event-owner')
+                                <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                                    class="text-sm text-gray-600">{{ __('I cant join an event I created') }}
+                                </p>
+                            @endif
+                            @if (session('status') === 'no-participation-slots')
+                                <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                                    class="text-sm text-gray-600">{{ __('There are no participation slots.') }}
+                                </p>
+                            @endif
+                            @if (session('status') === 'already-joined')
+                                <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                                    class="text-sm text-gray-600">
+                                    {{ __('I have already attended the event.') }}
+                                </p>
+                            @endif
+                            @if (session('status') === 'not-joined')
+                                <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                                    class="text-sm text-gray-600">
+                                    {{ __('I have not attended the event.') }}</p>
+                            @endif
+                            @if (session('status') === 'canceled-join')
+                                <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                                    class="text-sm text-gray-600">
+                                    {{ __('I canceled my participation in the event.') }}</p>
+                            @endif
+                        </div>
                     @else
                         <p>Event not found.</p>
                     @endif
