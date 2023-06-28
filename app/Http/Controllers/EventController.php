@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\EventParticipant;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Markdown;
 use Illuminate\Support\Facades\Auth;
@@ -44,7 +46,41 @@ class EventController extends Controller
         $event = Event::findOrFail($id);
         $detail_markdown = Markdown::parse(e($event->details));
 
+        $participantCount = EventParticipant::where('event_id', $id)->count();
+        $participants = EventParticipant::where('event_id', $id)->pluck('user_id');
+        $participantNames = User::whereIn('id', $participants)->pluck('name');
 
-        return view('event.details', ['event' => $event, 'detail_markdown' => $detail_markdown]);
+        return view('event.details', ['event' => $event, 'detail_markdown' => $detail_markdown, 'participantCount' => $participantCount, 'participantNames' => $participantNames]);
+    }
+
+    public function join(Request $request)
+    {
+        $user_id = Auth::id();
+        $event_id = $request->input('event_id');
+        $event = Event::findOrFail($event_id);
+        $participantCount = EventParticipant::where('event_id', $event_id)->count();
+
+        // 自分が作成したイベントであればエラー
+        if ($event->creator_id == $user_id) {
+            return redirect()->route('details', ['id' => $event_id])->with('status', 'your-event-owner');
+        }
+
+        // 参加可能な枠がなければエラー
+        if ($event->number_of_people <= $participantCount) {
+            return redirect()->route('details', ['id' => $event_id])->with('status', 'no-participation-slots');
+        }
+
+        // ユーザーが既に参加している場合はエラー
+        $alreadyJoined = EventParticipant::where('event_id', $event_id)->where('user_id', $user_id)->exists();
+        if ($alreadyJoined) {
+            return redirect()->route('details', ['id' => $event_id])->with('status', 'already-joined');
+        }
+
+        $eventParticipant = EventParticipant::create([
+            'user_id' => $user_id,
+            'event_id' => $event_id,
+        ]);
+
+        return redirect()->route('details', ['id' => $event_id])->with('status', 'joined-event');
     }
 }
