@@ -26,7 +26,24 @@
                         <img class="product_image" src="{{ Storage::url($event->product_image) }}" alt=""
                             width="150px" height="100px">
 
-                        <a href="">参加する</a>
+                        {{ $event->id }}
+
+                        <form method="post" action="{{ route('event.join') }}" class="mt-6 space-y-6"
+                            enctype="multipart/form-data">
+                            @csrf
+                            @method('patch')
+
+                            <input type="hidden" name="event_id" value="{{ $event->id }}">
+
+                            <div class="flex items-center gap-4">
+                                <x-primary-button>{{ __('Save') }}</x-primary-button>
+
+                                @if (session('status') === 'event-join')
+                                    <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                                        class="text-sm text-gray-600">{{ __('Saved.') }}</p>
+                                @endif
+                            </div>
+                        </form>
                     @else
                         <p>Event not found.</p>
                     @endif

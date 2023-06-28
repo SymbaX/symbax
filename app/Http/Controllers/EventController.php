@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\EventParticipant;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Markdown;
 use Illuminate\Support\Facades\Auth;
@@ -48,7 +49,14 @@ class EventController extends Controller
         return view('event.details', ['event' => $event, 'detail_markdown' => $detail_markdown]);
     }
 
-    public function join()
+    public function join(Request $request)
     {
+        $user_id = Auth::id();
+        $event_id = $request->input('event_id');
+
+        $eventParticipant = EventParticipant::create([
+            'user_id' => $user_id,
+            'event_id' => $event_id,
+        ]);
     }
 }
