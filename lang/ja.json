@@ -148,5 +148,11 @@
     "product_image": "写真",
     "Create a new event.": "新しいイベントを作成します。",
     "Event list": "イベント一覧",
-    "Event details": "イベント詳細"
+    "Event details": "イベント詳細",
+    "Join": "参加する",
+    "Joined event.": "参加しました。",
+    "I cant join an event I created": "自分が作成したイベントには参加できません。",
+    "This event was created by you.": "このイベントはあなたが作成しました。",
+    "There are no participation slots.": "参加可能な枠がありません。",
+    "I have already attended the event.": "既にイベントに参加済みです。"
 }
