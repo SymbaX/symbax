@@ -58,5 +58,7 @@ class EventController extends Controller
             'user_id' => $user_id,
             'event_id' => $event_id,
         ]);
+
+        return redirect()->route('details', ['id' => $event_id])->with('status', 'joined-event');
     }
 }

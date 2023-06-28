@@ -36,11 +36,11 @@
                             <input type="hidden" name="event_id" value="{{ $event->id }}">
 
                             <div class="flex items-center gap-4">
-                                <x-primary-button>{{ __('Save') }}</x-primary-button>
+                                <x-primary-button>{{ __('Join') }}</x-primary-button>
 
-                                @if (session('status') === 'event-join')
+                                @if (session('status') === 'joined-event')
                                     <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
-                                        class="text-sm text-gray-600">{{ __('Saved.') }}</p>
+                                        class="text-sm text-gray-600">{{ __('Joined event.') }}</p>
                                 @endif
                             </div>
                         </form>
