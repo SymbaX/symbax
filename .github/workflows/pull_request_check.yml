@@ -1,0 +1,27 @@
+name: プルリクエストのベースブランチを確認
+
+on:
+  pull_request:
+    types:
+      - opened
+
+jobs:
+  check_base_branch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v2
+
+      - name: ベースブランチを確認
+        run: |
+          if [[ "${{ github.actor }}" == "github-actions[bot]" ]]; then
+            echo "このプルリクエストは GitHub Actions によって作成されましたので、スキップします。"
+            exit 0
+          elif [[ "${{ github.base_ref }}" != "develop" ]]; then
+            echo "このプルリクエストのベースブランチは develop ブランチではありません。ベースブランチを develop に更新してください。"
+            COMMENT_BODY="◤◢◤◢  ベースブランチが develop になっていません！！ @${{ github.actor }} ◤◢◤◢"
+            COMMENT_PAYLOAD=$(echo '{}' | jq --arg body "$COMMENT_BODY" '.body = $body')
+            curl -X POST -H "Accept: application/vnd.github.v3+json" -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -d "$COMMENT_PAYLOAD" "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments"
+            exit 0
+          fi
