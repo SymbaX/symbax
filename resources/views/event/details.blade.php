@@ -25,6 +25,8 @@
                         <p>画像パス：{{ $event->product_image }}</p><br />
                         <img class="product_image" src="{{ Storage::url($event->product_image) }}" alt=""
                             width="150px" height="100px">
+
+                        <a href="">参加する</a>
                     @else
                         <p>Event not found.</p>
                     @endif

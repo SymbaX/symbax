@@ -43,6 +43,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::patch('/event/create', [EventController::class, 'create'])->name('event.create');
+    Route::patch('/event/join', [EventController::class, 'join'])->name('event.join');
 });
 
 require __DIR__ . '/auth.php';

@@ -47,4 +47,8 @@ class EventController extends Controller
 
         return view('event.details', ['event' => $event, 'detail_markdown' => $detail_markdown]);
     }
+
+    public function join()
+    {
+    }
 }
