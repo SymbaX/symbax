@@ -47,7 +47,7 @@ class EventController extends Controller
         $detail_markdown = Markdown::parse(e($event->details));
 
         $participants = EventParticipant::where('event_id', $id);
-        $participantNames = User::whereIn('id', EventParticipant::where('event_id', $id)->pluck('user_id'))->pluck('name');
+        $participantNames = User::whereIn('id', $participants->pluck('user_id'))->pluck('name');
 
         return view('event.details', ['event' => $event, 'detail_markdown' => $detail_markdown, 'participants' => $participants, 'participantNames' => $participantNames]);
     }
