@@ -43,7 +43,6 @@ a.card-link {
 
 /* カードレイアウトの説明文部分 */
 .card-text-tax {
-    margin: 0;
     padding: 1em;
     color: #818181;
 }
