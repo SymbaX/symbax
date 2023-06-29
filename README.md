@@ -11,6 +11,11 @@
 ## Hi there 👋
 イベント共有プラットフォーム
 
+## プロジェクト管理
+-   [ガント](https://github.com/users/SymbaX/projects/5/views/1)
+-   [ボード](https://github.com/users/SymbaX/projects/5/views/2)
+
+
 ## 起動方法
 [Wiki](https://github.com/SymbaX/symbax/wiki)を参照。
 
