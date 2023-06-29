@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="{{ asset('css/list.css') }}">
+
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -10,18 +12,26 @@
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="max-w-xl">
                     @if ($events->isEmpty())
-                        <p>No events found.</p>
+                    <p>No events found.</p>
                     @else
-                        <div class="max-w-xl text-center">
-                        <ul>
-                            @foreach ($events as $event)
-                                <li><a href="details/{{ $event->id }}">{{ $event->name }}
-                                        <img class="product_image mx-auto" src="{{ Storage::url($event->product_image) }}"
-                                            alt="" width="300px" height="200px">
-                                    </a></li>
-                            @endforeach
-                        </ul>
-                        </div>
+                    <div id="cardlayout-wrap"><!--カードレイアウトをラッピング -->
+                        @foreach ($events as $event)
+                        <section class="card-list">
+                            <a class="card-link" href="#">
+                                <ul>
+
+                                    <li><a href="details/{{ $event->id }}">
+                                            <class="card-title">{{ $event->name }}</class>
+                                                <figure class="card-figure"><img class="product_image mx-auto" src="{{ Storage::url($event->product_image) }}" alt=""></figure>
+                                        </a>
+                                    </li>
+
+                                </ul>
+
+                            </a>
+                        </section>
+                        @endforeach
+                    </div><!--カードレイアウトをラッピング -->
                     @endif
                 </div>
                 <br />
