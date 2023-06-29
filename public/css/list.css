@@ -8,7 +8,6 @@ Flexboxを指定"space-between"で各アイテムを均等に配置し、
     display: flex;
     -ms-flex-pack: justify;
     margin: 2em auto;
-    max-width: 960px;
     width: 100%;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
