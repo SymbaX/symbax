@@ -50,7 +50,8 @@
                                 </div>
                             </form>
                         @elseif ($event->creator_id === Auth::id())
-                            <form action="{{ route('event-delete') }}" method="POST">
+                            <form method="POST" action="{{ route('event.delete') }}"
+                                onsubmit="return confirm('本当にこのイベントを削除しますか？');">
                                 @csrf
                                 <input type="hidden" name="event_id" value="{{ $event->id }}">
                                 <x-primary-button>{{ __('Event delete') }}</x-primary-button>
