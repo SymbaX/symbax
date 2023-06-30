@@ -50,7 +50,11 @@
                                 </div>
                             </form>
                         @elseif ($event->creator_id === Auth::id())
-                            <p class="text-sm text-gray-600">{{ __('This event was created by you.') }}</p>
+                            <form action="{{ route('event-delete') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="event_id" value="{{ $event->id }}">
+                                <x-primary-button>{{ __('Event delete') }}</x-primary-button>
+                            </form>
                         @endif
 
                         @if ($participants->pluck('user_id')->contains(Auth::user()->id))
