@@ -23,6 +23,7 @@
                                 <li><a href="details/{{ $event->id }}">
                                         <h3 class="card-title">{{ $event->name }}</h3>
                                         <figure class="card-figure"><img class="product_image mx-auto" src="{{ Storage::url($event->product_image) }}" alt=""></figure>
+                                        <p class="card-text-tax">{{ $event->details }}</p>
                                     </a>
                                 </li>
 
