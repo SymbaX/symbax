@@ -99,6 +99,11 @@
                                     class="text-sm text-gray-600">
                                     {{ __('I canceled my participation in the event.') }}</p>
                             @endif
+                            @if (session('status') === 'cannot-delete-with-participants')
+                                <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                                    class="text-sm text-gray-600">
+                                    {{ __('Events with participants cannot be deleted.') }}</p>
+                            @endif
                         </div>
                     @else
                         <p>Event not found.</p>
