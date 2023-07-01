@@ -158,5 +158,6 @@
     "I have already attended the event.": "既にイベントに参加済みです。",
     "I have not attended the event.": "イベントに参加していません。",
     "I canceled my participation in the event.": "イベントへの参加を取り消しました。",
-    "Events with participants cannot be deleted.": "参加者がいるイベントは削除できません。"
+    "Events with participants cannot be deleted.": "参加者がいるイベントは削除できません。",
+    "Deleted the event.": "イベントを削除しました。"
 }
