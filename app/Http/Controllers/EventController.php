@@ -23,7 +23,7 @@ class EventController extends Controller
             'extarnal_links' => ['required', 'max:255', 'url'],
             'datetime' => ['required', 'max:20', 'date'],
             'place' => ['required', 'max:50'],
-            'number_of_people' => ['required', 'max:30', 'int'],
+            'number_of_people' => ['required', 'max:30', 'int', 'min:1'],
             'product_image'  => ['required', 'max:5000', 'mimes:jpg,jpeg,png,gif'],
         ]);
 
