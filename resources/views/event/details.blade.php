@@ -50,7 +50,14 @@
                                 </div>
                             </form>
                         @elseif ($event->creator_id === Auth::id())
-                            <p class="text-sm text-gray-600">{{ __('This event was created by you.') }}</p>
+                            <form method="POST" action="{{ route('event.delete', ['id' => $event->id]) }}"
+                                onsubmit="return confirm('本当にこのイベントを削除しますか？');">
+
+                                @csrf
+                                @method('DELETE')
+                                <input type="hidden" name="event_id" value="{{ $event->id }}">
+                                <x-primary-button>{{ __('Event delete') }}</x-primary-button>
+                            </form>
                         @endif
 
                         @if ($participants->pluck('user_id')->contains(Auth::user()->id))
@@ -91,6 +98,11 @@
                                 <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
                                     class="text-sm text-gray-600">
                                     {{ __('I canceled my participation in the event.') }}</p>
+                            @endif
+                            @if (session('status') === 'cannot-delete-with-participants')
+                                <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                                    class="text-sm text-gray-600">
+                                    {{ __('Events with participants cannot be deleted.') }}</p>
                             @endif
                         </div>
                     @else

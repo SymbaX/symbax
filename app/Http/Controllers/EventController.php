@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Markdown;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class EventController extends Controller
 {
@@ -22,7 +23,7 @@ class EventController extends Controller
             'extarnal_links' => ['required', 'max:255', 'url'],
             'datetime' => ['required', 'max:20', 'date'],
             'place' => ['required', 'max:50'],
-            'number_of_people' => ['required', 'max:30', 'int'],
+            'number_of_people' => ['required', 'max:30', 'int', 'min:1'],
             'product_image'  => ['required', 'max:5000', 'mimes:jpg,jpeg,png,gif'],
         ]);
 
@@ -101,5 +102,22 @@ class EventController extends Controller
         $participant->delete();
 
         return redirect()->route('details', ['id' => $event_id])->with('status', 'canceled-join');
+    }
+
+    public function delete($id)
+    {
+        $event = Event::findOrFail($id);
+
+        // イベントに参加者が登録されているかどうかを確認します
+        $participantCount = EventParticipant::where('event_id', $id)->count();
+        if ($participantCount > 0) {
+            return redirect()->route('details', ['id' => $id])->with('status', 'cannot-delete-with-participants');
+        }
+
+        // イベントを削除し、関連する商品画像ファイルを削除します
+        Storage::delete($event->product_image);
+        $event->delete();
+
+        return redirect()->route('list')->with('status', 'event-deleted');
     }
 }
