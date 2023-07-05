@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\EventParticipant;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Markdown;
 use Illuminate\Support\Facades\Auth;
@@ -38,8 +39,14 @@ class EventController extends Controller
 
     public function list()
     {
-        $events = Event::paginate(12);
+        $events = Event::whereDate('datetime', '>=', Carbon::today())->paginate(12);
         return view('event.list', ['events' => $events]);
+    }
+
+    public function listAll()
+    {
+        $events = Event::paginate(12);
+        return view('event.all', ['events' => $events]);
     }
 
     public function details($id)
