@@ -1,5 +1,5 @@
 @push('css')
-<link rel="stylesheet" href="{{ asset('css/event-details.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/event-details.css') }}">
 @endpush
 
 <x-app-layout>
@@ -14,105 +14,104 @@
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="event-details">
                     @if ($event)
+                        <div class="flex">
+                            <img class="product_image" src="{{ Storage::url($event->product_image) }} " alt="">
 
-                    <div class="flex">
-                        <!--
-                    <p>画像パス：{{ $event->product_image }}</p><br />
-                    -->
-                        <img class="product_image" src="{{ Storage::url($event->product_image) }} " alt="">
+                            <div class="right">
+                                <p class="title"> {{ Carbon\Carbon::parse($event->datetime)->format('Y/m/d') }} |
+                                    {{ $event->name }} </p>
+                                <br>
+                                <p class="text"> {{ $detail_markdown }}</p>
+                                <p class="text">開催場所：{{ $event->place }}</p>
+                                <p class="text">参加条件：{{ $event->conditions_of_participation }}</p>
+                                <p class="text">カテゴリー：{{ $event->category }}</p>
+                                <p class="text">タグ：{{ $event->tag }}</p>
+                                <a href="{{ $event->extarnal_links }}">外部リンクはこちら</a>
 
-                        <div class="right">
-                            <p class="title"> {{ Carbon\Carbon::parse($event->datetime)->format('Y/m/d') }} | {{ $event->name }} </p>
-                            <br>
-                            <p class="text"> {{ $detail_markdown }}</p>
-                            <p class="text">開催場所：{{ $event->place }}</p>
-                            <p class="text">参加条件：{{ $event->conditions_of_participation }}</p>
-                            <p class="text">カテゴリー：{{ $event->category }}</p>
-                            <p class="text">タグ：{{ $event->tag }}</p>
-
-                            <!--
-                            <p>外部リンク：{{ $event->extarnal_links }}</p><br />
-                            -->
-                            <a href="{{ $event->extarnal_links }}">外部リンクはこちら</a>
-
-                            <p class="text">定員：{{ $event->number_of_people }}</p>
+                                <p class="text">定員：{{ $participants->get()->Count() }} /
+                                    {{ $event->number_of_people }}</p>
+                            </div>
                         </div>
-                    </div>
                 </div>
 
-                <!--
-                       
-                {{ $event->id }}
-                {{-- <p>Number of Participants: {{ $participants->Count() }}</p> --}}
+
                 @foreach ($participantNames as $participantName)
-                <li>{{ $participantName }}</li>
+                    <li>{{ $participantName }}</li>
                 @endforeach
 
-                -->
                 @if ($event->creator_id !== Auth::id() && !$participants->pluck('user_id')->contains(Auth::user()->id))
-                <form method="post" action="{{ route('event.join') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
-                    @csrf
-                    @method('patch')
-                    <input type="hidden" name="event_id" value="{{ $event->id }}">
+                    <form method="post" action="{{ route('event.join') }}" class="mt-6 space-y-6"
+                        enctype="multipart/form-data">
+                        @csrf
+                        @method('patch')
+                        <input type="hidden" name="event_id" value="{{ $event->id }}">
 
-                    <div class="flex items-center gap-4">
-                        <x-primary-button>{{ __('Join') }}</x-primary-button>
+                        <div class="flex items-center gap-4">
+                            <x-primary-button>{{ __('Join') }}</x-primary-button>
 
 
 
-                    </div>
-                </form>
+                        </div>
+                    </form>
                 @elseif ($event->creator_id === Auth::id())
-                <form method="POST" action="{{ route('event.delete', ['id' => $event->id]) }}" onsubmit="return confirm( '{{ __('Are you sure you want to delete this event?') }}' );">
-                    @csrf
-                    @method('DELETE')
-                    <input type="hidden" name="event_id" value="{{ $event->id }}">
-                    <x-primary-button>{{ __('Event delete') }}</x-primary-button>
-                </form>
+                    <form method="POST" action="{{ route('event.delete', ['id' => $event->id]) }}"
+                        onsubmit="return confirm( '{{ __('Are you sure you want to delete this event?') }}' );">
+                        @csrf
+                        @method('DELETE')
+                        <input type="hidden" name="event_id" value="{{ $event->id }}">
+                        <x-primary-button>{{ __('Event delete') }}</x-primary-button>
+                    </form>
                 @endif
 
                 @if ($participants->pluck('user_id')->contains(Auth::user()->id))
-                <form action="{{ route('cancel-join') }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="event_id" value="{{ $event->id }}">
-                    <x-primary-button>{{ __('Cancel Join') }}</x-primary-button>
-                </form>
+                    <form action="{{ route('cancel-join') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="event_id" value="{{ $event->id }}">
+                        <x-primary-button>{{ __('Cancel Join') }}</x-primary-button>
+                    </form>
                 @endif
 
                 <div class="flex items-center gap-4">
                     @if (session('status') === 'joined-event')
-                    <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)" class="text-sm text-gray-600">{{ __('Joined event.') }}</p>
+                        <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                            class="text-sm text-gray-600">{{ __('Joined event.') }}</p>
                     @endif
                     @if (session('status') === 'your-event-owner')
-                    <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)" class="text-sm text-gray-600">{{ __('I cant join an event I created') }}
-                    </p>
+                        <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                            class="text-sm text-gray-600">{{ __('I cant join an event I created') }}
+                        </p>
                     @endif
                     @if (session('status') === 'no-participation-slots')
-                    <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)" class="text-sm text-gray-600">{{ __('There are no participation slots.') }}
-                    </p>
+                        <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                            class="text-sm text-gray-600">{{ __('There are no participation slots.') }}
+                        </p>
                     @endif
                     @if (session('status') === 'already-joined')
-                    <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)" class="text-sm text-gray-600">
-                        {{ __('I have already attended the event.') }}
-                    </p>
+                        <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                            class="text-sm text-gray-600">
+                            {{ __('I have already attended the event.') }}
+                        </p>
                     @endif
                     @if (session('status') === 'not-joined')
-                    <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)" class="text-sm text-gray-600">
-                        {{ __('I have not attended the event.') }}
-                    </p>
+                        <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                            class="text-sm text-gray-600">
+                            {{ __('I have not attended the event.') }}
+                        </p>
                     @endif
                     @if (session('status') === 'canceled-join')
-                    <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)" class="text-sm text-gray-600">
-                        {{ __('I canceled my participation in the event.') }}
-                    </p>
+                        <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                            class="text-sm text-gray-600">
+                            {{ __('I canceled my participation in the event.') }}
+                        </p>
                     @endif
                     @if (session('status') === 'cannot-delete-with-participants')
-                    <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)" class="text-sm text-gray-600">
-                        {{ __('Events with participants cannot be deleted.') }}
-                    </p>
+                        <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                            class="text-sm text-gray-600">
+                            {{ __('Events with participants cannot be deleted.') }}
+                        </p>
                     @endif
                 </div>
-                @else
+            @else
                 <p>Event not found.</p>
                 @endif
             </div>
