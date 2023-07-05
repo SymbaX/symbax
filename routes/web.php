@@ -25,28 +25,28 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['verified'])->name('dashboard');
 
-Route::get('/all', [EventController::class, 'listAll'])->middleware(['verified'])->name('list.all');
-Route::get('/list', [EventController::class, 'list'])->middleware(['verified'])->name('list');
 
-Route::get('/details/{id}', [EventController::class, 'details'])->middleware(['verified'])->name('details');
-
-Route::get('/new', function () {
-    return view('event/new');
-})->middleware(['verified'])->name('new');
-
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
+    // プロフィール編集画面
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    // イベント関連
     Route::patch('/event/create', [EventController::class, 'create'])->name('event.create');
     Route::patch('/event/join', [EventController::class, 'join'])->name('event.join');
     Route::post('/cancel-join', [EventController::class, 'cancelJoin'])->name('cancel-join');
     Route::delete('/event/{id}',  [EventController::class, 'delete'])->name('event.delete');
+
+    Route::get('/all', [EventController::class, 'listAll'])->name('list.all');
+    Route::get('/list', [EventController::class, 'list'])->name('list');
+
+    Route::get('/details/{id}', [EventController::class, 'details'])->name('details');
+
+    Route::get('/new', function () {
+        return view('event/new');
+    })->name('new');
 });
 
 require __DIR__ . '/auth.php';
