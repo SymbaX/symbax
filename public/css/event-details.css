@@ -1,3 +1,43 @@
+.flex {
+    display: flex; /*横並び*/
+}
+
+.flex {
+    display: flex; /*横並び*/
+}
+
+.flex .product_image {
+    width: 500px;
+    height: 500px;
+    object-fit: contain; /*画像サイズ指定*/
+
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.flex .right {
+    width: 100%;
+    margin: 0 0 0 20px;
+    padding: 0;
+}
+
+.flex .title {
+    margin: 10px 10px 10px 10px;
+    padding: 0;
+    font-weight: bold;
+    font-size: 30px;
+    border-bottom: 1px solid;
+    width: 100%;
+}
+
+.flex .text {
+    margin: 10px 0 0;
+    padding: 0;
+    font-size: 20px;
+}
+
 .event-details h1 {
     font-size: 24px;
     font-weight: bold;
