@@ -18,6 +18,9 @@
                     <x-nav-link :href="route('list')" :active="request()->routeIs('list')">
                         {{ __('Event list') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('list.all')" :active="request()->routeIs('list.all')">
+                        {{ __('Event list all') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('new')" :active="request()->routeIs('new')">
                         {{ __('Create event') }}
                     </x-nav-link>
@@ -86,6 +89,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('list')" :active="request()->routeIs('list')">
                 {{ __('Event list') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('list.all')" :active="request()->routeIs('list.all')">
+                {{ __('Event list all') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('new')" :active="request()->routeIs('new')">
                 {{ __('Create event') }}
