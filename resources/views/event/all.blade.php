@@ -1,4 +1,6 @@
-<link rel="stylesheet" href="{{ asset('css/list.css') }}">
+@push('css')
+    <link rel="stylesheet" href="{{ asset('css/list.css') }}">
+@endpush
 
 <x-app-layout>
     <x-slot name="header">
@@ -17,7 +19,7 @@
                     @endif
                 </div>
                 @if ($events->isEmpty())
-                    <p>No events found.</p>
+                    <p>{{ __('No events found.') }}</p>
                 @else
                     <div id="cardlayout-wrap">
                         <!--カードレイアウトをラッピング -->
