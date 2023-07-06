@@ -15,15 +15,15 @@ class EventController extends Controller
     {
         $validatedData = $request->validate([
             'name' => ['required', 'max:20'],
-            'details' => ['required', 'max:1000'],
+            'detail' => ['required', 'max:1000'],
             'category' => ['required', 'max:30'],
             'tag' => ['required', 'max:30'],
             'conditions_of_participation' => ['required', 'max:100'],
-            'extarnal_links' => ['required', 'max:255', 'url'],
+            'estarnal_link' => ['required', 'max:255', 'url'],
             'datetime' => ['required', 'max:20', 'date'],
             'place' => ['required', 'max:50'],
             'number_of_people' => ['required', 'max:30', 'int'],
-            'product_image'  => ['required', 'max:5000', 'mimes:jpg,jpeg,png,gif'],
+            'product_image'  => ['required', 'max:255', 'mimes:jpg,jpeg,png,gif'],
         ]);
 
         $validatedData['product_image'] = $request->file('product_image')->store('public/events');
@@ -41,15 +41,15 @@ class EventController extends Controller
         return view('event.list', ['events' => $events]);
     }
 
-    public function details($id)
+    public function detail($id)
     {
         $event = Event::findOrFail($id);
-        $detail_markdown = Markdown::parse(e($event->details));
+        $detail_markdown = Markdown::parse(e($event->detail));
 
         $participants = EventParticipant::where('event_id', $id);
         $participantNames = User::whereIn('id', $participants->pluck('user_id'))->pluck('name');
 
-        return view('event.details', ['event' => $event, 'detail_markdown' => $detail_markdown, 'participants' => $participants, 'participantNames' => $participantNames]);
+        return view('event.detail', ['event' => $event, 'detail_markdown' => $detail_markdown, 'participants' => $participants, 'participantNames' => $participantNames]);
     }
 
     public function join(Request $request)
@@ -61,18 +61,18 @@ class EventController extends Controller
 
         // 自分が作成したイベントであればエラー
         if ($event->creator_id == $user_id) {
-            return redirect()->route('details', ['id' => $event_id])->with('status', 'your-event-owner');
+            return redirect()->route('detail', ['id' => $event_id])->with('status', 'your-event-owner');
         }
 
         // ユーザーが既に参加している場合はエラー
         $alreadyJoined = EventParticipant::where('event_id', $event_id)->where('user_id', $user_id)->exists();
         if ($alreadyJoined) {
-            return redirect()->route('details', ['id' => $event_id])->with('status', 'already-joined');
+            return redirect()->route('detail', ['id' => $event_id])->with('status', 'already-joined');
         }
 
         // 参加可能な枠がなければエラー
         if ($event->number_of_people <= $participantCount) {
-            return redirect()->route('details', ['id' => $event_id])->with('status', 'no-participation-slots');
+            return redirect()->route('detail', ['id' => $event_id])->with('status', 'no-participation-slots');
         }
 
         $eventParticipant = EventParticipant::create([
@@ -80,7 +80,7 @@ class EventController extends Controller
             'event_id' => $event_id,
         ]);
 
-        return redirect()->route('details', ['id' => $event_id])->with('status', 'joined-event');
+        return redirect()->route('detail', ['id' => $event_id])->with('status', 'joined-event');
     }
 
     public function cancelJoin(Request $request)
@@ -94,12 +94,12 @@ class EventController extends Controller
 
         // 参加していない場合はエラー
         if (!$participant) {
-            return redirect()->route('details', ['id' => $event_id])->with('status', 'not-joined');
+            return redirect()->route('detail', ['id' => $event_id])->with('status', 'not-joined');
         }
 
         // 参加をキャンセル
         $participant->delete();
 
-        return redirect()->route('details', ['id' => $event_id])->with('status', 'canceled-join');
+        return redirect()->route('detail', ['id' => $event_id])->with('status', 'canceled-join');
     }
 }

@@ -31,7 +31,7 @@ Route::get('/dashboard', function () {
 
 Route::get('/list', [EventController::class, 'list'])->middleware(['verified'])->name('list');
 
-Route::get('/details/{id}', [EventController::class, 'details'])->middleware(['verified'])->name('details');
+Route::get('/detail/{id}', [EventController::class, 'detail'])->middleware(['verified'])->name('detail');
 
 Route::get('/new', function () {
     return view('event/new');

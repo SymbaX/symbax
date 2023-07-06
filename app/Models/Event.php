@@ -8,11 +8,11 @@ class Event extends Model
 {
     protected $fillable = [
         'name',
-        'details',
+        'detail',
         'category',
         'tag',
         'conditions_of_participation',
-        'extarnal_links',
+        'estarnal_link',
         'datetime',
         'place',
         'number_of_people',
