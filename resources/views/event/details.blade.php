@@ -39,6 +39,11 @@
                     <li>{{ $participantName }}</li>
                 @endforeach
 
+                @if ($isCreator)
+                    <a href="{{ route('event.edit', ['id' => $event->id]) }}" class="text-blue-500 underline">Edit
+                        Event</a>
+                @endif
+
                 @if ($event->creator_id !== Auth::id() && !$participants->pluck('user_id')->contains(Auth::user()->id))
                     <form method="post" action="{{ route('event.join') }}" class="mt-6 space-y-6"
                         enctype="multipart/form-data">
