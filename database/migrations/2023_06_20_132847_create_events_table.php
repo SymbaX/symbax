@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('product_image');
             $table->unsignedBigInteger('creator_id');
             $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
-            $table->datetime('');
+            $table->datetime('deadline');
             $table->timestamps();
         });
     }
