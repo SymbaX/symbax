@@ -1,4 +1,6 @@
-<link rel="stylesheet" href="{{ asset('css/list.css') }}">
+@push('css')
+    <link rel="stylesheet" href="{{ asset('css/list.css') }}">
+@endpush
 
 <x-app-layout>
     <x-slot name="header">
