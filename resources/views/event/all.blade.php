@@ -17,7 +17,7 @@
                     @endif
                 </div>
                 @if ($events->isEmpty())
-                    <p>No events found.</p>
+                    <p>{{ __('No events found.') }}</p>
                 @else
                     <div id="cardlayout-wrap">
                         <!--カードレイアウトをラッピング -->
