@@ -39,13 +39,16 @@ class EventController extends Controller
 
     public function list()
     {
-        $events = Event::whereDate('datetime', '>=', Carbon::today())->paginate(12);
+        $events = Event::whereDate('datetime', '>=', Carbon::today())
+            ->orderBy('datetime', 'desc')
+            ->paginate(12);
         return view('event.list', ['events' => $events]);
     }
 
     public function listAll()
     {
-        $events = Event::paginate(12);
+        $events = Event::orderBy('datetime', 'desc')
+            ->paginate(12);
         return view('event.all', ['events' => $events]);
     }
 
