@@ -40,9 +40,9 @@
                 @endforeach
 
                 @if ($isCreator)
+                    <!-- 作成者のみ表示 -->
                     <a href="{{ route('event.edit', ['id' => $event->id]) }}" class="text-blue-500 underline">
                         <x-primary-button>{{ __('Edit event') }}</x-primary-button>
-
                     </a>
 
                     <br /><br />
@@ -54,30 +54,27 @@
                         <input type="hidden" name="event_id" value="{{ $event->id }}">
                         <x-primary-button>{{ __('Event delete') }}</x-primary-button>
                     </form>
-                @endif
+                @else
+                    @if ($isJoin)
+                        <!-- 未参加の場合 -->
+                        <form method="post" action="{{ route('event.join') }}" class="mt-6 space-y-6"
+                            enctype="multipart/form-data">
+                            @csrf
+                            @method('patch')
+                            <input type="hidden" name="event_id" value="{{ $event->id }}">
 
-                @if ($event->creator_id !== Auth::id() && !$participants->pluck('user_id')->contains(Auth::user()->id))
-                    <form method="post" action="{{ route('event.join') }}" class="mt-6 space-y-6"
-                        enctype="multipart/form-data">
-                        @csrf
-                        @method('patch')
-                        <input type="hidden" name="event_id" value="{{ $event->id }}">
-
-                        <div class="flex items-center gap-4">
-                            <x-primary-button>{{ __('Join') }}</x-primary-button>
-
-
-
-                        </div>
-                    </form>
-                @endif
-
-                @if ($participants->pluck('user_id')->contains(Auth::user()->id))
-                    <form action="{{ route('cancel-join') }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="event_id" value="{{ $event->id }}">
-                        <x-primary-button>{{ __('Cancel Join') }}</x-primary-button>
-                    </form>
+                            <div class="flex items-center gap-4">
+                                <x-primary-button>{{ __('Join') }}</x-primary-button>
+                            </div>
+                        </form>
+                    @else
+                        <!-- 参加済みの場合 -->
+                        <form action="{{ route('cancel-join') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="event_id" value="{{ $event->id }}">
+                            <x-primary-button>{{ __('Cancel Join') }}</x-primary-button>
+                        </form>
+                    @endif
                 @endif
 
                 <div class="flex items-center gap-4">

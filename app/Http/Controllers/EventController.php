@@ -54,11 +54,16 @@ class EventController extends Controller
         $event = Event::findOrFail($id);
         $detail_markdown = Markdown::parse(e($event->details));
 
-        // 現在のユーザーがイベントの作成者であるかをチェック
-        $isCreator = $event->creator_id === Auth::id();
 
         $participants = EventParticipant::where('event_id', $id);
         $participantNames = User::whereIn('id', $participants->pluck('user_id'))->pluck('name');
+
+
+        // 現在のユーザーがイベントの作成者であるかをチェック
+        $isCreator = $event->creator_id === Auth::id();
+
+        // 現在のユーザーがイベントに参加しているかをチェック
+        $isJoin = $event->creator_id !== Auth::id() && !$participants->pluck('user_id')->contains(Auth::user()->id);
 
         return view('event.details', [
             'event' => $event,
@@ -66,6 +71,7 @@ class EventController extends Controller
             'participants' => $participants,
             'participantNames' => $participantNames,
             'isCreator' => $isCreator,
+            'isJoin' => $isJoin,
         ]);
     }
 
