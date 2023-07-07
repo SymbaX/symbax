@@ -61,6 +61,7 @@ class EventController extends Controller
         $participants = EventParticipant::where('event_id', $id);
         $participantNames = User::whereIn('id', $participants->pluck('user_id'))->pluck('name');
 
+        $creatorName = User::where('id', $event->creator_id)->value('name');
 
         // 現在のユーザーがイベントの作成者であるかをチェック
         $isCreator = $event->creator_id === Auth::id();
@@ -75,6 +76,7 @@ class EventController extends Controller
             'participantNames' => $participantNames,
             'isCreator' => $isCreator,
             'isJoin' => $isJoin,
+            'creatorName'  => $creatorName
         ]);
     }
 
