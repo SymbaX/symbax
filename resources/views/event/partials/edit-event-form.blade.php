@@ -1,11 +1,11 @@
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900">
-            {{ __('Edit Event') }}
+            {{ __('Edit event') }}
         </h2>
 
         <p class="mt-1 text-sm text-gray-600">
-            {{ __('Edit Event') }}
+            {{ __('Edit event') }}
         </p>
     </header>
 
@@ -71,14 +71,14 @@
         </div>
 
         <div>
-            <x-input-label for="number_of_people" :value="__('Number of People')" />
+            <x-input-label for="number_of_people" :value="__('Number of people')" />
             <x-text-input id="number_of_people" name="number_of_people" type="number" class="mt-1 block w-full"
                 :value="old('number_of_people', $event->number_of_people)" required autocomplete="off" />
             <x-input-error class="mt-2" :messages="$errors->get('number_of_people')" />
         </div>
 
         <div>
-            <x-input-label for="product_image" :value="__('Product Image')" />
+            <x-input-label for="product_image" :value="__('product_image')" />
             <input id="product_image" name="product_image" type="file" class="mt-1 block w-full" accept="image/*">
             <x-input-error class="mt-2" :messages="$errors->get('product_image')" />
         </div>
