@@ -20,6 +20,7 @@
                             <div class="right">
                                 <p class="title"> {{ Carbon\Carbon::parse($event->datetime)->format('Y/m/d') }} |
                                     {{ $event->name }} </p>
+                                    <p id="creatorName">主催者：{{ $creatorName }}</p>
                                 <br>
                                 <p class="text"> {{ $detail_markdown }}</p>
                                 <p class="text">開催場所：{{ $event->place }}</p>
@@ -27,13 +28,14 @@
                                 <p class="text">カテゴリー：{{ $event->category }}</p>
                                 <p class="text">タグ：{{ $event->tag }}</p>
                                 <a href="{{ $event->extarnal_links }}">外部リンクはこちら</a>
+                                
 
                                 <p class="text">定員：{{ $participants->get()->Count() }} /
                                     {{ $event->number_of_people }}</p>
+                                    
                             </div>
                         </div>
-                </div>
-
+                    </div>
 
                 @foreach ($participantNames as $participantName)
                     <li>{{ $participantName }}</li>
