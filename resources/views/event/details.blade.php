@@ -115,6 +115,18 @@
                             {{ __('Events with participants cannot be deleted.') }}
                         </p>
                     @endif
+                    @if (session('status') === 'event-updated')
+                        <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                            class="text-sm text-gray-600">
+                            {{ __('Updated event information.') }}
+                        </p>
+                    @endif
+                    @if (session('status') === 'unauthorized')
+                        <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                            class="text-sm text-gray-600">
+                            {{ __('This request is invalid.') }}
+                        </p>
+                    @endif
                 </div>
             @else
                 <p>Event not found.</p>

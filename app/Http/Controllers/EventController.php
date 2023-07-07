@@ -173,7 +173,7 @@ class EventController extends Controller
         ]);
 
         if ($request->hasFile('product_image')) {
-            // 新しい商品画像がアップロードされた場合、既存の商品画像を削除して新しい画像を保存
+            // 新しい画像がアップロードされた場合、既存の画像を削除して新しい画像を保存
             Storage::delete($event->product_image);
             $validatedData['product_image'] = $request->file('product_image')->store('public/events');
         }

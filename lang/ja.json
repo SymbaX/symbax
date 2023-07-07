@@ -166,5 +166,7 @@
     "No events found.": "イベントがありません。",
     "Edit event": "イベント編集",
     "Edit": "編集",
-    "Update": "更新"
+    "Update": "更新",
+    "Updated event information.": "イベント情報を更新しました。",
+    "This request is invalid.": "このリクエストは無効です。"
 }
