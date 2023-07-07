@@ -47,6 +47,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/new', function () {
         return view('event/new');
     })->name('new');
+
+    Route::get('/event/edit/{id}', [EventController::class, 'edit'])->name('event.edit');
+    Route::patch('/event/update/{id}', [EventController::class, 'update'])->name('event.update');
 });
 
 require __DIR__ . '/auth.php';

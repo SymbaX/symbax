@@ -54,11 +54,27 @@ class EventController extends Controller
         $event = Event::findOrFail($id);
         $detail_markdown = Markdown::parse(e($event->details));
 
+
         $participants = EventParticipant::where('event_id', $id);
         $participantNames = User::whereIn('id', $participants->pluck('user_id'))->pluck('name');
 
-        return view('event.details', ['event' => $event, 'detail_markdown' => $detail_markdown, 'participants' => $participants, 'participantNames' => $participantNames]);
+
+        // 現在のユーザーがイベントの作成者であるかをチェック
+        $isCreator = $event->creator_id === Auth::id();
+
+        // 現在のユーザーがイベントに参加しているかをチェック
+        $isJoin = $event->creator_id !== Auth::id() && !$participants->pluck('user_id')->contains(Auth::user()->id);
+
+        return view('event.details', [
+            'event' => $event,
+            'detail_markdown' => $detail_markdown,
+            'participants' => $participants,
+            'participantNames' => $participantNames,
+            'isCreator' => $isCreator,
+            'isJoin' => $isJoin,
+        ]);
     }
+
 
     public function join(Request $request)
     {
@@ -126,5 +142,50 @@ class EventController extends Controller
         $event->delete();
 
         return redirect()->route('list')->with('status', 'event-deleted');
+    }
+
+    public function edit($id)
+    {
+        $event = Event::findOrFail($id);
+
+        // 現在のユーザーがイベントの作成者であるかをチェック
+        if ($event->creator_id !== Auth::id()) {
+            return redirect()->route('details', ['id' => $event->id])->with('status', 'unauthorized');
+        }
+
+        return view('event.edit', ['event' => $event]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $event = Event::findOrFail($id);
+
+        // 現在のユーザーがイベントの作成者であるかをチェック
+        if ($event->creator_id !== Auth::id()) {
+            return redirect()->route('details', ['id' => $event->id])->with('status', 'unauthorized');
+        }
+
+        $validatedData = $request->validate([
+            'name' => ['required', 'max:20'],
+            'details' => ['required', 'max:1000'],
+            'category' => ['required', 'max:30'],
+            'tag' => ['required', 'max:30'],
+            'conditions_of_participation' => ['required', 'max:100'],
+            'extarnal_links' => ['required', 'max:255', 'url'],
+            'datetime' => ['required', 'max:20', 'date'],
+            'place' => ['required', 'max:50'],
+            'number_of_people' => ['required', 'max:30', 'int', 'min:1'],
+            'product_image'  => ['nullable', 'max:5000', 'mimes:jpg,jpeg,png,gif'],
+        ]);
+
+        if ($request->hasFile('product_image')) {
+            // 新しい画像がアップロードされた場合、既存の画像を削除して新しい画像を保存
+            Storage::delete($event->product_image);
+            $validatedData['product_image'] = $request->file('product_image')->store('public/events');
+        }
+
+        $event->update($validatedData);
+
+        return redirect()->route('details', ['id' => $event->id])->with('status', 'event-updated');
     }
 }
