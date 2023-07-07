@@ -40,8 +40,20 @@
                 @endforeach
 
                 @if ($isCreator)
-                    <a href="{{ route('event.edit', ['id' => $event->id]) }}" class="text-blue-500 underline">Edit
-                        Event</a>
+                    <a href="{{ route('event.edit', ['id' => $event->id]) }}" class="text-blue-500 underline">
+                        <x-primary-button>{{ __('Edit event') }}</x-primary-button>
+
+                    </a>
+
+                    <br /><br />
+
+                    <form method="POST" action="{{ route('event.delete', ['id' => $event->id]) }}"
+                        onsubmit="return confirm( '{{ __('Are you sure you want to delete this event?') }}' );">
+                        @csrf
+                        @method('DELETE')
+                        <input type="hidden" name="event_id" value="{{ $event->id }}">
+                        <x-primary-button>{{ __('Event delete') }}</x-primary-button>
+                    </form>
                 @endif
 
                 @if ($event->creator_id !== Auth::id() && !$participants->pluck('user_id')->contains(Auth::user()->id))
@@ -57,14 +69,6 @@
 
 
                         </div>
-                    </form>
-                @elseif ($event->creator_id === Auth::id())
-                    <form method="POST" action="{{ route('event.delete', ['id' => $event->id]) }}"
-                        onsubmit="return confirm( '{{ __('Are you sure you want to delete this event?') }}' );">
-                        @csrf
-                        @method('DELETE')
-                        <input type="hidden" name="event_id" value="{{ $event->id }}">
-                        <x-primary-button>{{ __('Event delete') }}</x-primary-button>
                     </form>
                 @endif
 
