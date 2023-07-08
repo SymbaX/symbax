@@ -169,5 +169,6 @@
     "Edit": "編集",
     "Update": "更新",
     "Updated event information.": "イベント情報を更新しました。",
-    "This request is invalid.": "このリクエストは無効です。"
+    "This request is invalid.": "このリクエストは無効です。",
+    "Admin dashboard": "管理用ダッシュボード"
 }
