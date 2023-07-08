@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Event;
@@ -50,6 +51,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/event/edit/{id}', [EventController::class, 'edit'])->name('event.edit');
     Route::patch('/event/update/{id}', [EventController::class, 'update'])->name('event.update');
+
+    Route::get('/admin', [AdminController::class, 'dashboard'])->middleware('admin')->name('admin.dashboard');
 });
 
 require __DIR__ . '/auth.php';
