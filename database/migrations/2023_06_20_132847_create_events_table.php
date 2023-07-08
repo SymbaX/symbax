@@ -12,19 +12,20 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('events', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('name');
-            $table->string('details', 1000);
+            $table->string('detail', 1000);
             $table->string('category');
             $table->string('tag');
-            $table->string('conditions_of_participation');
-            $table->string('extarnal_links');
-            $table->datetime('datetime');
+            $table->string('participation_condition');
+            $table->string('external_Link');
+            $table->date('date');
+            $table->date('deadline_date');
             $table->string('place');
             $table->integer('number_of_people');
-            $table->string('product_image');
-            $table->unsignedBigInteger('creator_id');
-            $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('image_path');
+            $table->unsignedBigInteger('organizer_id');
+            $table->foreign('organizer_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
