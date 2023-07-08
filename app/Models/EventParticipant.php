@@ -8,7 +8,6 @@ class EventParticipant extends Model
 {
     protected $table = 'event_participants';
     protected $fillable = [
-        'id',
         'user_id',
         'event_id',
     ];
