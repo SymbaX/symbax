@@ -75,7 +75,7 @@ class EventController extends Controller
             'participants' => $participants,
             'participant_names' => $participant_names,
             'is_organizer' => $is_organizer,
-            'isJoin' => $is_join,
+            'is_join' => $is_join,
             'organizer_name'  => $organizer_name
         ]);
     }
