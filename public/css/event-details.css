@@ -2,11 +2,7 @@
     display: flex; /*横並び*/
 }
 
-.flex {
-    display: flex; /*横並び*/
-}
-
-.flex .product_image {
+.flex .event_image {
     width: 500px;
     height: 500px;
     object-fit: contain; /*画像サイズ指定*/
