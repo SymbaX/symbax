@@ -15,7 +15,7 @@
                 <div class="event-details">
                     @if ($event)
                         <div class="flex">
-                            <img class="image_path" src="{{ Storage::url($event->image_path) }} " alt="">
+                            <img class="event_image" src="{{ Storage::url($event->image_path) }} " alt="">
 
                             <div class="right">
                                 <p class="title"> {{ Carbon\Carbon::parse($event->date)->format('Y/m/d') }} |
@@ -29,12 +29,10 @@
                                 <p class="text">タグ：{{ $event->tag }}</p>
                                 <a href="{{ $event->external_link }}">外部リンクはこちら</a>
 
-
                                 <p class="text">定員：{{ $participants->get()->Count() }} /
                                     {{ $event->number_of_recruits }}</p>
                                 <p class="text">
                                     締め切り：{{ Carbon\Carbon::parse($event->deadline_date)->format('Y/m/d') }} </p>
-
 
                             </div>
                         </div>
