@@ -37,7 +37,6 @@ class ConfirmablePasswordController extends Controller
      *
      * @throws ValidationException バリデーション例外
      * 
-     * @todo $techを入力された値が使えるようにする
      */
     public function store(Request $request): RedirectResponse
     {
