@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use Database\Seeders\DatabaseSeeder;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 /**
@@ -14,4 +16,21 @@ use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
+    use RefreshDatabase;
+
+    /**
+     * テストケースのセットアップ処理を行います。
+     *
+     * 各テストメソッドの実行前に実行されます。
+     * ベースクラスの`setUp`メソッドを呼び出し、データベースをリフレッシュします。
+     * さらに、`DatabaseSeeder`を使用してデータベースをシーディングします。
+     *
+     * @return void
+     */
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->seed(DatabaseSeeder::class);
+    }
 }
