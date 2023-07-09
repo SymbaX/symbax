@@ -7,10 +7,18 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * CollegesTableSeederクラス
+ *
+ * このクラスは、collegesテーブルのシーダーを定義します。
+ * カレッジの初期データをデータベースに挿入するためのメソッドを提供します。
+ */
 class CollegesTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * collegesテーブルに初期データを挿入します。
+     * 
+     * @return void
      */
     public function run(): void
     {

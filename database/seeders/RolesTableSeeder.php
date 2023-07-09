@@ -7,10 +7,17 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * RolesTableSeederクラス
+ *
+ * このクラスは、rolesテーブルの初期データを挿入するためのシーダーです。
+ */
 class RolesTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * rolesテーブルに初期データを挿入します。
+     * 
+     * @return void
      */
     public function run(): void
     {

@@ -3,14 +3,20 @@
 namespace Database\Seeders;
 
 use DateTime;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * SampleEventsTableSeederクラス
+ *
+ * このクラスは、eventsテーブルにダミーデータを挿入するためのシーダーです。
+ */
 class SampleEventsTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * eventsテーブルにダミーデータを挿入します。
+     * 
+     * @return void
      */
     public function run(): void
     {
