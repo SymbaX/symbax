@@ -5,10 +5,18 @@ namespace App\View\Components;
 use Illuminate\View\Component;
 use Illuminate\View\View;
 
+/**
+ * ゲストレイアウトコンポーネントクラス
+ *
+ * このクラスは、ゲスト用のレイアウトコンポーネントを表します。
+ * `layouts.guest`ビューファイルを表示するためのメソッドを提供します。
+ */
 class GuestLayout extends Component
 {
     /**
-     * Get the view / contents that represents the component.
+     * コンポーネントを表示します。
+     *
+     * @return \Illuminate\View\View
      */
     public function render(): View
     {
