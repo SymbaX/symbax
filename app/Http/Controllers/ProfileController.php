@@ -13,7 +13,14 @@ use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
-
+    /**
+     * プロフィール編集フォームの表示
+     *
+     * 現在のユーザーのプロフィール情報を含むフォームを表示します。
+     *
+     * @param  Request  $request
+     * @return \Illuminate\View\View
+     */
     public function edit(Request $request): View
     {
         $user = $request->user()->load('college', 'department');
@@ -25,7 +32,14 @@ class ProfileController extends Controller
         ]);
     }
 
-
+    /**
+     * プロフィールの更新
+     *
+     * プロフィール情報を更新します。更新がある場合、メールアドレスの確認はリセットされます。
+     *
+     * @param  ProfileUpdateRequest  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
         $request->user()->fill($request->validated());
@@ -39,7 +53,14 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
-
+    /**
+     * プロフィールの削除
+     *
+     * プロフィールを削除します。削除する前にパスワードの確認が必要です。
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function destroy(Request $request): RedirectResponse
     {
         $request->validateWithBag('userDeletion', [
