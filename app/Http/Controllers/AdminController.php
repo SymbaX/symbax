@@ -1,14 +1,21 @@
 <?php
 
+/**
+ * 管理者コントローラークラス
+ *
+ * このファイルでは管理者ユーザーに関連するコントローラーを記載。
+ * 
+ */
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
 
 /**
- * アドミンコントローラークラス
+ * 管理者コントローラークラス
  * 
- * このクラスはアドミン（管理ユーザー）に関する処理を行うコントローラーです。
+ * このクラスは管理者に関する処理を行うコントローラーです。
  */
 class AdminController extends Controller
 {

@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * ユーザー登録コントローラー
+ *
+ * このファイルではユーザー登録に関連するコントローラーを記載。
+ * 
+ */
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -16,10 +23,17 @@ use App\Models\College;
 use App\Models\Department;
 use Illuminate\Validation\Rule;
 
+/**
+ * ユーザー登録コントローラー
+ *
+ * ユーザー登録に関連するコントローラー
+ */
 class RegisteredUserController extends Controller
 {
     /**
-     * Display the registration view.
+     * 登録ビューを表示する
+     *
+     * @return View 登録ビューの表示
      */
     public function create(): View
     {
@@ -39,9 +53,12 @@ class RegisteredUserController extends Controller
     }
 
     /**
-     * Handle an incoming registration request.
+     * 登録リクエストの処理を行う
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * @param Request $request リクエスト
+     * @return RedirectResponse リダイレクトレスポンス
+     *
+     * @throws \Illuminate\Validation\ValidationException バリデーション例外
      */
     public function store(Request $request): RedirectResponse
     {

@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * パスワードコントローラー
+ *
+ * このファイルではパスワードに関連するコントローラーを記載。
+ * 
+ */
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -8,10 +15,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 
+/**
+ * パスワードコントローラー
+ *
+ * ユーザーのパスワードに関連するコントローラー
+ */
 class PasswordController extends Controller
 {
     /**
-     * Update the user's password.
+     * ユーザーのパスワードを更新する
+     *
+     * @param Request $request リクエスト
+     * @return RedirectResponse リダイレクトレスポンス
      */
     public function update(Request $request): RedirectResponse
     {

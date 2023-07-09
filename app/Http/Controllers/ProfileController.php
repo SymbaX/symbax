@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * プロフィールコントローラークラス
+ *
+ * このファイルではプロフィールに関連するコントローラーを記載。
+ * 
+ */
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
@@ -11,6 +18,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
+/**
+ * プロフィールコントローラークラス
+ * 
+ * このクラスはプロフィールに関する処理を行うコントローラーです。
+ */
 class ProfileController extends Controller
 {
     /**

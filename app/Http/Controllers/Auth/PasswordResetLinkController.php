@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * パスワードリセットリンクコントローラー
+ *
+ * このファイルではパスワードのリセットリンクに関連するコントローラーを記載。
+ * 
+ */
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -8,10 +15,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\View\View;
 
+/**
+ * パスワードリセットリンクコントローラー
+ *
+ * パスワードリセットリンクに関連するコントローラー
+ */
 class PasswordResetLinkController extends Controller
 {
     /**
-     * Display the password reset link request view.
+     * パスワードリセットリンクリクエストビューを表示する
+     *
+     * @return View パスワードリセットリンクリクエストビューの表示
      */
     public function create(): View
     {
@@ -19,9 +33,12 @@ class PasswordResetLinkController extends Controller
     }
 
     /**
-     * Handle an incoming password reset link request.
+     * パスワードリセットリンクリクエストの処理を行う
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * @param Request $request リクエスト
+     * @return RedirectResponse リダイレクトレスポンス
+     *
+     * @throws \Illuminate\Validation\ValidationException バリデーション例外
      */
     public function store(Request $request): RedirectResponse
     {
@@ -29,9 +46,9 @@ class PasswordResetLinkController extends Controller
             'email' => ['required', 'email'],
         ]);
 
-        // We will send the password reset link to this user. Once we have attempted
-        // to send the link, we will examine the response then see the message we
-        // need to show to the user. Finally, we'll send out a proper response.
+        // パスワードリセットリンクをこのユーザーに送信します。
+        // リンクの送信を試みた後、レスポンスを検証し、ユーザーに表示するメッセージを確認します。
+        // 最後に、適切なレスポンスを送信します。
         $status = Password::sendResetLink(
             $request->only('email')
         );
