@@ -12,9 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            //
-            $table->string('college_id');
-            $table->string('department_id');
+            $table->string('college_id')->after('remember_token');
+            $table->string('department_id')->after('college_id');
             $table->foreign('college_id')->references('id')->on('colleges');
             $table->foreign('department_id')->references('id')->on('departments');
         });
@@ -26,7 +25,10 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            //
+            $table->dropForeign(['college_id']);
+            $table->dropForeign(['department_id']);
+            $table->dropColumn('college_id');
+            $table->dropColumn('department_id');
         });
     }
 };

@@ -3,18 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
-use App\Models\College;
-use App\Models\Department;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
+/**
+ * プロフィールコントローラークラス
+ * 
+ * このクラスはプロフィールに関する処理を行うコントローラーです。
+ */
 class ProfileController extends Controller
 {
     /**
-     * Display the user's profile form.
+     * プロフィール編集フォームの表示
+     *
+     * 現在のユーザーのプロフィール情報を含むフォームを表示します。
+     *
+     * @param  Request  $request
+     * @return \Illuminate\View\View
      */
     public function edit(Request $request): View
     {
@@ -28,7 +36,12 @@ class ProfileController extends Controller
     }
 
     /**
-     * Update the user's profile information.
+     * プロフィールの更新
+     *
+     * プロフィール情報を更新します。更新がある場合、メールアドレスの確認はリセットされます。
+     *
+     * @param  ProfileUpdateRequest  $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
@@ -44,7 +57,12 @@ class ProfileController extends Controller
     }
 
     /**
-     * Delete the user's account.
+     * プロフィールの削除
+     *
+     * プロフィールを削除します。削除する前にパスワードの確認が必要です。
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Request $request): RedirectResponse
     {

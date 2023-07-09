@@ -6,14 +6,16 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
+ * ユーザーファクトリクラス
+ *
+ * ユーザーモデルのファクトリクラスです。`Factory`クラスを拡張し、`User`モデルのデフォルトの状態やメソッドを定義します。
  */
 class UserFactory extends Factory
 {
     /**
-     * Define the model's default state.
+     * モデルのデフォルトの状態を定義します。
      *
-     * @return array<string, mixed>
+     * @return array<string,mixed>
      */
     public function definition(): array
     {
@@ -27,7 +29,9 @@ class UserFactory extends Factory
     }
 
     /**
-     * Indicate that the model's email address should be unverified.
+     * モデルのメールアドレスが未確認であることを示します。
+     *
+     * @return $this
      */
     public function unverified(): static
     {

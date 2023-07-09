@@ -8,10 +8,18 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
+/**
+ * メール検証プロンプトコントローラー
+ *
+ * メール検証プロンプトに関連するコントローラー
+ */
 class EmailVerificationPromptController extends Controller
 {
     /**
-     * Display the email verification prompt.
+     * メール検証プロンプトを表示する
+     *
+     * @param Request $request リクエスト
+     * @return RedirectResponse|View リダイレクトレスポンスまたはビュー
      */
     public function __invoke(Request $request): RedirectResponse|View
     {

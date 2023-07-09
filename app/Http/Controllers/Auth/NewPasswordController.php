@@ -12,10 +12,18 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
+/**
+ * パスワードリセットコントローラー
+ *
+ * パスワードリセットに関連するコントローラー
+ */
 class NewPasswordController extends Controller
 {
     /**
-     * Display the password reset view.
+     * パスワードリセットビューを表示する
+     *
+     * @param Request $request リクエスト
+     * @return View パスワードリセットビューの表示
      */
     public function create(Request $request): View
     {
@@ -23,9 +31,12 @@ class NewPasswordController extends Controller
     }
 
     /**
-     * Handle an incoming new password request.
+     * 新しいパスワードリクエストの処理を行う
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * @param Request $request リクエスト
+     * @return RedirectResponse リダイレクトレスポンス
+     *
+     * @throws \Illuminate\Validation\ValidationException バリデーション例外
      */
     public function store(Request $request): RedirectResponse
     {
@@ -35,9 +46,8 @@ class NewPasswordController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        // Here we will attempt to reset the user's password. If it is successful we
-        // will update the password on an actual user model and persist it to the
-        // database. Otherwise we will parse the error and return the response.
+        // ユーザーのパスワードリセットを試みます。成功した場合は実際のユーザーモデル上のパスワードを更新し、データベースに保存します。
+        // 失敗した場合はエラーを解析し、レスポンスを返します。
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user) use ($request) {
@@ -50,9 +60,8 @@ class NewPasswordController extends Controller
             }
         );
 
-        // If the password was successfully reset, we will redirect the user back to
-        // the application's home authenticated view. If there is an error we can
-        // redirect them back to where they came from with their error message.
+        // パスワードが正常にリセットされた場合は、認証されたユーザーのアプリケーションホームビューにリダイレクトします。
+        // エラーがある場合は、エラーメッセージとともに元のページにリダイレクトします。
         return $status == Password::PASSWORD_RESET
             ? redirect()->route('login')->with('status', __($status))
             : back()->withInput($request->only('email'))

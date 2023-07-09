@@ -10,10 +10,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
+/**
+ * ユーザーセッションコントローラー
+ *
+ * ユーザーのログイン、ログアウトなどの認証関連の機能を提供します。
+ */
 class AuthenticatedSessionController extends Controller
 {
     /**
-     * Display the login view.
+     * ログインビューの表示
+     *
+     * ログインビューを表示します。
+     *
+     * @return \Illuminate\View\View
      */
     public function create(): View
     {
@@ -21,7 +30,12 @@ class AuthenticatedSessionController extends Controller
     }
 
     /**
-     * Handle an incoming authentication request.
+     * 認証リクエストの処理
+     *
+     * ログイン認証リクエストを処理します。
+     *
+     * @param  LoginRequest  $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(LoginRequest $request): RedirectResponse
     {
@@ -33,7 +47,12 @@ class AuthenticatedSessionController extends Controller
     }
 
     /**
-     * Destroy an authenticated session.
+     * 認証セッションの破棄
+     *
+     * 認証セッションを破棄し、ログアウトします。
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Request $request): RedirectResponse
     {

@@ -7,10 +7,17 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * DepartmentsTableSeederクラス
+ *
+ * このクラスは、departmentsテーブルの初期データを挿入するためのシーダーです。
+ */
 class DepartmentsTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * departmentsテーブルに初期データを挿入します。
+     * 
+     * @return void
      */
     public function run(): void
     {

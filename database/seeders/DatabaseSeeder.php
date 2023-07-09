@@ -5,20 +5,23 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
+/**
+ * DatabaseSeederクラス
+ *
+ * このクラスは、アプリケーションのデータベースシーディングを行います。
+ * データベースに初期データを挿入するためのシーダーを呼び出します。
+ */
 class DatabaseSeeder extends Seeder
 {
     /**
-     * Seed the application's database.
+     * アプリケーションのデータベースシーディングを実行します。
+     * 
+     * @return void
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
         $this->call(CollegesTableSeeder::class);
         $this->call(DepartmentsTableSeeder::class);
+        $this->call(RolesTableSeeder::class);
     }
 }

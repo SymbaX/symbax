@@ -4,10 +4,17 @@ namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Exampleテストクラス
+ *
+ * 基本的なテストを行います。
+ */
 class ExampleTest extends TestCase
 {
     /**
-     * A basic test example.
+     * trueがtrueであることをテストします。
+     *
+     * @return void
      */
     public function test_that_true_is_true(): void
     {

@@ -15,33 +15,34 @@
                 <div class="event-details">
                     @if ($event)
                         <div class="flex">
-                            <img class="product_image" src="{{ Storage::url($event->product_image) }} " alt="">
+                            <img class="event_image" src="{{ Storage::url($event->image_path) }} " alt="">
 
                             <div class="right">
-                                <p class="title"> {{ Carbon\Carbon::parse($event->datetime)->format('Y/m/d') }} |
+                                <p class="title"> {{ Carbon\Carbon::parse($event->date)->format('Y/m/d') }} |
                                     {{ $event->name }} </p>
-                                    <p id="creatorName">主催者：{{ $creatorName }}</p>
+                                <p id="organizer_name">主催者：{{ $organizer_name }}</p>
                                 <br>
                                 <p class="text"> {{ $detail_markdown }}</p>
                                 <p class="text">開催場所：{{ $event->place }}</p>
-                                <p class="text">参加条件：{{ $event->conditions_of_participation }}</p>
+                                <p class="text">参加条件：{{ $event->participation_condition }}</p>
                                 <p class="text">カテゴリー：{{ $event->category }}</p>
                                 <p class="text">タグ：{{ $event->tag }}</p>
-                                <a href="{{ $event->extarnal_links }}">外部リンクはこちら</a>
-                                
+                                <a href="{{ $event->external_link }}">外部リンクはこちら</a>
 
                                 <p class="text">定員：{{ $participants->get()->Count() }} /
-                                    {{ $event->number_of_people }}</p>
-                                    
+                                    {{ $event->number_of_recruits }}</p>
+                                <p class="text">
+                                    締め切り：{{ Carbon\Carbon::parse($event->deadline_date)->format('Y/m/d') }} </p>
+
                             </div>
                         </div>
-                    </div>
+                </div>
 
-                @foreach ($participantNames as $participantName)
+                @foreach ($participant_names as $participantName)
                     <li>{{ $participantName }}</li>
                 @endforeach
 
-                @if ($isCreator)
+                @if ($is_organizer)
                     <!-- 作成者のみ表示 -->
                     <a href="{{ route('event.edit', ['id' => $event->id]) }}" class="text-blue-500 underline">
                         <x-primary-button>{{ __('Edit event') }}</x-primary-button>
@@ -57,7 +58,7 @@
                         <x-primary-button>{{ __('Event delete') }}</x-primary-button>
                     </form>
                 @else
-                    @if ($isJoin)
+                    @if ($is_join)
                         <!-- 未参加の場合 -->
                         <form method="post" action="{{ route('event.join') }}" class="mt-6 space-y-6"
                             enctype="multipart/form-data">

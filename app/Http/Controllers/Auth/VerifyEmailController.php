@@ -8,10 +8,18 @@ use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\RedirectResponse;
 
+/**
+ * メール検証コントローラー
+ *
+ * メール検証に関連するコントローラー
+ */
 class VerifyEmailController extends Controller
 {
     /**
-     * Mark the authenticated user's email address as verified.
+     * 認証済みユーザーのメールアドレスを確認済みとしてマークする
+     *
+     * @param EmailVerificationRequest $request メール検証リクエスト
+     * @return RedirectResponse リダイレクトレスポンス
      */
     public function __invoke(EmailVerificationRequest $request): RedirectResponse
     {
