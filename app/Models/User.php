@@ -9,16 +9,20 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-
+/**
+ * ユーザーモデルクラス
+ *
+ * このクラスは、ユーザーモデルの操作を行います。
+ */
 class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
-     * The attributes that are mass assignable.
+     * フィルアブル属性の定義
      *
-     * @var array<int, string>
+     * @var array<int,string>
      */
     protected $fillable = [
         'name',
@@ -29,9 +33,9 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
+     * シリアライズ時に非表示とする属性の定義
      *
-     * @var array<int, string>
+     * @var array<int,string>
      */
     protected $hidden = [
         'password',
@@ -39,9 +43,9 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     /**
-     * The attributes that should be cast.
+     * 型キャストする属性の定義
      *
-     * @var array<string, string>
+     * @var array<string,string>
      */
     protected $casts = [
         'email_verified_at' => 'datetime',

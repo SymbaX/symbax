@@ -4,8 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * イベントモデルクラス
+ *
+ * このクラスは、イベントモデルの操作を行います。
+ */
 class Event extends Model
 {
+    /**
+     * フィルアブル属性の定義
+     *
+     * @var array<int,string>
+     */
     protected $fillable = [
         'name',
         'detail',
