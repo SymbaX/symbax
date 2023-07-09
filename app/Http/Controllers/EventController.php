@@ -11,8 +11,22 @@ use Illuminate\Mail\Markdown;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
+
+/**
+ * イベントコントローラークラス
+ * 
+ * このクラスはイベントに関する処理を行うコントローラーです。
+ */
 class EventController extends Controller
 {
+    /**
+     * イベントの作成
+     *
+     * リクエストから受け取ったデータを検証し、新しいイベントを作成します。
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function create(Request $request)
     {
         $validatedData = $request->validate([
@@ -38,6 +52,13 @@ class EventController extends Controller
         return redirect()->back()->with('status', 'event-create');
     }
 
+    /**
+     * イベント一覧の表示
+     *
+     * 今日以降の日付で開催されるイベントを日付の降順でページネーションして表示します。
+     *
+     * @return \Illuminate\View\View
+     */
     public function list()
     {
         $events = Event::whereDate('date', '>=', Carbon::today())
@@ -46,6 +67,13 @@ class EventController extends Controller
         return view('event.list', ['events' => $events]);
     }
 
+    /**
+     * 全てのイベント一覧の表示
+     *
+     * すべてのイベントを日付の降順でページネーションして表示します。
+     *
+     * @return \Illuminate\View\View
+     */
     public function listAll()
     {
         $events = Event::orderBy('date', 'desc')
@@ -53,6 +81,14 @@ class EventController extends Controller
         return view('event.all', ['events' => $events]);
     }
 
+    /**
+     * イベントの詳細表示
+     *
+     * 指定されたイベントの詳細情報を表示します。
+     *
+     * @param  int  $id
+     * @return \Illuminate\View\View
+     */
     public function details($id)
     {
         $event = Event::findOrFail($id);
@@ -81,6 +117,15 @@ class EventController extends Controller
     }
 
 
+
+    /**
+     * イベントへの参加
+     *
+     * リクエストから受け取ったデータを検証し、指定されたイベントに参加します。
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function join(Request $request)
     {
         $user_id = Auth::id();
@@ -112,6 +157,14 @@ class EventController extends Controller
         return redirect()->route('details', ['id' => $event_id])->with('status', 'joined-event');
     }
 
+    /**
+     * イベントへの参加のキャンセル
+     *
+     * リクエストから受け取ったデータを検証し、指定されたイベントへの参加をキャンセルします。
+     *
+     * @param  Request * @param  Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function cancelJoin(Request $request)
     {
         $user_id = Auth::id();
@@ -132,6 +185,15 @@ class EventController extends Controller
         return redirect()->route('details', ['id' => $event_id])->with('status', 'canceled-join');
     }
 
+    /**
+     * イベントの削除
+     *
+     * 指定されたイベントを削除します。参加者がいる場合は削除できません。
+     * 関連する画像ファイルも削除されます。
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function delete($id)
     {
         $event = Event::findOrFail($id);
@@ -142,13 +204,22 @@ class EventController extends Controller
             return redirect()->route('details', ['id' => $id])->with('status', 'cannot-delete-with-participants');
         }
 
-        // イベントを削除し、関連する商品画像ファイルを削除します
+        // イベントを削除し、関連する画像ファイルを削除します
         Storage::delete($event->image_path);
         $event->delete();
 
         return redirect()->route('list')->with('status', 'event-deleted');
     }
 
+    /**
+     * イベントの編集
+     *
+     * 指定されたイベントを編集するためのビューを表示します。
+     * 現在のユーザーがイベントの作成者でない場合は編集できません。
+     *
+     * @param  int  $id
+     * @return \Illuminate\View\View
+     */
     public function edit($id)
     {
         $event = Event::findOrFail($id);
@@ -161,6 +232,17 @@ class EventController extends Controller
         return view('event.edit', ['event' => $event]);
     }
 
+    /**
+     * イベントの更新
+     *
+     * リクエストから受け取ったデータを検証し、指定されたイベントを更新します。
+     * 現在のユーザーがイベントの作成者でない場合は更新できません。
+     * 画像がアップロードされた場合は既存の画像を削除して新しい画像を保存します。
+     *
+     * @param  Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request, $id)
     {
         $event = Event::findOrFail($id);
