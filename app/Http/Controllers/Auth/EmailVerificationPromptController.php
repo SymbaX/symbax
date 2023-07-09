@@ -1,12 +1,5 @@
 <?php
 
-/**
- * メール検証プロンプトコントローラー
- *
- * このファイルではメール検証プロンプトコントローラーを記載。
- * 
- */
-
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;

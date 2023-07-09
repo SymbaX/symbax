@@ -1,12 +1,5 @@
 <?php
 
-/**
- * パスワード確認コントローラー
- *
- * このファイルではパスワードを確認するコントローラーを記載。
- * 
- */
-
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;

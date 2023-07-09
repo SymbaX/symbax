@@ -8,12 +8,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * 認証済みリダイレクトミドルウェアクラス
+ *
+ * このクラスは、認証済みの場合にリダイレクトするミドルウェア処理を行います。
+ */
 class RedirectIfAuthenticated
 {
     /**
-     * Handle an incoming request.
+     * リクエストの処理を行う
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param Request $request リクエスト
+     * @param Closure $next 次の処理を行うクロージャ
+     * @param string[] $guards ガードの配列
+     * @return Response レスポンス
      */
     public function handle(Request $request, Closure $next, string ...$guards): Response
     {

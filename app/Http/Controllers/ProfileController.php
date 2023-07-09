@@ -1,17 +1,8 @@
 <?php
 
-/**
- * プロフィールコントローラークラス
- *
- * このファイルではプロフィールに関連するコントローラーを記載。
- * 
- */
-
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
-use App\Models\College;
-use App\Models\Department;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

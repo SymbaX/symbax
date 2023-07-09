@@ -1,15 +1,7 @@
 <?php
 
-/**
- * 管理者コントローラークラス
- *
- * このファイルでは管理者ユーザーに関連するコントローラーを記載。
- * 
- */
-
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\User;
 
 /**

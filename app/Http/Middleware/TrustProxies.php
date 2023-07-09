@@ -5,17 +5,22 @@ namespace App\Http\Middleware;
 use Illuminate\Http\Middleware\TrustProxies as Middleware;
 use Illuminate\Http\Request;
 
+/**
+ * 信頼できるプロキシミドルウェアクラス
+ *
+ * このクラスは、信頼できるプロキシに関するミドルウェア処理を行います。
+ */
 class TrustProxies extends Middleware
 {
     /**
-     * The trusted proxies for this application.
+     * このアプリケーションの信頼できるプロキシ
      *
      * @var array<int, string>|string|null
      */
     protected $proxies;
 
     /**
-     * The headers that should be used to detect proxies.
+     * プロキシを検出するために使用するヘッダー
      *
      * @var int
      */

@@ -1,12 +1,5 @@
 <?php
 
-/**
- * イベントコントローラークラス
- *
- * このファイルではイベントに関連するコントローラーを記載。
- * 
- */
-
 namespace App\Http\Controllers;
 
 use App\Models\Event;

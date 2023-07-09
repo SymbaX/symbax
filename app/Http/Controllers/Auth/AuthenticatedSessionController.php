@@ -1,12 +1,5 @@
 <?php
 
-/**
- * ユーザーセッションコントローラー
- *
- * このファイルではユーザーの認証セッションを管理するコントローラーを記載。
- * 
- */
-
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
