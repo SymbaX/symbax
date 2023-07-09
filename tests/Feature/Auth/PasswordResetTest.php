@@ -22,7 +22,7 @@ class PasswordResetTest extends TestCase
      *
      * @return void
      */
-    public function test_reset_password_link_screen_can_be_rendered(): void
+    public function test_パスワードリセットリンク画面が表示されることをテストします(): void
     {
         $response = $this->get('/forgot-password');
 
@@ -34,7 +34,7 @@ class PasswordResetTest extends TestCase
      *
      * @return void
      */
-    public function test_reset_password_link_can_be_requested(): void
+    public function test_パスワードリセットリンクをリクエストできることをテストします(): void
     {
         Notification::fake();
 
@@ -50,7 +50,7 @@ class PasswordResetTest extends TestCase
      *
      * @return void
      */
-    public function test_reset_password_screen_can_be_rendered(): void
+    public function test_パスワードリセット画面が表示されることをテストします(): void
     {
         Notification::fake();
 
@@ -72,7 +72,7 @@ class PasswordResetTest extends TestCase
      *
      * @return void
      */
-    public function test_password_can_be_reset_with_valid_token(): void
+    public function test_有効なトークンを使用してパスワードがリセットできることをテストします(): void
     {
         Notification::fake();
 

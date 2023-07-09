@@ -20,7 +20,7 @@ class RegistrationTest extends TestCase
      *
      * @return void
      */
-    public function test_registration_screen_can_be_rendered(): void
+    public function test_登録画面が表示されることをテストします(): void
     {
         $response = $this->get('/register');
 
@@ -32,13 +32,15 @@ class RegistrationTest extends TestCase
      *
      * @return void
      */
-    public function test_new_users_can_register(): void
+    public function test_新しいユーザーが登録できることをテストします(): void
     {
         $response = $this->post('/register', [
             'name' => 'Test User',
-            'email' => 'test@example.com',
+            'email' => 'test@g.neec.ac.jp',
             'password' => 'password',
             'password_confirmation' => 'password',
+            'college' => 'it',
+            'department' => 'specialist',
         ]);
 
         $this->assertAuthenticated();
