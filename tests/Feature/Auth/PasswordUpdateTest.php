@@ -21,7 +21,7 @@ class PasswordUpdateTest extends TestCase
      *
      * @return void
      */
-    public function test_password_can_be_updated(): void
+    public function test_パスワードが更新されることをテストします(): void
     {
         $user = User::factory()->create();
 
@@ -46,7 +46,7 @@ class PasswordUpdateTest extends TestCase
      *
      * @return void
      */
-    public function test_correct_password_must_be_provided_to_update_password(): void
+    public function test_正しいパスワードを提供してパスワードを更新するためのテストです(): void
     {
         $user = User::factory()->create();
 

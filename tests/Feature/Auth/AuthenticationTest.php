@@ -21,7 +21,7 @@ class AuthenticationTest extends TestCase
      *
      * @return void
      */
-    public function test_login_screen_can_be_rendered(): void
+    public function test_ログイン画面が表示されることをテストします(): void
     {
         $response = $this->get('/login');
 
@@ -33,7 +33,7 @@ class AuthenticationTest extends TestCase
      *
      * @return void
      */
-    public function test_users_can_authenticate_using_the_login_screen(): void
+    public function test_ユーザーがログインできることをテストします(): void
     {
         $user = User::factory()->create();
 
@@ -51,7 +51,7 @@ class AuthenticationTest extends TestCase
      *
      * @return void
      */
-    public function test_users_can_not_authenticate_with_invalid_password(): void
+    public function test_パスワードが無効な場合、ユーザーが認証できないことをテストします(): void
     {
         $user = User::factory()->create();
 

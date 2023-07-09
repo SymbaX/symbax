@@ -16,7 +16,7 @@ class ExampleTest extends TestCase
      *
      * @return void
      */
-    public function test_that_true_is_true(): void
+    public function test_trueがtrueであることをテストします(): void
     {
         $this->assertTrue(true);
     }

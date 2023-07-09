@@ -20,7 +20,7 @@ class PasswordConfirmationTest extends TestCase
      *
      * @return void
      */
-    public function test_confirm_password_screen_can_be_rendered(): void
+    public function test_パスワード確認画面が表示されることをテストします(): void
     {
         $user = User::factory()->create();
 
@@ -34,7 +34,7 @@ class PasswordConfirmationTest extends TestCase
      *
      * @return void
      */
-    public function test_password_can_be_confirmed(): void
+    public function test_パスワードが確認されることをテストします(): void
     {
         $user = User::factory()->create();
 
@@ -51,7 +51,7 @@ class PasswordConfirmationTest extends TestCase
      *
      * @return void
      */
-    public function test_password_is_not_confirmed_with_invalid_password(): void
+    public function test_無効なパスワードの場合、パスワードが確認されないことをテストします(): void
     {
         $user = User::factory()->create();
 

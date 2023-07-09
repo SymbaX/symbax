@@ -20,7 +20,7 @@ class ProfileTest extends TestCase
      *
      * @return void
      */
-    public function test_profile_page_is_displayed(): void
+    public function test_プロファイルページが表示されることをテストします(): void
     {
         $user = User::factory()->create();
 
@@ -36,7 +36,7 @@ class ProfileTest extends TestCase
      *
      * @return void
      */
-    public function test_profile_information_can_be_updated(): void
+    public function test_プロファイル情報が更新されることをテストします(): void
     {
         $user = User::factory()->create();
 
@@ -63,7 +63,7 @@ class ProfileTest extends TestCase
      *
      * @return void
      */
-    public function test_email_verification_status_is_unchanged_when_the_email_address_is_unchanged(): void
+    public function test_メールアドレスが変更されない場合、メールアドレスの検証ステータスが変更されないことをテストします(): void
     {
         $user = User::factory()->create();
 
@@ -86,7 +86,7 @@ class ProfileTest extends TestCase
      *
      * @return void
      */
-    public function test_user_can_delete_their_account(): void
+    public function test_ユーザーがアカウントを削除できることをテストします(): void
     {
         $user = User::factory()->create();
 
@@ -109,7 +109,7 @@ class ProfileTest extends TestCase
      *
      * @return void
      */
-    public function test_correct_password_must_be_provided_to_delete_account(): void
+    public function test_アカウントを削除するために正しいパスワードを提供する必要があることをテストします(): void
     {
         $user = User::factory()->create();
 
