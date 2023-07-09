@@ -6,10 +6,18 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
+
+/**
+ * UsersTableSeederクラス
+ *
+ * UsersTableSeederクラスは、ユーザーデータのダミーデータをデータベースに挿入するためのシーダーです。
+ */
 class UsersTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * usersテーブルにダミーデータを挿入します。
+     * 
+     * @return void
      */
     public function run(): void
     {

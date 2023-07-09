@@ -8,10 +8,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 
+/**
+ * パスワードコントローラー
+ *
+ * ユーザーのパスワードに関連するコントローラー
+ */
 class PasswordController extends Controller
 {
     /**
-     * Update the user's password.
+     * ユーザーのパスワードを更新する
+     *
+     * @param Request $request リクエスト
+     * @return RedirectResponse リダイレクトレスポンス
      */
     public function update(Request $request): RedirectResponse
     {

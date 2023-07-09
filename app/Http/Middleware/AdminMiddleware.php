@@ -4,14 +4,19 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Adminミドルウェアクラス
+ *
+ * このクラスは、管理者向けのミドルウェア処理を行います。
+ */
 class AdminMiddleware
 {
     /**
-     * Handle an incoming request.
+     * リクエストの処理を行う
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param Closure $next 次の処理を行うクロージャ
+     * @return Response レスポンス
      */
     public function handle(Request $request, Closure $next)
     {

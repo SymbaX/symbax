@@ -10,10 +10,20 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
 use Tests\TestCase;
 
+/**
+ * メール検証テストクラス
+ *
+ * メールアドレスの検証に関するテストを行います。
+ */
 class EmailVerificationTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * メール検証画面が表示されることをテストします。
+     *
+     * @return void
+     */
     public function test_email_verification_screen_can_be_rendered(): void
     {
         $user = User::factory()->create([
@@ -25,6 +35,11 @@ class EmailVerificationTest extends TestCase
         $response->assertStatus(200);
     }
 
+    /**
+     * メールアドレスが検証されることをテストします。
+     *
+     * @return void
+     */
     public function test_email_can_be_verified(): void
     {
         $user = User::factory()->create([
@@ -43,9 +58,14 @@ class EmailVerificationTest extends TestCase
 
         Event::assertDispatched(Verified::class);
         $this->assertTrue($user->fresh()->hasVerifiedEmail());
-        $response->assertRedirect(RouteServiceProvider::HOME.'?verified=1');
+        $response->assertRedirect(RouteServiceProvider::HOME . '?verified=1');
     }
 
+    /**
+     * 無効なハッシュ値の場合、メールアドレスが検証されないことをテストします。
+     *
+     * @return void
+     */
     public function test_email_is_not_verified_with_invalid_hash(): void
     {
         $user = User::factory()->create([

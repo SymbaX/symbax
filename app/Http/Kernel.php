@@ -4,12 +4,17 @@ namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
+/**
+ * アプリケーションのHTTPカーネルクラス
+ *
+ * このクラスは、アプリケーションのHTTPリクエストに対するミドルウェアの処理を定義します。
+ */
 class Kernel extends HttpKernel
 {
     /**
-     * The application's global HTTP middleware stack.
+     * アプリケーションのグローバルなHTTPミドルウェアスタック
      *
-     * These middleware are run during every request to your application.
+     * これらのミドルウェアは、アプリケーションの各リクエストで実行されます。
      *
      * @var array<int, class-string|string>
      */
@@ -24,7 +29,7 @@ class Kernel extends HttpKernel
     ];
 
     /**
-     * The application's route middleware groups.
+     * アプリケーションのミドルウェアグループ
      *
      * @var array<string, array<int, class-string|string>>
      */
@@ -46,9 +51,9 @@ class Kernel extends HttpKernel
     ];
 
     /**
-     * The application's middleware aliases.
+     * アプリケーションのミドルウェアエイリアス
      *
-     * Aliases may be used instead of class names to conveniently assign middleware to routes and groups.
+     * エイリアスはクラス名の代わりに使用され、ルートやグループにミドルウェアを簡単に割り当てるために使用できます。
      *
      * @var array<string, class-string|string>
      */
