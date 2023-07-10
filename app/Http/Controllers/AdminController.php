@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\College;
+use App\Models\Department;
 
 /**
  * 管理者コントローラークラス
@@ -29,6 +31,13 @@ class AdminController extends Controller
     {
         $users = User::paginate(10);
 
-        return view('admin.users-list', ['users' => $users]);
+        $colleges = College::all();
+        $departments = Department::all();
+
+        return view('admin.users-list', [
+            'users' => $users,
+            'colleges' => $colleges,
+            'departments' => $departments,
+        ]);
     }
 }
