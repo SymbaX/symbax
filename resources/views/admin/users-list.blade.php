@@ -12,17 +12,33 @@
                     <table>
                         <thead>
                             <tr>
+                                <th>ID</th>
                                 <th>Name</th>
                                 <th>Email</th>
-                                <!-- Add more columns as needed -->
+                                <th>Email Verified At</th>
+                                <th>Password</th>
+                                <th>Remember Token</th>
+                                <th>Role</th>
+                                <th>College ID</th>
+                                <th>Department ID</th>
+                                <th>Created At</th>
+                                <th>Updated At</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($users as $user)
                                 <tr>
+                                    <td>{{ $user->id }}</td>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
-                                    <!-- Add more columns as needed -->
+                                    <td>{{ $user->email_verified_at }}</td>
+                                    <td>{{ $user->password }}</td>
+                                    <td>{{ $user->remember_token }}</td>
+                                    <td>{{ $user->role }}</td>
+                                    <td>{{ $user->college_id }}</td>
+                                    <td>{{ $user->department_id }}</td>
+                                    <td>{{ $user->created_at }}</td>
+                                    <td>{{ $user->updated_at }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
