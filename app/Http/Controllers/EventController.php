@@ -163,7 +163,7 @@ class EventController extends Controller
             return redirect()->route('event.detail', ['id' => $event_id])->with('status', 'no-participation-slots');
         }
 
-        $eventParticipant = EventParticipant::create([
+        EventParticipant::create([
             'user_id' => $user_id,
             'event_id' => $event_id,
         ]);
@@ -183,7 +183,6 @@ class EventController extends Controller
     {
         $user_id = Auth::id();
         $event_id = $request->input('event_id');
-        $event = Event::findOrFail($event_id);
 
         // ユーザーが参加しているか確認
         $participant = EventParticipant::where('event_id', $event_id)->where('user_id', $user_id)->first();
@@ -222,7 +221,7 @@ class EventController extends Controller
         Storage::delete($event->image_path);
         $event->delete();
 
-        return redirect()->route('list')->with('status', 'event-deleted');
+        return redirect()->route('list.upcoming')->with('status', 'event-deleted');
     }
 
     /**
