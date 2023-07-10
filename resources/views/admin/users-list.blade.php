@@ -76,8 +76,7 @@
                                     <select name="college" id="editUserCollege"
                                         class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
                                         @foreach ($colleges as $college)
-                                            <option value="{{ $college->id }}">
-                                                {{ $college->name }}</option>
+                                            <option value="{{ $college->id }}">{{ $college->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -92,6 +91,20 @@
                                                 {{ $department->name }}</option>
                                         @endforeach
                                     </select>
+                                </div>
+                                <div class="mt-4">
+                                    <x-input-label for="role" :value="__('Role')" />
+                                    <select name="role" id="editUserRole"
+                                        class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                                        @foreach ($roles as $role)
+                                            <option value="{{ $role->id }}"
+                                                {{ intval($role->id) === $user->role ? 'selected' : '' }}>
+                                                {{ $role->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+
+
                                 </div>
                                 <div class="mt-6">
                                     <x-primary-button id="saveUserChangesButton"
@@ -108,10 +121,12 @@
         </div>
     </div>
 
+
     <script>
-        function openEditModal(userId, collegeId, departmentId) {
+        function openEditModal(userId, collegeId, departmentId, roleId) {
             const collegeSelect = document.getElementById('editUserCollege');
             const departmentSelect = document.getElementById('editUserDepartment');
+            const roleSelect = document.getElementById('editUserRole');
             let currentUserID = userId;
 
             const form = document.getElementById('editUserForm');
@@ -133,6 +148,14 @@
             // カレッジの初期選択に応じて学科の表示/非表示と選択状態を設定する
             changeDepartmentOptions();
 
+            // 選択されたユーザーのロールを設定する
+            for (let i = 0; i < roleSelect.options.length; i++) {
+                if (roleSelect.options[i].value === roleId) {
+                    roleSelect.options[i].selected = true;
+                    break;
+                }
+            }
+
             // モーダルウィンドウを表示する
             const modal = document.getElementById('editUserModal');
             modal.classList.remove('hidden');
@@ -152,7 +175,7 @@
 
                 // 選択されたカレッジ内の学科を強制的に選択する
                 const selectedDepartment = departmentSelect.querySelector(
-                    `option[data-college-id="${selectedCollegeId}"][value="${departmentId}"]`
+                    `option[datacollege-id="${selectedCollegeId}"][value="${departmentId}"]`
                 );
                 if (selectedDepartment) {
                     selectedDepartment.selected = true;

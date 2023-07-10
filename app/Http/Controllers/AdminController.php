@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\College;
 use App\Models\Department;
-use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Role;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -37,11 +37,14 @@ class AdminController extends Controller
 
         $colleges = College::all();
         $departments = Department::all();
+        $roles = Role::all();
 
         return view('admin.users-list', [
             'users' => $users,
             'colleges' => $colleges,
             'departments' => $departments,
+            'roles' => $roles,
+
         ]);
     }
 
@@ -51,14 +54,15 @@ class AdminController extends Controller
         $validatedData = $request->validate([
             'college' => 'required',
             'department' => 'required',
+            'role' => 'required',
         ]);
 
         // College IDとDepartment IDを更新
         $user->college_id = $validatedData['college'];
         $user->department_id = $validatedData['department'];
 
-        // ユーザーの変更を保存
-        $user->save();
+        // ロールを更新
+        $user->role = $validatedData['role'];
 
         // ユーザーの変更を保存
         $user->save();
