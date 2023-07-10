@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\College;
 use App\Models\Department;
+use App\Http\Requests\ProfileUpdateRequest;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 /**
  * 管理者コントローラークラス
@@ -39,5 +43,26 @@ class AdminController extends Controller
             'colleges' => $colleges,
             'departments' => $departments,
         ]);
+    }
+
+    public function userUpdate(Request $request, User $user): RedirectResponse
+    {
+        // バリデーション
+        $validatedData = $request->validate([
+            'college' => 'required',
+            'department' => 'required',
+        ]);
+
+        // College IDとDepartment IDを更新
+        $user->college_id = $validatedData['college'];
+        $user->department_id = $validatedData['department'];
+
+        // ユーザーの変更を保存
+        $user->save();
+
+        // ユーザーの変更を保存
+        $user->save();
+
+        return Redirect::route('admin.users')->with('status', 'user-updated');
     }
 }

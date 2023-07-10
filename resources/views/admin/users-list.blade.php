@@ -41,12 +41,9 @@
                                     <td class="px-6 py-4 border-b">{{ $user->department_id }}</td>
                                     <td class="px-6 py-4 border-b">{{ $user->created_at }}</td>
                                     <td class="px-6 py-4 border-b">
-                                        @if (auth()->user()->role == 'admin')
-                                            <x-primary-button class="ml-4"
-                                                onclick="openEditModal('{{ $user->id }}', '{{ $user->college_id }}', '{{ $user->department_id }}')">
-                                                Edit
-                                            </x-primary-button>
-                                        @endif
+                                        <x-primary-button class="ml-4"
+                                            onclick="openEditModal('{{ $user->id }}', '{{ $user->college_id }}', '{{ $user->department_id }}')">
+                                            Edit</x-primary-button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -69,36 +66,41 @@
                 <div class="sm:flex sm:items-start">
                     <div class="mt-3 text-center sm:mt-0 sm:text-left">
                         <h3 class="text-lg leading-6 font-medium text-gray-900">Edit User</h3>
-                        <div class="mt-2">
-                            <div class="mt-4">
-                                <x-input-label for="college" :value="__('College')" />
-                                <select name="college" id="editUserCollege"
-                                    class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
-                                    @foreach ($colleges as $college)
-                                        <option value="{{ $college->id }}">
-                                            {{ $college->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mt-4">
-                                <x-input-label for="department" :value="__('Department')" />
-                                <select name="department" id="editUserDepartment"
-                                    class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
-                                    @foreach ($departments as $department)
-                                        <option value="{{ $department->id }}"
-                                            data-college-id="{{ $department->college_id }}"
-                                            style="{{ $department->college_id == $user->college_id ? '' : 'display: none' }}">
-                                            {{ $department->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mt-6">
-                                <x-primary-button id="saveUserChangesButton"
-                                    class="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-500 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm">
-                                    Save Changes
-                                </x-primary-button>
-                            </div>
-                            <br />
+                        <div class="mt-4">
+                            <form method="post" action="{{ route('admin.user.update', 'USER_ID') }}"
+                                class="mt-6 space-y-6" id="editUserForm">
+                                @csrf
+                                @method('patch')
+                                <div class="mt-2">
+                                    <x-input-label for="college" :value="__('College')" />
+                                    <select name="college" id="editUserCollege"
+                                        class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                                        @foreach ($colleges as $college)
+                                            <option value="{{ $college->id }}">
+                                                {{ $college->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="mt-4">
+                                    <x-input-label for="department" :value="__('Department')" />
+                                    <select name="department" id="editUserDepartment"
+                                        class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                                        @foreach ($departments as $department)
+                                            <option value="{{ $department->id }}"
+                                                data-college-id="{{ $department->college_id }}"
+                                                style="{{ $department->college_id == $user->college_id ? '' : 'display: none' }}">
+                                                {{ $department->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="mt-6">
+                                    <x-primary-button id="saveUserChangesButton"
+                                        class="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-500 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm">
+                                        Save Changes
+                                    </x-primary-button>
+                                </div>
+                                <br />
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -110,7 +112,10 @@
         function openEditModal(userId, collegeId, departmentId) {
             const collegeSelect = document.getElementById('editUserCollege');
             const departmentSelect = document.getElementById('editUserDepartment');
-            const saveButton = document.getElementById('saveUserChangesButton');
+            let currentUserID = userId;
+
+            const form = document.getElementById('editUserForm');
+            form.action = form.action.replace('USER_ID', currentUserID);
 
             // 選択されたユーザーのCollege IDを設定する
             for (let i = 0; i < collegeSelect.options.length; i++) {
@@ -127,15 +132,6 @@
 
             // カレッジの初期選択に応じて学科の表示/非表示と選択状態を設定する
             changeDepartmentOptions();
-
-            // Save buttonのクリックイベントを設定する
-            saveButton.addEventListener('click', function() {
-                const selectedCollegeId = collegeSelect.value;
-                const selectedDepartmentId = departmentSelect.value;
-
-                // TODO: バリデーションやデータの送信処理を実装する
-                // サーバーに対してユーザーのCollege IDとDepartment IDを更新するリクエストを送信する等の処理が必要です
-            });
 
             // モーダルウィンドウを表示する
             const modal = document.getElementById('editUserModal');
