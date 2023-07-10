@@ -27,7 +27,7 @@ class AdminController extends Controller
 
     public function listUsers()
     {
-        $users = User::all(); // Retrieve all users from the `users` table
+        $users = User::paginate(10);
 
         return view('admin.users-list', ['users' => $users]);
     }
