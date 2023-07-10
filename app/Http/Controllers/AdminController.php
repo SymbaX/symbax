@@ -9,6 +9,7 @@ use App\Models\Role;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Validation\Rule;
 
 /**
  * 管理者コントローラークラス
@@ -52,8 +53,12 @@ class AdminController extends Controller
     {
         // バリデーション
         $validatedData = $request->validate([
-            'college' => 'required',
-            'department' => 'required',
+            'college' => ['required', 'exists:colleges,id'],
+            'department' => [
+                'required', 'exists:departments,id', Rule::exists('departments', 'id')->where(function ($query) use ($request) {
+                    $query->where('college_id', $request->input('college'));
+                })
+            ],
             'role' => 'required',
         ]);
 
