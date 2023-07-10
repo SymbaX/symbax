@@ -54,6 +54,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
     Route::get('/admin', [AdminController::class, 'dashboard'])->middleware('admin')->name('admin.dashboard');
+    Route::get('/admin/users', [AdminController::class, 'listUsers'])->middleware('admin')->name('admin.users');
 });
 
 require __DIR__ . '/auth.php';

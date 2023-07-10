@@ -24,4 +24,11 @@ class AdminController extends Controller
 
         return view('admin.dashboard', compact('users'));
     }
+
+    public function listUsers()
+    {
+        $users = User::all(); // Retrieve all users from the `users` table
+
+        return view('admin.users-list', ['users' => $users]);
+    }
 }
