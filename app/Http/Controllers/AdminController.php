@@ -22,6 +22,6 @@ class AdminController extends Controller
     {
         $users = User::where('role', 'admin')->get();
 
-        return view('auth.admin.dashboard', compact('users'));
+        return view('admin.dashboard', compact('users'));
     }
 }
