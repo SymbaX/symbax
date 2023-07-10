@@ -5,20 +5,20 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('list') }}">
+                    <a href="{{ route('list.upcoming') }}">
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('list')" :active="request()->routeIs('list')">
+                    <x-nav-link :href="route('list.upcoming')" :active="request()->routeIs('list.upcoming')">
                         {{ __('Upcoming events') }}
                     </x-nav-link>
                     <x-nav-link :href="route('list.all')" :active="request()->routeIs('list.all')">
                         {{ __('Event list all') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('new')" :active="request()->routeIs('new')">
+                    <x-nav-link :href="route('event.create')" :active="request()->routeIs('event.create')">
                         {{ __('Create event') }}
                     </x-nav-link>
                 </div>
@@ -87,13 +87,13 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('list')" :active="request()->routeIs('list')">
+            <x-responsive-nav-link :href="route('list.upcoming')" :active="request()->routeIs('list.upcoming')">
                 {{ __('Upcoming events') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('list.all')" :active="request()->routeIs('list.all')">
                 {{ __('Event list all') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('new')" :active="request()->routeIs('new')">
+            <x-responsive-nav-link :href="route('event.create')" :active="request()->routeIs('event.create')">
                 {{ __('Create event') }}
             </x-responsive-nav-link>
         </div>

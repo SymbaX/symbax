@@ -6,6 +6,7 @@ use App\Models\Event;
 use App\Models\EventParticipant;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Markdown;
 use Illuminate\Support\Facades\Auth;
@@ -19,6 +20,19 @@ use Illuminate\Support\Facades\Storage;
  */
 class EventController extends Controller
 {
+    /**
+     * イベント作成フォームの表示
+     *
+     * イベント作成フォームを表示します。
+     *
+     * @return \Illuminate\View\View
+     */
+    public function createView(): View
+    {
+        return view('event.create');
+    }
+
+
     /**
      * イベントの作成
      *
@@ -59,12 +73,12 @@ class EventController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function list()
+    public function listUpcoming()
     {
         $events = Event::whereDate('date', '>=', Carbon::today())
             ->orderBy('date', 'desc')
             ->paginate(12);
-        return view('event.list', ['events' => $events]);
+        return view('event.list-upcoming', ['events' => $events]);
     }
 
     /**
@@ -78,7 +92,7 @@ class EventController extends Controller
     {
         $events = Event::orderBy('date', 'desc')
             ->paginate(12);
-        return view('event.all', ['events' => $events]);
+        return view('event.list-all', ['events' => $events]);
     }
 
     /**
@@ -89,7 +103,7 @@ class EventController extends Controller
      * @param  int  $id
      * @return \Illuminate\View\View
      */
-    public function details($id)
+    public function detail($id)
     {
         $event = Event::findOrFail($id);
         $detail_markdown = Markdown::parse(e($event->detail));
@@ -105,7 +119,7 @@ class EventController extends Controller
         // 現在のユーザーがイベントに参加しているかをチェック
         $is_join = $event->organizer_id !== Auth::id() && !$participants->pluck('user_id')->contains(Auth::user()->id);
 
-        return view('event.details', [
+        return view('event.detail', [
             'event' => $event,
             'detail_markdown' => $detail_markdown,
             'participants' => $participants,
@@ -135,18 +149,18 @@ class EventController extends Controller
 
         // 自分が作成したイベントであればエラー
         if ($event->organizer_id == $user_id) {
-            return redirect()->route('details', ['id' => $event_id])->with('status', 'your-event-owner');
+            return redirect()->route('event.detail', ['id' => $event_id])->with('status', 'your-event-owner');
         }
 
         // ユーザーが既に参加している場合はエラー
         $alreadyJoined = EventParticipant::where('event_id', $event_id)->where('user_id', $user_id)->exists();
         if ($alreadyJoined) {
-            return redirect()->route('details', ['id' => $event_id])->with('status', 'already-joined');
+            return redirect()->route('event.detail', ['id' => $event_id])->with('status', 'already-joined');
         }
 
         // 参加可能な枠がなければエラー
         if ($event->number_of_recruits <= $participantCount) {
-            return redirect()->route('details', ['id' => $event_id])->with('status', 'no-participation-slots');
+            return redirect()->route('event.detail', ['id' => $event_id])->with('status', 'no-participation-slots');
         }
 
         $eventParticipant = EventParticipant::create([
@@ -154,7 +168,7 @@ class EventController extends Controller
             'event_id' => $event_id,
         ]);
 
-        return redirect()->route('details', ['id' => $event_id])->with('status', 'joined-event');
+        return redirect()->route('event.detail', ['id' => $event_id])->with('status', 'joined-event');
     }
 
     /**
@@ -176,13 +190,13 @@ class EventController extends Controller
 
         // 参加していない場合はエラー
         if (!$participant) {
-            return redirect()->route('details', ['id' => $event_id])->with('status', 'not-joined');
+            return redirect()->route('event.detail', ['id' => $event_id])->with('status', 'not-joined');
         }
 
         // 参加をキャンセル
         $participant->delete();
 
-        return redirect()->route('details', ['id' => $event_id])->with('status', 'canceled-join');
+        return redirect()->route('event.detail', ['id' => $event_id])->with('status', 'canceled-join');
     }
 
     /**
@@ -201,7 +215,7 @@ class EventController extends Controller
         // イベントに参加者が登録されているかどうかを確認します
         $participantCount = EventParticipant::where('event_id', $id)->count();
         if ($participantCount > 0) {
-            return redirect()->route('details', ['id' => $id])->with('status', 'cannot-delete-with-participants');
+            return redirect()->route('event.detail', ['id' => $id])->with('status', 'cannot-delete-with-participants');
         }
 
         // イベントを削除し、関連する画像ファイルを削除します
@@ -226,7 +240,7 @@ class EventController extends Controller
 
         // 現在のユーザーがイベントの作成者であるかをチェック
         if ($event->organizer_id !== Auth::id()) {
-            return redirect()->route('details', ['id' => $event->id])->with('status', 'unauthorized');
+            return redirect()->route('event.detail', ['id' => $event->id])->with('status', 'unauthorized');
         }
 
         return view('event.edit', ['event' => $event]);
@@ -249,7 +263,7 @@ class EventController extends Controller
 
         // 現在のユーザーがイベントの作成者であるかをチェック
         if ($event->organizer_id !== Auth::id()) {
-            return redirect()->route('details', ['id' => $event->id])->with('status', 'unauthorized');
+            return redirect()->route('event.detail', ['id' => $event->id])->with('status', 'unauthorized');
         }
 
         $validatedData = $request->validate([
@@ -274,6 +288,6 @@ class EventController extends Controller
 
         $event->update($validatedData);
 
-        return redirect()->route('details', ['id' => $event->id])->with('status', 'event-updated');
+        return redirect()->route('event.detail', ['id' => $event->id])->with('status', 'event-updated');
     }
 }

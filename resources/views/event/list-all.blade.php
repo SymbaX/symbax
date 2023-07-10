@@ -5,7 +5,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Upcoming events') }}
+            {{ __('Event list all') }}
         </h2>
     </x-slot>
 
@@ -27,7 +27,7 @@
                             <section class="card-list">
                                 <a class="card-link" href="#">
                                     <ul>
-                                        <li><a href="details/{{ $event->id }}">
+                                        <li><a href="event/{{ $event->id }}">
                                                 <h3 class="card-title">{{ $event->name }}</h3>
                                                 <figure class="card-figure"><img class="event_image mx-auto"
                                                         src="{{ Storage::url($event->image_path) }}" alt="">
