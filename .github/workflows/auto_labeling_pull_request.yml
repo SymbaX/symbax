@@ -22,8 +22,10 @@ jobs:
             label_name=$(echo '🌟feature')
           elif [ $branch_type == 'bugfix' ] || [ $branch_type == 'hotfix' ]; then
             label_name=$(echo '🕷️bug')
-          elif [ $branch_type == 'refctor' ]; then
+          elif [ $branch_type == 'refactor' ]; then
             label_name=$(echo '♻refactor')
+          elif [ $branch_type == 'test' ]; then
+            label_name=$(echo '✅test')
           elif [ $branch_type == 'develop' ]; then
             label_name=$(echo '💎release')
           else
