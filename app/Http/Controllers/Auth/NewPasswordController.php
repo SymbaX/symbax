@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use App\Http\Controllers\OperationLogController;
 
 /**
  * パスワードリセットコントローラー
@@ -19,6 +20,13 @@ use Illuminate\View\View;
  */
 class NewPasswordController extends Controller
 {
+    private $operationLogController;
+
+    public function __construct(OperationLogController $operationLogController)
+    {
+        $this->operationLogController = $operationLogController;
+    }
+
     /**
      * パスワードリセットビューを表示する
      *
@@ -59,6 +67,12 @@ class NewPasswordController extends Controller
                 event(new PasswordReset($user));
             }
         );
+
+        if ($status == Password::PASSWORD_RESET) {
+            $this->operationLogController->store('Email: ' . $request->email . ' のパスワードをリセットしました');
+        } else {
+            $this->operationLogController->store('Email: ' . $request->email . ' のパスワードリセットに失敗しました');
+        }
 
         // パスワードが正常にリセットされた場合は、認証されたユーザーのアプリケーションホームビューにリダイレクトします。
         // エラーがある場合は、エラーメッセージとともに元のページにリダイレクトします。
