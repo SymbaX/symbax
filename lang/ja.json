@@ -175,5 +175,7 @@
     "Not verified": "未認証",
     "ID": "ID",
     "Email Verified At": "メール認証日時",
-    "Created At": "作成日時"
+    "Created At": "作成日時",
+    "Operation logs": "操作ログ",
+    "Action": "操作"
 }
