@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -65,6 +67,17 @@
                 class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
                 <div class="sm:flex sm:items-start">
                     <div class="mt-3 text-center sm:mt-0 sm:text-left">
+                        <div class="flex justify-end">
+                            <button type="button" onclick="closeEditModal()"
+                                class="text-gray-500 hover:text-gray-700 transition duration-150 ease-in-out">
+                                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12">
+                                    </path>
+                                </svg>
+                            </button>
+                        </div>
                         <h3 class="text-lg leading-6 font-medium text-gray-900">Edit User</h3>
                         <div class="mt-4">
                             <form method="post" action="{{ route('admin.user.update', 'USER_ID') }}"
@@ -112,6 +125,8 @@
                                         Save Changes
                                     </x-primary-button>
                                 </div>
+
+
                                 <br />
                             </form>
                         </div>
@@ -189,6 +204,11 @@
                     }
                 }
             }
+        }
+
+        function closeEditModal() {
+            const modal = document.getElementById('editUserModal');
+            modal.classList.add('hidden');
         }
     </script>
 </x-app-layout>
