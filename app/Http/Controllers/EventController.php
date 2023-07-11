@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Mail\Markdown;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\OperationLogController;
 
 
 /**
@@ -20,6 +21,13 @@ use Illuminate\Support\Facades\Storage;
  */
 class EventController extends Controller
 {
+    private $operationLogController;
+
+    public function __construct(OperationLogController $operationLogController)
+    {
+        $this->operationLogController = $operationLogController;
+    }
+
     /**
      * イベント作成フォームの表示
      *
@@ -61,7 +69,9 @@ class EventController extends Controller
 
         $validatedData['organizer_id'] = Auth::id();
 
-        Event::create($validatedData);
+        $event = Event::create($validatedData);
+
+        $this->operationLogController->store('イベントを作成しました ID:' . $event->id);
 
         return redirect()->back()->with('status', 'event-create');
     }
@@ -168,6 +178,8 @@ class EventController extends Controller
             'event_id' => $event_id,
         ]);
 
+        $this->operationLogController->store('ID:' . $event_id . 'のイベントに参加しました');
+
         return redirect()->route('event.detail', ['id' => $event_id])->with('status', 'joined-event');
     }
 
@@ -195,6 +207,9 @@ class EventController extends Controller
         // 参加をキャンセル
         $participant->delete();
 
+        $this->operationLogController->store('ID:' . $event_id . 'のイベントへの参加をキャンセルしました');
+
+
         return redirect()->route('event.detail', ['id' => $event_id])->with('status', 'canceled-join');
     }
 
@@ -220,6 +235,8 @@ class EventController extends Controller
         // イベントを削除し、関連する画像ファイルを削除します
         Storage::delete($event->image_path);
         $event->delete();
+
+        $this->operationLogController->store('ID:' . $event->id . 'のイベントを削除しました');
 
         return redirect()->route('list.upcoming')->with('status', 'event-deleted');
     }
@@ -287,8 +304,7 @@ class EventController extends Controller
 
         $event->update($validatedData);
 
-        $operationLogController = new OperationLogController;
-        $operationLogController->store('更新しました');
+        $this->operationLogController->store('ID:' . $event->id . 'のイベントを更新しました');
 
 
         return redirect()->route('event.detail', ['id' => $event->id])->with('status', 'event-updated');

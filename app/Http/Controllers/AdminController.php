@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\Rule;
+use App\Http\Controllers\OperationLogController;
 
 /**
  * 管理者コントローラークラス
@@ -18,6 +19,13 @@ use Illuminate\Validation\Rule;
  */
 class AdminController extends Controller
 {
+    private $operationLogController;
+
+    public function __construct(OperationLogController $operationLogController)
+    {
+        $this->operationLogController = $operationLogController;
+    }
+
     /**
      * 管理者ダッシュボード
      *
@@ -29,6 +37,8 @@ class AdminController extends Controller
     {
         $users = User::where('role_id', 'admin')->get();
 
+        $this->operationLogController->store('管理者ダッシュボードを表示しました');
+
         return view('admin.dashboard', compact('users'));
     }
 
@@ -39,6 +49,9 @@ class AdminController extends Controller
         $colleges = College::all();
         $departments = Department::all();
         $roles = Role::all();
+
+        $this->operationLogController->store('ユーザー一覧を表示しました');
+
 
         return view('admin.users-list', [
             'users' => $users,
@@ -71,6 +84,8 @@ class AdminController extends Controller
 
         // ユーザーの変更を保存
         $user->save();
+
+        $this->operationLogController->store('ID:' . $user->id . 'のユーザー情報を更新しました', $user->id);
 
         return Redirect::route('admin.users')->with('status', 'user-updated');
     }

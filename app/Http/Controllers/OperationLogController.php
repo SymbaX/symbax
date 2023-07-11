@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\OperationLog;
+use Brick\Math\BigInteger;
 use League\CommonMark\Extension\CommonMark\Node\Inline\Strong;
 use PhpParser\Node\Expr\Cast\String_;
 
@@ -20,11 +21,17 @@ class OperationLogController extends Controller
         return view('operation_logs.index', ['logs' => $logs]);
     }
 
-    public function store(String $message)
+    public function store(string $message, ?int $user_id = null)
     {
         // 操作履歴の作成処理
         $log = new OperationLog;
-        $log->user_id = auth()->id();
+
+        if (auth()->check()) {
+            $log->user_id = auth()->user()->id;
+        } else {
+            $log->user_id = $user_id;
+        }
+
         $log->action = $message;
         $log->save();
     }

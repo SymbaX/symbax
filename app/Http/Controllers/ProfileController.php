@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Http\Controllers\OperationLogController;
 
 /**
  * プロフィールコントローラークラス
@@ -16,6 +17,13 @@ use Illuminate\View\View;
  */
 class ProfileController extends Controller
 {
+    private $operationLogController;
+
+    public function __construct(OperationLogController $operationLogController)
+    {
+        $this->operationLogController = $operationLogController;
+    }
+
     /**
      * プロフィール編集フォームの表示
      *
@@ -53,13 +61,16 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
+        $this->operationLogController->store('プロフィールを更新しました');
+
+
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
     /**
-     * プロフィールの削除
+     * アカウントの削除
      *
-     * プロフィールを削除します。削除する前にパスワードの確認が必要です。
+     * アカウントを削除します。削除する前にパスワードの確認が必要です。
      *
      * @param  Request  $request
      * @return \Illuminate\Http\RedirectResponse
@@ -72,12 +83,15 @@ class ProfileController extends Controller
 
         $user = $request->user();
 
+        $this->operationLogController->store('アカウントを削除しました', auth()->id());
+
         Auth::logout();
 
         $user->delete();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
 
         return Redirect::to('/');
     }
