@@ -44,8 +44,8 @@
                                         @endif
                                     </td>
                                     <td class="px-6 py-4 border-b">{{ $user->role }}</td>
-                                    <td class="px-6 py-4 border-b">{{ $user->college_id }}</td>
-                                    <td class="px-6 py-4 border-b">{{ $user->department_id }}</td>
+                                    <td class="px-6 py-4 border-b">{{ $user->college->name }}</td>
+                                    <td class="px-6 py-4 border-b">{{ $user->department->name }}</td>
                                     <td class="px-6 py-4 border-b">{{ $user->created_at }}</td>
                                     <td class="px-6 py-4 border-b">
                                         <x-primary-button class="ml-4"
