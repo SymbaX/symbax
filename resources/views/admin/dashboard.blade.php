@@ -10,8 +10,10 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <a href="{{ route('admin.users') }}" class="text-blue-500 hover:text-blue-700">
-                        {{ __('Users list') }}
-                    </a>
+                        {{ __('Users list') }}<br />
+                        <a href="{{ route('admin.operation-logs') }}" class="text-blue-500 hover:text-blue-700">
+                            {{ __('Operation logs') }}
+                        </a>
                 </div>
             </div>
         </div>

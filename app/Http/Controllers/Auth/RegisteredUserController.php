@@ -15,6 +15,7 @@ use Illuminate\View\View;
 use App\Models\College;
 use App\Models\Department;
 use Illuminate\Validation\Rule;
+use App\Http\Controllers\OperationLogController;
 
 /**
  * ユーザー登録コントローラー
@@ -23,6 +24,13 @@ use Illuminate\Validation\Rule;
  */
 class RegisteredUserController extends Controller
 {
+    private $operationLogController;
+
+    public function __construct(OperationLogController $operationLogController)
+    {
+        $this->operationLogController = $operationLogController;
+    }
+
     /**
      * 登録ビューを表示する
      *
@@ -79,6 +87,8 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
+
+        $this->operationLogController->store('ID:' . $user->id . 'のユーザーを登録しました');
 
         return redirect(RouteServiceProvider::HOME);
     }

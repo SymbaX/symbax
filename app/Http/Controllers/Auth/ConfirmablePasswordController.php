@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
+use App\Http\Controllers\OperationLogController;
 
 /**
  * パスワード確認コントローラー
@@ -17,6 +18,13 @@ use Illuminate\View\View;
  */
 class ConfirmablePasswordController extends Controller
 {
+    private $operationLogController;
+
+    public function __construct(OperationLogController $operationLogController)
+    {
+        $this->operationLogController = $operationLogController;
+    }
+
     /**
      * パスワード確認画面を表示する
      *
@@ -50,6 +58,8 @@ class ConfirmablePasswordController extends Controller
         }
 
         $request->session()->put('auth.password_confirmed_at', time());
+
+        $this->operationLogController->store('パスワードを確認しました');
 
         return redirect()->intended(RouteServiceProvider::HOME);
     }
