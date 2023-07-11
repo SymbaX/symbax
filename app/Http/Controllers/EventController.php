@@ -287,6 +287,10 @@ class EventController extends Controller
 
         $event->update($validatedData);
 
+        $operationLogController = new OperationLogController;
+        $operationLogController->store('更新しました');
+
+
         return redirect()->route('event.detail', ['id' => $event->id])->with('status', 'event-updated');
     }
 }
