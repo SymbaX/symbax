@@ -170,5 +170,10 @@
     "Update": "更新",
     "Updated event information.": "イベント情報を更新しました。",
     "This request is invalid.": "このリクエストは無効です。",
-    "Admin dashboard": "管理用ダッシュボード"
+    "Admin dashboard": "管理用ダッシュボード",
+    "Users list": "ユーザー一覧",
+    "Not verified": "未認証",
+    "ID": "ID",
+    "Email Verified At": "メール認証日時",
+    "Created At": "作成日時"
 }

@@ -49,7 +49,7 @@
                             {{ __('Profile') }}
                         </x-dropdown-link>
 
-                        @if (auth()->user()->role === 'admin')
+                        @if (auth()->user()->role_id === 'admin')
                             <x-dropdown-link :href="route('admin.dashboard')">
                                 {{ __('Admin dashboard') }}
                             </x-dropdown-link>
@@ -112,7 +112,7 @@
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
 
-                @if (auth()->user()->role === 'admin')
+                @if (auth()->user()->role_id === 'admin')
                     <x-responsive-nav-link :href="route('admin.dashboard')">
                         {{ __('Admin dashboard') }}
                     </x-responsive-nav-link>

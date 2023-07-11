@@ -10,6 +10,8 @@
 
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
     @stack('css')
+    @stack('script')
+
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
