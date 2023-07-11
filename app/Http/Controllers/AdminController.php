@@ -27,7 +27,7 @@ class AdminController extends Controller
      */
     public function dashboard()
     {
-        $users = User::where('role', 'admin')->get();
+        $users = User::where('role_id', 'admin')->get();
 
         return view('admin.dashboard', compact('users'));
     }
@@ -67,7 +67,7 @@ class AdminController extends Controller
         $user->department_id = $validatedData['department'];
 
         // ロールを更新
-        $user->role = $validatedData['role'];
+        $user->role_id = $validatedData['role'];
 
         // ユーザーの変更を保存
         $user->save();

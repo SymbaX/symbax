@@ -43,13 +43,13 @@
                                             {{ __('Not verified') }}
                                         @endif
                                     </td>
-                                    <td class="px-6 py-4 border-b">{{ $user->role }}</td>
+                                    <td class="px-6 py-4 border-b">{{ $user->role->name }}</td>
                                     <td class="px-6 py-4 border-b">{{ $user->college->name }}</td>
                                     <td class="px-6 py-4 border-b">{{ $user->department->name }}</td>
                                     <td class="px-6 py-4 border-b">{{ $user->created_at }}</td>
                                     <td class="px-6 py-4 border-b">
                                         <x-primary-button class="ml-4"
-                                            onclick="openEditModal('{{ $user->id }}', '{{ $user->college_id }}', '{{ $user->department_id }}', '{{ $user->role }}')">
+                                            onclick="openEditModal('{{ $user->id }}', '{{ $user->college_id }}', '{{ $user->department_id }}', '{{ $user->role_id }}')">
                                             {{ __('Edit') }}</x-primary-button>
                                     </td>
                                 </tr>
