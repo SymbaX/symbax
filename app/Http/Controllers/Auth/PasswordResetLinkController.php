@@ -55,7 +55,7 @@ class PasswordResetLinkController extends Controller
             $request->only('email')
         );
 
-        $this->operationLogController->store('Email: ' . $request->email . ' のパスワードリセットリンクを送信しました', "不明");
+        $this->operationLogController->store('Email: ' . $request->email . ' にパスワードリセットリンクを送信しました', "不明");
 
         return $status == Password::RESET_LINK_SENT
             ? back()->with('status', __($status))
