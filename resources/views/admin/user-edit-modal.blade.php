@@ -39,9 +39,9 @@
                                     class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
                                     @foreach ($departments as $department)
                                         <option value="{{ $department->id }}"
-                                            data-college-id="{{ $department->college_id }}"
-                                            style="{{ $department->college_id == $user->college_id ? '' : 'display: none' }}">
-                                            {{ $department->name }}</option>
+                                            data-college-id="{{ $department->college_id }}">
+                                            {{ $department->name }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>

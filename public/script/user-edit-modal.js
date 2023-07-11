@@ -15,6 +15,13 @@ function openEditModal(userId, collegeId, departmentId, roleId) {
         }
     }
 
+    // 選択されたユーザーのCollege IDを設定する
+    for (let i = 0; i < departmentSelect.options.length; i++) {
+        if (departmentSelect.options[i].value === departmentId) {
+            departmentSelect.options[i].selected = true;
+            break;
+        }
+    }
     // カレッジの選択肢が変更された時の処理
     collegeSelect.addEventListener("change", function () {
         changeDepartmentOptions();
@@ -50,7 +57,7 @@ function openEditModal(userId, collegeId, departmentId, roleId) {
 
         // 選択されたカレッジ内の学科を強制的に選択する
         const selectedDepartment = departmentSelect.querySelector(
-            `option[datacollege-id="${selectedCollegeId}"][value="${departmentId}"]`
+            `option[data-college-id="${selectedCollegeId}"][value="${departmentId}"]`
         );
         if (selectedDepartment) {
             selectedDepartment.selected = true;
