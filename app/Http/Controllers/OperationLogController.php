@@ -21,7 +21,7 @@ class OperationLogController extends Controller
         return view('operation_logs.index', ['logs' => $logs]);
     }
 
-    public function store(string $message, ?int $user_id = null)
+    public function store(string $message, ?String $user_id = "不明")
     {
         // 操作履歴の作成処理
         $log = new OperationLog;

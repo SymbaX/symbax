@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\View\View;
+use App\Http\Controllers\OperationLogController;
 
 /**
  * パスワードリセットリンクコントローラー
@@ -15,6 +16,14 @@ use Illuminate\View\View;
  */
 class PasswordResetLinkController extends Controller
 {
+    private $operationLogController;
+
+    public function __construct(OperationLogController $operationLogController)
+    {
+        $this->operationLogController = $operationLogController;
+    }
+
+
     /**
      * パスワードリセットリンクリクエストビューを表示する
      *
@@ -45,6 +54,8 @@ class PasswordResetLinkController extends Controller
         $status = Password::sendResetLink(
             $request->only('email')
         );
+
+        $this->operationLogController->store('Email: ' . $request->email . ' のパスワードリセットリンクを送信しました', "不明");
 
         return $status == Password::RESET_LINK_SENT
             ? back()->with('status', __($status))

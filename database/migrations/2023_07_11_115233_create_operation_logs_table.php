@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('operation_logs', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->string('user_id');
             $table->string('action', 500);
             $table->timestamps();
         });
