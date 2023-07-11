@@ -14,15 +14,15 @@
                     <table class="min-w-full bg-white border border-gray-300">
                         <thead>
                             <tr>
-                                <th class="px-6 py-3 bg-gray-100 border-b">ID</th>
-                                <th class="px-6 py-3 bg-gray-100 border-b">Name</th>
-                                <th class="px-6 py-3 bg-gray-100 border-b">Email</th>
-                                <th class="px-6 py-3 bg-gray-100 border-b">Email Verified At</th>
-                                <th class="px-6 py-3 bg-gray-100 border-b">Role</th>
-                                <th class="px-6 py-3 bg-gray-100 border-b">College ID</th>
-                                <th class="px-6 py-3 bg-gray-100 border-b">Department ID</th>
-                                <th class="px-6 py-3 bg-gray-100 border-b">Created At</th>
-                                <th class="px-6 py-3 bg-gray-100 border-b">編集</th>
+                                <th class="px-6 py-3 bg-gray-100 border-b">{{ __('ID') }}</th>
+                                <th class="px-6 py-3 bg-gray-100 border-b">{{ __('Name') }}</th>
+                                <th class="px-6 py-3 bg-gray-100 border-b">{{ __('Email') }}</th>
+                                <th class="px-6 py-3 bg-gray-100 border-b">{{ __('Email Verified At') }}</th>
+                                <th class="px-6 py-3 bg-gray-100 border-b">{{ __('Role') }}</th>
+                                <th class="px-6 py-3 bg-gray-100 border-b">{{ __('College') }}</th>
+                                <th class="px-6 py-3 bg-gray-100 border-b">{{ __('Department') }}</th>
+                                <th class="px-6 py-3 bg-gray-100 border-b">{{ __('Created At') }}</th>
+                                <th class="px-6 py-3 bg-gray-100 border-b">{{ __('Edit') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -45,7 +45,7 @@
                                     <td class="px-6 py-4 border-b">
                                         <x-primary-button class="ml-4"
                                             onclick="openEditModal('{{ $user->id }}', '{{ $user->college_id }}', '{{ $user->department_id }}', '{{ $user->role }}')">
-                                            Edit</x-primary-button>
+                                            {{ __('Edit') }}</x-primary-button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -78,7 +78,7 @@
                                 </svg>
                             </button>
                         </div>
-                        <h3 class="text-lg leading-6 font-medium text-gray-900">Edit User</h3>
+                        <h3 class="text-lg leading-6 font-medium text-gray-900">{{ __('Edit') }}</h3>
                         <div class="mt-4">
                             <form method="post" action="{{ route('admin.user.update', 'USER_ID') }}"
                                 class="mt-6 space-y-6" id="editUserForm">
@@ -122,7 +122,7 @@
                                 <div class="mt-6">
                                     <x-primary-button id="saveUserChangesButton"
                                         class="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-500 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm">
-                                        Save Changes
+                                        {{ __('Update') }}
                                     </x-primary-button>
                                 </div>
 
