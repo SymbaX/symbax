@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('role')->after('remember_token')->default('default');
-            $table->foreign('role')->references('id')->on('roles');
+            $table->string('role_id')->after('remember_token')->default('default');
+            $table->foreign('role_id')->references('id')->on('roles');
         });
     }
 
@@ -23,8 +23,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropForeign(['role']);
-            $table->dropColumn('role');
+            $table->dropForeign(['role_id']);
+            $table->dropColumn('role_id');
         });
     }
 };

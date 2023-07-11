@@ -72,8 +72,9 @@
                         </form>
                     @else
                         <!-- 参加済みの場合 -->
-                        <form action="{{ route('cancel-join') }}" method="POST">
+                        <form action="{{ route('event.cancel-join') }}" method="POST">
                             @csrf
+                            @method('patch')
                             <input type="hidden" name="event_id" value="{{ $event->id }}">
                             <x-primary-button>{{ __('Cancel Join') }}</x-primary-button>
                         </form>
