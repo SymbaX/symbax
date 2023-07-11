@@ -65,7 +65,7 @@
             </div>
             <div
                 class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
-                <div class="sm:flex sm:items-start">
+                <div class="sm:items-start">
                     <div class="mt-3 text-center sm:mt-0 sm:text-left">
                         <div class="flex justify-end">
                             <button type="button" onclick="closeEditModal()"
