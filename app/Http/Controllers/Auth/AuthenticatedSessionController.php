@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use App\Http\Controllers\OperationLogController;
 
 /**
  * ユーザーセッションコントローラー
@@ -17,6 +18,13 @@ use Illuminate\View\View;
  */
 class AuthenticatedSessionController extends Controller
 {
+    private $operationLogController;
+
+    public function __construct(OperationLogController $operationLogController)
+    {
+        $this->operationLogController = $operationLogController;
+    }
+
     /**
      * ログインビューの表示
      *
@@ -43,6 +51,8 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        $this->operationLogController->store('ログインしました');
+
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 
@@ -56,6 +66,8 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
+        $this->operationLogController->store('ログアウトしました');
+
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
