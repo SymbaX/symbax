@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\OperationLogController;
+use App\Models\OperationLog;
 
 /**
  * 管理者コントローラークラス
@@ -88,5 +89,14 @@ class AdminController extends Controller
         $this->operationLogController->store('ID:' . $user->id . 'のユーザー情報を更新しました', $user->id);
 
         return Redirect::route('admin.users')->with('status', 'user-updated');
+    }
+
+    public function listOperationLogs()
+    {
+        $operation_logs = OperationLog::latest('created_at')->paginate(100);
+
+        $this->operationLogController->store('操作ログを表示しました');
+
+        return view('admin.operation-logs', compact('operation_logs'));
     }
 }
