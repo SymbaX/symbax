@@ -176,6 +176,13 @@
     "ID": "ID",
     "Email Verified At": "メール認証日時",
     "Created At": "作成日時",
+    "Colon": " : ",
+    "Organizer": "主催者",
+    "Location": "開催場所",
+    "Condition": "参加条件",
+    "External_link": "外部リンクはこちら",
+    "Capacity": "定員",
+    "Deadline": "締め切り"
     "Operation logs": "操作ログ",
     "Action": "操作"
 }
