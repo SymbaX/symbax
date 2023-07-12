@@ -47,7 +47,7 @@ class AdminController extends Controller
     {
         $users = User::where('role_id', 'admin')->get();
 
-        $this->operationLogController->store('管理者ダッシュボードを表示しました');
+        $this->operationLogController->store('● 管理者ダッシュボードを表示しました');
 
         return view('admin.dashboard', compact('users'));
     }
@@ -60,7 +60,7 @@ class AdminController extends Controller
         $departments = Department::all();
         $roles = Role::all();
 
-        $this->operationLogController->store('ユーザー一覧を表示しました');
+        $this->operationLogController->store('● ユーザー一覧を表示しました');
 
 
         return view('admin.users-list', [
@@ -95,7 +95,7 @@ class AdminController extends Controller
         // ユーザーの変更を保存
         $user->save();
 
-        $this->operationLogController->store('ID:' . $user->id . 'のユーザー情報を更新しました', $user->id);
+        $this->operationLogController->store('● ID:' . $user->id . 'のユーザー情報を更新しました', $user->id);
 
         return Redirect::route('admin.users')->with('status', 'user-updated');
     }
@@ -110,7 +110,7 @@ class AdminController extends Controller
             $operation_log->user_name = $users[$operation_log->user_id] ?? 'Unknown';
         }
 
-        $this->operationLogController->store('操作ログを表示しました');
+        $this->operationLogController->store('● 操作ログを表示しました');
 
         return view('admin.operation-logs', compact('operation_logs'));
     }
