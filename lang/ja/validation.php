@@ -248,15 +248,15 @@ return [
         'year' => '年',
         'college' => 'カレッジ',
         'department' => '学科',
-        'details' => '詳細',
+        'detail' => '詳細',
         'category' => 'カテゴリー',
         'tag' => 'タグ',
-        'conditions_of_participation' => '参加条件',
-        'extarnal_links' => '外部リンク',
-        'datetime' => '開催日時',
+        'participation_condition' => '参加条件',
+        'external_link' => '外部リンク',
+        'date' => '開催日',
+        'deadline_date' => '締切日',
         'place' => '場所',
-        'number_of_people' => '人数',
-
-
+        'number_of_recruits' => '人数',
+        'image_path' => '画像',
     ]
 ];

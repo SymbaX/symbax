@@ -20,19 +20,22 @@
                             <div class="right">
                                 <p class="title"> {{ Carbon\Carbon::parse($event->date)->format('Y/m/d') }} |
                                     {{ $event->name }} </p>
-                                <p id="organizer_name">{{ __("Organizer") }}{{ __("Colon")}}{{ $organizer_name }}</p>
+                                <p id="organizer_name">{{ __('Organizer') }}：{{ $organizer_name }}</p>
                                 <br>
                                 <p class="text"> {{ $detail_markdown }}</p>
-                                <p class="text">{{ __("Location") }}{{ __("Colon")}}{{ $event->place }}</p>
-                                <p class="text">{{ __("Condition") }}{{ __("Colon")}}{{ $event->participation_condition }}</p>
-                                <p class="text">{{ __("Category") }}{{ __("Colon")}}{{ $event->category }}</p>
-                                <p class="text">{{ __("Tag") }}{{ __("Colon")}}{{ $event->tag }}</p>
-                                <a href="{{ $event->external_link }}">{{ __("External_link")}}</a>
+                                <p class="text">{{ __('Location') }}：{{ $event->place }}</p>
+                                <p class="text">
+                                    {{ __('Participation condition') }}：{{ $event->participation_condition }}</p>
+                                <p class="text">{{ __('Category') }}：{{ $event->category }}</p>
+                                <p class="text">{{ __('Tag') }}：{{ $event->tag }}</p>
+                                <a href="{{ $event->external_link }}">{{ __('External link') }}</a>
 
-                                <p class="text">{{ __("Capacity") }}{{ __("Colon")}}{{ $participants->get()->Count() }} /
+                                <p class="text">{{ __('Number of recruits') }}：{{ $participants->get()->Count() }}
+                                    /
                                     {{ $event->number_of_recruits }}</p>
                                 <p class="text">
-                                    {{ __("Deadline") }}{{ __("Colon")}}{{ Carbon\Carbon::parse($event->deadline_date)->format('Y/m/d') }} </p>
+                                    {{ __('Deadline date') }}：{{ Carbon\Carbon::parse($event->deadline_date)->format('Y/m/d') }}
+                                </p>
 
                             </div>
                         </div>

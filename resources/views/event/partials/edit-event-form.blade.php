@@ -71,7 +71,7 @@
         </div>
 
         <div>
-            <x-input-label for="place" :value="__('Place')" />
+            <x-input-label for="place" :value="__('Location')" />
             <x-text-input id="place" name="place" type="text" class="mt-1 block w-full" :value="old('place', $event->place)"
                 required autocomplete="off" />
             <x-input-error class="mt-2" :messages="$errors->get('place')" />
