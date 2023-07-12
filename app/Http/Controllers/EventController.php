@@ -231,14 +231,14 @@ class EventController extends Controller
 
 
     /**
-     * イベントへの参加の承認
+     * イベントへの参加ステータスを変更
      *
-     * リクエストから受け取ったデータを検証し、指定されたイベントへの参加を承認します。
+     * リクエストから受け取ったデータを検証し、指定されたイベントへの参加ステータスを変更します。
      *
      * @param  Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function joinApproval(Request $request)
+    public function changeStatus(Request $request)
     {
         $event_id = $request->input('event_id');
         $user_id = $request->input('user_id');

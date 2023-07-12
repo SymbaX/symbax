@@ -55,7 +55,7 @@
                             {{ __('Status') }}:
                             {{ $participant->status }})
                             @if ($event->organizer_id === Auth::id())
-                                <form action="{{ route('event.join.approval') }}" method="POST">
+                                <form action="{{ route('event.change.status') }}" method="POST">
                                     @csrf
                                     @method('PATCH')
                                     <input type="hidden" name="event_id" value="{{ $event->id }}">
@@ -156,6 +156,12 @@
                         <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
                             class="text-sm text-gray-600">
                             {{ __('This request is invalid.') }}
+                        </p>
+                    @endif
+                    @if (session('status') === 'approval-join')
+                        <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                            class="text-sm text-gray-600">
+                            {{ __('Changed participation status.') }}
                         </p>
                     @endif
                 </div>
