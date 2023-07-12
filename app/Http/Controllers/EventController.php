@@ -256,7 +256,7 @@ class EventController extends Controller
                 $participant->status = $status;
                 $participant->save();
 
-                $this->operationLogController->store('USER-ID: ' . $user_id . 'の EVENT-ID:' . $event_id . 'へのイベントへのステータスを' . $status . 'に変更しました');
+                $this->operationLogController->store('USER-ID: ' . $user_id . 'のイベント(EVENT-ID: ' . $event_id . ')への参加ステータスを' . $status . 'に変更しました');
             }
         }
 
