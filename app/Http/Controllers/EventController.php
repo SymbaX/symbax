@@ -241,7 +241,7 @@ class EventController extends Controller
     public function joinApproval(Request $request)
     {
         $event_id = $request->input('event_id');
-        $user_Id = $request->input('user_id');
+        $user_id = $request->input('user_id');
         $status = $request->input('status');
 
         $event = Event::find($event_id);
@@ -249,12 +249,14 @@ class EventController extends Controller
         // イベント作成者の場合の処理
         if ($event->organizer_id === Auth::id()) {
             $participant = EventParticipant::where('event_id', $event_id)
-                ->where('user_id', $user_Id)
+                ->where('user_id', $user_id)
                 ->first();
 
             if ($participant) {
                 $participant->status = $status;
                 $participant->save();
+
+                $this->operationLogController->store('USER-ID: ' . $user_id . 'の EVENT-ID:' . $event_id . 'へのイベントへのステータスを' . $status . 'に変更しました');
             }
         }
 
