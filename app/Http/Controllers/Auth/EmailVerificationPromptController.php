@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\OperationLogController;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -15,6 +16,22 @@ use Illuminate\View\View;
  */
 class EmailVerificationPromptController extends Controller
 {
+    /**
+     * @var OperationLogController
+     */
+    private $operationLogController;
+
+    /**
+     * OperationLogControllerの新しいインスタンスを作成します。
+     *
+     * @param  OperationLogController  $operationLogController
+     * @return void
+     */
+    public function __construct(OperationLogController $operationLogController)
+    {
+        $this->operationLogController = $operationLogController;
+    }
+
     /**
      * メール検証プロンプトを表示する
      *

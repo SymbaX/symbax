@@ -17,8 +17,17 @@ use Illuminate\Support\Facades\Auth;
  */
 class PasswordController extends Controller
 {
+    /**
+     * @var OperationLogController
+     */
     private $operationLogController;
 
+    /**
+     * OperationLogControllerの新しいインスタンスを作成します。
+     *
+     * @param  OperationLogController  $operationLogController
+     * @return void
+     */
     public function __construct(OperationLogController $operationLogController)
     {
         $this->operationLogController = $operationLogController;
@@ -41,7 +50,7 @@ class PasswordController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
 
-        $this->operationLogController->store('Email: ' . $request->email . ' のパスワードを更新しました', "不明");
+        $this->operationLogController->store('パスワードを更新しました');
 
         return back()->with('status', 'password-updated');
     }

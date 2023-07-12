@@ -22,7 +22,8 @@
                             @foreach ($operation_logs as $operation_log)
                                 <tr>
                                     <td class="px-6 py-4 border-b">{{ $operation_log->id }}</td>
-                                    <td class="px-6 py-4 border-b">{{ $operation_log->user_id }}</td>
+                                    <td class="px-6 py-4 border-b">{{ $operation_log->user_name }}
+                                        (ID:{{ $operation_log->user_id }})</td>
                                     <td class="px-6 py-4 border-b">{{ $operation_log->action }}</td>
                                     <td class="px-6 py-4 border-b">{{ $operation_log->created_at }}</td>
                                 </tr>
