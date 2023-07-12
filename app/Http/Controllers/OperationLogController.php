@@ -10,20 +10,26 @@ use PhpParser\Node\Expr\Cast\String_;
 
 class OperationLogController extends Controller
 {
-    //
+    /**
+     * 操作履歴の一覧を表示します。
+     *
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
-        // 操作履歴の一覧を取得する処理
         $logs = OperationLog::all();
-
-        // ビューを表示するなど、適切な処理を追加してください
-
         return view('operation_logs.index', ['logs' => $logs]);
     }
 
+    /**
+     * 操作履歴を作成します。
+     *
+     * @param  string  $message
+     * @param  string|null  $user_id
+     * @return void
+     */
     public function store(string $message, ?String $user_id = "不明")
     {
-        // 操作履歴の作成処理
         $log = new OperationLog;
 
         if (auth()->check()) {

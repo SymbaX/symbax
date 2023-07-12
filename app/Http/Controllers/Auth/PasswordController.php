@@ -17,8 +17,17 @@ use Illuminate\Support\Facades\Auth;
  */
 class PasswordController extends Controller
 {
+    /**
+     * @var OperationLogController
+     */
     private $operationLogController;
 
+    /**
+     * OperationLogControllerの新しいインスタンスを作成します。
+     *
+     * @param  OperationLogController  $operationLogController
+     * @return void
+     */
     public function __construct(OperationLogController $operationLogController)
     {
         $this->operationLogController = $operationLogController;
