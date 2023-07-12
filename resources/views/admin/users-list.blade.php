@@ -62,5 +62,5 @@
         </div>
     </div>
 
-    @include('admin.user-edit-modal')
+    @include('admin.partials.user-edit-modal')
 </x-app-layout>
