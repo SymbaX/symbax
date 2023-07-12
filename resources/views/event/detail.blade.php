@@ -43,31 +43,49 @@
                 </div>
 
                 @if (!$is_organizer)
-                    {{ __('Current your status') }}：{{ $your_status }}
+                    {{ __('Current your status') }}: @lang('status.' . $your_status)
                 @endif
+
+                <br /><br />
+                {{ __('Participant') }}
+                <ul>
+                    @foreach ($participants as $participant)
+                        @if ($participant->status == 'approved')
+                            <li>
+                                {{ $participant->name }} ({{ __('ID') }}: {{ $participant->user_id }})
+                            </li>
+                        @endif
+                    @endforeach
+                </ul>
 
                 <br /><br />
 
                 @if ($is_organizer)
                     <!-- 作成者のみ表示 -->
-                    参加予定リスト
-                    @foreach ($participants as $participant)
-                        <li>
-                            {{ $participant->name }} ({{ __('ID') }}: {{ $participant->user_id }},
-                            {{ __('Status') }}:
-                            {{ $participant->status }})
-                            @if ($event->organizer_id === Auth::id())
-                                <form action="{{ route('event.change.status') }}" method="POST">
-                                    @csrf
-                                    @method('PATCH')
-                                    <input type="hidden" name="event_id" value="{{ $event->id }}">
-                                    <input type="hidden" name="user_id" value="{{ $participant->user_id }}">
-                                    <button type="submit" name="status" value="approved">Approve</button>
-                                    <button type="submit" name="status" value="rejected">Reject</button>
-                                </form>
-                            @endif
-                        </li>
-                    @endforeach
+                    {{ __('All users') }}
+                    <ul>
+                        @foreach ($participants as $participant)
+                            <li>
+
+                                @if ($event->organizer_id === Auth::id())
+                                    <form action="{{ route('event.change.status') }}" method="POST">
+                                        @csrf
+                                        @method('PATCH')
+                                        <input type="hidden" name="event_id" value="{{ $event->id }}">
+                                        <input type="hidden" name="user_id" value="{{ $participant->user_id }}">
+                                        {{ $participant->name }} ({{ __('ID') }}:
+                                        {{ $participant->user_id }},@lang('status.' . $participant->status))
+                                        <button type="submit" name="status" value="approved">Approve</button> <button
+                                            type="submit" name="status" value="rejected">Reject</button>
+                                    </form>
+                                @endif
+                            </li>
+                        @endforeach
+                    </ul>
+
+                    <a
+                        href="{{ route('event.approved.users.and.organizer.only', ['id' => $event->id]) }}">{{ __('Participant only page') }}</a>
+                    <br /><br />
 
 
 
@@ -99,15 +117,20 @@
                         </form>
                     @else
                         <!-- 参加済みの場合 -->
-                        <a href="{{ route('event.approved.users.and.organizer.only', ['id' => $event->id]) }}">Go to
-                            page</a>
+                        @if ($your_status == 'approved')
+                            <a
+                                href="{{ route('event.approved.users.and.organizer.only', ['id' => $event->id]) }}">{{ __('Participant only page') }}</a>
+                        @endif
+                        <br /><br />
 
-                        <form action="{{ route('event.cancel-join') }}" method="POST">
-                            @csrf
-                            @method('patch')
-                            <input type="hidden" name="event_id" value="{{ $event->id }}">
-                            <x-primary-button>{{ __('Cancel Join') }}</x-primary-button>
-                        </form>
+                        @if ($your_status != 'rejected')
+                            <form action="{{ route('event.cancel-join') }}" method="POST">
+                                @csrf
+                                @method('patch')
+                                <input type="hidden" name="event_id" value="{{ $event->id }}">
+                                <x-primary-button>{{ __('Cancel Join') }}</x-primary-button>
+                            </form>
+                        @endif
                     @endif
                 @endif
 
@@ -172,6 +195,12 @@
                         <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
                             class="text-sm text-gray-600">
                             {{ __('It could not be changed.') }}
+                        </p>
+                    @endif
+                    @if (session('status') === 'cancel-not-allowed')
+                        <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                            class="text-sm text-gray-600">
+                            {{ __('Rejected events cannot be canceled.') }}
                         </p>
                     @endif
                 </div>

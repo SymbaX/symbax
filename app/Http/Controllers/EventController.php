@@ -220,6 +220,11 @@ class EventController extends Controller
             return redirect()->route('event.detail', ['id' => $event_id])->with('status', 'not-joined');
         }
 
+        // 参加者のステータスがrejectedの場合はキャンセル不可
+        if ($participant->status === 'rejected') {
+            return redirect()->route('event.detail', ['id' => $event_id])->with('status', 'cancel-not-allowed');
+        }
+
         // 参加をキャンセル
         $participant->delete();
 
