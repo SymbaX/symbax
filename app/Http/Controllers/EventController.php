@@ -141,12 +141,16 @@ class EventController extends Controller
         // 現在のユーザーがイベントに参加しているかをチェック
         $is_join = $event->organizer_id !== Auth::id() && !$participants->pluck('user_id')->contains(Auth::id());
 
+
+        $your_status = $participants->where('user_id', Auth::id())->first()->status ?? 'not-join';
+
         return view('event.detail', [
             'event' => $event,
             'detail_markdown' => $detail_markdown,
             'participants' => $participants,
             'is_organizer' => $is_organizer,
             'is_join' => $is_join,
+            'your_status' => $your_status,
             'organizer_name'  => $organizer_name
         ]);
     }

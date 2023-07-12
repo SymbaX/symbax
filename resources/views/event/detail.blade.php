@@ -41,7 +41,7 @@
                             </div>
                         </div>
                 </div>
-
+                {{ __('Your status') }}：{{ $your_status }}
                 @foreach ($participants as $participant)
                     <li>{{ $participant->name }} (ID: {{ $participant->user_id }}, Status:
                         {{ $participant->status }})
@@ -85,9 +85,6 @@
                             <input type="hidden" name="event_id" value="{{ $event->id }}">
                             <x-primary-button>{{ __('Cancel Join') }}</x-primary-button>
                         </form>
-
-                        <p class="text">{{ __('Current Status') }}:
-                            {{ $participants->where('user_id', Auth::id())->first()->status }}</p>
                     @endif
                 @endif
 
