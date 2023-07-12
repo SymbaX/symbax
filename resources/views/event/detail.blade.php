@@ -117,12 +117,14 @@
 
                         <br /><br />
 
-                        <form action="{{ route('event.cancel-join') }}" method="POST">
-                            @csrf
-                            @method('patch')
-                            <input type="hidden" name="event_id" value="{{ $event->id }}">
-                            <x-primary-button>{{ __('Cancel Join') }}</x-primary-button>
-                        </form>
+                        @if ($your_status != 'rejected')
+                            <form action="{{ route('event.cancel-join') }}" method="POST">
+                                @csrf
+                                @method('patch')
+                                <input type="hidden" name="event_id" value="{{ $event->id }}">
+                                <x-primary-button>{{ __('Cancel Join') }}</x-primary-button>
+                            </form>
+                        @endif
                     @endif
                 @endif
 
