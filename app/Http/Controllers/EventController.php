@@ -257,12 +257,14 @@ class EventController extends Controller
                 $participant->save();
 
                 $this->operationLogController->store('USER-ID: ' . $user_id . 'のイベント(EVENT-ID: ' . $event_id . ')への参加ステータスを' . $status . 'に変更しました');
+            } else {
+                return redirect()->route('event.detail', ['id' => $event_id])->with('status', 'not-change-status');
             }
         }
 
         // その他の処理...
 
-        return redirect()->route('event.detail', ['id' => $event_id])->with('status', 'approval-join');
+        return redirect()->route('event.detail', ['id' => $event_id])->with('status', 'changed-status');
     }
 
 

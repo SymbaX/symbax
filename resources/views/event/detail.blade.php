@@ -158,10 +158,16 @@
                             {{ __('This request is invalid.') }}
                         </p>
                     @endif
-                    @if (session('status') === 'approval-join')
+                    @if (session('status') === 'changed-status')
                         <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
                             class="text-sm text-gray-600">
                             {{ __('Changed participation status.') }}
+                        </p>
+                    @endif
+                    @if (session('status') === 'not-change-status')
+                        <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                            class="text-sm text-gray-600">
+                            {{ __('It could not be changed.') }}
                         </p>
                     @endif
                 </div>

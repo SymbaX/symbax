@@ -179,5 +179,6 @@
     "Organizer": "主催者",
     "Operation logs": "操作ログ",
     "Action": "操作",
-    "Changed participation status.": "参加ステータスを変更しました。"
+    "Changed participation status.": "参加ステータスを変更しました。",
+    "It could not be changed.": "変更できませんでした。"
 }
