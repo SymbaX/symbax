@@ -28,4 +28,12 @@ class MailSend extends Mailable
         return $this->markdown('emails.join-request')
             ->subject('イベント参加リクエスト');
     }
+
+    public function eventChangeStatus($event)
+    {
+        $this->event = $event;
+
+        return $this->markdown('emails.change-status')
+            ->subject('イベント作成者がステータスを変更しました');
+    }
 }
