@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * イベントモデルクラス
@@ -30,4 +31,14 @@ class Event extends Model
         'image_path',
         'organizer_id',
     ];
+
+    /**
+     * イベントの作成者を取得します。
+     *
+     * @return BelongsTo
+     */
+    public function organizer(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'organizer_id');
+    }
 }

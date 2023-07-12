@@ -12,7 +12,8 @@ use Illuminate\Mail\Markdown;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\OperationLogController;
-
+use App\Mail\MailSend;
+use Illuminate\Support\Facades\Mail;
 
 /**
  * イベントコントローラークラス
@@ -196,6 +197,13 @@ class EventController extends Controller
 
         $this->operationLogController->store('ID:' . $event_id . 'のイベントに参加リクエストを送信しました');
 
+        // メール送信処理
+        $mail = new MailSend($event);
+        $mail->eventJoinRequest($event);
+        Mail::to($event->organizer->email)->send($mail); // イベントの作成者にメールを送信
+
+
+
         return redirect()->route('event.detail', ['id' => $event_id])->with('status', 'join-request-event');
     }
 
@@ -249,6 +257,8 @@ class EventController extends Controller
         $user_id = $request->input('user_id');
         $status = $request->input('status');
 
+        $user = User::find($user_id);
+
         $event = Event::find($event_id);
 
         if (!$event) {
@@ -266,12 +276,17 @@ class EventController extends Controller
                 $participant->save();
 
                 $this->operationLogController->store('USER-ID: ' . $user_id . 'のイベント(EVENT-ID: ' . $event_id . ')への参加ステータスを' . $status . 'に変更しました');
+
+                // メール送信処理
+                $mail = new MailSend($event);
+                $mail->eventChangeStatus($event);
+                Mail::to($user->email)->send($mail); // 変更された参加者にメールを送信
             } else {
                 return redirect()->route('event.detail', ['id' => $event_id])->with('status', 'not-change-status');
             }
         }
 
-        // その他の処理...
+
 
         return redirect()->route('event.detail', ['id' => $event_id])->with('status', 'changed-status');
     }
