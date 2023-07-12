@@ -185,6 +185,7 @@ class EventController extends Controller
         EventParticipant::create([
             'user_id' => $user_id,
             'event_id' => $event_id,
+            'status' => 'pending',
         ]);
 
         $this->operationLogController->store('ID:' . $event_id . 'のイベントに参加しました');
