@@ -46,6 +46,8 @@
                     {{ __('Current your status') }}：{{ $your_status }}
                 @endif
 
+                <br /><br />
+
                 @if ($is_organizer)
                     <!-- 作成者のみ表示 -->
                     参加予定リスト
@@ -97,6 +99,8 @@
                         </form>
                     @else
                         <!-- 参加済みの場合 -->
+                        <a href="{{ route('event.approved.users.and.organizer.only', ['id' => $event->id]) }}">Go to
+                            page</a>
 
                         <form action="{{ route('event.cancel-join') }}" method="POST">
                             @csrf

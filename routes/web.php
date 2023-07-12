@@ -47,6 +47,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/event/{id}',  [EventController::class, 'delete'])->name('event.delete');
 
     Route::patch('/event/change-status', [EventController::class, 'changeStatus'])->name('event.change.status');
+    Route::get('/event/{id}/approved-users-and-organizer-only', [EventController::class, 'approvedUsersAndOrganizerOnly'])
+        ->name('event.approved.users.and.organizer.only');
+
 
 
     Route::get('/all', [EventController::class, 'listAll'])->name('list.all');

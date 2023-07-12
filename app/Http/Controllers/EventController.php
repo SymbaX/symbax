@@ -368,4 +368,23 @@ class EventController extends Controller
 
         return redirect()->route('event.detail', ['id' => $event->id])->with('status', 'event-updated');
     }
+
+    public function approvedUsersAndOrganizerOnly(Request $request, $id)
+    {
+        $event = Event::findOrFail($id);
+
+        // ログインユーザーの参加ステータスをチェックし、approvedでない場合アクセスを制限する
+        $participant = EventParticipant::where('event_id', $id)
+            ->where('user_id', auth()->user()->id)
+            ->first();
+
+        if (!$participant || $participant->status !== 'approved' and $event->organizer_id !== Auth::id()) {
+            abort(403);
+        }
+
+        // ここから、approvedのユーザーまたはイベントの作成者のみがアクセスできるページのコードを記述する
+        // ...
+
+        return view('event.approved-users-and-organizer-only', ['event' => $id]);
+    }
 }
