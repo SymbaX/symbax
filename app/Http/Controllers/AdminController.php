@@ -20,8 +20,17 @@ use App\Models\OperationLog;
  */
 class AdminController extends Controller
 {
+    /**
+     * @var OperationLogController
+     */
     private $operationLogController;
 
+    /**
+     * OperationLogControllerの新しいインスタンスを作成します。
+     *
+     * @param  OperationLogController  $operationLogController
+     * @return void
+     */
     public function __construct(OperationLogController $operationLogController)
     {
         $this->operationLogController = $operationLogController;
@@ -94,6 +103,12 @@ class AdminController extends Controller
     public function listOperationLogs()
     {
         $operation_logs = OperationLog::latest('created_at')->paginate(100);
+        $users = User::pluck('name', 'id');
+
+        // $operation_logsの各操作ログのユーザーIDを利用して、名前に変換
+        foreach ($operation_logs as $operation_log) {
+            $operation_log->user_name = $users[$operation_log->user_id] ?? 'Unknown';
+        }
 
         $this->operationLogController->store('操作ログを表示しました');
 

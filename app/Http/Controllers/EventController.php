@@ -21,8 +21,17 @@ use App\Http\Controllers\OperationLogController;
  */
 class EventController extends Controller
 {
+    /**
+     * @var OperationLogController
+     */
     private $operationLogController;
 
+    /**
+     * OperationLogControllerの新しいインスタンスを作成します。
+     *
+     * @param  OperationLogController  $operationLogController
+     * @return void
+     */
     public function __construct(OperationLogController $operationLogController)
     {
         $this->operationLogController = $operationLogController;

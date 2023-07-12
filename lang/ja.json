@@ -144,7 +144,7 @@
     "External link": "外部リンク",
     "Date": "開催日",
     "Deadline date": "締切日",
-    "Place": "場所",
+    "Location": "開催場所",
     "Number of recruits": "人数",
     "Image": "写真",
     "Create a new event.": "新しいイベントを作成します。",
@@ -176,13 +176,7 @@
     "ID": "ID",
     "Email Verified At": "メール認証日時",
     "Created At": "作成日時",
-    "Colon": " : ",
     "Organizer": "主催者",
-    "Location": "開催場所",
-    "Condition": "参加条件",
-    "External_link": "外部リンクはこちら",
-    "Capacity": "定員",
-    "Deadline": "締め切り",
     "Operation logs": "操作ログ",
     "Action": "操作"
 }
