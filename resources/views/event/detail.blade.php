@@ -41,20 +41,36 @@
                             </div>
                         </div>
                 </div>
-                {{ __('Your status') }}：{{ $your_status }}
-                @foreach ($participants as $participant)
-                    <li>{{ $participant->name }} (ID: {{ $participant->user_id }}, Status:
-                        {{ $participant->status }})
-                    </li>
-                @endforeach
 
-                @if ($is_organizer)
-                    <!-- 作成者のみ表示 -->
+                @if (!$is_organizer)
+                    {{ __('Your status') }}：{{ $your_status }}
                     @foreach ($participants as $participant)
                         <li>{{ $participant->name }} (ID: {{ $participant->user_id }}, Status:
                             {{ $participant->status }})
                         </li>
                     @endforeach
+                @endif
+
+                @if ($is_organizer)
+                    <!-- 作成者のみ表示 -->
+                    参加予定リスト
+                    @foreach ($participants as $participant)
+                        <li>
+                            {{ $participant->name }} (ID: {{ $participant->user_id }}, 現在のステータス:
+                            {{ $participant->status }})
+                            @if ($event->organizer_id === Auth::id())
+                                <form action="{{ route('event.join.approval') }}" method="POST">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="hidden" name="event_id" value="{{ $event->id }}">
+                                    <input type="hidden" name="user_id" value="{{ $participant->user_id }}">
+                                    <button type="submit" name="status" value="approved">Approve</button>
+                                    <button type="submit" name="status" value="rejected">Reject</button>
+                                </form>
+                            @endif
+                        </li>
+                    @endforeach
+
 
 
                     <a href="{{ route('event.edit', ['id' => $event->id]) }}" class="text-blue-500 underline">

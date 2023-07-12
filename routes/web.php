@@ -46,6 +46,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/event/cancel-join', [EventController::class, 'cancelJoin'])->name('event.cancel-join');
     Route::delete('/event/{id}',  [EventController::class, 'delete'])->name('event.delete');
 
+    Route::patch('/event/join-approval', [EventController::class, 'joinApproval'])->name('event.join.approval');
+
+
     Route::get('/all', [EventController::class, 'listAll'])->name('list.all');
     Route::get('/upcoming', [EventController::class, 'listUpcoming'])->name('list.upcoming');
 

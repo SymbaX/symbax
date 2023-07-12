@@ -229,6 +229,41 @@ class EventController extends Controller
         return redirect()->route('event.detail', ['id' => $event_id])->with('status', 'canceled-join');
     }
 
+
+    /**
+     * イベントへの参加の承認
+     *
+     * リクエストから受け取ったデータを検証し、指定されたイベントへの参加を承認します。
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function joinApproval(Request $request)
+    {
+        $event_id = $request->input('event_id');
+        $user_Id = $request->input('user_id');
+        $status = $request->input('status');
+
+        $event = Event::find($event_id);
+
+        // イベント作成者の場合の処理
+        if ($event->organizer_id === Auth::id()) {
+            $participant = EventParticipant::where('event_id', $event_id)
+                ->where('user_id', $user_Id)
+                ->first();
+
+            if ($participant) {
+                $participant->status = $status;
+                $participant->save();
+            }
+        }
+
+        // その他の処理...
+
+        return redirect()->route('event.detail', ['id' => $event_id])->with('status', 'approval-join');
+    }
+
+
     /**
      * イベントの削除
      *
