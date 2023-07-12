@@ -43,8 +43,19 @@
                 </div>
 
                 @if (!$is_organizer)
-                    {{ __('Current your status') }}：{{ $your_status }}
+                    {{ __('Current your status') }}: @lang('status.' . $your_status)
                 @endif
+
+                <br /><br />
+                {{ __('Participant') }}
+                @foreach ($participants as $participant)
+                    @if ($participant->status == 'approved')
+                        <li>
+                            {{ $participant->name }} ({{ __('ID') }}: {{ $participant->user_id }})
+                        </li>
+                    @endif
+                @endforeach
+
 
                 <br /><br />
 
@@ -54,7 +65,6 @@
                     @foreach ($participants as $participant)
                         <li>
                             {{ $participant->name }} ({{ __('ID') }}: {{ $participant->user_id }},
-                            {{ __('Status') }}:
                             {{ $participant->status }})
                             @if ($event->organizer_id === Auth::id())
                                 <form action="{{ route('event.change.status') }}" method="POST">
@@ -99,8 +109,10 @@
                         </form>
                     @else
                         <!-- 参加済みの場合 -->
-                        <a href="{{ route('event.approved.users.and.organizer.only', ['id' => $event->id]) }}">Go to
-                            page</a>
+                        <a
+                            href="{{ route('event.approved.users.and.organizer.only', ['id' => $event->id]) }}">{{ __('Participant only page') }}</a>
+
+                        <br /><br />
 
                         <form action="{{ route('event.cancel-join') }}" method="POST">
                             @csrf
