@@ -72,8 +72,3 @@ function openEditModal(userId, collegeId, departmentId, roleId) {
         }
     }
 }
-
-function closeEditModal() {
-    const modal = document.getElementById("editUserModal");
-    modal.classList.add("hidden");
-}
