@@ -246,6 +246,10 @@ class EventController extends Controller
 
         $event = Event::find($event_id);
 
+        if (!$event) {
+            return redirect()->route('list.upcoming')->with('status', 'not-found');
+        }
+
         // イベント作成者の場合の処理
         if ($event->organizer_id === Auth::id()) {
             $participant = EventParticipant::where('event_id', $event_id)
