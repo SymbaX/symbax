@@ -128,7 +128,7 @@ class EventController extends Controller
         $detail_markdown = Markdown::parse(e($event->detail));
 
         $participants = EventParticipant::where('event_id', $id);
-        $participant_names = User::whereIn('id', $participants->pluck('user_id'))->pluck('name');
+        $participant_names = User::whereIn('id', $participants->pluck('user_id'))->pluck('name', 'id');
 
         $organizer_name = User::where('id', $event->organizer_id)->value('name');
 

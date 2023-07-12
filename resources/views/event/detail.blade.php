@@ -41,8 +41,8 @@
                         </div>
                 </div>
 
-                @foreach ($participant_names as $participantName)
-                    <li>{{ $participantName }}</li>
+                @foreach ($participant_names as $userId => $participantName)
+                    <li>{{ $participantName }} (ID: {{ $userId }})</li>
                 @endforeach
 
                 @if ($is_organizer)
