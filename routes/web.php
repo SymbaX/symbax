@@ -42,7 +42,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/event/edit/{id}', [EventController::class, 'edit'])->name('event.edit');
     Route::patch('/event/update/{id}', [EventController::class, 'update'])->name('event.update');
 
-    Route::patch('/event/join', [EventController::class, 'join'])->name('event.join');
+    Route::patch('/event/join-request', [EventController::class, 'joinRequest'])->name('event.join.request');
     Route::patch('/event/cancel-join', [EventController::class, 'cancelJoin'])->name('event.cancel-join');
     Route::delete('/event/{id}',  [EventController::class, 'delete'])->name('event.delete');
 

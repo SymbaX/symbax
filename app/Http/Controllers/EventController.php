@@ -158,14 +158,14 @@ class EventController extends Controller
 
 
     /**
-     * イベントへの参加
+     * イベントへの参加リクエスト
      *
-     * リクエストから受け取ったデータを検証し、指定されたイベントに参加します。
+     * リクエストから受け取ったデータを検証し、指定されたイベントに参加リクエストを送信します。
      *
      * @param  Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function join(Request $request)
+    public function joinRequest(Request $request)
     {
         $user_id = Auth::id();
         $event_id = $request->input('event_id');
@@ -194,9 +194,9 @@ class EventController extends Controller
             'status' => 'pending',
         ]);
 
-        $this->operationLogController->store('ID:' . $event_id . 'のイベントに参加しました');
+        $this->operationLogController->store('ID:' . $event_id . 'のイベントに参加リクエストを送信しました');
 
-        return redirect()->route('event.detail', ['id' => $event_id])->with('status', 'joined-event');
+        return redirect()->route('event.detail', ['id' => $event_id])->with('status', 'join-request-event');
     }
 
     /**

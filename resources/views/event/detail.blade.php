@@ -50,6 +50,13 @@
 
                 @if ($is_organizer)
                     <!-- 作成者のみ表示 -->
+                    @foreach ($participants as $participant)
+                        <li>{{ $participant->name }} (ID: {{ $participant->user_id }}, Status:
+                            {{ $participant->status }})
+                        </li>
+                    @endforeach
+
+
                     <a href="{{ route('event.edit', ['id' => $event->id]) }}" class="text-blue-500 underline">
                         <x-primary-button>{{ __('Edit event') }}</x-primary-button>
                     </a>
@@ -66,14 +73,14 @@
                 @else
                     @if ($is_join)
                         <!-- 未参加の場合 -->
-                        <form method="post" action="{{ route('event.join') }}" class="mt-6 space-y-6"
+                        <form method="post" action="{{ route('event.join.request') }}" class="mt-6 space-y-6"
                             enctype="multipart/form-data">
                             @csrf
                             @method('patch')
                             <input type="hidden" name="event_id" value="{{ $event->id }}">
 
                             <div class="flex items-center gap-4">
-                                <x-primary-button>{{ __('Join') }}</x-primary-button>
+                                <x-primary-button>{{ __('Join request') }}</x-primary-button>
                             </div>
                         </form>
                     @else
@@ -89,9 +96,9 @@
                 @endif
 
                 <div class="flex items-center gap-4">
-                    @if (session('status') === 'joined-event')
+                    @if (session('status') === 'join-request-event')
                         <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
-                            class="text-sm text-gray-600">{{ __('Joined event.') }}</p>
+                            class="text-sm text-gray-600">{{ __('Your request to join the event has been sent.') }}</p>
                     @endif
                     @if (session('status') === 'your-event-owner')
                         <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
