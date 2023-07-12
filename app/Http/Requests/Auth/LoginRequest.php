@@ -9,15 +9,10 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
-/**
- * ログインリクエストフォームリクエストクラス
- *
- * このクラスは、ログインリクエストに関するフォームリクエスト処理を行います。
- */
 class LoginRequest extends FormRequest
 {
     /**
-     * リクエストを実行するかどうかを判断します。
+     * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
@@ -25,7 +20,7 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * リクエストに適用されるバリデーションルールを取得します。
+     * Get the validation rules that apply to the request.
      *
      * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
      */
@@ -38,7 +33,7 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * リクエストの資格情報を認証しようとします。
+     * Attempt to authenticate the request's credentials.
      *
      * @throws \Illuminate\Validation\ValidationException
      */
@@ -46,7 +41,7 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (!Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
@@ -58,13 +53,13 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * ログインリクエストがレート制限されていないことを確認します。
+     * Ensure the login request is not rate limited.
      *
      * @throws \Illuminate\Validation\ValidationException
      */
     public function ensureIsNotRateLimited(): void
     {
-        if (!RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
+        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
             return;
         }
 
@@ -81,10 +76,10 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * リクエストのレート制限スロットルキーを取得します。
+     * Get the rate limiting throttle key for the request.
      */
     public function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->input('email')) . '|' . $this->ip());
+        return Str::transliterate(Str::lower($this->input('email')).'|'.$this->ip());
     }
 }

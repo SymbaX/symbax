@@ -7,36 +7,11 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\View\View;
-use App\Http\Controllers\OperationLogController;
-use App\Models\User;
 
-/**
- * パスワードリセットリンクコントローラー
- *
- * パスワードリセットリンクに関連するコントローラー
- */
 class PasswordResetLinkController extends Controller
 {
     /**
-     * @var OperationLogController
-     */
-    private $operationLogController;
-
-    /**
-     * OperationLogControllerの新しいインスタンスを作成します。
-     *
-     * @param  OperationLogController  $operationLogController
-     * @return void
-     */
-    public function __construct(OperationLogController $operationLogController)
-    {
-        $this->operationLogController = $operationLogController;
-    }
-
-    /**
-     * パスワードリセットリンクリクエストビューを表示する
-     *
-     * @return View パスワードリセットリンクリクエストビューの表示
+     * Display the password reset link request view.
      */
     public function create(): View
     {
@@ -44,12 +19,9 @@ class PasswordResetLinkController extends Controller
     }
 
     /**
-     * パスワードリセットリンクリクエストの処理を行う
+     * Handle an incoming password reset link request.
      *
-     * @param Request $request リクエスト
-     * @return RedirectResponse リダイレクトレスポンス
-     *
-     * @throws \Illuminate\Validation\ValidationException バリデーション例外
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request): RedirectResponse
     {
@@ -57,24 +29,16 @@ class PasswordResetLinkController extends Controller
             'email' => ['required', 'email'],
         ]);
 
-        // パスワードリセットリンクをこのユーザーに送信します。
-        // リンクの送信を試みた後、レスポンスを検証し、ユーザーに表示するメッセージを確認します。
-        // 最後に、適切なレスポンスを送信します。
+        // We will send the password reset link to this user. Once we have attempted
+        // to send the link, we will examine the response then see the message we
+        // need to show to the user. Finally, we'll send out a proper response.
         $status = Password::sendResetLink(
             $request->only('email')
         );
 
-        $user = User::where('email', $request->email)->first();
-
-        // ユーザーが存在する場合のみ、ログにユーザーIDを記録
-        if ($user) {
-            $this->operationLogController->store('Email: ' . $request->email . ' (ID: ' . $user->id . ')にパスワードリセットリンクを送信しました', '不明');
-        } else {
-            $this->operationLogController->store('Email: ' . $request->email . ' (不明)にパスワードリセットリンクの送信を試みました', '不明');
-        }
         return $status == Password::RESET_LINK_SENT
-            ? back()->with('status', __($status))
-            : back()->withInput($request->only('email'))
-            ->withErrors(['email' => __($status)]);
+                    ? back()->with('status', __($status))
+                    : back()->withInput($request->only('email'))
+                            ->withErrors(['email' => __($status)]);
     }
 }

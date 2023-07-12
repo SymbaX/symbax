@@ -8,57 +8,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
-use App\Http\Controllers\OperationLogController;
 
-/**
- * プロフィールコントローラークラス
- * 
- * このクラスはプロフィールに関する処理を行うコントローラーです。
- */
 class ProfileController extends Controller
 {
     /**
-     * @var OperationLogController
-     */
-    private $operationLogController;
-
-    /**
-     * OperationLogControllerの新しいインスタンスを作成します。
-     *
-     * @param  OperationLogController  $operationLogController
-     * @return void
-     */
-    public function __construct(OperationLogController $operationLogController)
-    {
-        $this->operationLogController = $operationLogController;
-    }
-
-    /**
-     * プロフィール編集フォームの表示
-     *
-     * 現在のユーザーのプロフィール情報を含むフォームを表示します。
-     *
-     * @param  Request  $request
-     * @return \Illuminate\View\View
+     * Display the user's profile form.
      */
     public function edit(Request $request): View
     {
-        $user = $request->user()->load('college', 'department');
-
         return view('profile.edit', [
-            'user' => $user,
-            'college' => $user->college,
-            'department' => $user->department,
+            'user' => $request->user(),
         ]);
     }
 
     /**
-     * プロフィールの更新
-     *
-     * プロフィール情報を更新します。更新がある場合、メールアドレスの確認はリセットされます。
-     *
-     * @param  ProfileUpdateRequest  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * Update the user's profile information.
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
@@ -70,19 +34,11 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
-        $this->operationLogController->store('プロフィールを更新しました');
-
-
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
     /**
-     * アカウントの削除
-     *
-     * アカウントを削除します。削除する前にパスワードの確認が必要です。
-     *
-     * @param  Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * Delete the user's account.
      */
     public function destroy(Request $request): RedirectResponse
     {
@@ -92,15 +48,12 @@ class ProfileController extends Controller
 
         $user = $request->user();
 
-        $this->operationLogController->store('アカウントを削除しました', auth()->id());
-
         Auth::logout();
 
         $user->delete();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-
 
         return Redirect::to('/');
     }

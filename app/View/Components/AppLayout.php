@@ -5,18 +5,10 @@ namespace App\View\Components;
 use Illuminate\View\Component;
 use Illuminate\View\View;
 
-/**
- * アプリケーションレイアウトコンポーネントクラス
- *
- * このクラスは、アプリケーションのレイアウトコンポーネントを表します。
- * `layouts.app`ビューファイルを表示するためのメソッドを提供します。
- */
 class AppLayout extends Component
 {
     /**
-     * コンポーネントを表示します。
-     *
-     * @return \Illuminate\View\View
+     * Get the view / contents that represents the component.
      */
     public function render(): View
     {

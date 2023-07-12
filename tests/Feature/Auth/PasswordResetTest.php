@@ -8,33 +8,18 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
-/**
- * パスワードリセットテストクラス
- *
- * パスワードのリセットに関するテストを行います。
- */
 class PasswordResetTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * パスワードリセットリンク画面が表示されることをテストします。
-     *
-     * @return void
-     */
-    public function test_パスワードリセットリンク画面が表示されることをテストします(): void
+    public function test_reset_password_link_screen_can_be_rendered(): void
     {
         $response = $this->get('/forgot-password');
 
         $response->assertStatus(200);
     }
 
-    /**
-     * パスワードリセットリンクをリクエストできることをテストします。
-     *
-     * @return void
-     */
-    public function test_パスワードリセットリンクをリクエストできることをテストします(): void
+    public function test_reset_password_link_can_be_requested(): void
     {
         Notification::fake();
 
@@ -45,12 +30,7 @@ class PasswordResetTest extends TestCase
         Notification::assertSentTo($user, ResetPassword::class);
     }
 
-    /**
-     * パスワードリセット画面が表示されることをテストします。
-     *
-     * @return void
-     */
-    public function test_パスワードリセット画面が表示されることをテストします(): void
+    public function test_reset_password_screen_can_be_rendered(): void
     {
         Notification::fake();
 
@@ -59,7 +39,7 @@ class PasswordResetTest extends TestCase
         $this->post('/forgot-password', ['email' => $user->email]);
 
         Notification::assertSentTo($user, ResetPassword::class, function ($notification) {
-            $response = $this->get('/reset-password/' . $notification->token);
+            $response = $this->get('/reset-password/'.$notification->token);
 
             $response->assertStatus(200);
 
@@ -67,12 +47,7 @@ class PasswordResetTest extends TestCase
         });
     }
 
-    /**
-     * 有効なトークンを使用してパスワードがリセットできることをテストします。
-     *
-     * @return void
-     */
-    public function test_有効なトークンを使用してパスワードがリセットできることをテストします(): void
+    public function test_password_can_be_reset_with_valid_token(): void
     {
         Notification::fake();
 

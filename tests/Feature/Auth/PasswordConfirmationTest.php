@@ -6,21 +6,11 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-/**
- * パスワード確認テストクラス
- *
- * パスワードの確認に関するテストを行います。
- */
 class PasswordConfirmationTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * パスワード確認画面が表示されることをテストします。
-     *
-     * @return void
-     */
-    public function test_パスワード確認画面が表示されることをテストします(): void
+    public function test_confirm_password_screen_can_be_rendered(): void
     {
         $user = User::factory()->create();
 
@@ -29,12 +19,7 @@ class PasswordConfirmationTest extends TestCase
         $response->assertStatus(200);
     }
 
-    /**
-     * パスワードが確認されることをテストします。
-     *
-     * @return void
-     */
-    public function test_パスワードが確認されることをテストします(): void
+    public function test_password_can_be_confirmed(): void
     {
         $user = User::factory()->create();
 
@@ -46,12 +31,7 @@ class PasswordConfirmationTest extends TestCase
         $response->assertSessionHasNoErrors();
     }
 
-    /**
-     * 無効なパスワードの場合、パスワードが確認されないことをテストします。
-     *
-     * @return void
-     */
-    public function test_無効なパスワードの場合、パスワードが確認されないことをテストします(): void
+    public function test_password_is_not_confirmed_with_invalid_password(): void
     {
         $user = User::factory()->create();
 
