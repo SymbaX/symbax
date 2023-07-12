@@ -52,6 +52,11 @@ class AdminController extends Controller
         return view('admin.dashboard', compact('users'));
     }
 
+    /**
+     * ユーザー一覧を表示します。
+     *
+     * @return \Illuminate\View\View
+     */
     public function listUsers()
     {
         $users = User::paginate(10);
@@ -72,6 +77,13 @@ class AdminController extends Controller
         ]);
     }
 
+    /**
+     * ユーザー情報を更新します。
+     *
+     * @param  Request  $request
+     * @param  User  $user
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function userUpdate(Request $request, User $user): RedirectResponse
     {
         // バリデーション
@@ -100,6 +112,11 @@ class AdminController extends Controller
         return Redirect::route('admin.users')->with('status', 'user-updated');
     }
 
+    /**
+     * 操作ログ一覧を表示します。
+     *
+     * @return \Illuminate\View\View
+     */
     public function listOperationLogs()
     {
         $operation_logs = OperationLog::latest('created_at')->paginate(100);
