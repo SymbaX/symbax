@@ -83,6 +83,11 @@
                         @endforeach
                     </ul>
 
+                    <a
+                        href="{{ route('event.approved.users.and.organizer.only', ['id' => $event->id]) }}">{{ __('Participant only page') }}</a>
+                    <br /><br />
+
+
 
                     <a href="{{ route('event.edit', ['id' => $event->id]) }}" class="text-blue-500 underline">
                         <x-primary-button>{{ __('Edit event') }}</x-primary-button>
@@ -112,9 +117,10 @@
                         </form>
                     @else
                         <!-- 参加済みの場合 -->
-                        <a
-                            href="{{ route('event.approved.users.and.organizer.only', ['id' => $event->id]) }}">{{ __('Participant only page') }}</a>
-
+                        @if ($your_status == 'approved')
+                            <a
+                                href="{{ route('event.approved.users.and.organizer.only', ['id' => $event->id]) }}">{{ __('Participant only page') }}</a>
+                        @endif
                         <br /><br />
 
                         @if ($your_status != 'rejected')
