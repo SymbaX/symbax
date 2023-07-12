@@ -127,8 +127,11 @@ class EventController extends Controller
         $event = Event::findOrFail($id);
         $detail_markdown = Markdown::parse(e($event->detail));
 
-        $participants = EventParticipant::where('event_id', $id);
-        $participant_names = User::whereIn('id', $participants->pluck('user_id'))->pluck('name', 'id');
+        $participants = EventParticipant::where('event_id', $id)
+            ->join('users', 'users.id', '=', 'event_participants.user_id')
+            ->select('users.id as user_id', 'users.name', 'event_participants.status')
+            ->get();
+
 
         $organizer_name = User::where('id', $event->organizer_id)->value('name');
 
@@ -136,13 +139,12 @@ class EventController extends Controller
         $is_organizer = $event->organizer_id === Auth::id();
 
         // 現在のユーザーがイベントに参加しているかをチェック
-        $is_join = $event->organizer_id !== Auth::id() && !$participants->pluck('user_id')->contains(Auth::user()->id);
+        $is_join = $event->organizer_id !== Auth::id() && !$participants->pluck('user_id')->contains(Auth::id());
 
         return view('event.detail', [
             'event' => $event,
             'detail_markdown' => $detail_markdown,
             'participants' => $participants,
-            'participant_names' => $participant_names,
             'is_organizer' => $is_organizer,
             'is_join' => $is_join,
             'organizer_name'  => $organizer_name

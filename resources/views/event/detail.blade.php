@@ -29,10 +29,11 @@
                                 <p class="text">{{ __('Category') }}：{{ $event->category }}</p>
                                 <p class="text">{{ __('Tag') }}：{{ $event->tag }}</p>
                                 <a href="{{ $event->external_link }}">{{ __('External link') }}</a>
-
+                                {{-- 
                                 <p class="text">{{ __('Number of recruits') }}：{{ $participants->get()->Count() }}
                                     /
-                                    {{ $event->number_of_recruits }}</p>
+                                    {{ $event->number_of_recruits }}</p> --}}
+
                                 <p class="text">
                                     {{ __('Deadline date') }}：{{ Carbon\Carbon::parse($event->deadline_date)->format('Y/m/d') }}
                                 </p>
@@ -41,8 +42,10 @@
                         </div>
                 </div>
 
-                @foreach ($participant_names as $userId => $participantName)
-                    <li>{{ $participantName }} (ID: {{ $userId }})</li>
+                @foreach ($participants as $participant)
+                    <li>{{ $participant->name }} (ID: {{ $participant->user_id }}, Status:
+                        {{ $participant->status }})
+                    </li>
                 @endforeach
 
                 @if ($is_organizer)
