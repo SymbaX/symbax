@@ -5,7 +5,7 @@ function openEditModal(userId, collegeId, departmentId, roleId) {
     let currentUserID = userId;
 
     const form = document.getElementById("editUserForm");
-    form.action = form.action.replace("USER_ID", currentUserID);
+    form.action = form.action.replaceAll("USER_ID", currentUserID);
 
     // 選択されたユーザーのCollege IDを設定する
     for (let i = 0; i < collegeSelect.options.length; i++) {
