@@ -29,10 +29,11 @@
                                 <p class="text">{{ __('Category') }}：{{ $event->category }}</p>
                                 <p class="text">{{ __('Tag') }}：{{ $event->tag }}</p>
                                 <a href="{{ $event->external_link }}">{{ __('External link') }}</a>
-
+                                {{-- 
                                 <p class="text">{{ __('Number of recruits') }}：{{ $participants->get()->Count() }}
                                     /
-                                    {{ $event->number_of_recruits }}</p>
+                                    {{ $event->number_of_recruits }}</p> --}}
+
                                 <p class="text">
                                     {{ __('Deadline date') }}：{{ Carbon\Carbon::parse($event->deadline_date)->format('Y/m/d') }}
                                 </p>
@@ -41,12 +42,35 @@
                         </div>
                 </div>
 
-                @foreach ($participant_names as $participantName)
-                    <li>{{ $participantName }}</li>
-                @endforeach
+                @if (!$is_organizer)
+                    {{ __('Current your status') }}：{{ $your_status }}
+                @endif
+
+                <br /><br />
 
                 @if ($is_organizer)
                     <!-- 作成者のみ表示 -->
+                    参加予定リスト
+                    @foreach ($participants as $participant)
+                        <li>
+                            {{ $participant->name }} ({{ __('ID') }}: {{ $participant->user_id }},
+                            {{ __('Status') }}:
+                            {{ $participant->status }})
+                            @if ($event->organizer_id === Auth::id())
+                                <form action="{{ route('event.change.status') }}" method="POST">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="hidden" name="event_id" value="{{ $event->id }}">
+                                    <input type="hidden" name="user_id" value="{{ $participant->user_id }}">
+                                    <button type="submit" name="status" value="approved">Approve</button>
+                                    <button type="submit" name="status" value="rejected">Reject</button>
+                                </form>
+                            @endif
+                        </li>
+                    @endforeach
+
+
+
                     <a href="{{ route('event.edit', ['id' => $event->id]) }}" class="text-blue-500 underline">
                         <x-primary-button>{{ __('Edit event') }}</x-primary-button>
                     </a>
@@ -63,18 +87,21 @@
                 @else
                     @if ($is_join)
                         <!-- 未参加の場合 -->
-                        <form method="post" action="{{ route('event.join') }}" class="mt-6 space-y-6"
+                        <form method="post" action="{{ route('event.join.request') }}" class="mt-6 space-y-6"
                             enctype="multipart/form-data">
                             @csrf
                             @method('patch')
                             <input type="hidden" name="event_id" value="{{ $event->id }}">
 
                             <div class="flex items-center gap-4">
-                                <x-primary-button>{{ __('Join') }}</x-primary-button>
+                                <x-primary-button>{{ __('Join request') }}</x-primary-button>
                             </div>
                         </form>
                     @else
                         <!-- 参加済みの場合 -->
+                        <a href="{{ route('event.approved.users.and.organizer.only', ['id' => $event->id]) }}">Go to
+                            page</a>
+
                         <form action="{{ route('event.cancel-join') }}" method="POST">
                             @csrf
                             @method('patch')
@@ -85,9 +112,9 @@
                 @endif
 
                 <div class="flex items-center gap-4">
-                    @if (session('status') === 'joined-event')
+                    @if (session('status') === 'join-request-event')
                         <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
-                            class="text-sm text-gray-600">{{ __('Joined event.') }}</p>
+                            class="text-sm text-gray-600">{{ __('Your request to join the event has been sent.') }}</p>
                     @endif
                     @if (session('status') === 'your-event-owner')
                         <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
@@ -133,6 +160,18 @@
                         <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
                             class="text-sm text-gray-600">
                             {{ __('This request is invalid.') }}
+                        </p>
+                    @endif
+                    @if (session('status') === 'changed-status')
+                        <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                            class="text-sm text-gray-600">
+                            {{ __('Changed participation status.') }}
+                        </p>
+                    @endif
+                    @if (session('status') === 'not-change-status')
+                        <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                            class="text-sm text-gray-600">
+                            {{ __('It could not be changed.') }}
                         </p>
                     @endif
                 </div>

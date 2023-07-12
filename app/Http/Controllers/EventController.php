@@ -127,8 +127,11 @@ class EventController extends Controller
         $event = Event::findOrFail($id);
         $detail_markdown = Markdown::parse(e($event->detail));
 
-        $participants = EventParticipant::where('event_id', $id);
-        $participant_names = User::whereIn('id', $participants->pluck('user_id'))->pluck('name');
+        $participants = EventParticipant::where('event_id', $id)
+            ->join('users', 'users.id', '=', 'event_participants.user_id')
+            ->select('users.id as user_id', 'users.name', 'event_participants.status')
+            ->get();
+
 
         $organizer_name = User::where('id', $event->organizer_id)->value('name');
 
@@ -136,15 +139,18 @@ class EventController extends Controller
         $is_organizer = $event->organizer_id === Auth::id();
 
         // 現在のユーザーがイベントに参加しているかをチェック
-        $is_join = $event->organizer_id !== Auth::id() && !$participants->pluck('user_id')->contains(Auth::user()->id);
+        $is_join = $event->organizer_id !== Auth::id() && !$participants->pluck('user_id')->contains(Auth::id());
+
+
+        $your_status = $participants->where('user_id', Auth::id())->first()->status ?? 'not-join';
 
         return view('event.detail', [
             'event' => $event,
             'detail_markdown' => $detail_markdown,
             'participants' => $participants,
-            'participant_names' => $participant_names,
             'is_organizer' => $is_organizer,
             'is_join' => $is_join,
+            'your_status' => $your_status,
             'organizer_name'  => $organizer_name
         ]);
     }
@@ -152,14 +158,14 @@ class EventController extends Controller
 
 
     /**
-     * イベントへの参加
+     * イベントへの参加リクエスト
      *
-     * リクエストから受け取ったデータを検証し、指定されたイベントに参加します。
+     * リクエストから受け取ったデータを検証し、指定されたイベントに参加リクエストを送信します。
      *
      * @param  Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function join(Request $request)
+    public function joinRequest(Request $request)
     {
         $user_id = Auth::id();
         $event_id = $request->input('event_id');
@@ -185,11 +191,12 @@ class EventController extends Controller
         EventParticipant::create([
             'user_id' => $user_id,
             'event_id' => $event_id,
+            'status' => 'pending',
         ]);
 
-        $this->operationLogController->store('ID:' . $event_id . 'のイベントに参加しました');
+        $this->operationLogController->store('ID:' . $event_id . 'のイベントに参加リクエストを送信しました');
 
-        return redirect()->route('event.detail', ['id' => $event_id])->with('status', 'joined-event');
+        return redirect()->route('event.detail', ['id' => $event_id])->with('status', 'join-request-event');
     }
 
     /**
@@ -221,6 +228,49 @@ class EventController extends Controller
 
         return redirect()->route('event.detail', ['id' => $event_id])->with('status', 'canceled-join');
     }
+
+
+    /**
+     * イベントへの参加ステータスを変更
+     *
+     * リクエストから受け取ったデータを検証し、指定されたイベントへの参加ステータスを変更します。
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function changeStatus(Request $request)
+    {
+        $event_id = $request->input('event_id');
+        $user_id = $request->input('user_id');
+        $status = $request->input('status');
+
+        $event = Event::find($event_id);
+
+        if (!$event) {
+            return redirect()->route('list.upcoming')->with('status', 'not-found');
+        }
+
+        // イベント作成者の場合の処理
+        if ($event->organizer_id === Auth::id()) {
+            $participant = EventParticipant::where('event_id', $event_id)
+                ->where('user_id', $user_id)
+                ->first();
+
+            if ($participant) {
+                $participant->status = $status;
+                $participant->save();
+
+                $this->operationLogController->store('USER-ID: ' . $user_id . 'のイベント(EVENT-ID: ' . $event_id . ')への参加ステータスを' . $status . 'に変更しました');
+            } else {
+                return redirect()->route('event.detail', ['id' => $event_id])->with('status', 'not-change-status');
+            }
+        }
+
+        // その他の処理...
+
+        return redirect()->route('event.detail', ['id' => $event_id])->with('status', 'changed-status');
+    }
+
 
     /**
      * イベントの削除
@@ -317,5 +367,24 @@ class EventController extends Controller
 
 
         return redirect()->route('event.detail', ['id' => $event->id])->with('status', 'event-updated');
+    }
+
+    public function approvedUsersAndOrganizerOnly(Request $request, $id)
+    {
+        $event = Event::findOrFail($id);
+
+        // ログインユーザーの参加ステータスをチェックし、approvedでない場合アクセスを制限する
+        $participant = EventParticipant::where('event_id', $id)
+            ->where('user_id', auth()->user()->id)
+            ->first();
+
+        if (!$participant || $participant->status !== 'approved' and $event->organizer_id !== Auth::id()) {
+            abort(403);
+        }
+
+        // ここから、approvedのユーザーまたはイベントの作成者のみがアクセスできるページのコードを記述する
+        // ...
+
+        return view('event.approved-users-and-organizer-only', ['event' => $id]);
     }
 }

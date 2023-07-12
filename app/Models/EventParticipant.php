@@ -26,5 +26,6 @@ class EventParticipant extends Model
     protected $fillable = [
         'user_id',
         'event_id',
+        'status',
     ];
 }
