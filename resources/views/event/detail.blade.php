@@ -43,12 +43,7 @@
                 </div>
 
                 @if (!$is_organizer)
-                    {{ __('Your status') }}：{{ $your_status }}
-                    @foreach ($participants as $participant)
-                        <li>{{ $participant->name }} (ID: {{ $participant->user_id }}, Status:
-                            {{ $participant->status }})
-                        </li>
-                    @endforeach
+                    {{ __('Current your status') }}：{{ $your_status }}
                 @endif
 
                 @if ($is_organizer)
@@ -56,7 +51,8 @@
                     参加予定リスト
                     @foreach ($participants as $participant)
                         <li>
-                            {{ $participant->name }} (ID: {{ $participant->user_id }}, 現在のステータス:
+                            {{ $participant->name }} ({{ __('ID') }}: {{ $participant->user_id }},
+                            {{ __('Status') }}:
                             {{ $participant->status }})
                             @if ($event->organizer_id === Auth::id())
                                 <form action="{{ route('event.join.approval') }}" method="POST">
