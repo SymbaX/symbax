@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 use App\Http\Controllers\OperationLogController;
+use App\Models\User;
 
 /**
  * パスワードリセットコントローラー
@@ -68,10 +69,16 @@ class NewPasswordController extends Controller
             }
         );
 
+
+
+        $user = User::where('email', $request->email)->first();
+
         if ($status == Password::PASSWORD_RESET) {
-            $this->operationLogController->store('Email: ' . $request->email . ' のパスワードをリセットしました');
+            $userId = $user->id;
+            $this->operationLogController->store('Email: ' . $request->email . ' (ID: ' . $userId . ') のパスワードをリセットしました');
         } else {
-            $this->operationLogController->store('Email: ' . $request->email . ' のパスワードリセットに失敗しました');
+            $userId = $user->id ?? '不明';
+            $this->operationLogController->store('Email: ' . $request->email . ' (ID: ' . $userId . ') のパスワードリセットに失敗しました');
         }
 
         // パスワードが正常にリセットされた場合は、認証されたユーザーのアプリケーションホームビューにリダイレクトします。
