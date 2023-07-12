@@ -41,7 +41,7 @@ class PasswordController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
 
-        $this->operationLogController->store('Email: ' . $request->email . ' のパスワードを更新しました', "不明");
+        $this->operationLogController->store('パスワードを更新しました');
 
         return back()->with('status', 'password-updated');
     }
