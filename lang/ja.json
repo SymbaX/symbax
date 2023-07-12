@@ -183,5 +183,7 @@
     "It could not be changed.": "変更できませんでした。",
     "Participant": "参加者",
     "Current your status": "現在のあなたのステータス",
-    "Participant only page": "参加者専用ページ"
+    "Participant only page": "参加者専用ページ",
+    "Rejected events cannot be canceled.": "リジェクト済みのイベントはキャンセル出来ません。",
+    "All users": "すべてのユーザー"
 }

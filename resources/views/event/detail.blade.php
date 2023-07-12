@@ -48,37 +48,40 @@
 
                 <br /><br />
                 {{ __('Participant') }}
-                @foreach ($participants as $participant)
-                    @if ($participant->status == 'approved')
-                        <li>
-                            {{ $participant->name }} ({{ __('ID') }}: {{ $participant->user_id }})
-                        </li>
-                    @endif
-                @endforeach
-
+                <ul>
+                    @foreach ($participants as $participant)
+                        @if ($participant->status == 'approved')
+                            <li>
+                                {{ $participant->name }} ({{ __('ID') }}: {{ $participant->user_id }})
+                            </li>
+                        @endif
+                    @endforeach
+                </ul>
 
                 <br /><br />
 
                 @if ($is_organizer)
                     <!-- 作成者のみ表示 -->
-                    参加予定リスト
-                    @foreach ($participants as $participant)
-                        <li>
-                            {{ $participant->name }} ({{ __('ID') }}: {{ $participant->user_id }},
-                            {{ $participant->status }})
-                            @if ($event->organizer_id === Auth::id())
-                                <form action="{{ route('event.change.status') }}" method="POST">
-                                    @csrf
-                                    @method('PATCH')
-                                    <input type="hidden" name="event_id" value="{{ $event->id }}">
-                                    <input type="hidden" name="user_id" value="{{ $participant->user_id }}">
-                                    <button type="submit" name="status" value="approved">Approve</button>
-                                    <button type="submit" name="status" value="rejected">Reject</button>
-                                </form>
-                            @endif
-                        </li>
-                    @endforeach
+                    {{ __('All users') }}
+                    <ul>
+                        @foreach ($participants as $participant)
+                            <li>
 
+                                @if ($event->organizer_id === Auth::id())
+                                    <form action="{{ route('event.change.status') }}" method="POST">
+                                        @csrf
+                                        @method('PATCH')
+                                        <input type="hidden" name="event_id" value="{{ $event->id }}">
+                                        <input type="hidden" name="user_id" value="{{ $participant->user_id }}">
+                                        {{ $participant->name }} ({{ __('ID') }}:
+                                        {{ $participant->user_id }},@lang('status.' . $participant->status))
+                                        <button type="submit" name="status" value="approved">Approve</button> <button
+                                            type="submit" name="status" value="rejected">Reject</button>
+                                    </form>
+                                @endif
+                            </li>
+                        @endforeach
+                    </ul>
 
 
                     <a href="{{ route('event.edit', ['id' => $event->id]) }}" class="text-blue-500 underline">
@@ -184,6 +187,12 @@
                         <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
                             class="text-sm text-gray-600">
                             {{ __('It could not be changed.') }}
+                        </p>
+                    @endif
+                    @if (session('status') === 'cancel-not-allowed')
+                        <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                            class="text-sm text-gray-600">
+                            {{ __('Rejected events cannot be canceled.') }}
                         </p>
                     @endif
                 </div>
