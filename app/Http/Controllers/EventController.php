@@ -12,7 +12,8 @@ use Illuminate\Mail\Markdown;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\OperationLogController;
-
+use App\Mail\MailSend;
+use Illuminate\Support\Facades\Mail;
 
 /**
  * イベントコントローラークラス
@@ -195,6 +196,12 @@ class EventController extends Controller
         ]);
 
         $this->operationLogController->store('ID:' . $event_id . 'のイベントに参加リクエストを送信しました');
+
+        // メール送信処理
+        $mail = new MailSend($event);
+        $mail->eventJoinRequest($event);
+        Mail::to('example@example.com')->send($mail);
+
 
         return redirect()->route('event.detail', ['id' => $event_id])->with('status', 'join-request-event');
     }
