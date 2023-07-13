@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('hoges', function (Blueprint $table) {
+        Schema::create('prlfile', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->string('self_introduce', 200);
+            $table->string('place', 30);
+            $table->string('profile_photo_path')->nullable();
         });
     }
 
