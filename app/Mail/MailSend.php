@@ -29,11 +29,23 @@ class MailSend extends Mailable
             ->subject('イベント参加リクエスト');
     }
 
-    public function eventChangeStatus($event)
+    public function eventChangeStatus($event, $status)
     {
         $this->event = $event;
+        $buttonUrl = config('app.url') . '/event/' . $this->event->id;
 
-        return $this->markdown('emails.change-status')
-            ->subject('イベント作成者がステータスを変更しました');
+        if ($status == 'approved') {
+            return $this->markdown('emails.change-status-approved')
+                ->subject('イベント参加リクエストが承認されました')
+                ->with([
+                    'buttonUrl' => $buttonUrl,
+                ]);
+        } elseif ($status == 'rejected') {
+            return $this->markdown('emails.change-status-rejected')
+                ->subject('イベント参加リクエストが却下されました')
+                ->with([
+                    'buttonUrl' => $buttonUrl,
+                ]);
+        }
     }
 }
