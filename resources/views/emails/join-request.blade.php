@@ -1,9 +1,10 @@
 <x-mail::message>
-# イベントに参加リクエストがありました
+# {{ $event_name }}
+## イベントに参加リクエストがありました
 
 以下のボタンから参加リクエストを確認してください
 
-<x-mail::button :url="config('app.url') . '/all'">
+<x-mail::button :url="$buttonUrl">
     確認する
 </x-mail::button>
 

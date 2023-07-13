@@ -1,5 +1,6 @@
 <x-mail::message>
-# 参加リクエストが却下されました
+# {{ $event_name }}
+## 参加リクエストが却下されました
 以下のボタンからステータスを確認してください。
 
 <x-mail::button :url="$buttonUrl">

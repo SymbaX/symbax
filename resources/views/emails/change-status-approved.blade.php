@@ -1,5 +1,6 @@
 <x-mail::message>
-# 参加リクエストが承認されました
+# {{ $event_name }}
+## 参加リクエストが承認されました
 以下のボタンからステータスを確認してください。
 
 <x-mail::button :url="$buttonUrl">
