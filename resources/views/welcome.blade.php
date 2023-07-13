@@ -100,6 +100,8 @@
             We combine the strength and agility of a lion with the vastness and endurance of the desert to deliver
             powerful web solutions that drive your business forward.
         </p>
+
+
         <div class="buttons">
             @if (Route::has('login'))
                 @auth
