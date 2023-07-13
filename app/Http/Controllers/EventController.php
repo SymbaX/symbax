@@ -279,7 +279,7 @@ class EventController extends Controller
 
                 // メール送信処理
                 $mail = new MailSend($event);
-                $mail->eventChangeStatus($event);
+                $mail->eventChangeStatus($event, $status);
                 Mail::to($user->email)->send($mail); // 変更された参加者にメールを送信
             } else {
                 return redirect()->route('event.detail', ['id' => $event_id])->with('status', 'not-change-status');
