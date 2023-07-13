@@ -9,6 +9,8 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
+    <link rel="icon" href="{{ asset('/favicon.svg') }}" type="image/svg+xml">
+    <link rel="shortcut icon" href="{{ asset('/favicon.ico') }}">
     @stack('css')
     @stack('script')
 
