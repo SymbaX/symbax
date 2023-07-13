@@ -20,3 +20,4 @@ yarn-error.log
 
 /.phpdoc
 /docs
+.DS_Store
