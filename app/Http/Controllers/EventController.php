@@ -286,7 +286,8 @@ class EventController extends Controller
             }
         }
 
-
+        // 二重送信防止
+        $request->session()->regenerateToken();
 
         return redirect()->route('event.detail', ['id' => $event_id])->with('status', 'changed-status');
     }
