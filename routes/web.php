@@ -66,4 +66,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/admin/operation-logs', [AdminController::class, 'listOperationLogs'])->middleware('admin')->name('admin.operation-logs');
 });
 
+
+
 require __DIR__ . '/auth.php';
