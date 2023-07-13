@@ -13,23 +13,20 @@
 <body>
     <div class="container">
         <h1>SymbaX</h1>
-        <p class="subtitle">Event sharing platform</p>
-        <!--
-        <img src="https://www.homepage-tukurikata.com/image/lion.jpg" alt="Lion Image" class="lion-image">
-    -->
+        <p class="subtitle">{{ __('Event sharing platform') }}</p>
         <p>
-            ようこそ
+            {{ __('Welcome') }}
         </p>
 
 
         <div class="buttons">
             @if (Route::has('login'))
                 @auth
-                    <a href="{{ url('/upcoming') }}">Go to Dashboard</a>
+                    <a href="{{ url('/upcoming') }}">{{ __('Start') }}</a>
                 @else
-                    <a href="{{ route('login') }}">Login</a>
+                    <a href="{{ route('login') }}">{{ __('Login') }}</a>
                     @if (Route::has('register'))
-                        <a href="{{ route('register') }}" class="ml-4">Sign Up</a>
+                        <a href="{{ route('register') }}" class="ml-4">{{ __('Sign Up') }}</a>
                     @endif
                 @endauth
             @endif
