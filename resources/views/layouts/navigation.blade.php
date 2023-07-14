@@ -60,7 +60,8 @@
                             @csrf
                             <x-dropdown-link
                                 onclick="event.preventDefault();
-                                    this.closest('form').submit();">
+                                    this.closest('form').submit();"
+                                style="cursor: pointer;">
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
                         </form>
