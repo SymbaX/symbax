@@ -1,5 +1,5 @@
 @push('css')
-    <link rel="stylesheet" href="{{ asset('css/event-details.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/event-detail.css') }}">
 @endpush
 @push('script')
     <script src="{{ asset('script/loading.js') }}"></script>
