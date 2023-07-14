@@ -1,5 +1,8 @@
 @push('css')
-    <link rel="stylesheet" href="{{ asset('css/event-details.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/event-detail.css') }}">
+@endpush
+@push('script')
+    <script src="{{ asset('script/loading.js') }}"></script>
 @endpush
 
 <x-app-layout>
@@ -75,8 +78,10 @@
                                         <input type="hidden" name="user_id" value="{{ $participant->user_id }}">
                                         {{ $participant->name }} ({{ __('ID') }}:
                                         {{ $participant->user_id }},@lang('status.' . $participant->status))
-                                        <button type="submit" name="status" value="approved">Approve</button> <button
-                                            type="submit" name="status" value="rejected">Reject</button>
+                                        <button type="submit" name="status" value="approved"
+                                            onclick="showLoading()">Approve</button>
+                                        <button type="submit" name="status" value="rejected"
+                                            onclick="showLoading()">Reject</button>
                                     </form>
                                 @endif
                             </li>
@@ -90,17 +95,19 @@
 
 
                     <a href="{{ route('event.edit', ['id' => $event->id]) }}" class="text-blue-500 underline">
-                        <x-primary-button>{{ __('Edit event') }}</x-primary-button>
+                        <x-primary-button onclick="showLoading()">{{ __('Edit event') }}</x-primary-button>
                     </a>
 
                     <br /><br />
 
-                    <form method="POST" action="{{ route('event.delete', ['id' => $event->id]) }}"
-                        onsubmit="return confirm( '{{ __('Are you sure you want to delete this event?') }}' );">
+                    <form method="POST" action="{{ route('event.delete', ['id' => $event->id]) }}">
                         @csrf
                         @method('DELETE')
                         <input type="hidden" name="event_id" value="{{ $event->id }}">
-                        <x-primary-button>{{ __('Event delete') }}</x-primary-button>
+                        <x-primary-button
+                            onclick="return showConfirmation('{{ __('Are you sure you want to delete this event?') }}')">
+                            {{ __('Event delete') }}
+                        </x-primary-button>
                     </form>
                 @else
                     @if ($is_join)
@@ -112,7 +119,7 @@
                             <input type="hidden" name="event_id" value="{{ $event->id }}">
 
                             <div class="flex items-center gap-4">
-                                <x-primary-button>{{ __('Join request') }}</x-primary-button>
+                                <x-primary-button onclick="showLoading()">{{ __('Join request') }}</x-primary-button>
                             </div>
                         </form>
                     @else
@@ -128,7 +135,7 @@
                                 @csrf
                                 @method('patch')
                                 <input type="hidden" name="event_id" value="{{ $event->id }}">
-                                <x-primary-button>{{ __('Cancel Join') }}</x-primary-button>
+                                <x-primary-button onclick="showLoading()">{{ __('Cancel Join') }}</x-primary-button>
                             </form>
                         @endif
                     @endif
@@ -209,6 +216,5 @@
                 @endif
             </div>
         </div>
-    </div>
     </div>
 </x-app-layout>
