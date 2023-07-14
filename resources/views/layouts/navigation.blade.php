@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('list.upcoming') }}">
-                        <img src="{{asset ("img/logo.svg")}}" width="50" height="50">
+                        <img src="{{ asset('img/logo.svg') }}" width="50" height="50">
                     </a>
                 </div>
 
@@ -58,10 +58,10 @@
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-
-                            <x-dropdown-link :href="route('logout')"
+                            <x-dropdown-link
                                 onclick="event.preventDefault();
-                                                this.closest('form').submit();">
+                                    this.closest('form').submit();"
+                                style="cursor: pointer;">
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
                         </form>
@@ -121,12 +121,12 @@
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-
-                    <x-responsive-nav-link :href="route('logout')"
-                        onclick="event.preventDefault();
-                                        this.closest('form').submit();">
+                    <x-responsive-nav-link onclick="event.preventDefault();
+            this.closest('form').submit();"
+                        style="cursor: pointer;">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
+                </form>
                 </form>
             </div>
         </div>
