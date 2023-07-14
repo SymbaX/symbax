@@ -1,9 +1,14 @@
 <?php
 
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\EventController;
+use App\Http\Controllers\Event\ApprovedUsersAndOrganizerOnlyController;
+use App\Http\Controllers\Event\CreateController;
+use App\Http\Controllers\Event\DeleteController;
+use App\Http\Controllers\Event\DetailController;
+use App\Http\Controllers\Event\EditController;
+use App\Http\Controllers\Event\ListController;
+use App\Http\Controllers\Event\StatusController;
 use App\Http\Controllers\ProfileController;
-use App\Models\Event;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,25 +40,25 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // イベント関連
-    Route::get('/event/create',  [EventController::class, 'createView'])->name('event.create');
-    Route::patch('/event/create', [EventController::class, 'create'])->name('event.create');
+    Route::get('/event/create',  [CreateController::class, 'createView'])->name('event.create');
+    Route::patch('/event/create', [CreateController::class, 'create'])->name('event.create');
 
-    Route::get('/event/{id}', [EventController::class, 'detail'])->name('event.detail');
-    Route::get('/event/edit/{id}', [EventController::class, 'edit'])->name('event.edit');
-    Route::patch('/event/update/{id}', [EventController::class, 'update'])->name('event.update');
+    Route::get('/event/{id}', [DetailController::class, 'detail'])->name('event.detail');
+    Route::get('/event/edit/{id}', [EditController::class, 'edit'])->name('event.edit');
+    Route::patch('/event/update/{id}', [EditController::class, 'update'])->name('event.update');
 
-    Route::patch('/event/join-request', [EventController::class, 'joinRequest'])->name('event.join.request');
-    Route::patch('/event/cancel-join', [EventController::class, 'cancelJoin'])->name('event.cancel-join');
-    Route::delete('/event/{id}',  [EventController::class, 'delete'])->name('event.delete');
+    Route::patch('/event/join-request', [StatusController::class, 'joinRequest'])->name('event.join.request');
+    Route::patch('/event/cancel-join', [StatusController::class, 'cancelJoin'])->name('event.cancel-join');
+    Route::delete('/event/{id}',  [DeleteController::class, 'delete'])->name('event.delete');
 
-    Route::patch('/event/change-status', [EventController::class, 'changeStatus'])->name('event.change.status');
-    Route::get('/event/{id}/approved-users-and-organizer-only', [EventController::class, 'approvedUsersAndOrganizerOnly'])
+    Route::patch('/event/change-status', [StatusController::class, 'changeStatus'])->name('event.change.status');
+    Route::get('/event/{id}/approved-users-and-organizer-only', [ApprovedUsersAndOrganizerOnlyController::class, 'approvedUsersAndOrganizerOnly'])
         ->name('event.approved.users.and.organizer.only');
 
 
 
-    Route::get('/all', [EventController::class, 'listAll'])->name('list.all');
-    Route::get('/upcoming', [EventController::class, 'listUpcoming'])->name('list.upcoming');
+    Route::get('/all', [ListController::class, 'listAll'])->name('list.all');
+    Route::get('/upcoming', [ListController::class, 'listUpcoming'])->name('list.upcoming');
 
 
 
