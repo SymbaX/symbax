@@ -1,3 +1,6 @@
+@push('css')
+    <link rel="stylesheet" href="{{ asset('css/admin-table.css') }}">
+@endpush
 @push('script')
     <script src="{{ asset('script/user-edit-modal.js') }}" defer></script>
 @endpush
@@ -13,45 +16,42 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 overflow-x-auto">
-                    <table class="min-w-full bg-white border border-gray-300">
-                        <thead>
+                    <table class="tb01">
+                        <tr class="head">
+                            <th>{{ __('ID') }}</th>
+                            <th>{{ __('Name') }}</th>
+                            <th>{{ __('Email') }}</th>
+                            <th>{{ __('Email Verified At') }}</th>
+                            <th>{{ __('Role') }}</th>
+                            <th>{{ __('College') }}</th>
+                            <th>{{ __('Department') }}</th>
+                            <th>{{ __('Created At') }}</th>
+                            <th>{{ __('Edit') }}</th>
+                        </tr>
+                        @foreach ($users as $user)
                             <tr>
-                                <th class="px-6 py-3 bg-gray-100 border-b">{{ __('ID') }}</th>
-                                <th class="px-6 py-3 bg-gray-100 border-b">{{ __('Name') }}</th>
-                                <th class="px-6 py-3 bg-gray-100 border-b">{{ __('Email') }}</th>
-                                <th class="px-6 py-3 bg-gray-100 border-b">{{ __('Email Verified At') }}</th>
-                                <th class="px-6 py-3 bg-gray-100 border-b">{{ __('Role') }}</th>
-                                <th class="px-6 py-3 bg-gray-100 border-b">{{ __('College') }}</th>
-                                <th class="px-6 py-3 bg-gray-100 border-b">{{ __('Department') }}</th>
-                                <th class="px-6 py-3 bg-gray-100 border-b">{{ __('Created At') }}</th>
-                                <th class="px-6 py-3 bg-gray-100 border-b">{{ __('Edit') }}</th>
+                                <td data-label="{{ __('ID') }}">{{ $user->id }}</td>
+                                <td data-label="{{ __('Name') }}">{{ $user->name }}</td>
+                                <td data-label="{{ __('Email') }}">{{ $user->email }}</td>
+                                <td data-label="{{ __('Email Verified At') }}">
+                                    @if ($user->email_verified_at != null)
+                                        {{ $user->email_verified_at }}
+                                    @else
+                                        {{ __('Not verified') }}
+                                    @endif
+                                </td>
+                                <td data-label="{{ __('Role') }}">{{ $user->role->name }}</td>
+                                <td data-label="{{ __('College') }}">{{ $user->college->name }}</td>
+                                <td data-label="{{ __('Department') }}">{{ $user->department->name }}</td>
+                                <td data-label="{{ __('Created At') }}">{{ $user->created_at }}</td>
+                                <td data-label="{{ __('Edit') }}">
+                                    <x-primary-button
+                                        onclick="openEditModal('{{ $user->id }}', '{{ $user->college_id }}', '{{ $user->department_id }}', '{{ $user->role_id }}')">
+                                        {{ __('Edit') }}</x-primary-button>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($users as $user)
-                                <tr>
-                                    <td class="px-6 py-4 border-b">{{ $user->id }}</td>
-                                    <td class="px-6 py-4 border-b">{{ $user->name }}</td>
-                                    <td class="px-6 py-4 border-b">{{ $user->email }}</td>
-                                    <td class="px-6 py-4 border-b">
-                                        @if ($user->email_verified_at != null)
-                                            {{ $user->email_verified_at }}
-                                        @else
-                                            {{ __('Not verified') }}
-                                        @endif
-                                    </td>
-                                    <td class="px-6 py-4 border-b">{{ $user->role->name }}</td>
-                                    <td class="px-6 py-4 border-b">{{ $user->college->name }}</td>
-                                    <td class="px-6 py-4 border-b">{{ $user->department->name }}</td>
-                                    <td class="px-6 py-4 border-b">{{ $user->created_at }}</td>
-                                    <td class="px-6 py-4 border-b">
-                                        <x-primary-button class="ml-4"
-                                            onclick="openEditModal('{{ $user->id }}', '{{ $user->college_id }}', '{{ $user->department_id }}', '{{ $user->role_id }}')">
-                                            {{ __('Edit') }}</x-primary-button>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
+                        @endforeach
+
                     </table>
                     {{ $users->links() }}
                 </div>
