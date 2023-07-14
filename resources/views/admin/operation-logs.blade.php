@@ -15,20 +15,21 @@
                     <table class="tb01">
                         <thead>
                             <tr class="head">
-                                <th>{{ __('ID') }}</th>
+                                <th>{{ __('Log id') }}</th>
                                 <th>{{ __('User id') }}</th>
                                 <th>{{ __('Action') }}</th>
-                                <th>{{ __('Date') }}</th>
+                                <th>{{ __('Date and time') }}</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($operation_logs as $operation_log)
                                 <tr>
-                                    <td data-label="{{ __('ID') }}">{{ $operation_log->id }}</td>
+                                    <td data-label="{{ __('Log id') }}">{{ $operation_log->id }}</td>
                                     <td data-label="{{ __('User id') }}">{{ $operation_log->user_name }}
-                                        (ID:{{ $operation_log->user_id }})</td>
+                                        (ID:{{ $operation_log->user_id }})
+                                    </td>
                                     <td data-label="{{ __('Action') }}">{{ $operation_log->action }}</td>
-                                    <td data-label="{{ __('Date') }}">{{ $operation_log->created_at }}</>
+                                    <td data-label="{{ __('Date and time') }}">{{ $operation_log->created_at }}</>
                                 </tr>
                             @endforeach
                         </tbody>
