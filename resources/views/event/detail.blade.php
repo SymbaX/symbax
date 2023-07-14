@@ -1,6 +1,9 @@
 @push('css')
     <link rel="stylesheet" href="{{ asset('css/event-details.css') }}">
 @endpush
+@push('script')
+    <script src="{{ asset('script/loading.js') }}"></script>
+@endpush
 
 <x-app-layout>
     <x-slot name="header">
@@ -101,7 +104,9 @@
                         @csrf
                         @method('DELETE')
                         <input type="hidden" name="event_id" value="{{ $event->id }}">
-                        <x-primary-button onclick="return showDeleteConfirmation()">{{ __('Event delete') }}
+                        <x-primary-button
+                            onclick="return showConfirmation('{{ __('Are you sure you want to delete this event?') }}')">
+                            {{ __('Event delete') }}
                         </x-primary-button>
                     </form>
                 @else
@@ -212,23 +217,4 @@
             </div>
         </div>
     </div>
-    <script>
-        function showLoading() {
-            var overlay = document.createElement('div');
-            overlay.className = 'loading-overlay';
-            var spinner = document.createElement('div');
-            spinner.className = 'loading-spinner';
-            overlay.appendChild(spinner);
-            document.body.appendChild(overlay);
-        }
-
-        function showDeleteConfirmation() {
-            if (confirm('{{ __('Are you sure you want to delete this event?') }}')) {
-                showLoading();
-                return true;
-            } else {
-                return false;
-            }
-        }
-    </script>
 </x-app-layout>
