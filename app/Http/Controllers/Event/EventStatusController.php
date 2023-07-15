@@ -37,7 +37,7 @@ class EventStatusController extends Controller
     {
         $status = $this->eventStatusUseCase->joinRequest($request);
         $event_id = $request->input('event_id');
-        return redirect()->route('event.show', ['id' => $event_id])->with('status', $status);
+        return redirect()->route('event.show', ['event_id' => $event_id])->with('status', $status);
     }
 
     /**
@@ -52,7 +52,7 @@ class EventStatusController extends Controller
     {
         $status = $this->eventStatusUseCase->cancelJoin($request);
         $event_id = $request->input('event_id');
-        return redirect()->route('event.show', ['id' => $event_id])->with('status', $status);
+        return redirect()->route('event.show', ['event_id' => $event_id])->with('status', $status);
     }
 
     /**
@@ -67,6 +67,6 @@ class EventStatusController extends Controller
     {
         $status = $this->eventStatusUseCase->changeStatus($request);
         $event_id = $request->input('event_id');
-        return redirect()->route('event.show', ['id' => $event_id])->with('status', $status);
+        return redirect()->route('event.show', ['event_id' => $event_id])->with('status', $status);
     }
 }

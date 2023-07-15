@@ -54,7 +54,7 @@ class EventCreateUseCase
 
         $this->createEventCreationLog($event->id, $organizerId);
 
-        return redirect()->back()->with('status', 'event-create');
+        return $event->id;
     }
 
     /**

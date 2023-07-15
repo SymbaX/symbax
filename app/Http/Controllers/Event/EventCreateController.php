@@ -32,6 +32,8 @@ class EventCreateController extends Controller
     public function store(CreateRequest $request)
     {
         $createEventUseCase = new EventCreateUseCase();
-        return $createEventUseCase->create($request);
+        $event_id = $createEventUseCase->store($request);
+        return redirect()->route('event.show', ['event_id' => $event_id])
+            ->with('status', 'event-create');
     }
 }

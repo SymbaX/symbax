@@ -25,7 +25,7 @@ class EventDeleteController extends Controller
         if ($deleted) {
             return redirect()->route('index.upcoming')->with('status', 'event-deleted');
         } else {
-            return redirect()->route('event.show', ['id' => $id])->with('status', 'cannot-delete-with-participants');
+            return redirect()->route('event.show', ['event_id' => $id])->with('status', 'cannot-delete-with-participants');
         }
     }
 }

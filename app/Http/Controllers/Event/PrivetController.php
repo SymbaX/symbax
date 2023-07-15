@@ -8,9 +8,9 @@ use App\Models\EventParticipant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class ApprovedUsersAndOrganizerOnlyController extends Controller
+class PrivetController extends Controller
 {
-    public function approvedUsersAndOrganizerOnly(Request $request, $id)
+    public function create(Request $request, $id)
     {
         $event = Event::findOrFail($id);
 
