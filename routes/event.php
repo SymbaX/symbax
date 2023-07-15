@@ -34,5 +34,5 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('event.members');
 
     Route::get('/events/all', [EventListController::class, 'indexAll'])->name('index.all');
-    Route::get('/events/upcoming', [EventListController::class, 'indexUpcoming'])->name('index.upcoming');
+    Route::get('/upcoming', [EventListController::class, 'indexUpcoming'])->name('index.upcoming');
 });
