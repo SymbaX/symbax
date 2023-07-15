@@ -3,30 +3,26 @@
 namespace App\Http\Controllers\Event;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\OperationLogController;
+use App\UseCases\Event\EventEditUseCase;
 use App\Http\Requests\Event\UpdateRequest;
-use App\Models\Event;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\RedirectResponse;
 
 class EventEditController extends Controller
 {
-
     /**
-     * @var OperationLogController
+     * @var EventEditUseCase
      */
-    private $operationLogController;
+    private $eventEditUseCase;
 
     /**
-     * OperationLogControllerの新しいインスタンスを作成します。
+     * EventEditUseCaseの新しいインスタンスを作成します。
      *
-     * @param  OperationLogController  $operationLogController
+     * @param  EventEditUseCase  $eventEditUseCase
      * @return void
      */
-    public function __construct(OperationLogController $operationLogController)
+    public function __construct(EventEditUseCase $eventEditUseCase)
     {
-        $this->operationLogController = $operationLogController;
+        $this->eventEditUseCase = $eventEditUseCase;
     }
 
     /**
@@ -36,15 +32,14 @@ class EventEditController extends Controller
      * 現在のユーザーがイベントの作成者でない場合は編集できません。
      *
      * @param  int  $id
-     * @return \Illuminate\View\View
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
      */
     public function edit($id)
     {
-        $event = Event::findOrFail($id);
+        $event = $this->eventEditUseCase->getEditableEvent($id);
 
-        // 現在のユーザーがイベントの作成者であるかをチェック
-        if ($event->organizer_id !== Auth::id()) {
-            return redirect()->route('event.detail', ['id' => $event->id])->with('status', 'unauthorized');
+        if (!$event) {
+            return redirect()->route('event.detail', ['id' => $id])->with('status', 'unauthorized');
         }
 
         return view('event.edit', ['event' => $event]);
@@ -57,31 +52,18 @@ class EventEditController extends Controller
      * 現在のユーザーがイベントの作成者でない場合は更新できません。
      * 画像がアップロードされた場合は既存の画像を削除して新しい画像を保存します。
      *
-     * @param  Request  $request
+     * @param  UpdateRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdateRequest $request, $id)
     {
-        $event = Event::findOrFail($id);
+        $updated = $this->eventEditUseCase->updateEvent($id, $request);
 
-        if ($event->organizer_id !== Auth::id()) {
-            return redirect()->route('event.detail', ['id' => $event->id])->with('status', 'unauthorized');
+        if (!$updated) {
+            return redirect()->route('event.detail', ['id' => $id])->with('status', 'unauthorized');
         }
 
-        $validatedData = $request->validated();
-
-        if ($request->hasFile('image_path')) {
-            Storage::delete($event->image_path);
-            $validatedData['image_path'] = $request->file('image_path')->store('public/events');
-        } else {
-            $validatedData['image_path'] = $event->image_path; // 元の画像パスを使用
-        }
-
-        $event->update($validatedData);
-
-        $this->operationLogController->store('ID:' . $event->id . 'のイベントを更新しました');
-
-        return redirect()->route('event.detail', ['id' => $event->id])->with('status', 'event-updated');
+        return redirect()->route('event.detail', ['id' => $id])->with('status', 'event-updated');
     }
 }

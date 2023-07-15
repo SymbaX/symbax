@@ -3,29 +3,11 @@
 namespace App\Http\Controllers\Event;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\OperationLogController;
-use App\Models\Event;
-use App\Models\EventParticipant;
-use Illuminate\Support\Facades\Storage;
+use App\UseCases\Event\EventDeleteUseCase;
+use Illuminate\Http\RedirectResponse;
 
 class EventDeleteController extends Controller
 {
-    /**
-     * @var OperationLogController
-     */
-    private $operationLogController;
-
-    /**
-     * OperationLogControllerの新しいインスタンスを作成します。
-     *
-     * @param  OperationLogController  $operationLogController
-     * @return void
-     */
-    public function __construct(OperationLogController $operationLogController)
-    {
-        $this->operationLogController = $operationLogController;
-    }
-
     /**
      * イベントの削除
      *
@@ -35,22 +17,15 @@ class EventDeleteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function delete($id)
+    public function delete($id): RedirectResponse
     {
-        $event = Event::findOrFail($id);
+        $eventDeleteUseCase = new EventDeleteUseCase();
+        $deleted = $eventDeleteUseCase->deleteEvent($id);
 
-        // イベントに参加者が登録されているかどうかを確認します
-        $participantCount = EventParticipant::where('event_id', $id)->count();
-        if ($participantCount > 0) {
+        if ($deleted) {
+            return redirect()->route('list.upcoming')->with('status', 'event-deleted');
+        } else {
             return redirect()->route('event.detail', ['id' => $id])->with('status', 'cannot-delete-with-participants');
         }
-
-        // イベントを削除し、関連する画像ファイルを削除します
-        Storage::delete($event->image_path);
-        $event->delete();
-
-        $this->operationLogController->store('ID:' . $event->id . 'のイベントを削除しました');
-
-        return redirect()->route('list.upcoming')->with('status', 'event-deleted');
     }
 }

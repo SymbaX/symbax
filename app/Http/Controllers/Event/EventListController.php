@@ -3,27 +3,25 @@
 namespace App\Http\Controllers\Event;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\OperationLogController;
-use App\Models\Event;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
+use App\UseCases\Event\EventListUseCase;
+use Illuminate\View\View;
 
 class EventListController extends Controller
 {
     /**
-     * @var OperationLogController
+     * @var EventListUseCase
      */
-    private $operationLogController;
+    private $eventListUseCase;
 
     /**
-     * OperationLogControllerの新しいインスタンスを作成します。
+     * EventListUseCaseの新しいインスタンスを作成します。
      *
-     * @param  OperationLogController  $operationLogController
+     * @param  EventListUseCase  $eventListUseCase
      * @return void
      */
-    public function __construct(OperationLogController $operationLogController)
+    public function __construct(EventListUseCase $eventListUseCase)
     {
-        $this->operationLogController = $operationLogController;
+        $this->eventListUseCase = $eventListUseCase;
     }
 
     /**
@@ -33,11 +31,9 @@ class EventListController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function listUpcoming()
+    public function listUpcoming(): View
     {
-        $events = Event::whereDate('date', '>=', Carbon::today())
-            ->orderBy('date', 'desc')
-            ->paginate(12);
+        $events = $this->eventListUseCase->getUpcomingEvents();
         return view('event.list-upcoming', ['events' => $events]);
     }
 
@@ -48,10 +44,9 @@ class EventListController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function listAll()
+    public function listAll(): View
     {
-        $events = Event::orderBy('date', 'desc')
-            ->paginate(12);
+        $events = $this->eventListUseCase->getAllEvents();
         return view('event.list-all', ['events' => $events]);
     }
 }
