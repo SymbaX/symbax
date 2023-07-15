@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Event;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\OperationLogController;
+use App\Http\Requests\Event\UpdateRequest;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -60,39 +61,26 @@ class EditController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, $id)
     {
         $event = Event::findOrFail($id);
 
-        // 現在のユーザーがイベントの作成者であるかをチェック
         if ($event->organizer_id !== Auth::id()) {
             return redirect()->route('event.detail', ['id' => $event->id])->with('status', 'unauthorized');
         }
 
-        $validatedData = $request->validate([
-            'name' => ['required', 'max:20'],
-            'detail' => ['required', 'max:1000'],
-            'category' => ['required', 'max:30'],
-            'tag' => ['required', 'max:30'],
-            'participation_condition' => ['required', 'max:100'],
-            'external_link' => ['required', 'max:255', 'url'],
-            'date' => ['required', 'date'],
-            'deadline_date' => ['required', 'date'],
-            'place' => ['required', 'max:50'],
-            'number_of_recruits' => ['required', 'integer', 'min:1'],
-            'image_path'  => ['nullable', 'max:5000', 'mimes:jpg,jpeg,png,gif'],
-        ]);
+        $validatedData = $request->validated();
 
         if ($request->hasFile('image_path')) {
-            // 新しい画像がアップロードされた場合、既存の画像を削除して新しい画像を保存
             Storage::delete($event->image_path);
             $validatedData['image_path'] = $request->file('image_path')->store('public/events');
+        } else {
+            $validatedData['image_path'] = $event->image_path; // 元の画像パスを使用
         }
 
         $event->update($validatedData);
 
         $this->operationLogController->store('ID:' . $event->id . 'のイベントを更新しました');
-
 
         return redirect()->route('event.detail', ['id' => $event->id])->with('status', 'event-updated');
     }

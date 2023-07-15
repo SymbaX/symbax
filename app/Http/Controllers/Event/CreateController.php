@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Event;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Event\CreateRequest;
 use App\Http\Requests\Event\EventRequest;
 use App\Models\Event;
 use App\Models\OperationLog;
@@ -31,7 +32,7 @@ class CreateController extends Controller
      * @param  EventRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function create(EventRequest $request)
+    public function create(CreateRequest $request)
     {
         $validatedData = $request->validated();
 
