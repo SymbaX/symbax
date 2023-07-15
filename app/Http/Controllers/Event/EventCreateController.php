@@ -10,7 +10,7 @@ use App\Models\OperationLog;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 
-class CreateController extends Controller
+class EventCreateController extends Controller
 {
     /**
      * イベント作成フォームの表示

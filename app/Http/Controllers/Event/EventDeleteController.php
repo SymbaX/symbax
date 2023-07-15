@@ -8,7 +8,7 @@ use App\Models\Event;
 use App\Models\EventParticipant;
 use Illuminate\Support\Facades\Storage;
 
-class DeleteController extends Controller
+class EventDeleteController extends Controller
 {
     /**
      * @var OperationLogController

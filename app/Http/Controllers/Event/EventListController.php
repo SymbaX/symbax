@@ -8,7 +8,7 @@ use App\Models\Event;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-class ListController extends Controller
+class EventListController extends Controller
 {
     /**
      * @var OperationLogController

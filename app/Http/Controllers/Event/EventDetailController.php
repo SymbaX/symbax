@@ -10,7 +10,7 @@ use App\Models\User;
 use Illuminate\Mail\Markdown;
 use Illuminate\Support\Facades\Auth;
 
-class DetailController extends Controller
+class EventDetailController extends Controller
 {
     /**
      * @var OperationLogController
