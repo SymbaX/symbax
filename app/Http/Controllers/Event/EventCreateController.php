@@ -15,10 +15,10 @@ class EventCreateController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function createView()
+    public function create()
     {
         $createEventUseCase = new EventCreateUseCase();
-        return $createEventUseCase->createView();
+        return $createEventUseCase->create();
     }
 
     /**
@@ -29,7 +29,7 @@ class EventCreateController extends Controller
      * @param  CreateRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function create(CreateRequest $request)
+    public function store(CreateRequest $request)
     {
         $createEventUseCase = new EventCreateUseCase();
         return $createEventUseCase->create($request);

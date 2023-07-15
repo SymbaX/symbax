@@ -16,7 +16,7 @@ class EventCreateUseCase
      *
      * @return \Illuminate\View\View
      */
-    public function createView()
+    public function create()
     {
         return view('event.create');
     }
@@ -30,7 +30,7 @@ class EventCreateUseCase
      * @param  CreateRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function create(CreateRequest $request)
+    public function store(CreateRequest $request)
     {
         $validatedData = $request->validated();
 

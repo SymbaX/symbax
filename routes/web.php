@@ -40,8 +40,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // イベント関連
-    Route::get('/event/create',  [EventCreateController::class, 'createView'])->name('event.create');
-    Route::patch('/event/create', [EventCreateController::class, 'create'])->name('event.create');
+    Route::get('/event/create',  [EventCreateController::class, 'create'])->name('event.create');
+    Route::patch('/event/create', [EventCreateController::class, 'store'])->name('event.store');
 
     Route::get('/event/{id}', [EventDetailController::class, 'detail'])->name('event.detail');
     Route::get('/event/edit/{id}', [EventEditController::class, 'edit'])->name('event.edit');
