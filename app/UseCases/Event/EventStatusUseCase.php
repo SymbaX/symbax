@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\Event;
+namespace App\UseCases\Event;
 
-use App\Http\Controllers\Controller;
 use App\Http\Controllers\OperationLogController;
 use App\Mail\MailSend;
 use App\Models\Event;
@@ -12,7 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
-class StatusController extends Controller
+class EventStatusUseCase
 {
     /**
      * @var OperationLogController
@@ -20,7 +19,7 @@ class StatusController extends Controller
     private $operationLogController;
 
     /**
-     * OperationLogControllerの新しいインスタンスを作成します。
+     * EventStatusUseCaseの新しいインスタンスを作成します。
      *
      * @param  OperationLogController  $operationLogController
      * @return void
@@ -30,17 +29,15 @@ class StatusController extends Controller
         $this->operationLogController = $operationLogController;
     }
 
-
-
     /**
      * イベントへの参加リクエスト
      *
      * リクエストから受け取ったデータを検証し、指定されたイベントに参加リクエストを送信します。
      *
      * @param  Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return string
      */
-    public function joinRequest(Request $request)
+    public function joinRequest(Request $request): string
     {
         $user_id = Auth::id();
         $event_id = $request->input('event_id');
@@ -49,18 +46,18 @@ class StatusController extends Controller
 
         // 自分が作成したイベントであればエラー
         if ($event->organizer_id == $user_id) {
-            return redirect()->route('event.detail', ['id' => $event_id])->with('status', 'your-event-owner');
+            return 'your-event-owner';
         }
 
         // ユーザーが既に参加している場合はエラー
         $alreadyJoined = EventParticipant::where('event_id', $event_id)->where('user_id', $user_id)->exists();
         if ($alreadyJoined) {
-            return redirect()->route('event.detail', ['id' => $event_id])->with('status', 'already-joined');
+            return 'already-joined';
         }
 
         // 参加可能な枠がなければエラー
         if ($event->number_of_recruits <= $participantCount) {
-            return redirect()->route('event.detail', ['id' => $event_id])->with('status', 'no-participation-slots');
+            return 'no-participation-slots';
         }
 
         EventParticipant::create([
@@ -76,9 +73,7 @@ class StatusController extends Controller
         $mail->eventJoinRequest($event);
         Mail::to($event->organizer->email)->send($mail); // イベントの作成者にメールを送信
 
-
-
-        return redirect()->route('event.detail', ['id' => $event_id])->with('status', 'join-request-event');
+        return 'join-request-event';
     }
 
     /**
@@ -86,10 +81,10 @@ class StatusController extends Controller
      *
      * リクエストから受け取ったデータを検証し、指定されたイベントへの参加をキャンセルします。
      *
-     * @param  Request * @param  Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @param  Request  $request
+     * @return string
      */
-    public function cancelJoin(Request $request)
+    public function cancelJoin(Request $request): string
     {
         $user_id = Auth::id();
         $event_id = $request->input('event_id');
@@ -99,12 +94,12 @@ class StatusController extends Controller
 
         // 参加していない場合はエラー
         if (!$participant) {
-            return redirect()->route('event.detail', ['id' => $event_id])->with('status', 'not-joined');
+            return 'not-joined';
         }
 
         // 参加者のステータスがrejectedの場合はキャンセル不可
         if ($participant->status === 'rejected') {
-            return redirect()->route('event.detail', ['id' => $event_id])->with('status', 'cancel-not-allowed');
+            return 'cancel-not-allowed';
         }
 
         // 参加をキャンセル
@@ -112,10 +107,8 @@ class StatusController extends Controller
 
         $this->operationLogController->store('ID:' . $event_id . 'のイベントへの参加をキャンセルしました');
 
-
-        return redirect()->route('event.detail', ['id' => $event_id])->with('status', 'canceled-join');
+        return 'canceled-join';
     }
-
 
     /**
      * イベントへの参加ステータスを変更
@@ -123,9 +116,9 @@ class StatusController extends Controller
      * リクエストから受け取ったデータを検証し、指定されたイベントへの参加ステータスを変更します。
      *
      * @param  Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return string
      */
-    public function changeStatus(Request $request)
+    public function changeStatus(Request $request): string
     {
         $event_id = $request->input('event_id');
         $user_id = $request->input('user_id');
@@ -136,7 +129,7 @@ class StatusController extends Controller
         $event = Event::find($event_id);
 
         if (!$event) {
-            return redirect()->route('list.upcoming')->with('status', 'not-found');
+            return 'not-found';
         }
 
         // イベント作成者の場合の処理
@@ -156,13 +149,13 @@ class StatusController extends Controller
                 $mail->eventChangeStatus($event, $status);
                 Mail::to($user->email)->send($mail); // 変更された参加者にメールを送信
             } else {
-                return redirect()->route('event.detail', ['id' => $event_id])->with('status', 'not-change-status');
+                return 'not-change-status';
             }
         }
 
         // 二重送信防止
         $request->session()->regenerateToken();
 
-        return redirect()->route('event.detail', ['id' => $event_id])->with('status', 'changed-status');
+        return 'changed-status';
     }
 }

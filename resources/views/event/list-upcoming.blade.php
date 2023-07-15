@@ -27,7 +27,7 @@
                             <section class="card-list">
                                 <a class="card-link" href="#">
                                     <ul>
-                                        <li><a href="event/{{ $event->id }}">
+                                        <li><a href="{{ route('event.show', $event->id) }}">
                                                 <h3 class="card-title">{{ $event->name }}</h3>
                                                 <figure class="card-figure"><img class="event_image mx-auto"
                                                         src="{{ Storage::url($event->image_path) }}" alt="">
