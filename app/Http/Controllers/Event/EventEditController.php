@@ -39,7 +39,7 @@ class EventEditController extends Controller
         $event = $this->eventEditUseCase->getEditableEvent($id);
 
         if (!$event) {
-            return redirect()->route('event.detail', ['id' => $id])->with('status', 'unauthorized');
+            return redirect()->route('event.show', ['id' => $id])->with('status', 'unauthorized');
         }
 
         return view('event.edit', ['event' => $event]);
@@ -61,9 +61,9 @@ class EventEditController extends Controller
         $updated = $this->eventEditUseCase->updateEvent($id, $request);
 
         if (!$updated) {
-            return redirect()->route('event.detail', ['id' => $id])->with('status', 'unauthorized');
+            return redirect()->route('event.show', ['id' => $id])->with('status', 'unauthorized');
         }
 
-        return redirect()->route('event.detail', ['id' => $id])->with('status', 'event-updated');
+        return redirect()->route('event.show', ['id' => $id])->with('status', 'event-updated');
     }
 }

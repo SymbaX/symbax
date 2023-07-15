@@ -100,7 +100,7 @@
 
                     <br /><br />
 
-                    <form method="POST" action="{{ route('event.delete', ['id' => $event->id]) }}">
+                    <form method="POST" action="{{ route('event.destroy', ['id' => $event->id]) }}">
                         @csrf
                         @method('DELETE')
                         <input type="hidden" name="event_id" value="{{ $event->id }}">

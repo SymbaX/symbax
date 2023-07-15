@@ -31,7 +31,7 @@ class EventListController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function listUpcoming(): View
+    public function indexUpcoming(): View
     {
         $events = $this->eventListUseCase->getUpcomingEvents();
         return view('event.list-upcoming', ['events' => $events]);
@@ -44,7 +44,7 @@ class EventListController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function listAll(): View
+    public function indexAll(): View
     {
         $events = $this->eventListUseCase->getAllEvents();
         return view('event.list-all', ['events' => $events]);

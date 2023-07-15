@@ -43,13 +43,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/event/create',  [EventCreateController::class, 'create'])->name('event.create');
     Route::patch('/event/create', [EventCreateController::class, 'store'])->name('event.store');
 
-    Route::get('/event/{id}', [EventDetailController::class, 'detail'])->name('event.detail');
+    Route::get('/event/{id}', [EventDetailController::class, 'show'])->name('event.show');
     Route::get('/event/edit/{id}', [EventEditController::class, 'edit'])->name('event.edit');
     Route::patch('/event/update/{id}', [EventEditController::class, 'update'])->name('event.update');
 
     Route::patch('/event/join-request', [EventStatusController::class, 'joinRequest'])->name('event.join.request');
     Route::patch('/event/cancel-join', [EventStatusController::class, 'cancelJoin'])->name('event.cancel-join');
-    Route::delete('/event/{id}',  [EventDeleteController::class, 'delete'])->name('event.delete');
+    Route::delete('/event/{id}',  [EventDeleteController::class, 'destroy'])->name('event.destroy');
 
     Route::patch('/event/change-status', [EventStatusController::class, 'changeStatus'])->name('event.change.status');
     Route::get('/event/{id}/approved-users-and-organizer-only', [ApprovedUsersAndOrganizerOnlyController::class, 'approvedUsersAndOrganizerOnly'])
@@ -57,8 +57,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
 
-    Route::get('/all', [EventListController::class, 'listAll'])->name('list.all');
-    Route::get('/upcoming', [EventListController::class, 'listUpcoming'])->name('list.upcoming');
+    Route::get('/all', [EventListController::class, 'indexAll'])->name('index.all');
+    Route::get('/upcoming', [EventListController::class, 'indexUpcoming'])->name('index.upcoming');
 
 
 

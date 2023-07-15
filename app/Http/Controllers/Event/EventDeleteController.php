@@ -17,15 +17,15 @@ class EventDeleteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function delete($id): RedirectResponse
+    public function destroy($id): RedirectResponse
     {
         $eventDeleteUseCase = new EventDeleteUseCase();
         $deleted = $eventDeleteUseCase->deleteEvent($id);
 
         if ($deleted) {
-            return redirect()->route('list.upcoming')->with('status', 'event-deleted');
+            return redirect()->route('index.upcoming')->with('status', 'event-deleted');
         } else {
-            return redirect()->route('event.detail', ['id' => $id])->with('status', 'cannot-delete-with-participants');
+            return redirect()->route('event.show', ['id' => $id])->with('status', 'cannot-delete-with-participants');
         }
     }
 }

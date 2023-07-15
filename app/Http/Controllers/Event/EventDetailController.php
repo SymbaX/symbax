@@ -32,7 +32,7 @@ class EventDetailController extends Controller
      * @param  int  $id
      * @return \Illuminate\View\View
      */
-    public function detail($id)
+    public function show($id)
     {
         $eventDetail = $this->eventDetailUseCase->getEventDetail($id);
 
