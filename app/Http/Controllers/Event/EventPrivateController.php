@@ -37,7 +37,7 @@ class EventPrivateController extends Controller
 
         if ($isParticipantApproved || $isEventOrganizer) {
             // approvedのイベント参加者またはイベントの作成者の場合は、ページを表示する
-            return view('event.approved-users-and-organizer-only', ['event' => $id]);
+            return view('event.private', ['event' => $id]);
         }
 
         // アクセス権がない場合は403 Forbiddenエラーを返す
