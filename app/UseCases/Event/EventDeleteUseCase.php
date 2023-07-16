@@ -6,6 +6,11 @@ use App\Models\Event;
 use App\Models\EventParticipant;
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * イベント削除ユースケース
+ *
+ * イベントの削除に関するビジネスロジックを提供するユースケースクラスです。
+ */
 class EventDeleteUseCase
 {
     /**
@@ -14,8 +19,8 @@ class EventDeleteUseCase
      * 指定されたイベントを削除します。参加者がいる場合は削除できません。
      * 関連する画像ファイルも削除されます。
      *
-     * @param  int  $id
-     * @return bool true if the event was successfully deleted; otherwise, false.
+     * @param  int  $id イベントID
+     * @return bool イベントが正常に削除された場合はtrue、削除できない場合はfalseを返します。
      */
     public function deleteEvent($id)
     {

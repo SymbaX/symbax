@@ -8,13 +8,22 @@ use App\Models\User;
 use Illuminate\Mail\Markdown;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * イベントの詳細取得ユースケース
+ *
+ * イベントの詳細情報を取得するためのユースケースクラスです。
+ */
 class EventDetailUseCase
 {
     /**
      * イベントの詳細を取得します。
      *
-     * @param int $id
-     * @return array
+     * 指定されたイベントIDに基づいて、イベントの詳細情報を取得します。
+     * イベントの詳細はMarkdown形式で保存されているため、表示の際にパースされます。
+     * イベントに参加しているユーザーやイベントの作成者を判定し、関連情報も取得します。
+     *
+     * @param int $id イベントID
+     * @return array イベントの詳細情報を含む連想配列
      */
     public function getEventDetail($id): array
     {

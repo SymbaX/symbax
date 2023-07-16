@@ -11,6 +11,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
+/**
+ * イベント参加ステータスユースケース
+ *
+ * イベントの参加ステータスに関連するユースケースを提供するクラスです。
+ */
 class EventStatusUseCase
 {
     /**
@@ -21,7 +26,7 @@ class EventStatusUseCase
     /**
      * EventStatusUseCaseの新しいインスタンスを作成します。
      *
-     * @param  OperationLogController  $operationLogController
+     * @param OperationLogController $operationLogController
      * @return void
      */
     public function __construct(OperationLogController $operationLogController)
@@ -34,8 +39,8 @@ class EventStatusUseCase
      *
      * リクエストから受け取ったデータを検証し、指定されたイベントに参加リクエストを送信します。
      *
-     * @param  Request  $request
-     * @return string
+     * @param Request $request リクエストデータ
+     * @return string 参加リクエストの結果を表す文字列
      */
     public function joinRequest(Request $request): string
     {
@@ -81,8 +86,8 @@ class EventStatusUseCase
      *
      * リクエストから受け取ったデータを検証し、指定されたイベントへの参加をキャンセルします。
      *
-     * @param  Request  $request
-     * @return string
+     * @param Request $request リクエストデータ
+     * @return string 参加キャンセルの結果を表す文字列
      */
     public function cancelJoin(Request $request): string
     {
@@ -115,8 +120,8 @@ class EventStatusUseCase
      *
      * リクエストから受け取ったデータを検証し、指定されたイベントへの参加ステータスを変更します。
      *
-     * @param  Request  $request
-     * @return string
+     * @param Request $request リクエストデータ
+     * @return string 参加ステータス変更の結果を表す文字列
      */
     public function changeStatus(Request $request): string
     {

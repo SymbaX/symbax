@@ -7,6 +7,11 @@ use App\Models\Event;
 use App\Models\OperationLog;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * イベント作成ユースケース
+ *
+ * イベントの作成に関するビジネスロジックを提供するユースケースクラスです。
+ */
 class EventCreateUseCase
 {
     /**
@@ -21,16 +26,15 @@ class EventCreateUseCase
         return view('event.create');
     }
 
-
     /**
      * イベントの作成
      *
      * リクエストから受け取ったデータを検証し、新しいイベントを作成します。
      *
      * @param  CreateRequest  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return int イベントのID
      */
-    public function store(CreateRequest $request)
+    public function store(CreateRequest $request): int
     {
         $validatedData = $request->validated();
 
@@ -54,7 +58,7 @@ class EventCreateUseCase
 
         $this->createEventCreationLog($event->id, $organizerId);
 
-        return redirect()->back()->with('status', 'event-create');
+        return $event->id;
     }
 
     /**
@@ -65,7 +69,7 @@ class EventCreateUseCase
      * @param  CreateRequest  $request
      * @return string
      */
-    private function storeEventImage(CreateRequest $request)
+    private function storeEventImage(CreateRequest $request): string
     {
         return $request->file('image_path')->store('public/events');
     }

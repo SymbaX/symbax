@@ -45,6 +45,14 @@
                             {{ __('Create event') }}
                         </x-dropdown-link>
 
+                        <x-dropdown-link :href="route('index.join')">
+                            {{ __('Join event') }}
+                        </x-dropdown-link>
+
+                        <x-dropdown-link :href="route('index.organizer')">
+                            {{ __('Organizer event') }}
+                        </x-dropdown-link>
+
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
@@ -106,6 +114,14 @@
             <div class="mt-3 space-y-1">
                 <x-responsive-nav-link :href="route('event.create')">
                     {{ __('Create event') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('index.join')">
+                    {{ __('Join event') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('index.organizer')">
+                    {{ __('Organizer event') }}
                 </x-responsive-nav-link>
 
                 <x-responsive-nav-link :href="route('profile.edit')">
