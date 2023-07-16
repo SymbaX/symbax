@@ -71,7 +71,8 @@
                             <li>
 
                                 @if ($event->organizer_id === Auth::id())
-                                    <form action="{{ route('event.change.status') }}" method="POST">
+                                    <form action="{{ route('event.change.status', ['event_id' => $event->id]) }}"
+                                        method="POST">
                                         @csrf
                                         @method('PATCH')
                                         <input type="hidden" name="event_id" value="{{ $event->id }}">
@@ -89,18 +90,18 @@
                     </ul>
 
                     <a
-                        href="{{ route('event.approved.users.and.organizer.only', ['id' => $event->id]) }}">{{ __('Participant only page') }}</a>
+                        href="{{ route('event.members', ['event_id' => $event->id]) }}">{{ __('Participant only page') }}</a>
                     <br /><br />
 
 
 
-                    <a href="{{ route('event.edit', ['id' => $event->id]) }}" class="text-blue-500 underline">
+                    <a href="{{ route('event.edit', ['event_id' => $event->id]) }}" class="text-blue-500 underline">
                         <x-primary-button onclick="showLoading()">{{ __('Edit event') }}</x-primary-button>
                     </a>
 
                     <br /><br />
 
-                    <form method="POST" action="{{ route('event.delete', ['id' => $event->id]) }}">
+                    <form method="POST" action="{{ route('event.destroy', ['event_id' => $event->id]) }}">
                         @csrf
                         @method('DELETE')
                         <input type="hidden" name="event_id" value="{{ $event->id }}">
@@ -112,8 +113,8 @@
                 @else
                     @if ($is_join)
                         <!-- 未参加の場合 -->
-                        <form method="post" action="{{ route('event.join.request') }}" class="mt-6 space-y-6"
-                            enctype="multipart/form-data">
+                        <form method="post" action="{{ route('event.join.request', ['event_id' => $event->id]) }}"
+                            class="mt-6 space-y-6" enctype="multipart/form-data">
                             @csrf
                             @method('patch')
                             <input type="hidden" name="event_id" value="{{ $event->id }}">
@@ -126,12 +127,12 @@
                         <!-- 参加済みの場合 -->
                         @if ($your_status == 'approved')
                             <a
-                                href="{{ route('event.approved.users.and.organizer.only', ['id' => $event->id]) }}">{{ __('Participant only page') }}</a>
+                                href="{{ route('event.members', ['event_id' => $event->id]) }}">{{ __('Participant only page') }}</a>
                         @endif
                         <br /><br />
 
                         @if ($your_status != 'rejected')
-                            <form action="{{ route('event.cancel-join') }}" method="POST">
+                            <form action="{{ route('event.cancel-join', ['event_id' => $event->id]) }}" method="POST">
                                 @csrf
                                 @method('patch')
                                 <input type="hidden" name="event_id" value="{{ $event->id }}">
@@ -209,6 +210,10 @@
                             class="text-sm text-gray-600">
                             {{ __('Rejected events cannot be canceled.') }}
                         </p>
+                    @endif
+                    @if (session('status') === 'event-create')
+                        <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                            class="text-sm text-gray-600">{{ __('Saved.') }}</p>
                     @endif
                 </div>
             @else
