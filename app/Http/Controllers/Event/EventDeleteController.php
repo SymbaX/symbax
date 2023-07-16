@@ -37,7 +37,7 @@ class EventDeleteController extends Controller
      * @param int $id 削除対象のイベントID
      * @return RedirectResponse リダイレクトレスポンス
      */
-    public function destroy($id): RedirectResponse
+    public function deleteEvent($id): RedirectResponse
     {
         $deleted = $this->eventDeleteUseCase->deleteEvent($id);
 

@@ -26,7 +26,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::patch('/event/{event_id}/join-request', [EventStatusController::class, 'joinRequest'])->name('event.join.request');
     Route::patch('/event/{event_id}/cancel-join', [EventStatusController::class, 'cancelJoin'])->name('event.cancel-join');
-    Route::delete('/event/{event_id}/delete',  [EventDeleteController::class, 'destroy'])->name('event.destroy');
+    Route::delete('/event/{event_id}/delete',  [EventDeleteController::class, 'deleteEvent'])->name('event.destroy');
 
     Route::patch('/event/{event_id}/change-status', [EventStatusController::class, 'changeStatus'])->name('event.change.status');
     Route::get('/event/{event_id}/members', [EventPrivateController::class, 'create'])

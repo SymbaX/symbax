@@ -35,7 +35,7 @@ class EventPrivateController extends Controller
         $isParticipantApproved = $checkParticipantStatus->execute($id);
         $isEventOrganizer = $checkEventOrganizer->execute($id);
 
-        if ($isParticipantApproved || $isEventOrganizer) {
+        if ($isParticipantApproved === "approved" || $isEventOrganizer) {
             // approvedのイベント参加者またはイベントの作成者の場合は、ページを表示する
             return view('event.private', ['event' => $id]);
         }
