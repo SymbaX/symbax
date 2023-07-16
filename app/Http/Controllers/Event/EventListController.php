@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Event;
 
 use App\Http\Controllers\Controller;
 use App\UseCases\Event\EventListUseCase;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class EventListController extends Controller
@@ -48,5 +49,33 @@ class EventListController extends Controller
     {
         $events = $this->eventListUseCase->getAllEvents();
         return view('event.list-all', ['events' => $events]);
+    }
+
+    /**
+     * 参加しているイベント一覧の表示
+     *
+     * 参加しているイベントを日付の降順でページネーションして表示します。
+     *
+     * @return \Illuminate\View\View
+     */
+    public function indexJoin(): View
+    {
+        $user = Auth::user();
+        $events = $this->eventListUseCase->getJoinedEvents($user);
+        return view('event.list-join', ['events' => $events]);
+    }
+
+    /**
+     * 作成したイベント一覧の表示
+     *
+     * ユーザーが作成したイベントを日付の降順でページネーションして表示します。
+     *
+     * @return \Illuminate\View\View
+     */
+    public function indexOrganizer(): View
+    {
+        $user = Auth::user();
+        $events = $this->eventListUseCase->getOrganizedEvents($user);
+        return view('event.list-organizer', ['events' => $events]);
     }
 }

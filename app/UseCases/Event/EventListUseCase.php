@@ -3,6 +3,7 @@
 namespace App\UseCases\Event;
 
 use App\Models\Event;
+use App\Models\User;
 use Carbon\Carbon;
 
 class EventListUseCase
@@ -34,5 +35,37 @@ class EventListUseCase
     {
         return Event::orderBy('date', 'desc')
             ->paginate($perPage);
+    }
+
+
+
+    /**
+     * Get the events that the user has joined.
+     *
+     * @param  User  $user
+     * @param  int  $perPage
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function getJoinedEvents(User $user, $perPage = 12)
+    {
+        return $user->joinedEvents()
+            ->whereDate('date', '>=', Carbon::today())
+            ->orderBy('date', 'desc')
+            ->paginate($perPage);
+    }
+
+
+    /**
+     * 作成したイベント一覧の取得
+     *
+     * ユーザーが作成したイベントを日付の降順で取得します。
+     *
+     * @param  User  $user
+     * @param  int  $perPage
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function getOrganizedEvents(User $user, $perPage = 12)
+    {
+        return $user->organizedEvents()->orderBy('date', 'desc')->paginate($perPage);
     }
 }
