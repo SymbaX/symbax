@@ -6,15 +6,20 @@ use App\Models\Event;
 use App\Models\User;
 use Carbon\Carbon;
 
+/**
+ * イベント一覧ユースケース
+ *
+ * イベントの一覧取得に関連するユースケースを提供するクラスです。
+ */
 class EventListUseCase
 {
     /**
-     * イベント一覧の取得
+     * 今後のイベント一覧の取得
      *
-     * 今日以降の日付で開催されるイベントを日付の降順で取得します。
+     * 今日以降の日付で開催されるイベントを日付の降順で指定されたページ数毎に取得します。
      *
-     * @param  int  $perPage
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @param int $perPage 1ページ当たりの表示件数
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator 今後のイベントのページネーションオブジェクト
      */
     public function getUpcomingEvents($perPage = 12)
     {
@@ -26,10 +31,10 @@ class EventListUseCase
     /**
      * 全てのイベント一覧の取得
      *
-     * すべてのイベントを日付の降順で取得します。
+     * すべてのイベントを日付の降順で指定されたページ数毎に取得します。
      *
-     * @param  int  $perPage
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @param int $perPage 1ページ当たりの表示件数
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator 全てのイベントのページネーションオブジェクト
      */
     public function getAllEvents($perPage = 12)
     {
@@ -37,14 +42,14 @@ class EventListUseCase
             ->paginate($perPage);
     }
 
-
-
     /**
-     * Get the events that the user has joined.
+     * ユーザーが参加しているイベント一覧の取得
      *
-     * @param  User  $user
-     * @param  int  $perPage
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * 指定したユーザーが参加している今後のイベントを日付の降順で指定されたページ数毎に取得します。
+     *
+     * @param User $user ユーザー
+     * @param int $perPage 1ページ当たりの表示件数
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator ユーザーが参加しているイベントのページネーションオブジェクト
      */
     public function getJoinedEvents(User $user, $perPage = 12)
     {
@@ -54,15 +59,14 @@ class EventListUseCase
             ->paginate($perPage);
     }
 
-
     /**
-     * 作成したイベント一覧の取得
+     * ユーザーが作成したイベント一覧の取得
      *
-     * ユーザーが作成したイベントを日付の降順で取得します。
+     * 指定したユーザーが作成したイベントを日付の降順で指定されたページ数毎に取得します。
      *
-     * @param  User  $user
-     * @param  int  $perPage
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @param User $user ユーザー
+     * @param int $perPage 1ページ当たりの表示件数
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator ユーザーが作成したイベントのページネーションオブジェクト
      */
     public function getOrganizedEvents(User $user, $perPage = 12)
     {

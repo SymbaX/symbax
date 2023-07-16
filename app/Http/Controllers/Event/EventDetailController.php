@@ -4,8 +4,12 @@ namespace App\Http\Controllers\Event;
 
 use App\Http\Controllers\Controller;
 use App\UseCases\Event\EventDetailUseCase;
-use Illuminate\Http\RedirectResponse;
 
+/**
+ * イベント詳細表示コントローラー
+ *
+ * イベントの詳細情報を表示するアクションを提供するコントローラーです。
+ */
 class EventDetailController extends Controller
 {
     /**
@@ -14,10 +18,9 @@ class EventDetailController extends Controller
     private $eventDetailUseCase;
 
     /**
-     * EventDetailUseCaseの新しいインスタンスを作成します。
+     * EventDetailControllerの新しいインスタンスを作成します。
      *
-     * @param  EventDetailUseCase  $eventDetailUseCase
-     * @return void
+     * @param EventDetailUseCase $eventDetailUseCase イベント詳細情報取得に使用するUseCase
      */
     public function __construct(EventDetailUseCase $eventDetailUseCase)
     {
@@ -29,7 +32,7 @@ class EventDetailController extends Controller
      *
      * 指定されたイベントの詳細情報を表示します。
      *
-     * @param  int  $id
+     * @param int $id 表示するイベントのID
      * @return \Illuminate\View\View
      */
     public function show($id)

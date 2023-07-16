@@ -1,13 +1,12 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\Event\PrivetController;
 use App\Http\Controllers\Event\EventCreateController;
 use App\Http\Controllers\Event\EventDeleteController;
 use App\Http\Controllers\Event\EventDetailController;
 use App\Http\Controllers\Event\EventEditController;
 use App\Http\Controllers\Event\EventListController;
 use App\Http\Controllers\Event\EventStatusController;
+use App\Http\Controllers\Event\PrivateController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,7 +29,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/event/{event_id}/delete',  [EventDeleteController::class, 'destroy'])->name('event.destroy');
 
     Route::patch('/event/{event_id}/change-status', [EventStatusController::class, 'changeStatus'])->name('event.change.status');
-    Route::get('/event/{event_id}/members', [PrivetController::class, 'create'])
+    Route::get('/event/{event_id}/members', [PrivateController::class, 'create'])
         ->name('event.members');
 
     Route::get('/events/all', [EventListController::class, 'indexAll'])->name('index.all');
