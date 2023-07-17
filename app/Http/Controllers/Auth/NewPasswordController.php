@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
-use App\Http\Controllers\OperationLogController;
+use App\UseCases\OperationLog\OperationLogUseCase;
 use App\Models\User;
 
 /**
@@ -22,19 +22,19 @@ use App\Models\User;
 class NewPasswordController extends Controller
 {
     /**
-     * @var OperationLogController
+     * @var OperationLogUseCase
      */
-    private $operationLogController;
+    private $operationLogUseCase;
 
     /**
-     * OperationLogControllerの新しいインスタンスを作成します。
+     * OperationLogUseCaseの新しいインスタンスを作成します。
      *
-     * @param  OperationLogController  $operationLogController
+     * @param  OperationLogUseCase  $operationLogUseCase
      * @return void
      */
-    public function __construct(OperationLogController $operationLogController)
+    public function __construct(OperationLogUseCase $operationLogUseCase)
     {
-        $this->operationLogController = $operationLogController;
+        $this->operationLogUseCase = $operationLogUseCase;
     }
 
     /**
@@ -78,16 +78,14 @@ class NewPasswordController extends Controller
             }
         );
 
-
-
         $user = User::where('email', $request->email)->first();
 
         if ($status == Password::PASSWORD_RESET) {
             $userId = $user->id;
-            $this->operationLogController->store('Email: ' . $request->email . ' (ID: ' . $userId . ') のパスワードをリセットしました');
+            $this->operationLogUseCase->store('Email: ' . $request->email . ' (USER-ID: ' . $userId . ') のパスワードをリセットしました');
         } else {
             $userId = $user->id ?? '不明';
-            $this->operationLogController->store('Email: ' . $request->email . ' (ID: ' . $userId . ') のパスワードリセットに失敗しました');
+            $this->operationLogUseCase->store('Email: ' . $request->email . ' (USER-ID: ' . $userId . ') のパスワードリセットに失敗しました');
         }
 
         // パスワードが正常にリセットされた場合は、認証されたユーザーのアプリケーションホームビューにリダイレクトします。

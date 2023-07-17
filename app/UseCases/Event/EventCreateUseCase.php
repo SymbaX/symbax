@@ -5,6 +5,7 @@ namespace App\UseCases\Event;
 use App\Http\Requests\Event\CreateRequest;
 use App\Models\Event;
 use App\Models\OperationLog;
+use App\UseCases\OperationLog\OperationLogUseCase;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -14,6 +15,22 @@ use Illuminate\Support\Facades\Auth;
  */
 class EventCreateUseCase
 {
+    /**
+     * @var OperationLogUseCase
+     */
+    private $operationLogUseCase;
+
+    /**
+     * OperationLogUseCaseの新しいインスタンスを作成します。
+     *
+     * @param  OperationLogUseCase  $operationLogUseCase
+     * @return void
+     */
+    public function __construct(OperationLogUseCase $operationLogUseCase)
+    {
+        $this->operationLogUseCase = $operationLogUseCase;
+    }
+
     /**
      * イベント作成フォームの表示
      *
@@ -56,7 +73,7 @@ class EventCreateUseCase
             'organizer_id' => $organizerId,
         ]);
 
-        $this->createEventCreationLog($event->id, $organizerId);
+        $this->operationLogUseCase->store('EVENT-ID:' . $event->id . 'のイベントを作成しました');
 
         return $event->id;
     }
@@ -72,22 +89,5 @@ class EventCreateUseCase
     private function storeEventImage(CreateRequest $request): string
     {
         return $request->file('image_path')->store('public/events');
-    }
-
-    /**
-     * イベント作成の操作ログを作成
-     *
-     * イベント作成の操作ログを作成します。
-     *
-     * @param  int  $eventId
-     * @param  int  $organizerId
-     * @return void
-     */
-    private function createEventCreationLog(int $eventId, int $organizerId)
-    {
-        OperationLog::create([
-            'user_id' => $organizerId,
-            'action' => 'イベントを作成しました ID:' . $eventId,
-        ]);
     }
 }

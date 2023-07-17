@@ -2,14 +2,16 @@
 
 namespace App\UseCases\Event;
 
-use App\Http\Controllers\OperationLogController;
+
 use App\Mail\MailSend;
 use App\Models\Event;
 use App\Models\EventParticipant;
 use App\Models\User;
+use App\UseCases\OperationLog\OperationLogUseCase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+
 
 /**
  * イベント参加ステータスユースケース
@@ -19,19 +21,19 @@ use Illuminate\Support\Facades\Mail;
 class EventStatusUseCase
 {
     /**
-     * @var OperationLogController
+     * @var OperationLogUseCase
      */
-    private $operationLogController;
+    private $operationLogUseCase;
 
     /**
-     * EventStatusUseCaseの新しいインスタンスを作成します。
+     * OperationLogUseCaseの新しいインスタンスを作成します。
      *
-     * @param OperationLogController $operationLogController
+     * @param  OperationLogUseCase  $operationLogUseCase
      * @return void
      */
-    public function __construct(OperationLogController $operationLogController)
+    public function __construct(OperationLogUseCase $operationLogUseCase)
     {
-        $this->operationLogController = $operationLogController;
+        $this->operationLogUseCase = $operationLogUseCase;
     }
 
     /**
@@ -71,7 +73,7 @@ class EventStatusUseCase
             'status' => 'pending',
         ]);
 
-        $this->operationLogController->store('ID:' . $event_id . 'のイベントに参加リクエストを送信しました');
+        $this->operationLogUseCase->store('EVENT-ID:' . $event_id . 'のイベントに参加リクエストを送信しました');
 
         // メール送信処理
         $mail = new MailSend($event);
@@ -110,7 +112,7 @@ class EventStatusUseCase
         // 参加をキャンセル
         $participant->delete();
 
-        $this->operationLogController->store('ID:' . $event_id . 'のイベントへの参加をキャンセルしました');
+        $this->operationLogUseCase->store('EVENT-ID:' . $event_id . 'のイベントへの参加をキャンセルしました');
 
         return 'canceled-join';
     }
@@ -147,7 +149,7 @@ class EventStatusUseCase
                 $participant->status = $status;
                 $participant->save();
 
-                $this->operationLogController->store('USER-ID: ' . $user_id . 'のイベント(EVENT-ID: ' . $event_id . ')への参加ステータスを' . $status . 'に変更しました');
+                $this->operationLogUseCase->store('USER-ID: ' . $user_id . 'のイベント(EVENT-ID: ' . $event_id . ')への参加ステータスを' . $status . 'に変更しました');
 
                 // メール送信処理
                 $mail = new MailSend($event);

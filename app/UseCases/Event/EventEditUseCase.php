@@ -6,6 +6,7 @@ use App\Http\Requests\Event\UpdateRequest;
 use App\Models\Event;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\UseCases\OperationLog\OperationLogUseCase;
 
 /**
  * イベント編集ユースケース
@@ -14,6 +15,22 @@ use Illuminate\Support\Facades\Storage;
  */
 class EventEditUseCase
 {
+    /**
+     * @var OperationLogUseCase
+     */
+    private $operationLogUseCase;
+
+    /**
+     * OperationLogUseCaseの新しいインスタンスを作成します。
+     *
+     * @param  OperationLogUseCase  $operationLogUseCase
+     * @return void
+     */
+    public function __construct(OperationLogUseCase $operationLogUseCase)
+    {
+        $this->operationLogUseCase = $operationLogUseCase;
+    }
+
     /**
      * イベントの編集可能なインスタンスを取得します。
      *
@@ -63,6 +80,8 @@ class EventEditUseCase
         }
 
         $event->update($validatedData);
+
+        $this->operationLogUseCase->store('EVENT-ID: ' . $event->id . ' のイベントを編集しました');
 
         return true;
     }

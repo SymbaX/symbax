@@ -5,6 +5,7 @@ namespace App\UseCases\Event;
 use App\Models\Event;
 use App\Models\EventParticipant;
 use Illuminate\Support\Facades\Storage;
+use App\UseCases\OperationLog\OperationLogUseCase;
 
 /**
  * イベント削除ユースケース
@@ -13,6 +14,22 @@ use Illuminate\Support\Facades\Storage;
  */
 class EventDeleteUseCase
 {
+    /**
+     * @var OperationLogUseCase
+     */
+    private $operationLogUseCase;
+
+    /**
+     * OperationLogUseCaseの新しいインスタンスを作成します。
+     *
+     * @param  OperationLogUseCase  $operationLogUseCase
+     * @return void
+     */
+    public function __construct(OperationLogUseCase $operationLogUseCase)
+    {
+        $this->operationLogUseCase = $operationLogUseCase;
+    }
+
     /**
      * イベントの削除
      *
@@ -35,6 +52,8 @@ class EventDeleteUseCase
         // イベントを削除し、関連する画像ファイルを削除します
         Storage::delete($event->image_path);
         $event->delete();
+
+        $this->operationLogUseCase->store('EVENT-ID:' . $event->id . 'のイベントを削除しました');
 
         return true;
     }

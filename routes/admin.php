@@ -1,13 +1,16 @@
 <?php
 
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\ListUsersController;
+use App\Http\Controllers\Admin\UserUpdateController;
+use App\Http\Controllers\Admin\ListOperationLogsController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'verified', 'admin'])->group(function () {
 
-    Route::get('/admin', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-    Route::get('/admin/users', [AdminController::class, 'listUsers'])->name('admin.users');
-    Route::patch('/admin/users/{user}', [AdminController::class, 'userUpdate'])->name('admin.user.update');
+    Route::get('/admin', AdminDashboardController::class)->name('admin.dashboard');
+    Route::get('/admin/users', ListUsersController::class)->name('admin.users');
+    Route::patch('/admin/users/{user}', UserUpdateController::class)->name('admin.user.update');
 
-    Route::get('/admin/operation-logs', [AdminController::class, 'listOperationLogs'])->name('admin.operation-logs');
+    Route::get('/admin/operation-logs', ListOperationLogsController::class)->name('admin.operation-logs');
 });

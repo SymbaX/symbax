@@ -7,7 +7,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\RedirectResponse;
-use App\Http\Controllers\OperationLogController;
+use App\UseCases\OperationLog\OperationLogUseCase;
 
 /**
  * メール検証コントローラー
@@ -17,19 +17,19 @@ use App\Http\Controllers\OperationLogController;
 class VerifyEmailController extends Controller
 {
     /**
-     * @var OperationLogController
+     * @var OperationLogUseCase
      */
-    private $operationLogController;
+    private $operationLogUseCase;
 
     /**
-     * OperationLogControllerの新しいインスタンスを作成します。
+     * OperationLogUseCaseの新しいインスタンスを作成します。
      *
-     * @param  OperationLogController  $operationLogController
+     * @param  OperationLogUseCase  $operationLogUseCase
      * @return void
      */
-    public function __construct(OperationLogController $operationLogController)
+    public function __construct(OperationLogUseCase $operationLogUseCase)
     {
-        $this->operationLogController = $operationLogController;
+        $this->operationLogUseCase = $operationLogUseCase;
     }
 
     /**
@@ -48,7 +48,7 @@ class VerifyEmailController extends Controller
             event(new Verified($request->user()));
         }
 
-        $this->operationLogController->store('メールアドレスの検証が完了しました');
+        $this->operationLogUseCase->store('メールアドレスの検証が完了しました');
 
         return redirect()->intended(RouteServiceProvider::HOME . '?verified=1');
     }
