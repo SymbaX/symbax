@@ -2,10 +2,10 @@
 
 namespace App\UseCases\Admin;
 
-use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Validation\Rule;
 use App\Http\Controllers\OperationLogController;
+use App\Http\Requests\Admin\UserUpdateRequest;
 use App\Models\User;
 
 class UserUpdateUseCase
@@ -17,25 +17,16 @@ class UserUpdateUseCase
         $this->operationLogController = $operationLogController;
     }
 
-    public function execute(Request $request, User $user)
+    public function execute(UserUpdateRequest $request, User $user): RedirectResponse
     {
-        // バリデーション
-        $validatedData = $request->validate([
-            'college' => ['required', 'exists:colleges,id'],
-            'department' => [
-                'required', 'exists:departments,id', Rule::exists('departments', 'id')->where(function ($query) use ($request) {
-                    $query->where('college_id', $request->input('college'));
-                })
-            ],
-            'role' => 'required',
-        ]);
+        // バリデーションはリクエストクラスに記述したルールにより自動的に実行される
 
         // College IDとDepartment IDを更新
-        $user->college_id = $validatedData['college'];
-        $user->department_id = $validatedData['department'];
+        $user->college_id = $request->input('college');
+        $user->department_id = $request->input('department');
 
         // ロールを更新
-        $user->role_id = $validatedData['role'];
+        $user->role_id = $request->input('role');
 
         // ユーザーの変更を保存
         $user->save();

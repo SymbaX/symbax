@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\UseCases\Admin\UserUpdateUseCase;
-use Illuminate\Http\Request;
+use App\Http\Requests\Admin\UserUpdateRequest;
 use App\Models\User;
 
 class UserUpdateController extends Controller
@@ -16,7 +16,7 @@ class UserUpdateController extends Controller
         $this->userUpdateUseCase = $userUpdateUseCase;
     }
 
-    public function __invoke(Request $request, User $user)
+    public function __invoke(UserUpdateRequest $request, User $user)
     {
         return $this->userUpdateUseCase->execute($request, $user);
     }
