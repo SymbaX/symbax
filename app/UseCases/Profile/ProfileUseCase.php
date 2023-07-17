@@ -4,7 +4,9 @@ namespace App\UseCases\Profile;
 
 use App\Http\Requests\Profile\ProfileDeleteRequest;
 use App\Http\Requests\Profile\ProfileUpdateRequest;
+use App\UseCases\OperationLog\OperationLogUseCase;
 use Illuminate\Support\Facades\Auth;
+
 
 /**
  * プロフィールに関するユースケースクラス
@@ -13,6 +15,21 @@ use Illuminate\Support\Facades\Auth;
  */
 class ProfileUseCase
 {
+    /**
+     * @var OperationLogUseCase
+     */
+    private $operationLogUseCase;
+
+    /**
+     * OperationLogUseCaseの新しいインスタンスを作成します。
+     *
+     * @param  OperationLogUseCase  $operationLogUseCase
+     * @return void
+     */
+    public function __construct(OperationLogUseCase $operationLogUseCase)
+    {
+        $this->operationLogUseCase = $operationLogUseCase;
+    }
     /**
      * プロフィールを更新します。
      *
@@ -29,6 +46,8 @@ class ProfileUseCase
             $user->email_verified_at = null;
         }
 
+        $this->operationLogUseCase->store('プロフィールを更新しました');
+
         $user->save();
     }
 
@@ -40,6 +59,9 @@ class ProfileUseCase
      */
     public function destroy(ProfileDeleteRequest $request)
     {
+        $this->operationLogUseCase->store('アカウントを削除しました');
+
+
         $user = $request->user();
         $user->delete();
 
