@@ -4,16 +4,26 @@ namespace App\UseCases\Admin;
 
 use App\Models\OperationLog;
 use App\Models\User;
-use App\Http\Controllers\OperationLogController;
+use App\UseCases\OperationLog\OperationLogUseCase;
 
 class ListOperationLogsUseCase
 {
-    private $operationLogController;
+    /**
+     * @var OperationLogUseCase
+     */
+    private $operationLogUseCase;
 
-    public function __construct(OperationLogController $operationLogController)
+    /**
+     * OperationLogUseCaseの新しいインスタンスを作成します。
+     *
+     * @param  OperationLogUseCase  $operationLogUseCase
+     * @return void
+     */
+    public function __construct(OperationLogUseCase $operationLogUseCase)
     {
-        $this->operationLogController = $operationLogController;
+        $this->operationLogUseCase = $operationLogUseCase;
     }
+
 
     public function execute()
     {
@@ -25,7 +35,7 @@ class ListOperationLogsUseCase
             $operation_log->user_name = $users[$operation_log->user_id] ?? 'Unknown';
         }
 
-        $this->operationLogController->store('● 操作ログを表示しました');
+        $this->operationLogUseCase->store('● 操作ログ一覧を表示しました');
 
         return $operation_logs;
     }

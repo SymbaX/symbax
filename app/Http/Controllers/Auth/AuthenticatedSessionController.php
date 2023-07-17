@@ -9,7 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
-use App\Http\Controllers\OperationLogController;
+use App\UseCases\OperationLog\OperationLogUseCase;
 
 /**
  * ユーザーセッションコントローラー
@@ -19,19 +19,19 @@ use App\Http\Controllers\OperationLogController;
 class AuthenticatedSessionController extends Controller
 {
     /**
-     * @var OperationLogController
+     * @var OperationLogUseCase
      */
-    private $operationLogController;
+    private $operationLogUseCase;
 
     /**
-     * OperationLogControllerの新しいインスタンスを作成します。
+     * OperationLogUseCaseの新しいインスタンスを作成します。
      *
-     * @param  OperationLogController  $operationLogController
+     * @param  OperationLogUseCase  $operationLogUseCase
      * @return void
      */
-    public function __construct(OperationLogController $operationLogController)
+    public function __construct(OperationLogUseCase $operationLogUseCase)
     {
-        $this->operationLogController = $operationLogController;
+        $this->operationLogUseCase = $operationLogUseCase;
     }
 
     /**
@@ -60,7 +60,8 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        $this->operationLogController->store('ログインしました');
+        $this->operationLogUseCase->store('ログインしました');
+
 
         return redirect()->intended(RouteServiceProvider::HOME);
     }
@@ -75,7 +76,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-        $this->operationLogController->store('ログアウトしました');
+        $this->operationLogUseCase->store('ログアウトしました');
 
         Auth::guard('web')->logout();
 

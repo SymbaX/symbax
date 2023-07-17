@@ -6,15 +6,24 @@ use App\Models\User;
 use App\Models\College;
 use App\Models\Department;
 use App\Models\Role;
-use App\Http\Controllers\OperationLogController;
+use App\UseCases\OperationLog\OperationLogUseCase;
 
 class ListUsersUseCase
 {
-    private $operationLogController;
+    /**
+     * @var OperationLogUseCase
+     */
+    private $operationLogUseCase;
 
-    public function __construct(OperationLogController $operationLogController)
+    /**
+     * OperationLogUseCaseの新しいインスタンスを作成します。
+     *
+     * @param  OperationLogUseCase  $operationLogUseCase
+     * @return void
+     */
+    public function __construct(OperationLogUseCase $operationLogUseCase)
     {
-        $this->operationLogController = $operationLogController;
+        $this->operationLogUseCase = $operationLogUseCase;
     }
 
     public function execute()
@@ -24,7 +33,7 @@ class ListUsersUseCase
         $departments = Department::all();
         $roles = Role::all();
 
-        $this->operationLogController->store('● ユーザー一覧を表示しました');
+        $this->operationLogUseCase->store('● アカウントの一覧を表示しました');
 
         return [
             'users' => $users,

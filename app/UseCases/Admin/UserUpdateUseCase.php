@@ -4,17 +4,26 @@ namespace App\UseCases\Admin;
 
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
-use App\Http\Controllers\OperationLogController;
 use App\Http\Requests\Admin\UserUpdateRequest;
 use App\Models\User;
+use App\UseCases\OperationLog\OperationLogUseCase;
 
 class UserUpdateUseCase
 {
-    private $operationLogController;
+    /**
+     * @var OperationLogUseCase
+     */
+    private $operationLogUseCase;
 
-    public function __construct(OperationLogController $operationLogController)
+    /**
+     * OperationLogUseCaseの新しいインスタンスを作成します。
+     *
+     * @param  OperationLogUseCase  $operationLogUseCase
+     * @return void
+     */
+    public function __construct(OperationLogUseCase $operationLogUseCase)
     {
-        $this->operationLogController = $operationLogController;
+        $this->operationLogUseCase = $operationLogUseCase;
     }
 
     public function execute(UserUpdateRequest $request, User $user): RedirectResponse
@@ -31,7 +40,8 @@ class UserUpdateUseCase
         // ユーザーの変更を保存
         $user->save();
 
-        $this->operationLogController->store('● ID:' . $user->id . 'のユーザー情報を更新しました', $user->id);
+        $this->operationLogUseCase->store('● USER-ID:' . $user->id . 'のユーザー情報を更新しました', $user->id);
+
 
         return Redirect::route('admin.users')->with('status', 'user-updated');
     }

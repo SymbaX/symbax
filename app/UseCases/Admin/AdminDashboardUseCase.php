@@ -3,22 +3,31 @@
 namespace App\UseCases\Admin;
 
 use App\Models\User;
-use App\Http\Controllers\OperationLogController;
+use App\UseCases\OperationLog\OperationLogUseCase;
 
 class AdminDashboardUseCase
 {
-    private $operationLogController;
+    /**
+     * @var OperationLogUseCase
+     */
+    private $operationLogUseCase;
 
-    public function __construct(OperationLogController $operationLogController)
+    /**
+     * OperationLogUseCaseの新しいインスタンスを作成します。
+     *
+     * @param  OperationLogUseCase  $operationLogUseCase
+     * @return void
+     */
+    public function __construct(OperationLogUseCase $operationLogUseCase)
     {
-        $this->operationLogController = $operationLogController;
+        $this->operationLogUseCase = $operationLogUseCase;
     }
 
     public function execute()
     {
         $users = User::where('role_id', 'admin')->get();
-        $this->operationLogController->store('● 管理者ダッシュボードを表示しました');
 
+        $this->operationLogUseCase->store('● ダッシュボードを表示しました');
         return $users;
     }
 }
