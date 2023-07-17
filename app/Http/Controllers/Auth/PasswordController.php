@@ -3,41 +3,20 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\UseCases\OperationLog\OperationLogUseCase;
+use App\UseCases\Auth\PasswordUseCase;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 
-/**
- * パスワードコントローラー
- *
- * ユーザーのパスワードに関連するコントローラー
- */
 class PasswordController extends Controller
 {
-    /**
-     * @var OperationLogUseCase
-     */
-    private $operationLogUseCase;
+    private $passwordUseCase;
 
-    /**
-     * OperationLogUseCaseの新しいインスタンスを作成します。
-     *
-     * @param  OperationLogUseCase  $operationLogUseCase
-     * @return void
-     */
-    public function __construct(OperationLogUseCase $operationLogUseCase)
+    public function __construct(PasswordUseCase $passwordUseCase)
     {
-        $this->operationLogUseCase = $operationLogUseCase;
+        $this->passwordUseCase = $passwordUseCase;
     }
 
-    /**
-     * ユーザーのパスワードを更新する
-     *
-     * @param Request $request リクエスト
-     * @return RedirectResponse リダイレクトレスポンス
-     */
     public function update(Request $request): RedirectResponse
     {
         $validated = $request->validateWithBag('updatePassword', [
@@ -45,11 +24,7 @@ class PasswordController extends Controller
             'password' => ['required', Password::defaults(), 'confirmed'],
         ]);
 
-        $request->user()->update([
-            'password' => Hash::make($validated['password']),
-        ]);
-
-        $this->operationLogUseCase->store('パスワードを更新しました');
+        $this->passwordUseCase->updatePassword($request->user(), $validated);
 
         return back()->with('status', 'password-updated');
     }

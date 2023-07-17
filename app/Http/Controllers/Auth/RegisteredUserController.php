@@ -3,48 +3,25 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
-use Illuminate\View\View;
 use App\Models\College;
 use App\Models\Department;
+use App\Providers\RouteServiceProvider;
+use App\UseCases\Auth\RegistrationUseCase;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use App\UseCases\OperationLog\OperationLogUseCase;
+use Illuminate\Validation\Rules\Password;
+use Illuminate\View\View;
 
-/**
- * ユーザー登録コントローラー
- *
- * ユーザー登録に関連するコントローラー
- */
 class RegisteredUserController extends Controller
 {
-    /**
-     * @var OperationLogUseCase
-     */
-    private $operationLogUseCase;
+    private $registrationUseCase;
 
-    /**
-     * OperationLogUseCaseの新しいインスタンスを作成します。
-     *
-     * @param  OperationLogUseCase  $operationLogUseCase
-     * @return void
-     */
-    public function __construct(OperationLogUseCase $operationLogUseCase)
+    public function __construct(RegistrationUseCase $registrationUseCase)
     {
-        $this->operationLogUseCase = $operationLogUseCase;
+        $this->registrationUseCase = $registrationUseCase;
     }
 
-    /**
-     * 登録ビューを表示する
-     *
-     * @return View 登録ビューの表示
-     */
     public function create(): View
     {
         $colleges = College::all();
@@ -62,42 +39,23 @@ class RegisteredUserController extends Controller
         ]);
     }
 
-    /**
-     * 登録リクエストの処理を行う
-     *
-     * @param Request $request リクエスト
-     * @return RedirectResponse リダイレクトレスポンス
-     *
-     * @throws \Illuminate\Validation\ValidationException バリデーション例外
-     */
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users'), 'regex:/^[^@]+@g\.neec\.ac\.jp$/',],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users'), 'regex:/^[^@]+@g\.neec\.ac\.jp$/'],
+            'password' => ['required', 'confirmed', Password::defaults()],
             'college' => ['required', 'exists:colleges,id'],
             'department' => [
                 'required', 'exists:departments,id', Rule::exists('departments', 'id')->where(function ($query) use ($request) {
                     $query->where('college_id', $request->input('college'));
-                })
+                }),
             ],
-        ],);
-
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'college_id' => $request->college,
-            'department_id' => $request->department,
         ]);
 
+        $user = $this->registrationUseCase->register($request->all());
 
-        event(new Registered($user));
-
-        Auth::login($user);
-
-        $this->operationLogUseCase->store('ID:' . $user->id . 'のユーザーを登録しました');
+        $this->registrationUseCase->login($user);
 
         return redirect(RouteServiceProvider::HOME);
     }
