@@ -15,7 +15,7 @@ use Illuminate\View\View;
 use App\Models\College;
 use App\Models\Department;
 use Illuminate\Validation\Rule;
-use App\Http\Controllers\OperationLogController;
+use App\UseCases\OperationLog\OperationLogUseCase;
 
 /**
  * ユーザー登録コントローラー
@@ -25,19 +25,19 @@ use App\Http\Controllers\OperationLogController;
 class RegisteredUserController extends Controller
 {
     /**
-     * @var OperationLogController
+     * @var OperationLogUseCase
      */
-    private $operationLogController;
+    private $operationLogUseCase;
 
     /**
-     * OperationLogControllerの新しいインスタンスを作成します。
+     * OperationLogUseCaseの新しいインスタンスを作成します。
      *
-     * @param  OperationLogController  $operationLogController
+     * @param  OperationLogUseCase  $operationLogUseCase
      * @return void
      */
-    public function __construct(OperationLogController $operationLogController)
+    public function __construct(OperationLogUseCase $operationLogUseCase)
     {
-        $this->operationLogController = $operationLogController;
+        $this->operationLogUseCase = $operationLogUseCase;
     }
 
     /**
@@ -97,7 +97,7 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        $this->operationLogController->store('ID:' . $user->id . 'のユーザーを登録しました');
+        $this->operationLogUseCase->store('ID:' . $user->id . 'のユーザーを登録しました');
 
         return redirect(RouteServiceProvider::HOME);
     }

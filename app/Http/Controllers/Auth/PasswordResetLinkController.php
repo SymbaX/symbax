@@ -7,7 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\View\View;
-use App\Http\Controllers\OperationLogController;
+use App\UseCases\OperationLog\OperationLogUseCase;
 use App\Models\User;
 
 /**
@@ -18,19 +18,19 @@ use App\Models\User;
 class PasswordResetLinkController extends Controller
 {
     /**
-     * @var OperationLogController
+     * @var OperationLogUseCase
      */
-    private $operationLogController;
+    private $operationLogUseCase;
 
     /**
-     * OperationLogControllerの新しいインスタンスを作成します。
+     * OperationLogUseCaseの新しいインスタンスを作成します。
      *
-     * @param  OperationLogController  $operationLogController
+     * @param  OperationLogUseCase  $operationLogUseCase
      * @return void
      */
-    public function __construct(OperationLogController $operationLogController)
+    public function __construct(OperationLogUseCase $operationLogUseCase)
     {
-        $this->operationLogController = $operationLogController;
+        $this->operationLogUseCase = $operationLogUseCase;
     }
 
     /**
@@ -68,9 +68,9 @@ class PasswordResetLinkController extends Controller
 
         // ユーザーが存在する場合のみ、ログにユーザーIDを記録
         if ($user) {
-            $this->operationLogController->store('Email: ' . $request->email . ' (ID: ' . $user->id . ')にパスワードリセットリンクを送信しました', '不明');
+            $this->operationLogUseCase->store('Email: ' . $request->email . ' (USER-ID: ' . $user->id . ')にパスワードリセットリンクを送信しました', '不明');
         } else {
-            $this->operationLogController->store('Email: ' . $request->email . ' (不明)にパスワードリセットリンクの送信を試みました', '不明');
+            $this->operationLogUseCase->store('Email: ' . $request->email . ' (USER-ID: 不明)にパスワードリセットリンクの送信を試みました', '不明');
         }
         return $status == Password::RESET_LINK_SENT
             ? back()->with('status', __($status))

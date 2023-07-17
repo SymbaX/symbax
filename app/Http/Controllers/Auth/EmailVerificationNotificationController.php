@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use App\Http\Controllers\OperationLogController;
+use App\UseCases\OperationLog\OperationLogUseCase;
 
 /**
  * メール検証通知コントローラー
@@ -16,20 +16,21 @@ use App\Http\Controllers\OperationLogController;
 class EmailVerificationNotificationController extends Controller
 {
     /**
-     * @var OperationLogController
+     * @var OperationLogUseCase
      */
-    private $operationLogController;
+    private $operationLogUseCase;
 
     /**
-     * OperationLogControllerの新しいインスタンスを作成します。
+     * OperationLogUseCaseの新しいインスタンスを作成します。
      *
-     * @param  OperationLogController  $operationLogController
+     * @param  OperationLogUseCase  $operationLogUseCase
      * @return void
      */
-    public function __construct(OperationLogController $operationLogController)
+    public function __construct(OperationLogUseCase $operationLogUseCase)
     {
-        $this->operationLogController = $operationLogController;
+        $this->operationLogUseCase = $operationLogUseCase;
     }
+
 
     /**
      * 新しいメール検証通知を送信する
@@ -45,7 +46,7 @@ class EmailVerificationNotificationController extends Controller
 
         $request->user()->sendEmailVerificationNotification();
 
-        $this->operationLogController->store('検証メールを再送信しました');
+        $this->operationLogUseCase->store('検証メールを再送信しました');
 
 
         return back()->with('status', 'verification-link-sent');
