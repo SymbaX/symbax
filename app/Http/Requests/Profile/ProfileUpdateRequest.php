@@ -16,7 +16,7 @@ class ProfileUpdateRequest extends FormRequest
     /**
      * リクエストに適用されるバリデーションルールを取得します。
      *
-     * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
+     * @return array バリデーションルールの配列
      */
     public function rules(): array
     {
