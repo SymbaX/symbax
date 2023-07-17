@@ -7,7 +7,7 @@ use App\Http\Controllers\Event\EventEditController;
 use App\Http\Controllers\Event\EventListController;
 use App\Http\Controllers\Event\EventStatusController;
 use App\Http\Controllers\Event\EventPrivateController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Profile\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'verified'])->group(function () {
