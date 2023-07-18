@@ -13,15 +13,33 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
 
+/**
+ * 登録済みユーザーコントローラークラス
+ *
+ * このクラスは、ユーザーの新規登録に関連する処理を提供します。
+ */
 class RegisteredUserController extends Controller
 {
+    /**
+     * @var RegistrationUseCase
+     */
     private $registrationUseCase;
 
+    /**
+     * RegisteredUserControllerの新しいインスタンスを生成します。
+     *
+     * @param RegistrationUseCase $registrationUseCase ユーザーの新規登録に関連するユースケースインスタンス
+     */
     public function __construct(RegistrationUseCase $registrationUseCase)
     {
         $this->registrationUseCase = $registrationUseCase;
     }
 
+    /**
+     * 登録フォームを表示します。
+     *
+     * @return View 登録フォームのViewインスタンス
+     */
     public function create(): View
     {
         $colleges = College::all();
@@ -39,6 +57,12 @@ class RegisteredUserController extends Controller
         ]);
     }
 
+    /**
+     * ユーザーの新規登録を行います。
+     *
+     * @param Request $request リクエスト
+     * @return RedirectResponse リダイレクトレスポンス
+     */
     public function store(Request $request): RedirectResponse
     {
         $request->validate([

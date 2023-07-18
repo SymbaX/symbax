@@ -4,6 +4,11 @@ namespace App\UseCases\Auth;
 
 use App\UseCases\OperationLog\OperationLogUseCase;
 
+/**
+ * メール検証通知ユースケースクラス
+ *
+ * このクラスは、メール検証通知の再送信に関連する処理を提供します。
+ */
 class EmailVerificationNotificationUseCase
 {
     /**
@@ -11,6 +16,11 @@ class EmailVerificationNotificationUseCase
      */
     private $operationLogUseCase;
 
+    /**
+     * OperationLogUseCaseの新しいインスタンスを生成します。
+     *
+     * @param OperationLogUseCase $operationLogUseCase 操作ログに関連するユースケースインスタンス
+     */
     public function __construct(OperationLogUseCase $operationLogUseCase)
     {
         $this->operationLogUseCase = $operationLogUseCase;
@@ -19,7 +29,7 @@ class EmailVerificationNotificationUseCase
     /**
      * メール検証通知の再送信を行います。
      *
-     * @param mixed $user
+     * @param mixed $user 再送信対象のユーザーオブジェクト
      */
     public function resendEmailVerificationNotification($user): void
     {

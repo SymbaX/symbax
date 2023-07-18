@@ -7,6 +7,11 @@ use App\UseCases\OperationLog\OperationLogUseCase;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
+/**
+ * 登録ユースケースクラス
+ *
+ * このクラスは、ユーザーの登録とログイン処理を提供します。
+ */
 class RegistrationUseCase
 {
     /**
@@ -14,6 +19,11 @@ class RegistrationUseCase
      */
     private $operationLogUseCase;
 
+    /**
+     * OperationLogUseCaseの新しいインスタンスを生成します。
+     *
+     * @param OperationLogUseCase $operationLogUseCase 操作ログに関連するユースケースインスタンス
+     */
     public function __construct(OperationLogUseCase $operationLogUseCase)
     {
         $this->operationLogUseCase = $operationLogUseCase;
@@ -22,8 +32,8 @@ class RegistrationUseCase
     /**
      * ユーザーの登録を行います。
      *
-     * @param array $requestData
-     * @return User
+     * @param array $requestData ユーザー登録に必要な入力データ
+     * @return User 登録されたユーザーオブジェクト
      */
     public function register(array $requestData): User
     {
@@ -44,7 +54,7 @@ class RegistrationUseCase
     /**
      * ユーザーをログインさせます。
      *
-     * @param User $user
+     * @param User $user ログインさせるユーザーオブジェクト
      * @return void
      */
     public function login(User $user): void

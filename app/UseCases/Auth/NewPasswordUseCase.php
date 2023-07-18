@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 
+/**
+ * パスワードリセットユースケースクラス
+ *
+ * このクラスは、パスワードリセットの処理を提供します。
+ */
 class NewPasswordUseCase
 {
     /**
@@ -18,6 +23,11 @@ class NewPasswordUseCase
      */
     private $operationLogUseCase;
 
+    /**
+     * OperationLogUseCaseの新しいインスタンスを生成します。
+     *
+     * @param OperationLogUseCase $operationLogUseCase 操作ログに関連するユースケースインスタンス
+     */
     public function __construct(OperationLogUseCase $operationLogUseCase)
     {
         $this->operationLogUseCase = $operationLogUseCase;
@@ -26,8 +36,8 @@ class NewPasswordUseCase
     /**
      * パスワードリセット処理を行います。
      *
-     * @param array $requestData
-     * @return string
+     * @param Request $request リクエストオブジェクト
+     * @return string パスワードリセットの結果
      */
     public function resetPassword(Request $request): string
     {

@@ -8,6 +8,11 @@ use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\RedirectResponse;
 
+/**
+ * メールアドレス検証ユースケースクラス
+ *
+ * このクラスは、メールアドレスの検証を行います。
+ */
 class EmailVerificationUseCase
 {
     /**
@@ -15,6 +20,11 @@ class EmailVerificationUseCase
      */
     private $operationLogUseCase;
 
+    /**
+     * OperationLogUseCaseの新しいインスタンスを生成します。
+     *
+     * @param OperationLogUseCase $operationLogUseCase 操作ログに関連するユースケースインスタンス
+     */
     public function __construct(OperationLogUseCase $operationLogUseCase)
     {
         $this->operationLogUseCase = $operationLogUseCase;
@@ -23,8 +33,8 @@ class EmailVerificationUseCase
     /**
      * メールアドレスを確認済みとしてマークします。
      *
-     * @param EmailVerificationRequest $request
-     * @return RedirectResponse
+     * @param EmailVerificationRequest $request メールアドレス検証リクエスト
+     * @return RedirectResponse リダイレクトレスポンス
      */
     public function verify(EmailVerificationRequest $request): RedirectResponse
     {

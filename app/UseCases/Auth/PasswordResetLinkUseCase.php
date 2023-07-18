@@ -6,6 +6,11 @@ use App\UseCases\OperationLog\OperationLogUseCase;
 use App\Models\User;
 use Illuminate\Support\Facades\Password;
 
+/**
+ * パスワードリセットリンクユースケースクラス
+ *
+ * このクラスは、パスワードリセットリンクの送信処理を提供します。
+ */
 class PasswordResetLinkUseCase
 {
     /**
@@ -13,6 +18,11 @@ class PasswordResetLinkUseCase
      */
     private $operationLogUseCase;
 
+    /**
+     * OperationLogUseCaseの新しいインスタンスを生成します。
+     *
+     * @param OperationLogUseCase $operationLogUseCase 操作ログに関連するユースケースインスタンス
+     */
     public function __construct(OperationLogUseCase $operationLogUseCase)
     {
         $this->operationLogUseCase = $operationLogUseCase;
@@ -21,8 +31,8 @@ class PasswordResetLinkUseCase
     /**
      * パスワードリセットリンクのリクエストを処理します。
      *
-     * @param array $requestData
-     * @return string
+     * @param array $requestData パスワードリセットリンクのリクエストデータ
+     * @return string パスワードリセットリンクの送信結果
      */
     public function sendResetLink(array $requestData): string
     {
