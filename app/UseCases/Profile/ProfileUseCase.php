@@ -61,12 +61,13 @@ class ProfileUseCase
     {
         $this->operationLogUseCase->store('アカウントを削除しました');
 
-
         $user = $request->user();
-        $user->delete();
 
         // ユーザーをログアウトします
         Auth::logout();
+
+        $user->delete();
+
 
         // セッションを無効化し、新しいトークンを生成します
         $request->session()->invalidate();
