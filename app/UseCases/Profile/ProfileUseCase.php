@@ -39,12 +39,8 @@ class ProfileUseCase
     public function update(ProfileUpdateRequest $request)
     {
         $user = $request->user();
-        $user->fill($request->validated());
 
-        // メールアドレスが変更された場合、メール確認日時をリセットします
-        if ($user->isDirty('email')) {
-            $user->email_verified_at = null;
-        }
+        $user->fill($request->validated());
 
         $this->operationLogUseCase->store('プロフィールを更新しました');
 
