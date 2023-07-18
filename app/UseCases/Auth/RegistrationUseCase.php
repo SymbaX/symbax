@@ -35,6 +35,7 @@ class RegistrationUseCase
             'department_id' => $requestData['department'],
         ]);
 
+        $user->sendEmailVerificationNotification();
         $this->operationLogUseCase->store('ID:' . $user->id . 'のユーザーを登録しました');
 
         return $user;
