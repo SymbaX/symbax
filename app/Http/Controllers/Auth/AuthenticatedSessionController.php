@@ -6,40 +6,35 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
-use App\UseCases\OperationLog\OperationLogUseCase;
+use App\UseCases\Auth\AuthSessionUseCase;
 
 /**
- * ユーザーセッションコントローラー
+ * 認証セッションコントローラークラス
  *
- * ユーザーのログイン、ログアウトなどの認証関連の機能を提供します。
+ * このクラスは、認証セッションに関連する操作を提供します。
  */
 class AuthenticatedSessionController extends Controller
 {
     /**
-     * @var OperationLogUseCase
+     * @var AuthSessionUseCase
      */
-    private $operationLogUseCase;
+    private $authSessionUseCase;
 
     /**
-     * OperationLogUseCaseの新しいインスタンスを作成します。
+     * AuthenticatedSessionControllerの新しいインスタンスを生成します。
      *
-     * @param  OperationLogUseCase  $operationLogUseCase
-     * @return void
+     * @param AuthSessionUseCase $authSessionUseCase 認証セッションのユースケースインスタンス
      */
-    public function __construct(OperationLogUseCase $operationLogUseCase)
+    public function __construct(AuthSessionUseCase $authSessionUseCase)
     {
-        $this->operationLogUseCase = $operationLogUseCase;
+        $this->authSessionUseCase = $authSessionUseCase;
     }
 
     /**
-     * ログインビューの表示
+     * ログイン画面を表示します。
      *
-     * ログインビューを表示します。
-     *
-     * @return \Illuminate\View\View
+     * @return View ログイン画面のViewインスタンス
      */
     public function create(): View
     {
@@ -47,42 +42,34 @@ class AuthenticatedSessionController extends Controller
     }
 
     /**
-     * 認証リクエストの処理
+     * ログイン処理を行います。
      *
-     * ログイン認証リクエストを処理します。
-     *
-     * @param  LoginRequest  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @param LoginRequest $request ログインリクエスト
+     * @return RedirectResponse リダイレクトレスポンス
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
+        $credentials = $request->only('email', 'password');
 
-        $request->session()->regenerate();
+        // ログイン処理が成功した場合、指定されたリダイレクト先にリダイレクトします
+        if ($this->authSessionUseCase->processLogin($credentials)) {
+            return redirect()->intended(RouteServiceProvider::HOME);
+        }
 
-        $this->operationLogUseCase->store('ログインしました');
-
-
-        return redirect()->intended(RouteServiceProvider::HOME);
+        // ログイン処理が失敗した場合、エラーメッセージと共にログイン画面にリダイレクトします
+        return back()->withErrors([
+            'email' => trans('auth.failed'),
+        ]);
     }
 
     /**
-     * 認証セッションの破棄
+     * ログアウト処理を行います。
      *
-     * 認証セッションを破棄し、ログアウトします。
-     *
-     * @param  Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse リダイレクトレスポンス
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(): RedirectResponse
     {
-        $this->operationLogUseCase->store('ログアウトしました');
-
-        Auth::guard('web')->logout();
-
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
+        $this->authSessionUseCase->logout();
 
         return redirect('/');
     }
