@@ -3,51 +3,41 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use App\UseCases\OperationLog\OperationLogUseCase;
+use App\UseCases\Auth\EmailVerificationNotificationUseCase;
 
 /**
- * メール検証通知コントローラー
+ * メールアドレス確認通知コントローラークラス
  *
- * メール検証通知に関連するコントローラー
+ * このクラスは、メールアドレスの確認用通知を再送信する処理を提供します。
  */
 class EmailVerificationNotificationController extends Controller
 {
     /**
-     * @var OperationLogUseCase
+     * @var EmailVerificationNotificationUseCase
      */
-    private $operationLogUseCase;
+    private $emailVerificationNotificationUseCase;
 
     /**
-     * OperationLogUseCaseの新しいインスタンスを作成します。
+     * EmailVerificationNotificationControllerの新しいインスタンスを生成します。
      *
-     * @param  OperationLogUseCase  $operationLogUseCase
-     * @return void
+     * @param EmailVerificationNotificationUseCase $emailVerificationNotificationUseCase メールアドレス確認通知のユースケースインスタンス
      */
-    public function __construct(OperationLogUseCase $operationLogUseCase)
+    public function __construct(EmailVerificationNotificationUseCase $emailVerificationNotificationUseCase)
     {
-        $this->operationLogUseCase = $operationLogUseCase;
+        $this->emailVerificationNotificationUseCase = $emailVerificationNotificationUseCase;
     }
 
-
     /**
-     * 新しいメール検証通知を送信する
+     * メールアドレス確認用通知を再送信します。
      *
-     * @param Request $request リクエスト
+     * @param Request $request HTTPリクエスト
      * @return RedirectResponse リダイレクトレスポンス
      */
     public function store(Request $request): RedirectResponse
     {
-        if ($request->user()->hasVerifiedEmail()) {
-            return redirect()->intended(RouteServiceProvider::HOME);
-        }
-
-        $request->user()->sendEmailVerificationNotification();
-
-        $this->operationLogUseCase->store('検証メールを再送信しました');
-
+        $this->emailVerificationNotificationUseCase->resendEmailVerificationNotification($request->user());
 
         return back()->with('status', 'verification-link-sent');
     }

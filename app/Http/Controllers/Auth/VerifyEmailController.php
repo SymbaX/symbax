@@ -3,53 +3,40 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Auth\Events\Verified;
+use App\UseCases\Auth\EmailVerificationUseCase;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\RedirectResponse;
-use App\UseCases\OperationLog\OperationLogUseCase;
 
 /**
- * メール検証コントローラー
+ * メールアドレス検証コントローラークラス
  *
- * メール検証に関連するコントローラー
+ * このクラスは、メールアドレスの検証に関連する処理を提供します。
  */
 class VerifyEmailController extends Controller
 {
     /**
-     * @var OperationLogUseCase
+     * @var EmailVerificationUseCase
      */
-    private $operationLogUseCase;
+    private $emailVerificationUseCase;
 
     /**
-     * OperationLogUseCaseの新しいインスタンスを作成します。
+     * VerifyEmailControllerの新しいインスタンスを生成します。
      *
-     * @param  OperationLogUseCase  $operationLogUseCase
-     * @return void
+     * @param EmailVerificationUseCase $emailVerificationUseCase メールアドレスの検証に関連するユースケースインスタンス
      */
-    public function __construct(OperationLogUseCase $operationLogUseCase)
+    public function __construct(EmailVerificationUseCase $emailVerificationUseCase)
     {
-        $this->operationLogUseCase = $operationLogUseCase;
+        $this->emailVerificationUseCase = $emailVerificationUseCase;
     }
 
     /**
-     * 認証済みユーザーのメールアドレスを確認済みとしてマークする
+     * メールアドレスの検証を行います。
      *
-     * @param EmailVerificationRequest $request メール検証リクエスト
+     * @param EmailVerificationRequest $request メールアドレス検証リクエスト
      * @return RedirectResponse リダイレクトレスポンス
      */
     public function __invoke(EmailVerificationRequest $request): RedirectResponse
     {
-        if ($request->user()->hasVerifiedEmail()) {
-            return redirect()->intended(RouteServiceProvider::HOME . '?verified=1');
-        }
-
-        if ($request->user()->markEmailAsVerified()) {
-            event(new Verified($request->user()));
-        }
-
-        $this->operationLogUseCase->store('メールアドレスの検証が完了しました');
-
-        return redirect()->intended(RouteServiceProvider::HOME . '?verified=1');
+        return $this->emailVerificationUseCase->verify($request);
     }
 }
