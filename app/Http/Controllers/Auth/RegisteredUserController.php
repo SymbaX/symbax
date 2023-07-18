@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\UserRegistrationRequest;
 use App\Models\College;
 use App\Models\Department;
 use App\Providers\RouteServiceProvider;
 use App\UseCases\Auth\RegistrationUseCase;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\Password;
+
 use Illuminate\View\View;
 
 /**
@@ -63,20 +63,8 @@ class RegisteredUserController extends Controller
      * @param Request $request リクエスト
      * @return RedirectResponse リダイレクトレスポンス
      */
-    public function store(Request $request): RedirectResponse
+    public function store(UserRegistrationRequest $request): RedirectResponse
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users'), 'regex:/^[^@]+@g\.neec\.ac\.jp$/'],
-            'password' => ['required', 'confirmed', Password::defaults()],
-            'college' => ['required', 'exists:colleges,id'],
-            'department' => [
-                'required', 'exists:departments,id', Rule::exists('departments', 'id')->where(function ($query) use ($request) {
-                    $query->where('college_id', $request->input('college'));
-                }),
-            ],
-        ]);
-
         $user = $this->registrationUseCase->register($request->all());
 
         $this->registrationUseCase->login($user);

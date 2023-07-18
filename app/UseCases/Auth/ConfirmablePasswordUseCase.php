@@ -19,7 +19,7 @@ class ConfirmablePasswordUseCase
     private $operationLogUseCase;
 
     /**
-     * ConfirmablePasswordUseCaseの新しいインスタンスを生成します。
+     * OperationLogUseCaseの新しいインスタンスを生成します。
      *
      * @param OperationLogUseCase $operationLogUseCase 操作ログに関連するユースケースインスタンス
      */
