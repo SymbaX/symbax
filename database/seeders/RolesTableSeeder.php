@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use DateTime;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -21,10 +20,20 @@ class RolesTableSeeder extends Seeder
      */
     public function run(): void
     {
-        //
-        DB::table('roles')->insert([
-            ['id' => 'default',    'name' => 'デフォルト',     'created_at' => new DateTime()],
-            ['id' => 'admin',      'name' => '管理者',           'created_at' => new DateTime()],
-        ]);
+        // 既存のデータがあるかチェック
+        $existingRoles = DB::table('roles')->pluck('id')->toArray();
+
+        $roles = [
+            ['id' => 'default',    'name' => 'デフォルト',   'created_at' => new DateTime()],
+            ['id' => 'admin',      'name' => '管理者',      'created_at' => new DateTime()],
+            ['id' => 'disabled',   'name' => '無効',        'created_at' => new DateTime()],
+        ];
+
+        // 重複していないものだけ挿入
+        $newRoles = array_filter($roles, function ($role) use ($existingRoles) {
+            return !in_array($role['id'], $existingRoles);
+        });
+
+        DB::table('roles')->insert($newRoles);
     }
 }
