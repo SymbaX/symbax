@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Profile;
 
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
@@ -16,13 +16,12 @@ class ProfileUpdateRequest extends FormRequest
     /**
      * リクエストに適用されるバリデーションルールを取得します。
      *
-     * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
+     * @return array バリデーションルールの配列
      */
     public function rules(): array
     {
         return [
-            'name' => ['string', 'max:255'],
-            'email' => ['email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
+            'name' => ['required', 'string', 'max:20'],
         ];
     }
 }

@@ -1,5 +1,8 @@
 @push('css')
-    <link rel="stylesheet" href="{{ asset('css/event-details.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/event-detail.css') }}">
+@endpush
+@push('script')
+    <script src="{{ asset('script/loading.js') }}"></script>
 @endpush
 
 <x-app-layout>
@@ -68,15 +71,18 @@
                             <li>
 
                                 @if ($event->organizer_id === Auth::id())
-                                    <form action="{{ route('event.change.status') }}" method="POST">
+                                    <form action="{{ route('event.change.status', ['event_id' => $event->id]) }}"
+                                        method="POST">
                                         @csrf
                                         @method('PATCH')
                                         <input type="hidden" name="event_id" value="{{ $event->id }}">
                                         <input type="hidden" name="user_id" value="{{ $participant->user_id }}">
                                         {{ $participant->name }} ({{ __('ID') }}:
                                         {{ $participant->user_id }},@lang('status.' . $participant->status))
-                                        <button type="submit" name="status" value="approved">Approve</button> <button
-                                            type="submit" name="status" value="rejected">Reject</button>
+                                        <button type="submit" name="status" value="approved"
+                                            onclick="showLoading()">Approve</button>
+                                        <button type="submit" name="status" value="rejected"
+                                            onclick="showLoading()">Reject</button>
                                     </form>
                                 @endif
                             </li>
@@ -84,51 +90,53 @@
                     </ul>
 
                     <a
-                        href="{{ route('event.approved.users.and.organizer.only', ['id' => $event->id]) }}">{{ __('Participant only page') }}</a>
+                        href="{{ route('event.members', ['event_id' => $event->id]) }}">{{ __('Participant only page') }}</a>
                     <br /><br />
 
 
 
-                    <a href="{{ route('event.edit', ['id' => $event->id]) }}" class="text-blue-500 underline">
-                        <x-primary-button>{{ __('Edit event') }}</x-primary-button>
+                    <a href="{{ route('event.edit', ['event_id' => $event->id]) }}" class="text-blue-500 underline">
+                        <x-primary-button onclick="showLoading()">{{ __('Edit event') }}</x-primary-button>
                     </a>
 
                     <br /><br />
 
-                    <form method="POST" action="{{ route('event.delete', ['id' => $event->id]) }}"
-                        onsubmit="return confirm( '{{ __('Are you sure you want to delete this event?') }}' );">
+                    <form method="POST" action="{{ route('event.destroy', ['event_id' => $event->id]) }}">
                         @csrf
                         @method('DELETE')
                         <input type="hidden" name="event_id" value="{{ $event->id }}">
-                        <x-primary-button>{{ __('Event delete') }}</x-primary-button>
+                        <x-primary-button
+                            onclick="return showConfirmation('{{ __('Are you sure you want to delete this event?') }}')">
+                            {{ __('Event delete') }}
+                        </x-primary-button>
                     </form>
                 @else
                     @if ($is_join)
                         <!-- 未参加の場合 -->
-                        <form method="post" action="{{ route('event.join.request') }}" class="mt-6 space-y-6"
-                            enctype="multipart/form-data">
+                        <form method="post" action="{{ route('event.join.request', ['event_id' => $event->id]) }}"
+                            class="mt-6 space-y-6" enctype="multipart/form-data">
                             @csrf
                             @method('patch')
                             <input type="hidden" name="event_id" value="{{ $event->id }}">
 
                             <div class="flex items-center gap-4">
-                                <x-primary-button>{{ __('Join request') }}</x-primary-button>
+                                <x-primary-button onclick="showLoading()">{{ __('Join request') }}</x-primary-button>
                             </div>
                         </form>
                     @else
                         <!-- 参加済みの場合 -->
                         @if ($your_status == 'approved')
                             <a
-                                href="{{ route('event.approved.users.and.organizer.only', ['id' => $event->id]) }}">{{ __('Participant only page') }}</a>
+                                href="{{ route('event.members', ['event_id' => $event->id]) }}">{{ __('Participant only page') }}</a>
                         @endif
                         <br /><br />
 
                         @if ($your_status != 'rejected')
-                            <form action="{{ route('event.cancel-join') }}" method="POST">
+                            <form action="{{ route('event.cancel-join', ['event_id' => $event->id]) }}" method="POST">
                                 @csrf
                                 @method('patch')
                                 <input type="hidden" name="event_id" value="{{ $event->id }}">
-                                <x-primary-button>{{ __('Cancel Join') }}</x-primary-button>
+                                <x-primary-button onclick="showLoading()">{{ __('Cancel Join') }}</x-primary-button>
                             </form>
                         @endif
                     @endif
@@ -167,10 +175,10 @@
                             {{ __('I canceled my participation in the event.') }}
                         </p>
                     @endif
-                    @if (session('status') === 'cannot-delete-with-participants')
+                    @if (session('status') === 'cannot-delete-event')
                         <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
                             class="text-sm text-gray-600">
-                            {{ __('Events with participants cannot be deleted.') }}
+                            {{ __('Failed to delete event.') }}
                         </p>
                     @endif
                     @if (session('status') === 'event-updated')
@@ -203,12 +211,15 @@
                             {{ __('Rejected events cannot be canceled.') }}
                         </p>
                     @endif
+                    @if (session('status') === 'event-create')
+                        <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                            class="text-sm text-gray-600">{{ __('Saved.') }}</p>
+                    @endif
                 </div>
             @else
                 <p>Event not found.</p>
                 @endif
             </div>
         </div>
-    </div>
     </div>
 </x-app-layout>

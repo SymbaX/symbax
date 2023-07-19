@@ -162,7 +162,7 @@
     "I canceled my participation in the event.": "イベントへの参加を取り消しました。",
     "Event delete": "イベントを削除する",
     "Are you sure you want to delete this event?": "本当にこのイベントを削除しますか？",
-    "Events with participants cannot be deleted.": "参加者がいるイベントは削除できません。",
+    "Failed to delete event.": "イベントを削除できませんでした。",
     "Deleted the event.": "イベントを削除しました。",
     "No events found.": "イベントがありません。",
     "Edit event": "イベント編集",
@@ -171,7 +171,7 @@
     "Updated event information.": "イベント情報を更新しました。",
     "This request is invalid.": "このリクエストは無効です。",
     "Admin dashboard": "管理用ダッシュボード",
-    "Users list": "ユーザー一覧",
+    "Account lists": "アカウント一覧",
     "Not verified": "未認証",
     "ID": "ID",
     "Email Verified At": "メール認証日時",
@@ -189,5 +189,11 @@
     "Welcome": "ようこそ",
     "Event sharing platform": "イベント共有プラットフォーム",
     "Start": "はじめる",
-    "Sign Up": "新規登録"
+    "Sign Up": "新規登録",
+    "Date and time": "日時",
+    "User id": "ユーザーID",
+    "Log id": "ログID",
+    "Organizer event": "主催イベント",
+    "Join event": "参加イベント",
+    "Only \"@g.neec.ac.jp\" domain can be registered.": " 「@g.neec.ac.jp」ドメインのみ登録できます。"
 }

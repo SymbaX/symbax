@@ -3,40 +3,37 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\UseCases\Auth\PasswordResetLinkUseCase;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Password;
 use Illuminate\View\View;
-use App\Http\Controllers\OperationLogController;
-use App\Models\User;
 
 /**
- * パスワードリセットリンクコントローラー
+ * パスワードリセットリンクコントローラークラス
  *
- * パスワードリセットリンクに関連するコントローラー
+ * このクラスは、パスワードリセットリンクの作成に関連する処理を提供します。
  */
 class PasswordResetLinkController extends Controller
 {
     /**
-     * @var OperationLogController
+     * @var PasswordResetLinkUseCase
      */
-    private $operationLogController;
+    private $passwordResetLinkUseCase;
 
     /**
-     * OperationLogControllerの新しいインスタンスを作成します。
+     * PasswordResetLinkControllerの新しいインスタンスを生成します。
      *
-     * @param  OperationLogController  $operationLogController
-     * @return void
+     * @param PasswordResetLinkUseCase $passwordResetLinkUseCase パスワードリセットリンクの作成に関連するユースケースインスタンス
      */
-    public function __construct(OperationLogController $operationLogController)
+    public function __construct(PasswordResetLinkUseCase $passwordResetLinkUseCase)
     {
-        $this->operationLogController = $operationLogController;
+        $this->passwordResetLinkUseCase = $passwordResetLinkUseCase;
     }
 
     /**
-     * パスワードリセットリンクリクエストビューを表示する
+     * パスワードリセットリンク作成画面を表示します。
      *
-     * @return View パスワードリセットリンクリクエストビューの表示
+     * @return View パスワードリセットリンク作成画面のViewインスタンス
      */
     public function create(): View
     {
@@ -44,12 +41,10 @@ class PasswordResetLinkController extends Controller
     }
 
     /**
-     * パスワードリセットリンクリクエストの処理を行う
+     * パスワードリセットリンクを作成します。
      *
      * @param Request $request リクエスト
      * @return RedirectResponse リダイレクトレスポンス
-     *
-     * @throws \Illuminate\Validation\ValidationException バリデーション例外
      */
     public function store(Request $request): RedirectResponse
     {
@@ -57,24 +52,10 @@ class PasswordResetLinkController extends Controller
             'email' => ['required', 'email'],
         ]);
 
-        // パスワードリセットリンクをこのユーザーに送信します。
-        // リンクの送信を試みた後、レスポンスを検証し、ユーザーに表示するメッセージを確認します。
-        // 最後に、適切なレスポンスを送信します。
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
+        $status = $this->passwordResetLinkUseCase->sendResetLink($request->only('email'));
 
-        $user = User::where('email', $request->email)->first();
-
-        // ユーザーが存在する場合のみ、ログにユーザーIDを記録
-        if ($user) {
-            $this->operationLogController->store('Email: ' . $request->email . ' (ID: ' . $user->id . ')にパスワードリセットリンクを送信しました', '不明');
-        } else {
-            $this->operationLogController->store('Email: ' . $request->email . ' (不明)にパスワードリセットリンクの送信を試みました', '不明');
-        }
-        return $status == Password::RESET_LINK_SENT
+        return $status == \Illuminate\Support\Facades\Password::RESET_LINK_SENT
             ? back()->with('status', __($status))
-            : back()->withInput($request->only('email'))
-            ->withErrors(['email' => __($status)]);
+            : back()->withInput($request->only('email'))->withErrors(['email' => __($status)]);
     }
 }

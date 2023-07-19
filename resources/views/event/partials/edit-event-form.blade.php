@@ -9,7 +9,7 @@
         </p>
     </header>
 
-    <form method="post" action="{{ route('event.update', ['id' => $event->id]) }}" class="mt-6 space-y-6"
+    <form method="post" action="{{ route('event.update', ['event_id' => $event->id]) }}" class="mt-6 space-y-6"
         enctype="multipart/form-data">
         @csrf
         @method('patch')
