@@ -195,5 +195,7 @@
     "Log id": "ログID",
     "Organizer event": "主催イベント",
     "Join event": "参加イベント",
-    "Only \"@g.neec.ac.jp\" domain can be registered.": " 「@g.neec.ac.jp」ドメインのみ登録できます。"
+    "Only \"@g.neec.ac.jp\" domain can be registered.": " 「@g.neec.ac.jp」ドメインのみ登録できます。",
+    "If you change your email address, we will send you a confirmation email.": "メールアドレスを変更すると確認メールが送信されます。",
+    "Domains other than \"@g.neec.ac.jp\" can also be entered.": "「@g.neec.ac.jp」以外のドメインも入力できます。"
 }

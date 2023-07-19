@@ -11,7 +11,7 @@ class OperationLogUseCase
         return OperationLog::all();
     }
 
-    public function store(string $message, ?string $user_id = null)
+    public function store(string $message, ?string $user_id = null, ?string $ip_address = null)
     {
         $log = new OperationLog();
 
@@ -22,6 +22,7 @@ class OperationLogUseCase
         }
 
         $log->action = $message;
+        $log->ip_address = $ip_address ?? request()->ip();
         $log->save();
     }
 }

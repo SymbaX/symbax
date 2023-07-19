@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use DateTime;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -21,7 +20,10 @@ class DepartmentsTableSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('departments')->insert([
+        // 既存のデータがあるかチェック
+        $existingDepartments = DB::table('departments')->pluck('id')->toArray();
+
+        $departments = [
             ['id' => 'screen',              'college_id' => 'creators',    'name' => '放送芸術科',                     'created_at' => new DateTime()],
             ['id' => 'actor',               'college_id' => 'creators',    'name' => '声優・演劇科',                   'created_at' => new DateTime()],
             ['id' => 'show',                'college_id' => 'creators',    'name' => '演劇スタッフ科',                 'created_at' => new DateTime()],
@@ -44,6 +46,13 @@ class DepartmentsTableSeeder extends Seeder
             ['id' => 'architecture_4year',  'college_id' => 'technology',  'name' => '建築学科四年制',                 'created_at' => new DateTime()],
             ['id' => 'architecture_2year',  'college_id' => 'technology',  'name' => '建築学科',                       'created_at' => new DateTime()],
             ['id' => 'mashine',             'college_id' => 'technology',  'name' => '機械設計科',                     'created_at' => new DateTime()],
-        ]);
+        ];
+
+        // 重複していないものだけ挿入
+        $newDepartments = array_filter($departments, function ($department) use ($existingDepartments) {
+            return !in_array($department['id'], $existingDepartments);
+        });
+
+        DB::table('departments')->insert($newDepartments);
     }
 }
