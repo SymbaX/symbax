@@ -28,13 +28,10 @@ class UserUpdateUseCase
 
     public function execute(UserUpdateRequest $request, User $user): RedirectResponse
     {
-        // バリデーションはリクエストクラスに記述したルールにより自動的に実行される
 
-        // College IDとDepartment IDを更新
+        $user->name = $request->input('name');
         $user->college_id = $request->input('college');
         $user->department_id = $request->input('department');
-
-        // ロールを更新
         $user->role_id = $request->input('role');
 
         // ユーザーの変更を保存
