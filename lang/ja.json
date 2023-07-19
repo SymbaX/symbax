@@ -171,7 +171,7 @@
     "Updated event information.": "イベント情報を更新しました。",
     "This request is invalid.": "このリクエストは無効です。",
     "Admin dashboard": "管理用ダッシュボード",
-    "Users list": "ユーザー一覧",
+    "Account lists": "アカウント一覧",
     "Not verified": "未認証",
     "ID": "ID",
     "Email Verified At": "メール認証日時",
@@ -194,5 +194,6 @@
     "User id": "ユーザーID",
     "Log id": "ログID",
     "Organizer event": "主催イベント",
-    "Join event": "参加イベント"
+    "Join event": "参加イベント",
+    "Only \"@g.neec.ac.jp\" domain can be registered.": " 「@g.neec.ac.jp」ドメインのみ登録できます。"
 }

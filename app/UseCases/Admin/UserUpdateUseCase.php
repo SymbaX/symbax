@@ -5,8 +5,10 @@ namespace App\UseCases\Admin;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\Admin\UserUpdateRequest;
+use App\Mail\MailSendAdmin;
 use App\Models\User;
 use App\UseCases\OperationLog\OperationLogUseCase;
+use Illuminate\Support\Facades\Mail;
 
 class UserUpdateUseCase
 {
@@ -28,14 +30,23 @@ class UserUpdateUseCase
 
     public function execute(UserUpdateRequest $request, User $user): RedirectResponse
     {
-        // バリデーションはリクエストクラスに記述したルールにより自動的に実行される
 
-        // College IDとDepartment IDを更新
-        $user->college_id = $request->input('college');
-        $user->department_id = $request->input('department');
+        $user->name = $request->name;
 
-        // ロールを更新
-        $user->role_id = $request->input('role');
+        // メールアドレスが変更されていたら、変更し、メール認証をリセット
+        if ($request->email != $user->email) {
+            $mail = new MailSendAdmin();
+            $mail->changeEmail($user->name, $request->email);
+            Mail::to($user->email)->send($mail);
+
+            $user->email = $request->email;
+            $user->email_verified_at = null;
+            $user->sendEmailVerificationNotification();
+        }
+
+        $user->college_id = $request->college;
+        $user->department_id = $request->department;
+        $user->role_id = $request->role;
 
         // ユーザーの変更を保存
         $user->save();

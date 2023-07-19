@@ -16,6 +16,9 @@
             <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')"
                 required autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
+            <x-input-hint-text>
+                {{ __('Only "@g.neec.ac.jp" domain can be registered.') }}
+            </x-input-hint-text>
         </div>
 
         <!-- College -->
