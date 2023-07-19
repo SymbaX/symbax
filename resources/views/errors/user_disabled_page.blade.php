@@ -1,14 +1,7 @@
-<!DOCTYPE html>
-<html>
+@extends('errors.layouts.base')
 
-<head>
-    <title>User Banned Page</title>
-</head>
+@section('title', 'アカウントが無効化されました')
 
-<body>
-    <h1>アカウントがBANされました</h1>
-    <p>申し訳ありませんが、あなたのアカウントはBANされています。</p>
-    <p>詳細についてはサポートにお問い合わせください。</p>
-</body>
+@section('message', 'あなたのアカウントは運営チームによって無効化されました。 利用規約・プライバシーポリシーをご確認ください。')
 
-</html>
+@section('detail', ' ')
