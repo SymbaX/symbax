@@ -37,9 +37,9 @@
             <x-input-label for="category" :value="__('Category')" />
 
             <select name="category" id="category">
-                @foreach ($categorys as $category)
+                @foreach ($categories as $category)
                     <option value="{{ $category->id }}" {{ $selectedCategoryId == $category->id ? 'selected' : '' }}>
-                    {{ $category->category }}
+                        {{ $category->category }}
                     </option>
                 @endforeach
             </select>
