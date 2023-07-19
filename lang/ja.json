@@ -194,5 +194,6 @@
     "User id": "ユーザーID",
     "Log id": "ログID",
     "Organizer event": "主催イベント",
-    "Join event": "参加イベント"
+    "Join event": "参加イベント",
+    "Only \"@g.neec.ac.jp\" domain can be registered.": " 「@g.neec.ac.jp」ドメインのみ登録できます。"
 }
