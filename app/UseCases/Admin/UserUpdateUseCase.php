@@ -31,10 +31,14 @@ class UserUpdateUseCase
     public function execute(UserUpdateRequest $request, User $user): RedirectResponse
     {
 
-        $user->name = $request->name;
+        $isChanged = false; // 変更があるかどうかを示すフラグ
 
-        // メールアドレスが変更されていたら、変更し、メール認証をリセット
-        if ($request->email != $user->email) {
+        if ($user->name !== $request->name) {
+            $user->name = $request->name;
+            $isChanged = true;
+        }
+
+        if ($user->email !== $request->email) {
             $mail = new MailSendAdmin();
             $mail->changeEmail($user->name, $request->email);
             Mail::to($user->email)->send($mail);
@@ -42,18 +46,35 @@ class UserUpdateUseCase
             $user->email = $request->email;
             $user->email_verified_at = null;
             $user->sendEmailVerificationNotification();
+            $isChanged = true;
         }
 
-        $user->college_id = $request->college;
-        $user->department_id = $request->department;
-        $user->role_id = $request->role;
+        if ($user->college_id !== $request->college) {
+            $user->college_id = $request->college;
+            $isChanged = true;
+        }
 
-        // ユーザーの変更を保存
-        $user->save();
+        if ($user->department_id !== $request->department) {
+            $user->department_id = $request->department;
+            $isChanged = true;
+        }
 
-        $this->operationLogUseCase->store('● USER-ID:' . $user->id . 'のユーザー情報を更新しました', $user->id);
+        if ($user->role_id !== $request->role) {
+            $user->role_id = $request->role;
+            $isChanged = true;
+        }
 
+        // いずれかの項目が変更された場合の処理
+        if ($isChanged) {
+            // ユーザーの変更を保存
+            $user->save();
 
-        return Redirect::route('admin.users')->with('status', 'user-updated');
+            $this->operationLogUseCase->store('● USER-ID:' . $user->id . 'のユーザー情報を更新しました', $user->id);
+
+            return Redirect::route('admin.users')->with('status', 'user-updated');
+        }
+
+        // 変更がない場合はリダイレクトせずにそのまま終了
+        return back();
     }
 }
