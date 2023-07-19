@@ -16,6 +16,8 @@ class UserUpdateRequest extends FormRequest
     public function rules()
     {
         return [
+            'name' => ['required', 'string', 'max:20'],
+            'email' => ['required', 'string', 'email'],
             'college' => ['required', 'exists:colleges,id'],
             'department' => [
                 'required', 'exists:departments,id', Rule::exists('departments', 'id')->where(function ($query) {

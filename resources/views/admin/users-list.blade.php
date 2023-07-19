@@ -8,7 +8,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Users list') }}
+            {{ __('Account lists') }}
         </h2>
     </x-slot>
 
@@ -46,7 +46,7 @@
                                 <td data-label="{{ __('Created At') }}">{{ $user->created_at }}</td>
                                 <td data-label="{{ __('Edit') }}">
                                     <x-primary-button
-                                        onclick="openEditModal('{{ $user->id }}', '{{ $user->college_id }}', '{{ $user->department_id }}', '{{ $user->role_id }}')">
+                                        onclick="openEditModal('{{ $user->id }}','{{ $user->name }}','{{ $user->email }}','{{ $user->college_id }}', '{{ $user->department_id }}', '{{ $user->role_id }}')">
                                         {{ __('Edit') }}</x-primary-button>
                                 </td>
                             </tr>

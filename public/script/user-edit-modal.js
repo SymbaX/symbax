@@ -1,4 +1,13 @@
-function openEditModal(userId, collegeId, departmentId, roleId) {
+function openEditModal(
+    userId,
+    userName,
+    userEmail,
+    collegeId,
+    departmentId,
+    roleId
+) {
+    const name = document.getElementById("editUserName");
+    const email = document.getElementById("editUserEmail");
     const collegeSelect = document.getElementById("editUserCollege");
     const departmentSelect = document.getElementById("editUserDepartment");
     const roleSelect = document.getElementById("editUserRole");
@@ -6,6 +15,10 @@ function openEditModal(userId, collegeId, departmentId, roleId) {
 
     const form = document.getElementById("editUserForm");
     form.action = form.action.replaceAll("USER_ID", currentUserID);
+
+    // 元の値を代入する
+    name.value = userName;
+    email.value = userEmail;
 
     // 選択されたユーザーのCollege IDを設定する
     for (let i = 0; i < collegeSelect.options.length; i++) {
