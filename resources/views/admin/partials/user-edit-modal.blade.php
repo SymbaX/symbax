@@ -22,6 +22,12 @@
                                 <x-input-label for="email" :value="__('Email')" />
                                 <x-text-input id="editUserEmail" name="email" type="text" class="mt-1 block w-full"
                                     :value="old('email', $user->email)" required autofocus autocomplete="email" />
+                                <x-input-hint-text>
+                                    {{ __('If you change your email address, we will send you a confirmation email.') }}
+                                </x-input-hint-text>
+                                <x-input-hint-text>
+                                    {{ __('Domains other than "@g.neec.ac.jp" can also be entered.') }}
+                                </x-input-hint-text>
                             </div>
                             <div class="mt-2">
                                 <x-input-label for="college" :value="__('College')" />

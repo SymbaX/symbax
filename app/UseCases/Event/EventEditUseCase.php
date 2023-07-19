@@ -64,6 +64,15 @@ class EventEditUseCase
      */
     public function updateEvent($id, UpdateRequest $request): bool
     {
+        // イベント作成者であるかどうかをチェック
+        $eventOrganizerUseCase = new CheckEventOrganizerUseCase();
+        $isEventOrganizer = $eventOrganizerUseCase->execute($id);
+
+        // ユーザーがイベント作成者でない場合はエラーとする
+        if (!$isEventOrganizer) {
+            return false;
+        }
+
         $event = $this->getEditableEvent($id);
 
         if (!$event) {

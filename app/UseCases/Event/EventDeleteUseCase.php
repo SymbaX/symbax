@@ -43,6 +43,15 @@ class EventDeleteUseCase
     {
         $event = Event::findOrFail($id);
 
+        // イベント作成者であるかどうかをチェック
+        $eventOrganizerUseCase = new CheckEventOrganizerUseCase();
+        $isEventOrganizer = $eventOrganizerUseCase->execute($id);
+
+        // ユーザーがイベント作成者でない場合はエラーとする
+        if (!$isEventOrganizer) {
+            return false;
+        }
+
         // イベントに参加者が登録されているかどうかを確認します
         $participantCount = EventParticipant::where('event_id', $id)->count();
         if ($participantCount > 0) {
