@@ -18,6 +18,11 @@
                                 <x-text-input id="editUserName" name="name" type="text" class="mt-1 block w-full"
                                     :value="old('name', $user->name)" required autofocus autocomplete="name" />
                             </div>
+                            <div class="mt-4">
+                                <x-input-label for="email" :value="__('Email')" />
+                                <x-text-input id="editUserEmail" name="email" type="text" class="mt-1 block w-full"
+                                    :value="old('email', $user->email)" required autofocus autocomplete="email" />
+                            </div>
                             <div class="mt-2">
                                 <x-input-label for="college" :value="__('College')" />
                                 <select name="college" id="editUserCollege"
