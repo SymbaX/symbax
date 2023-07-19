@@ -14,10 +14,11 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\OperationLogController;
 use App\Mail\MailSend;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
 
 /**
  * イベントコントローラークラス
- * 
+ *
  * このクラスはイベントに関する処理を行うコントローラーです。
  */
 class EventController extends Controller
@@ -61,6 +62,15 @@ class EventController extends Controller
      */
     public function create(Request $request)
     {
+        $categorys = events_category::all();
+        $selectedCategoryId = old('category', null);
+
+        return view('create-event-form', [
+            'category' => $categorys,
+            'selectedCategoryId' => $selectedCategoryId
+        ]);
+
+
         $validatedData = $request->validate([
             'name' => ['required', 'max:20'],
             'detail' => ['required', 'max:1000'],
@@ -84,6 +94,7 @@ class EventController extends Controller
         $this->operationLogController->store('イベントを作成しました ID:' . $event->id);
 
         return redirect()->back()->with('status', 'event-create');
+
     }
 
     /**
