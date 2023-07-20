@@ -44,8 +44,7 @@
                 <option value="" data-default="true">選択してください</option>
                 @foreach ($departments as $department)
                     <option value="{{ $department->id }}" data-college-id="{{ $department->college_id }}"
-                        {{ $selectedDepartmentId == $department->id ? 'selected' : '' }}
-                        style="{{ $selectedCollegeId == $department->college_id ? '' : 'visibility: hidden;' }}">
+                        {{ $selectedDepartmentId == $department->id ? 'selected' : '' }}>
                         {{ $department->name }}</option>
                 @endforeach
             </select>
@@ -55,14 +54,10 @@
         <script>
             // Collegeの選択肢が変更されたときの処理
             $(document).ready(function() {
-                console.log('Document is ready.');
-
                 // 初期表示時にDepartmentの選択肢を設定
                 updateDepartmentOptions();
 
                 $('#college').on('change', function() {
-                    console.log('College select is changed.');
-
                     // 選択されたCollegeに一致するDepartmentを表示し、選択状態にする
                     updateDepartmentOptions();
                 });
@@ -73,22 +68,24 @@
                     var $departmentSelect = $('#department');
                     var $departmentOptions = $departmentSelect.find('option');
 
-                    // Departmentの選択肢を非表示にし、選択を解除する
+                    // Departmentの選択肢を無効化し、選択を解除する
+                    $departmentOptions.prop('disabled', true).prop('selected', false);
                     $departmentOptions.hide().prop('selected', false);
 
                     // 選択してくださいのオプションを表示し、選択状態にする
                     var $defaultOption = $departmentSelect.find('option[data-default="true"]');
-                    $defaultOption.show().prop('selected', true);
+                    $defaultOption.prop('disabled', false).prop('selected', true);
 
                     if (selectedCollegeId !== '') {
                         // 選択されたCollegeに一致するDepartmentを表示し、選択状態にする
+                        $departmentOptions.filter('[data-college-id="' + selectedCollegeId + '"]').prop('disabled',
+                            false).css('visibility', 'visible');
                         $departmentOptions.filter('[data-college-id="' + selectedCollegeId + '"]').show();
+
                     }
 
                     // Departmentの選択肢を有効化する
                     $departmentSelect.prop('disabled', false);
-
-                    console.log('おｋ.');
                 }
             });
         </script>
