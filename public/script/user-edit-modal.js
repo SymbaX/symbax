@@ -6,37 +6,28 @@ function openEditModal(
     departmentId,
     roleId
 ) {
-    const name = document.getElementById("editUserName");
-    const email = document.getElementById("editUserEmail");
-    const collegeSelect = document.getElementById("editUserCollege");
-    const departmentSelect = document.getElementById("editUserDepartment");
-    const roleSelect = document.getElementById("editUserRole");
-    let currentUserID = userId;
+    const $name = $("#editUserName");
+    const $email = $("#editUserEmail");
+    const $collegeSelect = $("#editUserCollege");
+    const $departmentSelect = $("#editUserDepartment");
+    const $roleSelect = $("#editUserRole");
+    const currentUserID = userId;
 
-    const form = document.getElementById("editUserForm");
-    form.action = form.action.replaceAll("USER_ID", currentUserID);
+    const $form = $("#editUserForm");
+    $form.attr(
+        "action",
+        $form.attr("action").replaceAll("USER_ID", currentUserID)
+    );
 
     // 元の値を代入する
-    name.value = userName;
-    email.value = userEmail;
+    $name.val(userName);
+    $email.val(userEmail);
 
     // 選択されたユーザーのCollege IDを設定する
-    for (let i = 0; i < collegeSelect.options.length; i++) {
-        if (collegeSelect.options[i].value === collegeId) {
-            collegeSelect.options[i].selected = true;
-            break;
-        }
-    }
+    $collegeSelect.val(collegeId);
 
-    // 選択されたユーザーのCollege IDを設定する
-    for (let i = 0; i < departmentSelect.options.length; i++) {
-        if (departmentSelect.options[i].value === departmentId) {
-            departmentSelect.options[i].selected = true;
-            break;
-        }
-    }
     // カレッジの選択肢が変更された時の処理
-    collegeSelect.addEventListener("change", function () {
+    $collegeSelect.on("change", function () {
         changeDepartmentOptions();
     });
 
@@ -44,43 +35,40 @@ function openEditModal(
     changeDepartmentOptions();
 
     // 選択されたユーザーのロールを設定する
-    for (let i = 0; i < roleSelect.options.length; i++) {
-        if (roleSelect.options[i].value === roleId) {
-            roleSelect.options[i].selected = true;
-            break;
-        }
-    }
+    $roleSelect.val(roleId);
 
     // モーダルウィンドウを表示する
-    const modal = document.getElementById("editUserModal");
-    modal.classList.remove("hidden");
+    const $modal = $("#editUserModal");
+    $modal.removeClass("hidden");
 
     // カレッジに応じた学科の表示/非表示と選択状態を制御する関数
     function changeDepartmentOptions() {
-        const selectedCollegeId = collegeSelect.value;
+        const selectedCollegeId = $collegeSelect.val();
 
-        for (let i = 0; i < departmentSelect.options.length; i++) {
-            const departmentOption = departmentSelect.options[i];
-            if (departmentOption.dataset.collegeId === selectedCollegeId) {
-                departmentOption.style.display = "";
+        $departmentSelect.find("option").each(function () {
+            const $departmentOption = $(this);
+            if ($departmentOption.data("college-id") === selectedCollegeId) {
+                $departmentOption.css("display", "");
+                $departmentOption.prop("disabled", false);
             } else {
-                departmentOption.style.display = "none";
+                $departmentOption.css("display", "none");
+                $departmentOption.prop("disabled", true);
             }
-        }
+        });
 
         // 選択されたカレッジ内の学科を強制的に選択する
-        const selectedDepartment = departmentSelect.querySelector(
+        const $selectedDepartment = $departmentSelect.find(
             `option[data-college-id="${selectedCollegeId}"][value="${departmentId}"]`
         );
-        if (selectedDepartment) {
-            selectedDepartment.selected = true;
+        if ($selectedDepartment.length) {
+            $selectedDepartment.prop("selected", true);
         } else {
             // 学科が選択されていない場合は、最初のカレッジに関連する学科を選択する
-            const defaultDepartment = departmentSelect.querySelector(
-                `option[data-college-id="${selectedCollegeId}"]`
-            );
-            if (defaultDepartment) {
-                defaultDepartment.selected = true;
+            const $defaultDepartment = $departmentSelect
+                .find(`option[data-college-id="${selectedCollegeId}"]`)
+                .first();
+            if ($defaultDepartment.length) {
+                $defaultDepartment.prop("selected", true);
             }
         }
     }
