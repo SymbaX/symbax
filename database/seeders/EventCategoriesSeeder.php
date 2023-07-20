@@ -13,8 +13,12 @@ class EventCategoriesSeeder extends Seeder
     public function run(): void
     {
         DB::table('event_categories')->insert([
-            ['id' => '1', 'category' => 'うんち'],
-            ['id' => '2', 'category' => 'うんこ'],
+            ['id' => '1', 'category' => 'ライブ・コンサート'],
+            ['id' => '2', 'category' => 'スポーツ'],
+            ['id' => '3', 'category' => 'ゲーム'],
+            ['id' => '4', 'category' => 'アニメ'],
+            ['id' => '5', 'category' => '舞台・演劇・お笑い'],
+            ['id' => '6', 'category' => 'その他']
         ]);
     }
 }
