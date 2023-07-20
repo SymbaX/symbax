@@ -6,14 +6,48 @@
     transform: translate(-50%, -50%);
 }
 
-h1 {
-    font-size: 25px;
-    color: #ff5959;
-    margin: 0;
+@media (max-width: 1000px) {
+    .container {
+        top: 90px;
+        left: 0;
+        transform: none;
+        padding: 0 10px;
+    }
 }
 
-p {
+.error_title {
+    font-size: 32px;
+    color: #ff5959;
+    margin: 10px;
+}
+
+.error_message {
     font-size: 18px;
     margin-top: 10px;
     color: #333;
+    margin: 10px;
+}
+
+.error_detail {
+    font-size: 14px;
+    margin-top: 10px;
+    color: #333;
+    margin: 10px;
+}
+
+.error_debug {
+    font-size: 24px;
+    margin-top: 10px;
+    color: #ef4123;
+    margin: 10px;
+    background-color: #fcf16e;
+}
+
+.error_img img {
+    margin: 20px;
+    width: 100%;
+    max-width: 400px;
+    height: 300px;
+    margin: 0 auto;
+    object-fit: cover;
 }
