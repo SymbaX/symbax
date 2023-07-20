@@ -53,15 +53,27 @@
         <!-- Page Content -->
         <main>
             <div class="container">
-                <h1>@yield('title')</h1>
-                <p>@yield('message')</p>
-                <p>@yield('detail')</p>
+                <h1 class="error_title">@yield('title')</h1>
+                <p class="error_message">@yield('message')</p>
+                <p class="error_detail">@yield('detail')</p>
                 @if (env('APP_DEBUG') == 1 && isset($exception))
-                    {{ $exception->getMessage() }}
+                    <p class="error_debug">
+                        {{ $exception->getMessage() }}
+                    </p>
                 @endif
+
+                <div class="error_img">
+                    @php
+                        $images = ['img/errors/error01.jpeg', 'img/errors/error02.jpeg', 'img/logo.png'];
+                        $randomImage = $images[array_rand($images)];
+                    @endphp
+
+                    <img src="{{ asset($randomImage) }}" alt="dog">
+                </div>
             </div>
         </main>
     </div>
+
 </body>
 
 </html>
