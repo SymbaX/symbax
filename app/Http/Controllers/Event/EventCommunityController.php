@@ -3,15 +3,17 @@
 namespace App\Http\Controllers\Event;
 
 use App\Http\Controllers\Controller;
+use App\Models\Topic;
 use App\UseCases\Event\CheckEventParticipantStatusUseCase;
 use App\UseCases\Event\CheckEventOrganizerUseCase;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 /**
  * イベントのプライベートページを表示するコントローラー
  */
-class EventPrivateController extends Controller
+class EventCommunityController extends Controller
 {
     /**
      * プライベートページの表示
@@ -37,10 +39,28 @@ class EventPrivateController extends Controller
 
         if ($isParticipantApproved === "approved" || $isEventOrganizer) {
             // approvedのイベント参加者またはイベントの作成者の場合は、ページを表示する
-            return view('event.private', ['event' => $id]);
+            $topics  = Topic::where("event_id", $id)->latest()->get();
+            return view('event.community', ['event' => $id], ["topics" => $topics]);
         }
 
         // アクセス権がない場合は403 Forbiddenエラーを返す
         abort(403);
+    }
+
+    public function save(Request $request)
+    {
+
+        //Topicを受け入れるための箱を作る
+        $topic = new Topic();
+
+        //nameとcontentが指定されている場合保存する
+        if ($request->content) {
+            $topic->user_id = Auth::id();
+            $topic->event_id = $request->event_id;
+            $topic->content = $request->content;
+            $topic->save();
+        }
+
+        return redirect()->route('event.community', ['event_id' => $topic->event_id]);
     }
 }
