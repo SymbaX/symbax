@@ -90,7 +90,7 @@
                     </ul>
 
                     <a
-                        href="{{ route('event.members', ['event_id' => $event->id]) }}">{{ __('Participant only page') }}</a>
+                        href="{{ route('event.community', ['event_id' => $event->id]) }}">{{ __('Participant only page') }}</a>
                     <br /><br />
 
 
