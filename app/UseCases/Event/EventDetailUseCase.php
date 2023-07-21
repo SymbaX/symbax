@@ -46,7 +46,7 @@ class EventDetailUseCase
 
         $your_status = $participants->where('user_id', Auth::id())->first()->status ?? 'not-join';
 
-        $categories_name = EventCategories::where('id', $event->id)->value('category');
+        $categories_name = EventCategories::where('id', $event->category)->value('category');
 
         return [
             'event' => $event,
