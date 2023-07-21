@@ -7,6 +7,7 @@ use App\Models\Topic;
 use App\UseCases\Event\CheckEventParticipantStatusUseCase;
 use App\UseCases\Event\CheckEventOrganizerUseCase;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 /**
@@ -38,7 +39,7 @@ class EventCommunityController extends Controller
 
         if ($isParticipantApproved === "approved" || $isEventOrganizer) {
             // approvedのイベント参加者またはイベントの作成者の場合は、ページを表示する
-            $topics  = Topic::latest()->get();
+            $topics  = Topic::where("event_id", $id)->latest()->get();
             return view('event.community', ['event' => $id], ["topics" => $topics]);
         }
 
@@ -53,12 +54,13 @@ class EventCommunityController extends Controller
         $topic = new Topic();
 
         //nameとcontentが指定されている場合保存する
-        if ($request->name && $request->content) {
-            $topic->name = $request->name;
+        if ($request->content) {
+            $topic->user_id = Auth::id();
+            $topic->event_id = $request->event_id;
             $topic->content = $request->content;
             $topic->save();
         }
 
-        return redirect('/event/{event_id}/community');
+        return redirect()->route('event.community', ['event_id' => $topic->event_id]);
     }
 }

@@ -127,7 +127,7 @@
                         <!-- 参加済みの場合 -->
                         @if ($your_status == 'approved')
                             <a
-                                href="{{ route('event.members', ['event_id' => $event->id]) }}">{{ __('Participant only page') }}</a>
+                                href="{{ route('event.community', ['event_id' => $event->id]) }}">{{ __('Participant only page') }}</a>
                         @endif
                         <br /><br />
 

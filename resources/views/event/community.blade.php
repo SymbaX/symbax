@@ -11,14 +11,14 @@
                 <div class="p-6 text-gray-900">
                     <form method="POST">
                         @csrf
-                        <input class="form-control my-2" type="text" name="name" placeholder="ここに名前を入力">
+                        <input type="hidden" name="event_id" value="{{ $event}}">
                         <textarea class="form-control my-2" name="content" rows="4" placeholder="ここにコメントを入力"></textarea>
                         <input class="form-control my-2" type="submit" value="送信">
                     </form>
                     
                     @forelse($topics as $topic)
                     <div class="border my-2 p-2">
-                        <div class="text-secondary">{{ $topic->name }} さん</div>
+                        <div class="text-secondary">{{ $topic->user_id }} さん</div>
                         <div class="p-2">{!! nl2br(e($topic->content)) !!}</div>
                         <div class="text-secondary">投稿日:{{ $topic->created_at }}</div>
                     </div>

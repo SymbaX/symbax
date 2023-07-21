@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Topic extends Model
 {
     protected $fillable = [
-        "name", "content"
+        "user_id", "content", "event_id"
     ];
 }
