@@ -64,7 +64,7 @@
 
                 <div class="error_img">
                     @php
-                        $images = ['img/errors/error01.jpeg', 'img/errors/error02.jpeg', 'img/logo.png'];
+                        $images = ['img/errors/error01.jpeg', 'img/errors/error02.jpeg', 'img/errors/error03.jpeg', 'img/errors/error04.jpeg', 'img/errors/error05.jpeg', 'img/logo.png'];
                         $randomImage = $images[array_rand($images)];
                     @endphp
 
