@@ -35,7 +35,6 @@
 
         <div>
             <x-input-label for="category" :value="__('Category')" />
-
             <select name="category" id="category">
                 @foreach ($categories as $category)
                     <option value="{{ $category->id }}" {{ $selectedCategoryId == $category->id ? 'selected' : '' }}>

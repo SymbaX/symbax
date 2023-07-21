@@ -29,10 +29,10 @@
                                 <p class="text">{{ __('Location') }}：{{ $event->place }}</p>
                                 <p class="text">
                                     {{ __('Participation condition') }}：{{ $event->participation_condition }}</p>
-                                <p class="text">{{ __('Category') }}：{{ $event->category }}</p>
+                                <p class="text">{{ __('Category') }}：{{ $categories_name}}</p>
                                 <p class="text">{{ __('Tag') }}：{{ $event->tag }}</p>
                                 <a href="{{ $event->external_link }}">{{ __('External link') }}</a>
-                                {{-- 
+                                {{--
                                 <p class="text">{{ __('Number of recruits') }}：{{ $participants->get()->Count() }}
                                     /
                                     {{ $event->number_of_recruits }}</p> --}}
