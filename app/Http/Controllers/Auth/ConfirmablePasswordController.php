@@ -3,41 +3,38 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\ConfirmPasswordRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
-use App\Http\Controllers\OperationLogController;
+use App\UseCases\Auth\ConfirmablePasswordUseCase;
 
 /**
- * パスワード確認コントローラー
+ * パスワード確認コントローラークラス
  *
- * ユーザーのパスワード確認に関連するコントローラー
+ * このクラスは、パスワード確認に関連する処理を提供します。
  */
 class ConfirmablePasswordController extends Controller
 {
     /**
-     * @var OperationLogController
+     * @var ConfirmablePasswordUseCase
      */
-    private $operationLogController;
+    private $confirmablePasswordUseCase;
 
     /**
-     * OperationLogControllerの新しいインスタンスを作成します。
+     * ConfirmablePasswordControllerの新しいインスタンスを生成します。
      *
-     * @param  OperationLogController  $operationLogController
-     * @return void
+     * @param ConfirmablePasswordUseCase $confirmablePasswordUseCase パスワード確認のユースケースインスタンス
      */
-    public function __construct(OperationLogController $operationLogController)
+    public function __construct(ConfirmablePasswordUseCase $confirmablePasswordUseCase)
     {
-        $this->operationLogController = $operationLogController;
+        $this->confirmablePasswordUseCase = $confirmablePasswordUseCase;
     }
 
     /**
-     * パスワード確認画面を表示する
+     * パスワード確認画面を表示します。
      *
-     * @return View パスワード確認画面の表示
+     * @return View パスワード確認画面のViewインスタンス
      */
     public function show(): View
     {
@@ -45,30 +42,17 @@ class ConfirmablePasswordController extends Controller
     }
 
     /**
-     * ユーザーのパスワードを確認する
+     * パスワード確認を行います。
      *
-     * 簡単な処理を行った後、HOMEページへアクセスする
-     *
-     * @param Request $request リクエスト
-     * @return RedirectResponse HOMEページの表示
-     *
-     * @throws ValidationException バリデーション例外
-     * 
+     * @param ConfirmPasswordRequest $request パスワード確認のリクエスト
+     * @return RedirectResponse リダイレクトレスポンス
      */
-    public function store(Request $request): RedirectResponse
+    public function store(ConfirmPasswordRequest $request): RedirectResponse
     {
-        if (!Auth::guard('web')->validate([
-            'email' => $request->user()->email,
-            'password' => $request->password,
-        ])) {
-            throw ValidationException::withMessages([
-                'password' => __('auth.password'),
-            ]);
-        }
-
-        $request->session()->put('auth.password_confirmed_at', time());
-
-        $this->operationLogController->store('パスワードを確認しました');
+        $this->confirmablePasswordUseCase->confirmPassword(
+            $request->user()->email,
+            $request->password
+        );
 
         return redirect()->intended(RouteServiceProvider::HOME);
     }

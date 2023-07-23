@@ -3,47 +3,42 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
-use Illuminate\View\View;
+use App\Http\Requests\Auth\UserRegistrationRequest;
 use App\Models\College;
 use App\Models\Department;
-use Illuminate\Validation\Rule;
-use App\Http\Controllers\OperationLogController;
+use App\Providers\RouteServiceProvider;
+use App\UseCases\Auth\RegistrationUseCase;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+
+use Illuminate\View\View;
 
 /**
- * ユーザー登録コントローラー
+ * 登録済みユーザーコントローラークラス
  *
- * ユーザー登録に関連するコントローラー
+ * このクラスは、ユーザーの新規登録に関連する処理を提供します。
  */
 class RegisteredUserController extends Controller
 {
     /**
-     * @var OperationLogController
+     * @var RegistrationUseCase
      */
-    private $operationLogController;
+    private $registrationUseCase;
 
     /**
-     * OperationLogControllerの新しいインスタンスを作成します。
+     * RegisteredUserControllerの新しいインスタンスを生成します。
      *
-     * @param  OperationLogController  $operationLogController
-     * @return void
+     * @param RegistrationUseCase $registrationUseCase ユーザーの新規登録に関連するユースケースインスタンス
      */
-    public function __construct(OperationLogController $operationLogController)
+    public function __construct(RegistrationUseCase $registrationUseCase)
     {
-        $this->operationLogController = $operationLogController;
+        $this->registrationUseCase = $registrationUseCase;
     }
 
     /**
-     * 登録ビューを表示する
+     * 登録フォームを表示します。
      *
-     * @return View 登録ビューの表示
+     * @return View 登録フォームのViewインスタンス
      */
     public function create(): View
     {
@@ -63,41 +58,16 @@ class RegisteredUserController extends Controller
     }
 
     /**
-     * 登録リクエストの処理を行う
+     * ユーザーの新規登録を行います。
      *
      * @param Request $request リクエスト
      * @return RedirectResponse リダイレクトレスポンス
-     *
-     * @throws \Illuminate\Validation\ValidationException バリデーション例外
      */
-    public function store(Request $request): RedirectResponse
+    public function store(UserRegistrationRequest $request): RedirectResponse
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users'), 'regex:/^[^@]+@g\.neec\.ac\.jp$/',],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'college' => ['required', 'exists:colleges,id'],
-            'department' => [
-                'required', 'exists:departments,id', Rule::exists('departments', 'id')->where(function ($query) use ($request) {
-                    $query->where('college_id', $request->input('college'));
-                })
-            ],
-        ],);
+        $user = $this->registrationUseCase->register($request->all());
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'college_id' => $request->college,
-            'department_id' => $request->department,
-        ]);
-
-
-        event(new Registered($user));
-
-        Auth::login($user);
-
-        $this->operationLogController->store('ID:' . $user->id . 'のユーザーを登録しました');
+        $this->registrationUseCase->login($user);
 
         return redirect(RouteServiceProvider::HOME);
     }

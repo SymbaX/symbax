@@ -5,7 +5,3 @@
 @section('message', 'アクセスしようとしたページは見つかりませんでした。')
 
 @section('detail', '一時的にアクセスができない状況にあるか、ページが移動もしくはは削除された可能性があります。 トップページに戻るか、もう一度検索してください。')
-
-@section('link')
-    <p><a href="{{ env('APP_URL') }}">to TOP&gt;&gt;</a></p>
-@endsection

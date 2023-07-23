@@ -1,3 +1,6 @@
+@push('css')
+    <link rel="stylesheet" href="{{ asset('css/admin-table.css') }}">
+@endpush
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -9,23 +12,24 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 overflow-x-auto">
-                    <table class="min-w-full bg-white border border-gray-300">
+                    <table class="tb01">
                         <thead>
-                            <tr>
-                                <th class="px-6 py-3 bg-gray-100 border-b">{{ __('ID') }}</th>
-                                <th class="px-6 py-3 bg-gray-100 border-b">{{ __('User id') }}</th>
-                                <th class="px-6 py-3 bg-gray-100 border-b">{{ __('Action') }}</th>
-                                <th class="px-6 py-3 bg-gray-100 border-b">{{ __('Date') }}</th>
+                            <tr class="head">
+                                <th>{{ __('Log id') }}</th>
+                                <th>{{ __('User id') }}</th>
+                                <th>{{ __('Action') }}</th>
+                                <th>{{ __('Date and time') }}</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($operation_logs as $operation_log)
                                 <tr>
-                                    <td class="px-6 py-4 border-b">{{ $operation_log->id }}</td>
-                                    <td class="px-6 py-4 border-b">{{ $operation_log->user_name }}
-                                        (ID:{{ $operation_log->user_id }})</td>
-                                    <td class="px-6 py-4 border-b">{{ $operation_log->action }}</td>
-                                    <td class="px-6 py-4 border-b">{{ $operation_log->created_at }}</td>
+                                    <td data-label="{{ __('Log id') }}">{{ $operation_log->id }}</td>
+                                    <td data-label="{{ __('User id') }}">{{ $operation_log->user_name }}
+                                        (ID:{{ $operation_log->user_id }})
+                                    </td>
+                                    <td data-label="{{ __('Action') }}">{{ $operation_log->action }}</td>
+                                    <td data-label="{{ __('Date and time') }}">{{ $operation_log->created_at }}</>
                                 </tr>
                             @endforeach
                         </tbody>

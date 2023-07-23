@@ -5,17 +5,17 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('list.upcoming') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                    <a href="{{ route('index.upcoming') }}">
+                        <img src="{{ asset('img/logo.svg') }}" width="50" height="50">
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('list.upcoming')" :active="request()->routeIs('list.upcoming')">
+                    <x-nav-link :href="route('index.upcoming')" :active="request()->routeIs('index.upcoming')">
                         {{ __('Upcoming events') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('list.all')" :active="request()->routeIs('list.all')">
+                    <x-nav-link :href="route('index.all')" :active="request()->routeIs('index.all')">
                         {{ __('Event list all') }}
                     </x-nav-link>
                 </div>
@@ -45,6 +45,14 @@
                             {{ __('Create event') }}
                         </x-dropdown-link>
 
+                        <x-dropdown-link :href="route('index.join')">
+                            {{ __('Join event') }}
+                        </x-dropdown-link>
+
+                        <x-dropdown-link :href="route('index.organizer')">
+                            {{ __('Organizer event') }}
+                        </x-dropdown-link>
+
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
@@ -58,10 +66,10 @@
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-
-                            <x-dropdown-link :href="route('logout')"
+                            <x-dropdown-link
                                 onclick="event.preventDefault();
-                                                this.closest('form').submit();">
+                                    this.closest('form').submit();"
+                                style="cursor: pointer;">
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
                         </form>
@@ -88,10 +96,10 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('list.upcoming')" :active="request()->routeIs('list.upcoming')">
+            <x-responsive-nav-link :href="route('index.upcoming')" :active="request()->routeIs('index.upcoming')">
                 {{ __('Upcoming events') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('list.all')" :active="request()->routeIs('list.all')">
+            <x-responsive-nav-link :href="route('index.all')" :active="request()->routeIs('index.all')">
                 {{ __('Event list all') }}
             </x-responsive-nav-link>
         </div>
@@ -108,6 +116,14 @@
                     {{ __('Create event') }}
                 </x-responsive-nav-link>
 
+                <x-responsive-nav-link :href="route('index.join')">
+                    {{ __('Join event') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('index.organizer')">
+                    {{ __('Organizer event') }}
+                </x-responsive-nav-link>
+
                 <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
@@ -121,12 +137,12 @@
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-
-                    <x-responsive-nav-link :href="route('logout')"
-                        onclick="event.preventDefault();
-                                        this.closest('form').submit();">
+                    <x-responsive-nav-link onclick="event.preventDefault();
+            this.closest('form').submit();"
+                        style="cursor: pointer;">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
+                </form>
                 </form>
             </div>
         </div>
