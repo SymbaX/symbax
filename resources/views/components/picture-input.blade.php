@@ -1,7 +1,7 @@
 <div class="flex mb-4" x-data="picturePreview()">
     <div class="mr-3">
         <img id="preview"
-            src="{{ isset(Auth::user()->profile_photo_path) ? Storage::url(Auth::user()->profile_photo_path) : asset('img/06.png') }}"
+            src="{{ isset(Auth::user()->profile_photo_path) ? Storage::url(Auth::user()->profile_photo_path) : asset('img/default-user.png') }}"
             alt="" class="w-16 h-16 rounded-full object-cover border-none bg-gray-200">
     </div>
     <div class="flex items-center">
