@@ -42,6 +42,12 @@ class ProfileUseCase
 
         $user->fill($request->validated());
 
+        $path = null;
+        if ($request->hasFile('picture')) {
+            $path = $request->file('picture')->store('profile-icons', 'public');
+            $request->user()->profile_photo_path = $path;
+        }
+
         $this->operationLogUseCase->store('プロフィールを更新しました');
 
         $user->save();
