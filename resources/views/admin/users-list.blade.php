@@ -19,6 +19,7 @@
                     <table class="tb01">
                         <tr class="head">
                             <th>{{ __('ID') }}</th>
+                            <th>{{ __('Login Id') }}</th>
                             <th>{{ __('Name') }}</th>
                             <th>{{ __('Email') }}</th>
                             <th>{{ __('Email Verified At') }}</th>
@@ -31,6 +32,7 @@
                         @foreach ($users as $user)
                             <tr>
                                 <td data-label="{{ __('ID') }}">{{ $user->id }}</td>
+                                <td data-label="{{ __('Login Id') }}">{{ $user->login_id }}</td>
                                 <td data-label="{{ __('Name') }}">{{ $user->name }}</td>
                                 <td data-label="{{ __('Email') }}">{{ $user->email }}</td>
                                 <td data-label="{{ __('Email Verified At') }}">
