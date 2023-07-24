@@ -33,6 +33,11 @@ class UserUpdateUseCase
 
         $isChanged = false; // 変更があるかどうかを示すフラグ
 
+        if ($user->login_id !== $request->login_id) {
+            $user->login_id = $request->login_id;
+            $isChanged = true;
+        }
+
         if ($user->name !== $request->name) {
             $user->name = $request->name;
             $isChanged = true;
@@ -69,7 +74,7 @@ class UserUpdateUseCase
             // ユーザーの変更を保存
             $user->save();
 
-            $this->operationLogUseCase->store('● USER-ID:' . $user->id . 'のユーザー情報を更新しました', $user->id);
+            $this->operationLogUseCase->store('● USER-ID:' . $user->id . 'のユーザー情報を更新しました');
 
             return Redirect::route('admin.users')->with('status', 'user-updated');
         }

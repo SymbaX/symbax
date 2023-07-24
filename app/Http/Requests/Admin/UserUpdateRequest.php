@@ -16,6 +16,14 @@ class UserUpdateRequest extends FormRequest
     public function rules()
     {
         return [
+            'login_id' => [
+                'required',
+                'string',
+                'min:4',
+                'max:10',
+                Rule::unique('users')->ignore($this->user),
+                'regex:/^(?=.*[A-Za-z0-9])[A-Za-z0-9_]+$/',
+            ],
             'name' => ['required', 'string', 'max:20'],
             'email' => ['required', 'string', 'email'],
             'college' => ['required', 'exists:colleges,id'],

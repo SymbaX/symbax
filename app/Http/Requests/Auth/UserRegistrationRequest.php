@@ -12,6 +12,12 @@ class UserRegistrationRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:20'],
+            'login_id' => [
+                'required', 'string',
+                'min:4',
+                'max:10', Rule::unique('users'),
+                'regex:/^(?=.*[A-Za-z0-9])[A-Za-z0-9_]+$/',
+            ],
             'email' => [
                 'required', 'string', 'email', 'max:255', Rule::unique('users'), 'regex:/^[^@]+@g\.neec\.ac\.jp$/'
             ],
