@@ -2,12 +2,12 @@
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
-        <!-- User id -->
+        <!--login_id -->
         <div class="mt-4">
-            <x-input-label for="user_id" :value="__('User Id')" />
-            <x-text-input id="user_id" class="block mt-1 w-full" type="text" name="user_id" :value="old('user_id')" required
+            <x-input-label for="login_id" :value="__('Login Id')" />
+            <x-text-input id="login_id" class="block mt-1 w-full" type="text" name="login_id" :value="old('login_id')" required
                 autofocus />
-            <x-input-error :messages="$errors->get('user_id')" class="mt-2" />
+            <x-input-error :messages="$errors->get('login_id')" class="mt-2" />
         </div>
 
         <!-- Name -->
