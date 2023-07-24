@@ -79,9 +79,8 @@
                     @foreach ($participants as $participant)
                         @if ($participant->status == 'approved')
                             <li>
-                                <x-user-icon path="{{ $participant->profile_photo_path }}" />
-
-                                {{ $participant->name }} ({{ __('ID') }}: {{ $participant->user_id }})
+                                <x-user-info id="{{ $participant->login_id }}" name="{{ $participant->name }}"
+                                    path="{{ $participant->profile_photo_path }}" />
                             </li>
                         @endif
                     @endforeach
