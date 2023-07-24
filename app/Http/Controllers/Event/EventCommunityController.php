@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Event;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Event\TopicRequest;
 use App\Models\Topic;
 use App\UseCases\Event\CheckEventParticipantStatusUseCase;
 use App\UseCases\Event\CheckEventOrganizerUseCase;
@@ -47,7 +48,7 @@ class EventCommunityController extends Controller
         abort(403);
     }
 
-    public function save(Request $request)
+    public function save(TopicRequest $request)
     {
 
         //Topicを受け入れるための箱を作る

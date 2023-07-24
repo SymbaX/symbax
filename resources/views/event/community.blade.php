@@ -11,23 +11,30 @@
                 <div class="p-6 text-gray-900">
                     <form method="POST">
                         @csrf
-                        <input type="hidden" name="event_id" value="{{ $event}}">
-                        <textarea class="form-control my-2" name="content" rows="4" placeholder="ここにコメントを入力"></textarea>
-                        <input class="form-control my-2" type="submit" value="送信">
-                    </form>
-                    
-                    @forelse($topics as $topic)
-                    <div class="border my-2 p-2">
-                        <div class="text-secondary">{{ $topic->user_id }} さん</div>
-                        <div class="p-2">{!! nl2br(e($topic->content)) !!}</div>
-                        <div class="text-secondary">投稿日:{{ $topic->created_at }}</div>
-                    </div>
-                    @empty
-                    <p>トピックがありません。</p>
-                    @endforelse
-                    
+                        <input type="hidden" name="event_id" value="{{ $event }}">
 
-                    
+                        <div>
+                            <x-textarea id="content" name="content" type="text" style="height:100px"
+                                class="mt-1 block w-full" required autocomplete="off">{{ old('content', '') }}
+                            </x-textarea>
+                            <x-input-error class="mt-2" :messages="$errors->get('content')" />
+                        </div>
+
+                        <x-primary-button>{{ __('Send') }}</x-primary-button>
+                    </form>
+                    <br />
+                    @forelse($topics as $topic)
+                        <div class="border my-2 p-2">
+                            <div class="text-secondary">{{ $topic->user_id }} さん</div>
+                            <div class="p-2">{!! nl2br(e($topic->content)) !!}</div>
+                            <div class="text-secondary">投稿日:{{ $topic->created_at }}</div>
+                        </div>
+                    @empty
+                        <p>トピックがありません。</p>
+                    @endforelse
+
+
+
                 </div>
             </div>
         </div>
