@@ -29,7 +29,10 @@ html {
     padding-right: 10px;
     margin-bottom: 10px;
     background-color: #f3f3f3;
-    max-width: 300px;
+    max-width: 400px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .item__header:hover {

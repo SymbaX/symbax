@@ -66,7 +66,6 @@
                             </div>
                         </div>
                         <p class="text"> {{ $detail_markdown }}</p>
-
                 </div>
 
                 @if (!$is_organizer)
@@ -104,26 +103,34 @@
                                         @method('PATCH')
                                         <input type="hidden" name="event_id" value="{{ $event->id }}">
                                         <input type="hidden" name="user_id" value="{{ $participant->user_id }}">
-                                        {{ $participant->name }} ({{ __('ID') }}:
-                                        {{ $participant->user_id }},@lang('status.' . $participant->status))
-                                        <button type="submit" name="status" value="approved"
-                                            onclick="showLoading()">Approve</button>
-                                        <button type="submit" name="status" value="rejected"
-                                            onclick="showLoading()">Reject</button>
+
+                                        <x-user-info id="{{ $participant->login_id }}"
+                                            name="{{ trans('status.' . $participant->status) . ' - ' . $participant->name }}"
+                                            path="{{ $participant->profile_photo_path }}" />
+
+                                        <x-secondary-button type="submit" name="status" value="approved"
+                                            onclick="showLoading()">{{ __('Approve') }}</x-secondary-button>
+                                        <x-secondary-button type="submit" name="status" value="rejected"
+                                            onclick="showLoading()">{{ __('Reject') }}</x-secondary-button>
+                                        <br /> <br />
+
                                     </form>
                                 @endif
                             </li>
                         @endforeach
                     </ul>
 
-                    <a
-                        href="{{ route('event.community', ['event_id' => $event->id]) }}">{{ __('Participant only page') }}</a>
+                    <a href="{{ route('event.community', ['event_id' => $event->id]) }}">
+                        <x-primary-button onclick="showLoading()"> {{ __('Participant only page') }}
+                        </x-primary-button>
+                    </a>
+
                     <br /><br />
 
 
 
                     <a href="{{ route('event.edit', ['event_id' => $event->id]) }}" class="text-blue-500 underline">
-                        <x-primary-button onclick="showLoading()">{{ __('Edit event') }}</x-primary-button>
+                        <x-secondary-button onclick="showLoading()">{{ __('Edit event') }}</x-secondary-button>
                     </a>
 
                     <br /><br />
@@ -132,10 +139,10 @@
                         @csrf
                         @method('DELETE')
                         <input type="hidden" name="event_id" value="{{ $event->id }}">
-                        <x-primary-button
+                        <x-danger-button
                             onclick="return showConfirmation('{{ __('Are you sure you want to delete this event?') }}')">
                             {{ __('Event delete') }}
-                        </x-primary-button>
+                        </x-danger-button>
                     </form>
                 @else
                     @if ($is_join)
@@ -163,7 +170,12 @@
                                 @csrf
                                 @method('patch')
                                 <input type="hidden" name="event_id" value="{{ $event->id }}">
-                                <x-primary-button onclick="showLoading()">{{ __('Cancel Join') }}</x-primary-button>
+
+                                <x-danger-button
+                                    onclick="return showConfirmation('{{ __('Are you sure you want to cancel this event?') }}')">
+                                    {{ __('Cancel Join') }}
+                                </x-danger-button>
+
                             </form>
                         @endif
                     @endif
