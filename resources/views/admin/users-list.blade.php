@@ -16,6 +16,13 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 overflow-x-auto">
+
+                    <x-input-error class="mt-2" :messages="$errors->get('login_id')" />
+                    <x-input-error class="mt-2" :messages="$errors->get('name')" />
+                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                    <x-input-error :messages="$errors->get('college')" class="mt-2" />
+                    <x-input-error :messages="$errors->get('department')" class="mt-2" />
+
                     <table class="tb01">
                         <tr class="head">
                             <th>{{ __('ID') }}</th>
