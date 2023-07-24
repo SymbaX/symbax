@@ -54,6 +54,9 @@
                     @foreach ($participants as $participant)
                         @if ($participant->status == 'approved')
                             <li>
+                                <img id="preview"
+                                    src="{{ isset($participant->profile_photo_path) ? Storage::url($participant->profile_photo_path) : asset('img/default-user.png') }}"
+                                    alt="" class="w-16 h-16 rounded-full object-cover border-none bg-gray-200">
                                 {{ $participant->name }} ({{ __('ID') }}: {{ $participant->user_id }})
                             </li>
                         @endif
