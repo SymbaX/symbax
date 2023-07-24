@@ -32,6 +32,10 @@ html {
     max-width: 300px;
 }
 
+.item__header:hover {
+    background-color: #ebebeb;
+}
+
 .item__user-icon {
     float: left;
     padding-right: 10px;

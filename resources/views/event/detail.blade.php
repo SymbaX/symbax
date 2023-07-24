@@ -79,8 +79,10 @@
                     @foreach ($participants as $participant)
                         @if ($participant->status == 'approved')
                             <li>
-                                <x-user-info id="{{ $participant->login_id }}" name="{{ $participant->name }}"
-                                    path="{{ $participant->profile_photo_path }}" />
+                                <a href="{{ route('profile.show', ['login_id' => $participant->login_id]) }}">
+                                    <x-user-info id="{{ $participant->login_id }}" name="{{ $participant->name }}"
+                                        path="{{ $participant->profile_photo_path }}" />
+                                </a>
                             </li>
                         @endif
                     @endforeach
