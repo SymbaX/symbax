@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\UseCases\Profile\ProfileUseCase;
 use App\Http\Requests\Profile\ProfileDeleteRequest;
 use App\Http\Requests\Profile\ProfileUpdateRequest;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -72,5 +73,17 @@ class ProfileController extends Controller
         $this->profileUseCase->destroy($request);
 
         return Redirect::to('/');
+    }
+
+
+    public function show($loginId)
+    {
+        try {
+            $user = $this->profileUseCase->getByLoginId($loginId);
+        } catch (\Exception $e) {
+            abort(404, $e->getMessage());
+        }
+
+        return view('profile.profile_page', compact('user'));
     }
 }
