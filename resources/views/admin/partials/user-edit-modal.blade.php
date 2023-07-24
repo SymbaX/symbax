@@ -14,9 +14,14 @@
                             @csrf
                             @method('patch')
                             <div class="mt-4">
+                                <x-input-label for="login_id" :value="__('Login Id')" />
+                                <x-text-input id="editLoginId" name="login_id" type="text" class="mt-1 block w-full"
+                                    :value="old('login_id', $user->login_id)" required autofocus />
+                            </div>
+                            <div class="mt-4">
                                 <x-input-label for="name" :value="__('Name')" />
                                 <x-text-input id="editUserName" name="name" type="text" class="mt-1 block w-full"
-                                    :value="old('name', $user->name)" required autofocus autocomplete="name" />
+                                    :value="old('name', $user->name)" required autocomplete="name" />
                             </div>
                             <div class="mt-4">
                                 <x-input-label for="email" :value="__('Email')" />

@@ -39,6 +39,7 @@ class RegistrationUseCase
     {
         $user = User::create([
             'name' => $requestData['name'],
+            'login_id' => $requestData['login_id'],
             'email' => $requestData['email'],
             'password' => Hash::make($requestData['password']),
             'college_id' => $requestData['college'],

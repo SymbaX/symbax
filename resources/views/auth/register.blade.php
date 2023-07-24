@@ -2,11 +2,22 @@
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
+        <!--login_id -->
+        <div class="mt-4">
+            <x-input-label for="login_id" :value="__('Login Id')" />
+            <x-text-input id="login_id" class="block mt-1 w-full" type="text" name="login_id" :value="old('login_id')" required
+                autofocus />
+            <x-input-error :messages="$errors->get('login_id')" class="mt-2" />
+            <x-input-hint-text>
+                {{ __('The login ID cannot be changed later.') }}
+            </x-input-hint-text>
+        </div>
+
         <!-- Name -->
-        <div>
+        <div class="mt-4">
             <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required
-                autofocus autocomplete="name" />
+            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')"
+                required autocomplete="name" />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
 

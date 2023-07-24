@@ -1,11 +1,13 @@
 function openEditModal(
     userId,
+    LoginId,
     userName,
     userEmail,
     collegeId,
     departmentId,
     roleId
 ) {
+    const $login = $("#editLoginId");
     const $name = $("#editUserName");
     const $email = $("#editUserEmail");
     const $collegeSelect = $("#editUserCollege");
@@ -20,6 +22,7 @@ function openEditModal(
     );
 
     // 元の値を代入する
+    $login.val(LoginId);
     $name.val(userName);
     $email.val(userEmail);
 
