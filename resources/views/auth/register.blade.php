@@ -8,6 +8,9 @@
             <x-text-input id="login_id" class="block mt-1 w-full" type="text" name="login_id" :value="old('login_id')" required
                 autofocus />
             <x-input-error :messages="$errors->get('login_id')" class="mt-2" />
+            <x-input-hint-text>
+                {{ __('The login ID cannot be changed later.') }}
+            </x-input-hint-text>
         </div>
 
         <!-- Name -->
