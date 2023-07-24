@@ -1,8 +1,8 @@
-.flex {
+.event-flex {
     display: flex; /*横並び*/
 }
 
-.flex .event_image {
+.event-flex .event_image {
     width: 500px;
     height: 500px;
     object-fit: contain; /*画像サイズ指定*/
@@ -13,13 +13,13 @@
     position: relative;
 }
 
-.flex .right {
+.event-flex .right {
     width: 100%;
     margin: 0 0 0 20px;
     padding: 0;
 }
 
-.flex .title {
+.event-flex .title {
     margin: 10px 10px 10px 10px;
     padding: 0;
     font-weight: bold;
@@ -28,75 +28,90 @@
     width: 100%;
 }
 
-.flex .text {
+.event-flex .text {
     margin: 10px 0 0;
     padding: 0;
     font-size: 20px;
 }
 
-.event-details h1 {
+@media screen and (max-width: 825px) {
+    .event-flex {
+        flex-direction: column;
+    }
+
+    .event-flex .event_image {
+        width: 100%;
+        height: auto;
+    }
+
+    .event-flex .right {
+        margin: 20px 0 0;
+    }
+}
+
+.event-detail h1 {
     font-size: 24px;
     font-weight: bold;
 }
 
-.event-details h2 {
+.event-detail h2 {
     font-size: 20px;
     font-weight: bold;
 }
 
-.event-details h3 {
+.event-detail h3 {
     font-size: 18px;
     font-weight: bold;
 }
 
-.event-details h4 {
+.event-detail h4 {
     font-size: 16px;
     font-weight: bold;
 }
 
-.event-details h5 {
+.event-detail h5 {
     font-size: 14px;
     font-weight: bold;
 }
 
-.event-details h6 {
+.event-detail h6 {
     font-size: 12px;
     font-weight: bold;
 }
 
-.event-details p {
+.event-detail p {
     margin-bottom: 10px;
 }
 
-.event-details strong {
+.event-detail strong {
     font-weight: bold;
 }
 
-.event-details em {
+.event-detail em {
     font-style: italic;
 }
 
-.event-details a {
+.event-detail a {
     color: blue;
     text-decoration: underline;
 }
 
-.event-details a:hover {
+.event-detail a:hover {
     text-decoration: none;
 }
 
-.event-details hr {
+.event-detail hr {
     border: none;
     border-top: 1px solid black;
     margin: 10px 0;
 }
 
-.event-details ul {
+.event-detail ul {
     list-style-type: disc;
     margin-left: 20px;
 }
 
-.event-details ol {
+.event-detail ol {
     list-style-type: decimal;
     margin-left: 20px;
 }
