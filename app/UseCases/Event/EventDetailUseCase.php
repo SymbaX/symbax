@@ -32,7 +32,7 @@ class EventDetailUseCase
 
         $participants = EventParticipant::where('event_id', $id)
             ->join('users', 'users.id', '=', 'event_participants.user_id')
-            ->select('users.id as user_id', 'users.name', 'event_participants.status')
+            ->select('users.id as user_id', 'users.name', 'users.profile_photo_path', 'event_participants.status', 'users.login_id')
             ->get();
 
         $organizer_name = User::where('id', $event->organizer_id)->value('name');

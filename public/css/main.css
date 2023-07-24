@@ -24,6 +24,35 @@ html {
     animation: spin 2s linear infinite;
 }
 
+.item__header {
+    padding: 20px;
+    padding-right: 10px;
+    margin-bottom: 10px;
+    background-color: #f3f3f3;
+    max-width: 400px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.item__header:hover {
+    background-color: #ebebeb;
+}
+
+.item__user-icon {
+    float: left;
+    padding-right: 10px;
+    margin-bottom: 10px;
+}
+
+.item__user-name,
+.item__id {
+    display: block;
+    margin-left: 60px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 @keyframes spin {
     0% {
         transform: rotate(0deg);
