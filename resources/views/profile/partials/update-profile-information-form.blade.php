@@ -23,6 +23,11 @@
         </div>
 
         <div>
+            <x-input-label for="login_id" :value="__('Login Id')" />
+            {{ $user->login_id }}
+        </div>
+
+        <div>
             <x-input-label for="name" :value="__('Name')" />
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)"
                 required autofocus autocomplete="name" />
@@ -31,17 +36,17 @@
 
         <div>
             <x-input-label for="college" :value="__('College')" />
-            <?php echo $college->name; ?>
+            {{ $college->name }}
         </div>
 
         <div>
             <x-input-label for="department" :value="__('Department')" />
-            <?php echo $department->name; ?>
+            {{ $department->name }}
         </div>
 
         <div>
             <x-input-label for="email" :value="__('Email')" />
-            <?php echo $user->email; ?>
+            {{ $user->email }}
         </div>
 
         <div class="flex items-center gap-4">
