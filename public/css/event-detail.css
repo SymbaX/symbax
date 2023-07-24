@@ -1,11 +1,12 @@
 .event-flex {
-    display: flex; /*横並び*/
+    display: flex;
 }
 
 .event-flex .event_image {
     width: 500px;
-    height: 500px;
-    object-fit: contain; /*画像サイズ指定*/
+    height: auto;
+    max-height: 300px;
+    object-fit: contain;
 
     margin: 0;
     padding: 0;
@@ -47,6 +48,23 @@
     .event-flex .right {
         margin: 20px 0 0;
     }
+}
+
+.scroll table {
+    width: 100%;
+}
+.scroll {
+    overflow: auto;
+    white-space: nowrap;
+}
+.scroll::-webkit-scrollbar {
+    height: 5px;
+}
+.scroll::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+.scroll::-webkit-scrollbar-thumb {
+    background: #bcbcbc;
 }
 
 .event-detail h1 {

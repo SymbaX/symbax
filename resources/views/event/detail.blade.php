@@ -8,7 +8,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Event details') }}
+            {{ $event->name }} | {{ __('Event details') }}
         </h2>
     </x-slot>
 
@@ -21,23 +21,48 @@
                             <img class="event_image" src="{{ Storage::url($event->image_path) }} " alt="">
 
                             <div class="right">
-                                <p class="title"> {{ Carbon\Carbon::parse($event->date)->format('Y/m/d') }} |
-                                    {{ $event->name }} </p>
-                                <p id="organizer_name">{{ __('Organizer') }}：{{ $organizer_name }}</p>
-                                <br>
-                                <p class="text">{{ __('Location') }}：{{ $event->place }}</p>
-                                <p class="text">
-                                    {{ __('Participation condition') }}：{{ $event->participation_condition }}</p>
-                                <p class="text">{{ __('Category') }}：{{ $event->category }}</p>
-                                <p class="text">{{ __('Tag') }}：{{ $event->tag }}</p>
-                                <a href="{{ $event->external_link }}">{{ __('External link') }}</a>
-
-                                <p class="text">{{ __('Number of recruits') }}：{{ $participants->Count() }} /
-                                    {{ $event->number_of_recruits }}</p>
-                                <p class="text">
-                                    {{ __('Deadline date') }}：{{ Carbon\Carbon::parse($event->deadline_date)->format('Y/m/d') }}
-                                </p>
-
+                                <div class="scroll">
+                                    <table border="1" cellspacing="0" cellpadding="5">
+                                        <tbody>
+                                            <tr>
+                                                <th>{{ __('Organizer') }}</th>
+                                                <td>{{ $organizer_name }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>{{ __('Location') }}</th>
+                                                <td>{{ $event->place }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>{{ __('Participation condition') }}</th>
+                                                <td>{{ $event->participation_condition }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>{{ __('Category') }}</th>
+                                                <td>{{ $event->category }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>{{ __('Tag') }}</th>
+                                                <td>{{ $event->tag }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>{{ __('External link') }}</th>
+                                                <td><a
+                                                        href="{{ $event->external_link }}">{{ __('External link') }}</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>{{ __('Number of recruits') }}</th>
+                                                <td>{{ $participants->Count() }} / {{ $event->number_of_recruits }}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>{{ __('Deadline date') }}</th>
+                                                <td>{{ Carbon\Carbon::parse($event->deadline_date)->format('Y/m/d') }}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                         <p class="text"> {{ $detail_markdown }}</p>
