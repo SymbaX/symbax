@@ -23,11 +23,15 @@ class UsersTableSeeder extends Seeder
     {
         //
         for ($i = 1; $i < 100; $i++) {
+            // 数字を2桁の文字列にフォーマット（例：1 => 01, 10 => 010）
+            $formattedNum = str_pad($i, 2, '0', STR_PAD_LEFT);
+
             DB::table('users')->insert([
-                'name' => '[test]' . $i,
-                'email' => 'test' . $i . '@g.neec.ac.jp',
+                'login_id' => 'test_' . $formattedNum,
+                'name' => '[test]' . $formattedNum,
+                'email' => 'test' . $formattedNum . '@g.neec.ac.jp',
                 'email_verified_at' => now(),
-                'password' => Hash::make('test' . $i . '@g.neec.ac.jp'),
+                'password' => Hash::make('test' . $formattedNum . '@g.neec.ac.jp'),
                 'college_id' => "it",
                 'department_id' => "specialist",
             ]);
