@@ -56,6 +56,11 @@
                 <h1 class="error_title">@yield('title')</h1>
                 <p class="error_message">@yield('message')</p>
                 <p class="error_detail">@yield('detail')</p>
+
+                @if (!isset($errorCode) || $errorCode != 503)
+                    <a href="{{ route('welcome') }}">{{ __('Back to top page') }}</a>
+                @endif
+
                 @if (env('APP_DEBUG') == 1 && isset($exception))
                     <p class="error_debug">
                         {{ $exception->getMessage() }}

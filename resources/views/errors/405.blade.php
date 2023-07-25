@@ -1,6 +1,6 @@
 @extends('errors.layouts.base')
 
-@section('title', '405 Method Not Allowed')
+@section('title', '❌ 405 Method Not Allowed ⛔️')
 
 @section('message', 'このリクエストに対するメソッドは許可されていません。')
 

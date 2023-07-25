@@ -202,5 +202,6 @@
     "The login ID cannot be changed later.": "ログインIDは後から変更できません。",
     "Approve": "承認する",
     "Reject": "リジェクトする",
-    "Are you sure you want to cancel this event?": "本当にこのイベントをキャンセルしますか？"
+    "Are you sure you want to cancel this event?": "本当にこのイベントをキャンセルしますか？",
+    "Back to top page": "トップページに戻る"
 }

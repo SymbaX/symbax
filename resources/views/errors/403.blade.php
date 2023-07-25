@@ -1,6 +1,6 @@
 @extends('errors.layouts.base')
 
-@section('title', '403 Forbidden')
+@section('title', '🚫 403 Forbidden 🔒')
 
 @section('message', 'アクセスしようとしたページは表示できませんでした。')
 

@@ -1,6 +1,6 @@
 @extends('errors.layouts.base')
 
-@section('title', '429 Too Many Requests')
+@section('title', '❌ 429 Too Many Requests 📈')
 
 @section('message', 'アクセスしようとしたページは表示できませんでした。')
 
