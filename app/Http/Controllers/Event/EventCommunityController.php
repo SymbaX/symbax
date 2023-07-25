@@ -4,64 +4,53 @@ namespace App\Http\Controllers\Event;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Event\TopicRequest;
-use App\Models\Topic;
-use App\UseCases\Event\CheckEventParticipantStatusUseCase;
-use App\UseCases\Event\CheckEventOrganizerUseCase;
+use App\UseCases\Event\EventCommunityUseCase;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 /**
- * イベントのプライベートページを表示するコントローラー
+ * イベントコミュニティに関連するアクションを制御するクラス
  */
 class EventCommunityController extends Controller
 {
+    protected $useCase;
+
     /**
-     * プライベートページの表示
+     * コンストラクタ
      *
-     * 認可されたユーザーのみがアクセスできるページの表示を行います。
-     * 参加ステータスが"approved"のイベント参加者またはイベントの作成者のみがアクセスできます。
-     * アクセス権がない場合は403 Forbiddenエラーを返します。
-     *
-     * @param Request $request リクエストデータ
-     * @param int $id イベントID
-     * @param CheckEventParticipantStatusUseCase $checkParticipantStatus
-     * @param CheckEventOrganizerUseCase $checkEventOrganizer
-     * @return View
+     * @param EventCommunityUseCase $useCase イベントコミュニティに関連するビジネスロジックを扱うUseCase
      */
-    public function create(
-        Request $request,
-        $id,
-        CheckEventParticipantStatusUseCase $checkParticipantStatus,
-        CheckEventOrganizerUseCase $checkEventOrganizer
-    ): View {
-        $isParticipantApproved = $checkParticipantStatus->execute($id);
-        $isEventOrganizer = $checkEventOrganizer->execute($id);
-
-        if ($isParticipantApproved === "approved" || $isEventOrganizer) {
-            // approvedのイベント参加者またはイベントの作成者の場合は、ページを表示する
-            $topics  = Topic::where("event_id", $id)->latest()->get();
-            return view('event.community', ['event' => $id], ["topics" => $topics]);
-        }
-
-        // アクセス権がない場合は403 Forbiddenエラーを返す
-        abort(403);
+    public function __construct(EventCommunityUseCase $useCase)
+    {
+        $this->useCase = $useCase;
     }
 
-    public function save(TopicRequest $request)
+    /**
+     * トピック作成画面を表示する
+     *
+     * @param \Illuminate\Http\Request $request HTTPリクエストインスタンス
+     * @param int $id イベントID
+     * @return \Illuminate\View\View トピック作成画面のビューを返す
+     */
+    public function create(Request $request, $id): View
     {
-
-        //Topicを受け入れるための箱を作る
-        $topic = new Topic();
-
-        //nameとcontentが指定されている場合保存する
-        if ($request->content) {
-            $topic->user_id = Auth::id();
-            $topic->event_id = $request->event_id;
-            $topic->content = $request->content;
-            $topic->save();
+        if (!$this->useCase->checkAccess($id)) {
+            abort(403);
         }
 
+        $topics = $this->useCase->getTopics($id);
+        return view('event.community', ['event' => $id, 'topics' => $topics]);
+    }
+
+    /**
+     * トピックを保存する
+     *
+     * @param \App\Http\Requests\Event\TopicRequest $request フォームリクエスト
+     * @return \Illuminate\Http\RedirectResponse リダイレクトレスポンスを返す
+     */
+    public function save(TopicRequest $request)
+    {
+        $topic = $this->useCase->saveTopic($request);
         return redirect()->route('event.community', ['event_id' => $topic->event_id]);
     }
 }
