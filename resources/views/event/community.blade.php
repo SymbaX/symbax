@@ -25,7 +25,12 @@
                     <br />
                     @forelse($topics as $topic)
                         <div class="border my-2 p-2">
-                            <div class="text-secondary">{{ $topic->user_id }} さん</div>
+                            <div class="text-secondary">{{ $topic->user->name }} さん</div>
+                            <div class="mr-3">
+                                <img id="preview"
+                                    src="{{ isset($topic->user->profile_photo_path) ? Storage::url($topic->user->profile_photo_path) : asset('img/default-user.png') }}"
+                                    alt="" class="w-16 h-16 rounded-full object-cover border-none bg-gray-200">
+                            </div>
                             <div class="p-2">{!! nl2br(e($topic->content)) !!}</div>
                             <div class="text-secondary">投稿日:{{ $topic->created_at }}</div>
                         </div>
