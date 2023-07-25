@@ -1,6 +1,6 @@
 @extends('errors.layouts.base')
 
-@section('title', '404 Not Found')
+@section('title', '❌ 404 Not Found ❓')
 
 @section('message', 'アクセスしようとしたページは見つかりませんでした。')
 
