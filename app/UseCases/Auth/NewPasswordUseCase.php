@@ -65,9 +65,25 @@ class NewPasswordUseCase
         $userId = $user ? $user->id : '不明';
 
         if ($status == Password::PASSWORD_RESET) {
-            $this->operationLogUseCase->store('Email: ' . $request->get('email') . ' (USER-ID: ' . $userId . ') のパスワードをリセットしました');
+            $this->operationLogUseCase->store([
+                'detail' => 'Email: ' . $request->get('email') . ' (USER-ID: ' . $userId . ') パスワードをリセットしました',
+                'user_id' => null,
+                'target_event_id' => null,
+                'target_user_id' => null,
+                'target_topic_id' => null,
+                'action' => 'reset-password-success',
+                'ip' => request()->ip(),
+            ]);
         } else {
-            $this->operationLogUseCase->store('Email: ' . $request->get('email') . ' (USER-ID: ' . $userId . ') のパスワードリセットに失敗しました');
+            $this->operationLogUseCase->store([
+                'detail' => 'Email: ' . $request->get('email') . ' (USER-ID: ' . $userId . ') のパスワードリセットに失敗しました',
+                'user_id' => null,
+                'target_event_id' => null,
+                'target_user_id' => null,
+                'target_topic_id' => null,
+                'action' => 'reset-password-failed',
+                'ip' => request()->ip(),
+            ]);
         }
 
         return $status;

@@ -27,7 +27,15 @@ class AdminDashboardUseCase
     {
         $users = User::where('role_id', 'admin')->get();
 
-        $this->operationLogUseCase->store('● ダッシュボードを表示しました');
+        $this->operationLogUseCase->store([
+            'detail' => '管理者ダッシュボードを表示しました。',
+            'user_id' => auth()->user()->id,
+            'target_event_id' => null,
+            'target_user_id' => null,
+            'target_topic_id' => null,
+            'action' => 'admin-top-show',
+            'ip' => request()->ip(),
+        ]);
         return $users;
     }
 }

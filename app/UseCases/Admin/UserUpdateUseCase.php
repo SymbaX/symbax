@@ -74,7 +74,16 @@ class UserUpdateUseCase
             // ユーザーの変更を保存
             $user->save();
 
-            $this->operationLogUseCase->store('● USER-ID:' . $user->id . 'のユーザー情報を更新しました');
+            $this->operationLogUseCase->store([
+                'detail' => 'ユーザー情報を更新しました',
+                'user_id' => auth()->user()->id,
+                'target_event_id' => null,
+                'target_user_id' => $user->id,
+                'target_topic_id' => null,
+                'action' => 'admin-user-update',
+                'ip' => request()->ip(),
+            ]);
+
 
             return Redirect::route('admin.users')->with('status', 'user-updated');
         }

@@ -46,7 +46,15 @@ class EmailVerificationUseCase
             event(new Verified($request->user()));
         }
 
-        $this->operationLogUseCase->store('メールアドレスの検証が完了しました');
+        $this->operationLogUseCase->store([
+            'detail' => 'メールアドレスの検証が完了しました',
+            'user_id' => auth()->user()->id,
+            'target_event_id' => null,
+            'target_user_id' => null,
+            'target_topic_id' => null,
+            'action' => 'verify',
+            'ip' => request()->ip(),
+        ]);
 
         return redirect()->intended(RouteServiceProvider::HOME . '?verified=1');
     }

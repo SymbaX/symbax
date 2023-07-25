@@ -11,18 +11,21 @@ class OperationLogUseCase
         return OperationLog::all();
     }
 
-    public function store(string $message, ?string $user_id = null, ?string $ip_address = null)
+    public function store(array $data)
     {
         $log = new OperationLog();
 
         if (auth()->check()) {
             $log->user_id = auth()->user()->id;
         } else {
-            $log->user_id = $user_id ?? '不明';
+            $log->user_id = $data['user_id'] ?? '不明';
         }
-
-        $log->action = $message;
-        $log->ip_address = $ip_address ?? request()->ip();
+        $log->target_event_id = $data['target_event_id'];
+        $log->target_user_id = $data['target_user_id'];
+        $log->target_topic_id = $data['target_topic_id'];
+        $log->action = $data['action'];
+        $log->detail = $data['detail'];
+        $log->ip_address = $data['ip'] ?? request()->ip();
         $log->save();
     }
 }
