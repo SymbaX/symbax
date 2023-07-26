@@ -48,7 +48,16 @@ class AuthSessionUseCase
     {
         if ($this->authenticate($credentials)) {
             $this->refreshSession();
-            $this->operationLogUseCase->store('ログインしました');
+
+            $this->operationLogUseCase->store([
+                'detail' => null,
+                'user_id' => auth()->user()->id,
+                'target_event_id' => null,
+                'target_user_id' => null,
+                'target_topic_id' => null,
+                'action' => 'login',
+                'ip' => request()->ip(),
+            ]);
 
             return true;
         }
@@ -73,7 +82,15 @@ class AuthSessionUseCase
      */
     public function logout(): void
     {
-        $this->operationLogUseCase->store('ログアウトしました');
+        $this->operationLogUseCase->store([
+            'detail' => null,
+            'user_id' => auth()->user()->id,
+            'target_event_id' => null,
+            'target_user_id' => null,
+            'target_topic_id' => null,
+            'action' => 'logout',
+            'ip' => request()->ip(),
+        ]);
 
         Auth::guard('web')->logout();
         request()->session()->invalidate();

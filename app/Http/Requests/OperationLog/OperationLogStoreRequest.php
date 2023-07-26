@@ -14,8 +14,12 @@ class OperationLogStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'message' => ['required', 'string'],
-            'user_id' => ['nullable', 'string'],
+            'detail'            => ['required', 'string'],
+            'user_id'           => ['nullable', 'string'],
+            'target_event_id'   => ['nullable', 'string'],
+            'target_user_id'    => ['nullable', 'string'],
+            'target_topic_id'   => ['nullable', 'string'],
+            'action	'           => ['nullable', 'string'],
         ];
     }
 }

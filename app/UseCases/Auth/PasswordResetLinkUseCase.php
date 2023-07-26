@@ -44,9 +44,25 @@ class PasswordResetLinkUseCase
 
         // ユーザーが存在する場合のみ、ログにユーザーIDを記録
         if ($user) {
-            $this->operationLogUseCase->store('Email: ' . $requestData['email'] . ' (USER-ID: ' . $user->id . ') にパスワードリセットリンクを送信しました', '不明');
+            $this->operationLogUseCase->store([
+                'detail' => "email: {$requestData['email']}\n",
+                'user_id' => null,
+                'target_event_id' => null,
+                'target_user_id' => $user->id,
+                'target_topic_id' => null,
+                'action' => 'send-reset-link',
+                'ip' => request()->ip(),
+            ]);
         } else {
-            $this->operationLogUseCase->store('Email: ' . $requestData['email'] . ' (USER-ID: 不明) にパスワードリセットリンクの送信を試みました', '不明');
+            $this->operationLogUseCase->store([
+                'detail' => "email: {$requestData['email']}\n",
+                'user_id' => null,
+                'target_event_id' => null,
+                'target_user_id' => null,
+                'target_topic_id' => null,
+                'action' => 'send-not-reset-link',
+                'ip' => request()->ip(),
+            ]);
         }
 
         return $status;

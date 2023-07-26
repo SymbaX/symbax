@@ -30,51 +30,42 @@ class UserUpdateUseCase
 
     public function execute(UserUpdateRequest $request, User $user): RedirectResponse
     {
+        // ユーザーデータのコピーを作成
+        $originalUser = clone $user;
 
-        $isChanged = false; // 変更があるかどうかを示すフラグ
+        $user->login_id = $request->login_id;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->college_id = $request->college;
+        $user->department_id = $request->department;
+        $user->role_id = $request->role;
 
-        if ($user->login_id !== $request->login_id) {
-            $user->login_id = $request->login_id;
-            $isChanged = true;
+        $fields = ['login_id', 'name', 'email', 'college_id', 'department_id', 'role_id'];
+        $detail = "";
+
+        foreach ($fields as $field) {
+            $originalValue = $originalUser->$field;
+            $updatedValue = $user->$field;
+            if ($originalValue != $updatedValue) {
+                $detail .= "▼ {$field}: {$originalValue} ▶ {$updatedValue}\n";
+            }
         }
 
-        if ($user->name !== $request->name) {
-            $user->name = $request->name;
-            $isChanged = true;
-        }
+        $isChanged = !empty($detail); // 変更があるかどうかを確認
 
-        if ($user->email !== $request->email) {
-            $mail = new MailSendAdmin();
-            $mail->changeEmail($user->name, $request->email);
-            Mail::to($user->email)->send($mail);
-
-            $user->email = $request->email;
-            $user->email_verified_at = null;
-            $user->sendEmailVerificationNotification();
-            $isChanged = true;
-        }
-
-        if ($user->college_id !== $request->college) {
-            $user->college_id = $request->college;
-            $isChanged = true;
-        }
-
-        if ($user->department_id !== $request->department) {
-            $user->department_id = $request->department;
-            $isChanged = true;
-        }
-
-        if ($user->role_id !== $request->role) {
-            $user->role_id = $request->role;
-            $isChanged = true;
-        }
-
-        // いずれかの項目が変更された場合の処理
         if ($isChanged) {
+            $this->operationLogUseCase->store([
+                'detail' => $detail,
+                'user_id' => auth()->user()->id,
+                'target_event_id' => null,
+                'target_user_id' => $user->id,
+                'target_topic_id' => null,
+                'action' => 'admin-user-update',
+                'ip' => request()->ip(),
+            ]);
+
             // ユーザーの変更を保存
             $user->save();
-
-            $this->operationLogUseCase->store('● USER-ID:' . $user->id . 'のユーザー情報を更新しました');
 
             return Redirect::route('admin.users')->with('status', 'user-updated');
         }
