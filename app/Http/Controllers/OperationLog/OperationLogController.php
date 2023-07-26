@@ -22,11 +22,15 @@ class OperationLogController extends Controller
 
     public function store(OperationLogStoreRequest $request)
     {
-        $this->operationLogUseCase->store(
-            $request->message,
-            $request->user_id,
-            $request->ip(),
-        );
+        $this->operationLogUseCase->store([
+            'detail' => $request->input('detail'),
+            'user_id' => $request->input('user_id'),
+            'target_event_id' => $request->input('target_event_id'),
+            'target_user_id' => $request->input('target_user_id'),
+            'target_topic_id' => $request->input('target_topic_id'),
+            'action' => $request->input('action'),
+            'ip' => $request->ip(),
+        ]);
 
         return redirect()->route('operation_logs.index');
     }

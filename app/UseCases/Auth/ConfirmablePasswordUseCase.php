@@ -47,6 +47,15 @@ class ConfirmablePasswordUseCase
         }
 
         request()->session()->put('auth.password_confirmed_at', time());
-        $this->operationLogUseCase->store('パスワードを確認しました');
+
+        $this->operationLogUseCase->store([
+            'detail' => null,
+            'user_id' => auth()->user()->id,
+            'target_event_id' => null,
+            'target_user_id' => null,
+            'target_topic_id' => null,
+            'action' => 'confirm-password',
+            'ip' => request()->ip(),
+        ]);
     }
 }

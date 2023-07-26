@@ -27,6 +27,7 @@
                         <tr class="head">
                             <th>{{ __('ID') }}</th>
                             <th>{{ __('Login Id') }}</th>
+                            <th>{{ __('Icon') }}</th>
                             <th>{{ __('Name') }}</th>
                             <th>{{ __('Email') }}</th>
                             <th>{{ __('Email Verified At') }}</th>
@@ -40,6 +41,13 @@
                             <tr>
                                 <td data-label="{{ __('ID') }}">{{ $user->id }}</td>
                                 <td data-label="{{ __('Login Id') }}">{{ $user->login_id }}</td>
+                                <td data-label="{{ __('Icon') }}">
+                                    <div class="mr-3">
+                                        <img src="{{ isset($user->profile_photo_path) ? Storage::url($user->profile_photo_path) : asset('img/default-user.png') }}"
+                                            alt=""
+                                            class="w-16 h-16 rounded-full object-cover border-none bg-gray-200">
+                                    </div>
+                                </td>
                                 <td data-label="{{ __('Name') }}">{{ $user->name }}</td>
                                 <td data-label="{{ __('Email') }}">{{ $user->email }}</td>
                                 <td data-label="{{ __('Email Verified At') }}">

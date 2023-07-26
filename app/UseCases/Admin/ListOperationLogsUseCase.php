@@ -35,7 +35,15 @@ class ListOperationLogsUseCase
             $operation_log->user_name = $users[$operation_log->user_id] ?? 'Unknown';
         }
 
-        $this->operationLogUseCase->store('● 操作ログ一覧を表示しました');
+        $this->operationLogUseCase->store([
+            'detail' => null,
+            'user_id' => auth()->user()->id,
+            'target_event_id' => null,
+            'target_user_id' => null,
+            'target_topic_id' => null,
+            'action' => 'admin-operation-log-show',
+            'ip' => request()->ip(),
+        ]);
 
         return $operation_logs;
     }
