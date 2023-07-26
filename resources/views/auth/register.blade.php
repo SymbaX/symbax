@@ -68,10 +68,10 @@
                 updateDepartmentOptions();
                 $('#college').on('change', function() {
                     // 選択されたCollegeに一致するDepartmentを表示し、選択状態にする
-                    updateDepartmentOptions();
+                    updateDepartmentOptions(true);
                 });
                 // Departmentの選択肢を更新する関数
-                function updateDepartmentOptions() {
+                function updateDepartmentOptions(reset = false) {
                     var selectedCollegeId = $('#college').val();
                     var $departmentSelect = $('#department');
                     var $departmentOptions = $departmentSelect.find('option');
@@ -85,10 +85,12 @@
                         // 選択されたCollegeに一致するDepartmentを表示し、選択状態にする
                         $departmentOptions.filter('[data-college-id="' + selectedCollegeId + '"]').prop('disabled',
                             false).show();
-                        // 以前に選択されていたDepartmentがあれば、その選択状態にする
-                        var selectedDepartmentId = "{{ old('department') }}";
-                        if (selectedDepartmentId !== '') {
-                            $departmentSelect.val(selectedDepartmentId);
+                        if (!reset) {
+                            // 以前に選択されていたDepartmentがあれば、その選択状態にする
+                            var selectedDepartmentId = "{{ old('department') }}";
+                            if (selectedDepartmentId !== '') {
+                                $departmentSelect.val(selectedDepartmentId);
+                            }
                         }
                     }
                     // Departmentの選択肢を有効化する
