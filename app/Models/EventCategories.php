@@ -17,4 +17,11 @@ class EventCategories extends Model
      * @var string
      */
     protected $table = 'event_categories';
+
+    /**
+     * プライマリキーのデータ型を取得します。
+     *
+     * @var string
+     */
+    protected $keyType = 'string';
 }

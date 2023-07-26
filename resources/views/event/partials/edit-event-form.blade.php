@@ -28,17 +28,7 @@
             <x-input-error class="mt-2" :messages="$errors->get('detail')" />
         </div>
 
-        <div>
-            <x-input-label for="category" :value="__('Category')" />
-            <select name="category" id="category">
-                @foreach ($categories as $category)
-                    <option value="{{ $category->id }}" {{ $selectedCategoryId == $category->id ? 'selected' : '' }}>
-                        {{ $category->category }}
-                    </option>
-                @endforeach
-            </select>
 
-        </div>
 
         <div>
             <x-input-label for="tag" :value="__('Tag')" />
