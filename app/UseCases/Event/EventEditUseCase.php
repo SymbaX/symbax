@@ -32,14 +32,18 @@ class EventEditUseCase
         $this->operationLogUseCase = $operationLogUseCase;
     }
 
-    public function edit()
+    public function edit($id)
     {
         $categories = EventCategories::all();
-        $selectedCategoryId = old('category', null);
+        $event = $this->getEditableEvent($id);
+
+        if (!$event) {
+            return null;
+        }
 
         return view('event.edit', [
+            'event' => $event,
             'categories' => $categories,
-            'selectedCategoryId' => $selectedCategoryId
         ]);
     }
 
