@@ -4,6 +4,7 @@ namespace App\UseCases\Event;
 
 use App\Http\Requests\Event\CreateRequest;
 use App\Models\Event;
+use App\Models\EventCategories;
 use App\Models\OperationLog;
 use App\UseCases\OperationLog\OperationLogUseCase;
 use Illuminate\Support\Facades\Auth;
@@ -40,7 +41,13 @@ class EventCreateUseCase
      */
     public function create()
     {
-        return view('event.create');
+        $categories = EventCategories::all();
+        $selectedCategoryId = old('category', null);
+
+        return view('event.create', [
+            'categories' => $categories,
+            'selectedCategoryId' => $selectedCategoryId
+        ]);
     }
 
     /**

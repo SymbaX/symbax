@@ -40,13 +40,13 @@ class EventEditController extends Controller
      */
     public function edit($id)
     {
-        $event = $this->eventEditUseCase->getEditableEvent($id);
+        $view = $this->eventEditUseCase->edit($id);
 
-        if (!$event) {
+        if (!$view) {
             return redirect()->route('event.show', ['event_id' => $id])->with('status', 'unauthorized');
         }
 
-        return view('event.edit', ['event' => $event]);
+        return $view;
     }
 
     /**

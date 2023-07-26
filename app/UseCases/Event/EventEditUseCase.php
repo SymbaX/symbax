@@ -4,6 +4,7 @@ namespace App\UseCases\Event;
 
 use App\Http\Requests\Event\UpdateRequest;
 use App\Models\Event;
+use App\Models\EventCategories;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\UseCases\OperationLog\OperationLogUseCase;
@@ -29,6 +30,21 @@ class EventEditUseCase
     public function __construct(OperationLogUseCase $operationLogUseCase)
     {
         $this->operationLogUseCase = $operationLogUseCase;
+    }
+
+    public function edit($id)
+    {
+        $categories = EventCategories::all();
+        $event = $this->getEditableEvent($id);
+
+        if (!$event) {
+            return null;
+        }
+
+        return view('event.edit', [
+            'event' => $event,
+            'categories' => $categories,
+        ]);
     }
 
     /**
