@@ -161,11 +161,19 @@ class EventStatusUseCase
                 ->first();
 
             if ($participant) {
+                $originalStatus = $participant->status; // 変更前のステータスを保存
+
+                if ($originalStatus === $status) {
+                    return 'no-change'; // ステータスに変更がなければ以降の処理をスキップ
+                }
+
                 $participant->status = $status;
                 $participant->save();
 
+                $detail = "status: {$originalStatus} ▶ {$status}"; // ステータスの変更をdetailに追加
+
                 $this->operationLogUseCase->store([
-                    'detail' => '参加ステータスを変更しました', $status,
+                    'detail' => $detail,
                     'user_id' => null,
                     'target_event_id' => $event_id,
                     'target_user_id' => $user_id,
