@@ -20,7 +20,7 @@ class UserRegistrationRequest extends FormRequest
                 'regex:/^(?=.*[a-z0-9])[a-z0-9_]+$/',
             ],
             'email' => [
-                'required', 'string', 'email', 'max:255', Rule::unique('users'), 'regex:/^[a-zA-Z0-9][^@]+@g\.neec\.ac\.jp$/'
+                'required', 'string', 'email', 'max:255', Rule::unique('users'), 'regex:/^[a-zA-Z0-9][^@]+@g\.neec\.ac\.jp$/', 'regex:/^(?!.*[+]).*$/'
             ],
             'password' => ['required', 'confirmed', Password::defaults()],
             'college' => ['required', 'exists:colleges,id'],
