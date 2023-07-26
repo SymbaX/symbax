@@ -13,6 +13,11 @@ table {
     background: #555;
     color: #fff;
 }
+
+.tb01 .text-left {
+    text-align: left;
+}
+
 @media screen and (max-width: 750px) {
     .tb01 .head {
         display: none;

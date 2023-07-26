@@ -63,7 +63,7 @@ class EventDeleteUseCase
         $event->delete();
 
         $this->operationLogUseCase->store([
-            'detail' => 'イベントを削除しました',
+            'detail' => null,
             'user_id' => null,
             'target_event_id' => $event->id,
             'target_user_id' => null,

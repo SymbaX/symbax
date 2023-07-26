@@ -39,7 +39,7 @@ class EmailVerificationNotificationUseCase
 
         $user->sendEmailVerificationNotification();
         $this->operationLogUseCase->store([
-            'detail' => '検証メールを再送信しました',
+            'detail' => "email: {$user->email}\n",
             'user_id' => auth()->user()->id,
             'target_event_id' => null,
             'target_user_id' => null,

@@ -41,7 +41,7 @@ class PasswordUseCase
         ]);
 
         $this->operationLogUseCase->store([
-            'detail' => 'パスワードを更新しました',
+            'detail' => null,
             'user_id' => null,
             'target_event_id' => null,
             'target_user_id' => null,

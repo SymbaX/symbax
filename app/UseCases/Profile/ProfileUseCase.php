@@ -41,23 +41,39 @@ class ProfileUseCase
     {
         $user = $request->user();
 
+        // ユーザーデータのコピーを作成
+        $originalUser = clone $user;
+
         $user->fill($request->validated());
 
-        $path = null;
         if ($request->hasFile('picture')) {
             $path = $request->file('picture')->store('profile-icons', 'public');
-            $request->user()->profile_photo_path = $path;
+            $user->profile_photo_path = $path;
         }
 
-        $this->operationLogUseCase->store([
-            'detail' => 'プロフィールを更新しました',
-            'user_id' => null,
-            'target_event_id' => null,
-            'target_user_id' => null,
-            'target_topic_id' => null,
-            'action' => 'update-profile',
-            'ip' => request()->ip(),
-        ]);
+        $fields = array_keys($request->validated());
+        $fields[] = 'profile_photo_path'; // 写真のパスも対象に含める
+        $detail = "";
+
+        foreach ($fields as $field) {
+            $originalValue = $originalUser->$field;
+            $updatedValue = $user->$field;
+            if ($originalValue != $updatedValue) {
+                $detail .= "▼ {$field}: {$originalValue} ▶ {$updatedValue}\n";
+            }
+        }
+
+        if (!empty($detail)) { // 変更がある場合のみログを保存
+            $this->operationLogUseCase->store([
+                'detail' => $detail,
+                'user_id' => auth()->user()->id,
+                'target_event_id' => null,
+                'target_user_id' => $user->id,
+                'target_topic_id' => null,
+                'action' => 'update-profile',
+                'ip' => request()->ip(),
+            ]);
+        }
 
         $user->save();
     }
@@ -71,7 +87,7 @@ class ProfileUseCase
     public function destroy(ProfileDeleteRequest $request)
     {
         $this->operationLogUseCase->store([
-            'detail' => 'プロフィールを削除しました',
+            'detail' => null,
             'user_id' => null,
             'target_event_id' => null,
             'target_user_id' => null,

@@ -85,7 +85,7 @@ class EventCommunityUseCase
 
 
         $this->operationLogUseCase->store([
-            'detail' => '投稿しました',
+            'detail' => "topic:\n{$request->content}\n",
             'user_id' => null,
             'target_event_id' => $request->event_id,
             'target_user_id' => null,

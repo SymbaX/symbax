@@ -104,10 +104,35 @@ class EventEditUseCase
             $validatedData['image_path'] = $event->image_path; // 元の画像パスを使用
         }
 
+        $originalEvent = Event::findOrFail($id); // 原始的なイベントデータを取得
+
         $event->update($validatedData);
 
+        $detail = "";
+        $fields = [
+            'name', 'category', 'tag', 'participation_condition',
+            'external_link', 'date', 'deadline_date', 'place',
+            'number_of_recruits', 'image_path', 'organizer_id'
+        ];
+
+        foreach ($fields as $field) {
+            $originalValue = $originalEvent->$field;
+            $updatedValue = $event->$field;
+            if ($originalValue != $updatedValue) {
+                $detail .= "▼ {$field}: {$originalValue} ▶ {$updatedValue}\n";
+            }
+        }
+
+        // detailフィールドのための特別な処理
+        if ($originalEvent->detail != $event->detail) {
+            $detail .= "----- detail -----\n" .
+                "▼ original:\n{$originalEvent->detail}\n\n---- ▼ ----\n" .
+                "▼ new:\n{$event->detail}\n\n" .
+                "------------------------\n";
+        }
+
         $this->operationLogUseCase->store([
-            'detail' => 'イベントを編集しました',
+            'detail' => $detail,
             'user_id' => null,
             'target_event_id' => $event->id,
             'target_user_id' => null,

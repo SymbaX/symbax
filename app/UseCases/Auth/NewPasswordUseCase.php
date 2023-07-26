@@ -62,11 +62,11 @@ class NewPasswordUseCase
         );
 
         $user = User::where('email', $request->get('email'))->first();
-        $userId = $user ? $user->id : '不明';
+        $userId = $user ? $user->id : null;
 
         if ($status == Password::PASSWORD_RESET) {
             $this->operationLogUseCase->store([
-                'detail' => 'Email: ' . $request->get('email') . ' (USER-ID: ' . $userId . ') パスワードをリセットしました',
+                'detail' => "email: {$request->get('email')}\n",
                 'user_id' => null,
                 'target_event_id' => null,
                 'target_user_id' => $userId,
@@ -76,7 +76,7 @@ class NewPasswordUseCase
             ]);
         } else {
             $this->operationLogUseCase->store([
-                'detail' => 'Email: ' . $request->get('email') . ' (USER-ID: ' . $userId . ') のパスワードリセットに失敗しました',
+                'detail' => "email: {$request->get('email')}\n",
                 'user_id' => null,
                 'target_event_id' => null,
                 'target_user_id' => $userId,

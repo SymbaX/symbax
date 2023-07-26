@@ -74,7 +74,7 @@ class EventStatusUseCase
         ]);
 
         $this->operationLogUseCase->store([
-            'detail' => '参加リクエストを送信しました',
+            'detail' => null,
             'user_id' => null,
             'target_event_id' => $event->id,
             'target_user_id' => null,
@@ -121,7 +121,7 @@ class EventStatusUseCase
         $participant->delete();
 
         $this->operationLogUseCase->store([
-            'detail' => 'イベントへの参加をキャンセルしました',
+            'detail' => null,
             'user_id' => null,
             'target_event_id' => $event_id,
             'target_user_id' => null,

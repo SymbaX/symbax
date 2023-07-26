@@ -39,7 +39,7 @@
                                     <td data-label="{{ __('Target topiic id') }}">
                                         {{ $operation_log->target_topic_id }}</td>
                                     <td data-label="{{ __('Action') }}">{{ $operation_log->action }}</td>
-                                    <td data-label="{{ __('Detail') }}">{{ $operation_log->detail }}</td>
+                                    <td class="text-left" data-label="{{ __('Detail') }}">{!! nl2br(e($operation_log->detail)) !!}</td>
                                     <td data-label="{{ __('Date and time') }}">{{ $operation_log->created_at }}</>
                                     </td>
                                 </tr>

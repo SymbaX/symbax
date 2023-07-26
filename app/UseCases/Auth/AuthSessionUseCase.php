@@ -50,7 +50,7 @@ class AuthSessionUseCase
             $this->refreshSession();
 
             $this->operationLogUseCase->store([
-                'detail' => 'ログインしました',
+                'detail' => null,
                 'user_id' => auth()->user()->id,
                 'target_event_id' => null,
                 'target_user_id' => null,
@@ -83,7 +83,7 @@ class AuthSessionUseCase
     public function logout(): void
     {
         $this->operationLogUseCase->store([
-            'detail' => 'ログアウトしました',
+            'detail' => null,
             'user_id' => auth()->user()->id,
             'target_event_id' => null,
             'target_user_id' => null,

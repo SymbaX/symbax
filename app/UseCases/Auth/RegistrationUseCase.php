@@ -48,7 +48,11 @@ class RegistrationUseCase
 
         $user->sendEmailVerificationNotification();
         $this->operationLogUseCase->store([
-            'detail' => 'ユーザー登録しました',
+            'detail' => "name: {$user->name}\n" .
+                "login_id: {$user->login_id}\n" .
+                "email: {$user->email}\n" .
+                "college_id: {$user->college_id}\n" .
+                "department_id: {$user->department_id}",
             'user_id' => $user->id,
             'target_event_id' => null,
             'target_user_id' => null,

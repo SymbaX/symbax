@@ -81,7 +81,18 @@ class EventCreateUseCase
         ]);
 
         $this->operationLogUseCase->store([
-            'detail' => 'イベントを作成しました',
+            'detail' => "name: {$event->name}\n" .
+                "detail: \n\n{$event->detail}\n\n" .
+                "category: {$event->category}\n" .
+                "tag: {$event->tag}\n" .
+                "participation_condition: {$event->participation_condition}\n" .
+                "external_link: {$event->external_link}\n" .
+                "date: {$event->date}\n" .
+                "deadline_date: {$event->deadline_date}\n" .
+                "place: {$event->place}\n" .
+                "number_of_recruits: {$event->number_of_recruits}\n" .
+                "image_path: {$event->image_path}\n" .
+                "organizer_id: {$event->organizer_id}",
             'user_id' => null,
             'target_event_id' => $event->id,
             'target_user_id' => null,

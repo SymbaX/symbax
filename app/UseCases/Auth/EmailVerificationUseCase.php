@@ -47,7 +47,7 @@ class EmailVerificationUseCase
         }
 
         $this->operationLogUseCase->store([
-            'detail' => 'メールアドレスの検証が完了しました',
+            'detail' => null,
             'user_id' => auth()->user()->id,
             'target_event_id' => null,
             'target_user_id' => null,

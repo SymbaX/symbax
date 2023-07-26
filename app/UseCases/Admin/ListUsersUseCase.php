@@ -34,7 +34,7 @@ class ListUsersUseCase
         $roles = Role::all();
 
         $this->operationLogUseCase->store([
-            'detail' => 'アカウントの一覧を表示しました',
+            'detail' => null,
             'user_id' => auth()->user()->id,
             'target_event_id' => null,
             'target_user_id' => null,
