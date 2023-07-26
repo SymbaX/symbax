@@ -68,7 +68,7 @@ class EventDeleteUseCase
             'target_event_id' => $event->id,
             'target_user_id' => null,
             'target_topic_id' => null,
-            'action' => 'event-create',
+            'action' => 'event-delete',
             'ip' => request()->ip(),
         ]);
         return true;

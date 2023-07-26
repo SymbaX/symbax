@@ -3,6 +3,7 @@
 namespace App\UseCases\Event;
 
 use App\Models\Topic;
+use App\UseCases\OperationLog\OperationLogUseCase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,17 +16,25 @@ class EventCommunityUseCase
     protected $checkEventOrganizer;
 
     /**
+     * @var OperationLogUseCase
+     */
+    private $operationLogUseCase;
+
+    /**
      * コンストラクタ
      *
      * @param CheckEventParticipantStatusUseCase $checkParticipantStatus
      * @param CheckEventOrganizerUseCase $checkEventOrganizer
+     * @param  OperationLogUseCase  $operationLogUseCase
      */
     public function __construct(
         CheckEventParticipantStatusUseCase $checkParticipantStatus,
-        CheckEventOrganizerUseCase $checkEventOrganizer
+        CheckEventOrganizerUseCase $checkEventOrganizer,
+        OperationLogUseCase $operationLogUseCase
     ) {
         $this->checkParticipantStatus = $checkParticipantStatus;
         $this->checkEventOrganizer = $checkEventOrganizer;
+        $this->operationLogUseCase = $operationLogUseCase;
     }
 
     /**
@@ -73,6 +82,18 @@ class EventCommunityUseCase
             $topic->content = $request->content;
             $topic->save();
         }
+
+
+        $this->operationLogUseCase->store([
+            'detail' => '投稿しました',
+            'user_id' => null,
+            'target_event_id' => $request->event_id,
+            'target_user_id' => null,
+            'target_topic_id' => $topic->id,
+            'action' => 'create-topic',
+            'ip' => request()->ip(),
+        ]);
+
 
         return $topic;
     }

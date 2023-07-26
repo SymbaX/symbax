@@ -88,7 +88,7 @@ class AuthSessionUseCase
             'target_event_id' => null,
             'target_user_id' => null,
             'target_topic_id' => null,
-            'action' => 'login',
+            'action' => 'logout',
             'ip' => request()->ip(),
         ]);
 
