@@ -5,6 +5,7 @@ namespace App\UseCases\Event;
 use App\Models\Event;
 use App\Models\EventParticipant;
 use App\Models\User;
+use App\Models\EventCategories;
 use Illuminate\Mail\Markdown;
 use Illuminate\Support\Facades\Auth;
 
@@ -45,6 +46,8 @@ class EventDetailUseCase
 
         $your_status = $participants->where('user_id', Auth::id())->first()->status ?? 'not-join';
 
+        $category_name = EventCategories::where('id', $event->category)->value('name');
+
         return [
             'event' => $event,
             'detail_markdown' => $detail_markdown,
@@ -52,7 +55,8 @@ class EventDetailUseCase
             'is_organizer' => $is_organizer,
             'is_join' => $is_join,
             'your_status' => $your_status,
-            'organizer_name'  => $organizer_name
+            'organizer_name'  => $organizer_name,
+            'category_name' => $category_name,
         ];
     }
 }

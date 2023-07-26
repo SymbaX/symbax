@@ -30,9 +30,16 @@
 
         <div>
             <x-input-label for="category" :value="__('Category')" />
-            <x-text-input id="category" name="category" type="text" class="mt-1 block w-full" :value="old('category', $event->category)"
-                required autocomplete="off" />
-            <x-input-error class="mt-2" :messages="$errors->get('category')" />
+
+            <select name="category" id="category"
+                class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                @foreach ($categories as $category)
+                    <option value="{{ $category->id }}"
+                        {{ old('category', $event->category) === $category->id ? 'selected' : '' }}>
+                        {{ $category->name }}
+                    </option>
+                @endforeach
+            </select>
         </div>
 
         <div>

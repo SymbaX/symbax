@@ -38,7 +38,7 @@
                                             </tr>
                                             <tr>
                                                 <th>{{ __('Category') }}</th>
-                                                <td>{{ $event->category }}</td>
+                                                <td>{{ $category_name }}</td>
                                             </tr>
                                             <tr>
                                                 <th>{{ __('Tag') }}</th>
