@@ -5,6 +5,7 @@ namespace App\UseCases\Event;
 use App\Http\Requests\Event\UpdateRequest;
 use App\Models\Event;
 use App\Models\EventCategories;
+use App\Services\CheckEventOrganizerService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\UseCases\OperationLog\OperationLogUseCase;
@@ -22,24 +23,41 @@ class EventEditUseCase
     private $operationLogUseCase;
 
     /**
+     * @var CheckEventOrganizerService
+     */
+    private $checkEventOrganizerService;
+
+    /**
      * OperationLogUseCaseの新しいインスタンスを作成します。
      *
      * @param  OperationLogUseCase  $operationLogUseCase
+     * @param  CheckEventOrganizerService  $checkEventOrganizerService
      * @return void
      */
-    public function __construct(OperationLogUseCase $operationLogUseCase)
+    public function __construct(OperationLogUseCase $operationLogUseCase, CheckEventOrganizerService $checkEventOrganizerService)
     {
         $this->operationLogUseCase = $operationLogUseCase;
+        $this->checkEventOrganizerService = $checkEventOrganizerService;
     }
 
+    /**
+     * 指定されたイベントIDに基づいて、イベント情報を取得し、表示します。
+     *
+     * @param int $id イベントID
+     * @return Event|null 編集可能なイベントを返します。イベントが存在しない場合はnullを返します。
+     */
     public function edit($id)
     {
         $categories = EventCategories::all();
-        $event = $this->getEditableEvent($id);
+        $event = Event::findOrFail($id);
 
-        if (!$event) {
+        if (!$this->checkEventOrganizerService->check($id)) {    // イベント作成者ではない場合
             return null;
         }
+
+        // セッションにイベントIDとトークンを保存
+        session()->put('edit_event_id', $id);
+        session()->put('edit_token', str()->uuid()->toString());
 
         return view('event.edit', [
             'event' => $event,
@@ -47,25 +65,6 @@ class EventEditUseCase
         ]);
     }
 
-    /**
-     * イベントの編集可能なインスタンスを取得します。
-     *
-     * 指定されたイベントIDに基づいて、編集可能なイベントインスタンスを取得します。
-     * 現在のユーザーがイベントの作成者でない場合、編集できない場合はnullを返します。
-     *
-     * @param int $id イベントID
-     * @return Event|null 編集可能なイベントインスタンスまたはnull
-     */
-    public function getEditableEvent($id): ?Event
-    {
-        $event = Event::findOrFail($id);
-
-        if ($event->organizer_id !== Auth::id()) {
-            return null;
-        }
-
-        return $event;
-    }
 
     /**
      * イベントの更新を行います。
@@ -80,20 +79,17 @@ class EventEditUseCase
      */
     public function updateEvent($id, UpdateRequest $request): bool
     {
-        // イベント作成者であるかどうかをチェック
-        $eventOrganizerUseCase = new CheckEventOrganizerUseCase();
-        $isEventOrganizer = $eventOrganizerUseCase->execute($id);
-
-        // ユーザーがイベント作成者でない場合はエラーとする
-        if (!$isEventOrganizer) {
+        if (!$this->checkEventOrganizerService->check($id)) {    // イベント作成者ではない場合
             return false;
         }
 
-        $event = $this->getEditableEvent($id);
-
-        if (!$event) {
-            return false;
+        // セッションに保存されたイベントIDとトークンを取得し、リクエストの値と比較
+        $editToken = $request->input('edit_token');
+        if ($editToken !== session('edit_token') || $id !== session('edit_event_id')) {
+            abort(403);
         }
+
+        $event = Event::findOrFail($id);
 
         $validatedData = $request->validated();
 
@@ -108,6 +104,7 @@ class EventEditUseCase
 
         $event->update($validatedData);
 
+        // --- ログを記録 ここから ---
         $detail = "";
         $fields = [
             'name', 'category', 'tag', 'participation_condition',
@@ -123,7 +120,6 @@ class EventEditUseCase
             }
         }
 
-        // detailフィールドのための特別な処理
         if ($originalEvent->detail != $event->detail) {
             $detail .= "----- detail -----\n" .
                 "▼ original:\n{$originalEvent->detail}\n\n---- ▼ ----\n" .
@@ -140,7 +136,9 @@ class EventEditUseCase
             'action' => 'event-update',
             'ip' => request()->ip(),
         ]);
+        // --- ログを記録 ここまで ---
 
-        return true;
+
+        return true; // 更新成功
     }
 }

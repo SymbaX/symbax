@@ -14,10 +14,11 @@
         @csrf
         @method('patch')
 
+        <input type="hidden" name="edit_token" value="{{ session('edit_token') }}">
         <div>
             <x-input-label for="name" :value="__('Event Name')" />
-            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $event->name)" required
-                autofocus autocomplete="off" />
+            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $event->name)"
+                required autofocus autocomplete="off" />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
 
