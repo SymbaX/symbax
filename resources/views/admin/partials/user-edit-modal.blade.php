@@ -14,14 +14,25 @@
                             @csrf
                             @method('patch')
                             <div class="mt-4">
+                                <x-input-label for="login_id" :value="__('Login Id')" />
+                                <x-text-input id="editLoginId" name="login_id" type="text" class="mt-1 block w-full"
+                                    :value="old('login_id', $user->login_id)" required autofocus />
+                            </div>
+                            <div class="mt-4">
                                 <x-input-label for="name" :value="__('Name')" />
                                 <x-text-input id="editUserName" name="name" type="text" class="mt-1 block w-full"
-                                    :value="old('name', $user->name)" required autofocus autocomplete="name" />
+                                    :value="old('name', $user->name)" required autocomplete="name" />
                             </div>
                             <div class="mt-4">
                                 <x-input-label for="email" :value="__('Email')" />
                                 <x-text-input id="editUserEmail" name="email" type="text" class="mt-1 block w-full"
                                     :value="old('email', $user->email)" required autofocus autocomplete="email" />
+                                <x-input-hint-text>
+                                    {{ __('If you change your email address, we will send you a confirmation email.') }}
+                                </x-input-hint-text>
+                                <x-input-hint-text>
+                                    {{ __('Domains other than "@g.neec.ac.jp" can also be entered.') }}
+                                </x-input-hint-text>
                             </div>
                             <div class="mt-2">
                                 <x-input-label for="college" :value="__('College')" />

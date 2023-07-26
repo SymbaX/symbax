@@ -4,6 +4,7 @@ namespace App\UseCases\Profile;
 
 use App\Http\Requests\Profile\ProfileDeleteRequest;
 use App\Http\Requests\Profile\ProfileUpdateRequest;
+use App\Models\User;
 use App\UseCases\OperationLog\OperationLogUseCase;
 use Illuminate\Support\Facades\Auth;
 
@@ -42,6 +43,12 @@ class ProfileUseCase
 
         $user->fill($request->validated());
 
+        $path = null;
+        if ($request->hasFile('picture')) {
+            $path = $request->file('picture')->store('profile-icons', 'public');
+            $request->user()->profile_photo_path = $path;
+        }
+
         $this->operationLogUseCase->store('プロフィールを更新しました');
 
         $user->save();
@@ -68,5 +75,23 @@ class ProfileUseCase
         // セッションを無効化し、新しいトークンを生成します
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+    }
+
+    /**
+     * ログインIDを元にユーザープロフィールを取得します。
+     *
+     * @param string $loginId
+     * @return User|null
+     * @throws \Exception
+     */
+    public function getByLoginId(string $loginId): ?User
+    {
+        $user = User::where('login_id', $loginId)->first();
+
+        if ($user === null) {
+            throw new \Exception('The specified user was not found.');
+        }
+
+        return $user;
     }
 }

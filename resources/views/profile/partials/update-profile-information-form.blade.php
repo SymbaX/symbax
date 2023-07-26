@@ -13,9 +13,19 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
         @csrf
         @method('patch')
+
+        <div>
+            <x-picture-input />
+            <x-input-error class="mt-2" :messages="$errors->get('picture')" />
+        </div>
+
+        <div>
+            <x-input-label for="login_id" :value="__('Login Id')" />
+            {{ $user->login_id }}
+        </div>
 
         <div>
             <x-input-label for="name" :value="__('Name')" />
@@ -26,17 +36,17 @@
 
         <div>
             <x-input-label for="college" :value="__('College')" />
-            <?php echo $college->name; ?>
+            {{ $college->name }}
         </div>
 
         <div>
             <x-input-label for="department" :value="__('Department')" />
-            <?php echo $department->name; ?>
+            {{ $department->name }}
         </div>
 
         <div>
             <x-input-label for="email" :value="__('Email')" />
-            <?php echo $user->email; ?>
+            {{ $user->email }}
         </div>
 
         <div class="flex items-center gap-4">

@@ -258,5 +258,6 @@ return [
         'place' => '場所',
         'number_of_recruits' => '人数',
         'image_path' => '画像',
+        "login_id" => "ログインID",
     ]
 ];

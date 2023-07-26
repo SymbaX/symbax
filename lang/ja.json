@@ -174,6 +174,7 @@
     "Account lists": "アカウント一覧",
     "Not verified": "未認証",
     "ID": "ID",
+    "Login Id": "ログインID",
     "Email Verified At": "メール認証日時",
     "Created At": "作成日時",
     "Organizer": "主催者",
@@ -195,5 +196,12 @@
     "Log id": "ログID",
     "Organizer event": "主催イベント",
     "Join event": "参加イベント",
-    "Only \"@g.neec.ac.jp\" domain can be registered.": " 「@g.neec.ac.jp」ドメインのみ登録できます。"
+    "Only \"@g.neec.ac.jp\" domain can be registered.": " 「@g.neec.ac.jp」ドメインのみ登録できます。",
+    "If you change your email address, we will send you a confirmation email.": "メールアドレスを変更すると確認メールが送信されます。",
+    "Domains other than \"@g.neec.ac.jp\" can also be entered.": "「@g.neec.ac.jp」以外のドメインも入力できます。",
+    "The login ID cannot be changed later.": "ログインIDは後から変更できません。",
+    "Approve": "承認する",
+    "Reject": "リジェクトする",
+    "Are you sure you want to cancel this event?": "本当にこのイベントをキャンセルしますか？",
+    "Back to top page": "トップページに戻る"
 }

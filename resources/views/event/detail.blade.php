@@ -8,41 +8,64 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Event details') }}
+            {{ $event->name }} | {{ __('Event details') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="event-details">
+                <div class="event-detail">
                     @if ($event)
-                        <div class="flex">
+                        <div class="event-flex">
                             <img class="event_image" src="{{ Storage::url($event->image_path) }} " alt="">
 
                             <div class="right">
-                                <p class="title"> {{ Carbon\Carbon::parse($event->date)->format('Y/m/d') }} |
-                                    {{ $event->name }} </p>
-                                <p id="organizer_name">{{ __('Organizer') }}：{{ $organizer_name }}</p>
-                                <br>
-                                <p class="text"> {{ $detail_markdown }}</p>
-                                <p class="text">{{ __('Location') }}：{{ $event->place }}</p>
-                                <p class="text">
-                                    {{ __('Participation condition') }}：{{ $event->participation_condition }}</p>
-                                <p class="text">{{ __('Category') }}：{{ $categories_name}}</p>
-                                <p class="text">{{ __('Tag') }}：{{ $event->tag }}</p>
-                                <a href="{{ $event->external_link }}">{{ __('External link') }}</a>
-                                {{--
-                                <p class="text">{{ __('Number of recruits') }}：{{ $participants->get()->Count() }}
-                                    /
-                                    {{ $event->number_of_recruits }}</p> --}}
-
-                                <p class="text">
-                                    {{ __('Deadline date') }}：{{ Carbon\Carbon::parse($event->deadline_date)->format('Y/m/d') }}
-                                </p>
-
+                                <div class="scroll">
+                                    <table border="1" cellspacing="0" cellpadding="5">
+                                        <tbody>
+                                            <tr>
+                                                <th>{{ __('Organizer') }}</th>
+                                                <td>{{ $organizer_name }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>{{ __('Location') }}</th>
+                                                <td>{{ $event->place }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>{{ __('Participation condition') }}</th>
+                                                <td>{{ $event->participation_condition }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>{{ __('Category') }}</th>
+                                                <td>{{ $event->category }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>{{ __('Tag') }}</th>
+                                                <td>{{ $event->tag }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>{{ __('External link') }}</th>
+                                                <td><a
+                                                        href="{{ $event->external_link }}">{{ __('External link') }}</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>{{ __('Number of recruits') }}</th>
+                                                <td>{{ $participants->Count() }} / {{ $event->number_of_recruits }}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>{{ __('Deadline date') }}</th>
+                                                <td>{{ Carbon\Carbon::parse($event->deadline_date)->format('Y/m/d') }}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
+                        <p class="text"> {{ $detail_markdown }}</p>
                 </div>
 
                 @if (!$is_organizer)
@@ -55,7 +78,10 @@
                     @foreach ($participants as $participant)
                         @if ($participant->status == 'approved')
                             <li>
-                                {{ $participant->name }} ({{ __('ID') }}: {{ $participant->user_id }})
+                                <a href="{{ route('profile.show', ['login_id' => $participant->login_id]) }}">
+                                    <x-user-info id="{{ $participant->login_id }}" name="{{ $participant->name }}"
+                                        path="{{ $participant->profile_photo_path }}" />
+                                </a>
                             </li>
                         @endif
                     @endforeach
@@ -77,26 +103,33 @@
                                         @method('PATCH')
                                         <input type="hidden" name="event_id" value="{{ $event->id }}">
                                         <input type="hidden" name="user_id" value="{{ $participant->user_id }}">
-                                        {{ $participant->name }} ({{ __('ID') }}:
-                                        {{ $participant->user_id }},@lang('status.' . $participant->status))
-                                        <button type="submit" name="status" value="approved"
-                                            onclick="showLoading()">Approve</button>
-                                        <button type="submit" name="status" value="rejected"
-                                            onclick="showLoading()">Reject</button>
+
+                                        <x-user-info id="{{ $participant->login_id }}"
+                                            name="{{ trans('status.' . $participant->status) . ' - ' . $participant->name }}"
+                                            path="{{ $participant->profile_photo_path }}" />
+
+                                        <x-secondary-button type="submit" name="status" value="approved"
+                                            onclick="showLoading()">{{ __('Approve') }}</x-secondary-button>
+                                        <x-secondary-button type="submit" name="status" value="rejected"
+                                            onclick="showLoading()">{{ __('Reject') }}</x-secondary-button>
+                                        <br /> <br />
+
                                     </form>
                                 @endif
                             </li>
                         @endforeach
                     </ul>
 
-                    <a
-                        href="{{ route('event.members', ['event_id' => $event->id]) }}">{{ __('Participant only page') }}</a>
+                    <a href="{{ route('event.community', ['event_id' => $event->id]) }}">
+                        <x-primary-button onclick="showLoading()"> {{ __('Participant only page') }}
+                        </x-primary-button>
+                    </a>
+
                     <br /><br />
 
 
-
                     <a href="{{ route('event.edit', ['event_id' => $event->id]) }}" class="text-blue-500 underline">
-                        <x-primary-button onclick="showLoading()">{{ __('Edit event') }}</x-primary-button>
+                        <x-secondary-button onclick="showLoading()">{{ __('Edit event') }}</x-secondary-button>
                     </a>
 
                     <br /><br />
@@ -105,10 +138,10 @@
                         @csrf
                         @method('DELETE')
                         <input type="hidden" name="event_id" value="{{ $event->id }}">
-                        <x-primary-button
+                        <x-danger-button
                             onclick="return showConfirmation('{{ __('Are you sure you want to delete this event?') }}')">
                             {{ __('Event delete') }}
-                        </x-primary-button>
+                        </x-danger-button>
                     </form>
                 @else
                     @if ($is_join)
@@ -126,8 +159,12 @@
                     @else
                         <!-- 参加済みの場合 -->
                         @if ($your_status == 'approved')
-                            <a
-                                href="{{ route('event.members', ['event_id' => $event->id]) }}">{{ __('Participant only page') }}</a>
+                            <a href="{{ route('event.community', ['event_id' => $event->id]) }}">
+                                <x-primary-button onclick="showLoading()"> {{ __('Participant only page') }}
+                                </x-primary-button>
+                            </a>
+
+                            <br /><br />
                         @endif
                         <br /><br />
 
@@ -136,7 +173,12 @@
                                 @csrf
                                 @method('patch')
                                 <input type="hidden" name="event_id" value="{{ $event->id }}">
-                                <x-primary-button onclick="showLoading()">{{ __('Cancel Join') }}</x-primary-button>
+
+                                <x-danger-button
+                                    onclick="return showConfirmation('{{ __('Are you sure you want to cancel this event?') }}')">
+                                    {{ __('Cancel Join') }}
+                                </x-danger-button>
+
                             </form>
                         @endif
                     @endif
