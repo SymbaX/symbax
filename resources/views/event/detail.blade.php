@@ -103,6 +103,8 @@
                                         @method('PATCH')
                                         <input type="hidden" name="event_id" value="{{ $event->id }}">
                                         <input type="hidden" name="user_id" value="{{ $participant->user_id }}">
+                                        <input type="hidden" name="status_change_token"
+                                            value="{{ session('status_change_token') }}">
 
                                         <x-user-info id="{{ $participant->login_id }}"
                                             name="{{ trans('status.' . $participant->status) . ' - ' . $participant->name }}"

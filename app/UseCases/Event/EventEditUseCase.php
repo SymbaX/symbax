@@ -6,7 +6,6 @@ use App\Http\Requests\Event\UpdateRequest;
 use App\Models\Event;
 use App\Models\EventCategories;
 use App\Services\CheckEventOrganizerService;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\UseCases\OperationLog\OperationLogUseCase;
 

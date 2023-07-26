@@ -48,6 +48,10 @@ class EventDetailUseCase
 
         $category_name = EventCategories::where('id', $event->category)->value('name');
 
+        // セッションにイベントIDとトークンを保存
+        session()->put('status_change_event_id', $id);
+        session()->put('status_change_token', str()->uuid()->toString());
+
         return [
             'event' => $event,
             'detail_markdown' => $detail_markdown,
