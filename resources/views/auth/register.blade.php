@@ -63,45 +63,39 @@
         </div>
 
         <script>
-            // Collegeの選択肢が変更されたときの処理
             $(document).ready(function() {
                 // 初期表示時にDepartmentの選択肢を設定
                 updateDepartmentOptions();
-
                 $('#college').on('change', function() {
                     // 選択されたCollegeに一致するDepartmentを表示し、選択状態にする
                     updateDepartmentOptions();
                 });
-
                 // Departmentの選択肢を更新する関数
                 function updateDepartmentOptions() {
                     var selectedCollegeId = $('#college').val();
                     var $departmentSelect = $('#department');
                     var $departmentOptions = $departmentSelect.find('option');
-
                     // Departmentの選択肢を無効化し、選択を解除する
                     $departmentOptions.prop('disabled', true).prop('selected', false);
-                    $departmentOptions.hide().prop('selected', false);
-
+                    $departmentOptions.hide();
                     // 選択してくださいのオプションを表示し、選択状態にする
                     var $defaultOption = $departmentSelect.find('option[data-default="true"]');
                     $defaultOption.prop('disabled', false).prop('selected', true);
-
                     if (selectedCollegeId !== '') {
                         // 選択されたCollegeに一致するDepartmentを表示し、選択状態にする
                         $departmentOptions.filter('[data-college-id="' + selectedCollegeId + '"]').prop('disabled',
-                            false).css('visibility', 'visible');
-                        $departmentOptions.filter('[data-college-id="' + selectedCollegeId + '"]').show();
-
+                            false).show();
+                        // 以前に選択されていたDepartmentがあれば、その選択状態にする
+                        var selectedDepartmentId = "{{ old('department') }}";
+                        if (selectedDepartmentId !== '') {
+                            $departmentSelect.val(selectedDepartmentId);
+                        }
                     }
-
                     // Departmentの選択肢を有効化する
                     $departmentSelect.prop('disabled', false);
                 }
             });
         </script>
-
-
 
         <!-- Password -->
         <div class="mt-4">
