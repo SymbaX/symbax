@@ -62,8 +62,15 @@ class EventDeleteUseCase
         Storage::delete($event->image_path);
         $event->delete();
 
-        $this->operationLogUseCase->store('EVENT-ID:' . $event->id . 'のイベントを削除しました');
-
+        $this->operationLogUseCase->store([
+            'detail' => 'イベントを削除しました',
+            'user_id' => null,
+            'target_event_id' => $event->id,
+            'target_user_id' => null,
+            'target_topic_id' => null,
+            'action' => 'event-create',
+            'ip' => request()->ip(),
+        ]);
         return true;
     }
 }

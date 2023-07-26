@@ -47,7 +47,15 @@ class RegistrationUseCase
         ]);
 
         $user->sendEmailVerificationNotification();
-        $this->operationLogUseCase->store('ID:' . $user->id . 'のユーザーを登録しました');
+        $this->operationLogUseCase->store([
+            'detail' => 'ユーザー登録しました',
+            'user_id' => $user->id,
+            'target_event_id' => null,
+            'target_user_id' => null,
+            'target_topic_id' => null,
+            'action' => 'register',
+            'ip' => request()->ip(),
+        ]);
 
         return $user;
     }

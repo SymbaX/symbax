@@ -73,7 +73,15 @@ class EventStatusUseCase
             'status' => 'pending',
         ]);
 
-        $this->operationLogUseCase->store('EVENT-ID:' . $event_id . 'のイベントに参加リクエストを送信しました');
+        $this->operationLogUseCase->store([
+            'detail' => '参加リクエストを送信しました',
+            'user_id' => null,
+            'target_event_id' => $event->id,
+            'target_user_id' => null,
+            'target_topic_id' => null,
+            'action' => 'event-request-join',
+            'ip' => request()->ip(),
+        ]);
 
         // メール送信処理
         $mail = new MailSend($event);
@@ -112,8 +120,15 @@ class EventStatusUseCase
         // 参加をキャンセル
         $participant->delete();
 
-        $this->operationLogUseCase->store('EVENT-ID:' . $event_id . 'のイベントへの参加をキャンセルしました');
-
+        $this->operationLogUseCase->store([
+            'detail' => 'イベントへの参加をキャンセルしました',
+            'user_id' => null,
+            'target_event_id' => $event_id,
+            'target_user_id' => null,
+            'target_topic_id' => null,
+            'action' => 'event-cancel-join',
+            'ip' => request()->ip(),
+        ]);
         return 'canceled-join';
     }
 
@@ -149,7 +164,15 @@ class EventStatusUseCase
                 $participant->status = $status;
                 $participant->save();
 
-                $this->operationLogUseCase->store('USER-ID: ' . $user_id . 'のイベント(EVENT-ID: ' . $event_id . ')への参加ステータスを' . $status . 'に変更しました');
+                $this->operationLogUseCase->store([
+                    'detail' => '参加ステータスを変更しました', $status,
+                    'user_id' => null,
+                    'target_event_id' => $event_id,
+                    'target_user_id' => $user_id,
+                    'target_topic_id' => null,
+                    'action' => 'event-change-status',
+                    'ip' => request()->ip(),
+                ]);
 
                 // メール送信処理
                 $mail = new MailSend($event);

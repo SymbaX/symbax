@@ -40,6 +40,14 @@ class PasswordUseCase
             'password' => Hash::make($validated['password']),
         ]);
 
-        $this->operationLogUseCase->store('パスワードを更新しました');
+        $this->operationLogUseCase->store([
+            'detail' => 'パスワードを更新しました',
+            'user_id' => null,
+            'target_event_id' => null,
+            'target_user_id' => null,
+            'target_topic_id' => null,
+            'action' => 'update-password',
+            'ip' => request()->ip(),
+        ]);
     }
 }

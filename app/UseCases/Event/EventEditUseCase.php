@@ -90,7 +90,15 @@ class EventEditUseCase
 
         $event->update($validatedData);
 
-        $this->operationLogUseCase->store('EVENT-ID: ' . $event->id . ' のイベントを編集しました');
+        $this->operationLogUseCase->store([
+            'detail' => 'イベントを編集しました',
+            'user_id' => null,
+            'target_event_id' => $event->id,
+            'target_user_id' => null,
+            'target_topic_id' => null,
+            'action' => 'event-update',
+            'ip' => request()->ip(),
+        ]);
 
         return true;
     }

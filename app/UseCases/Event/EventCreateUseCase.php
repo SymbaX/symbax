@@ -73,7 +73,15 @@ class EventCreateUseCase
             'organizer_id' => $organizerId,
         ]);
 
-        $this->operationLogUseCase->store('EVENT-ID:' . $event->id . 'のイベントを作成しました');
+        $this->operationLogUseCase->store([
+            'detail' => 'イベントを作成しました',
+            'user_id' => null,
+            'target_event_id' => $event->id,
+            'target_user_id' => null,
+            'target_topic_id' => null,
+            'action' => 'event-create',
+            'ip' => request()->ip(),
+        ]);
 
         return $event->id;
     }

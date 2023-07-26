@@ -49,7 +49,15 @@ class ProfileUseCase
             $request->user()->profile_photo_path = $path;
         }
 
-        $this->operationLogUseCase->store('プロフィールを更新しました');
+        $this->operationLogUseCase->store([
+            'detail' => 'プロフィールを更新しました',
+            'user_id' => null,
+            'target_event_id' => null,
+            'target_user_id' => null,
+            'target_topic_id' => null,
+            'action' => 'update-profile',
+            'ip' => request()->ip(),
+        ]);
 
         $user->save();
     }
@@ -62,7 +70,15 @@ class ProfileUseCase
      */
     public function destroy(ProfileDeleteRequest $request)
     {
-        $this->operationLogUseCase->store('アカウントを削除しました');
+        $this->operationLogUseCase->store([
+            'detail' => 'プロフィールを削除しました',
+            'user_id' => null,
+            'target_event_id' => null,
+            'target_user_id' => null,
+            'target_topic_id' => null,
+            'action' => 'delete-profile',
+            'ip' => request()->ip(),
+        ]);
 
         $user = $request->user();
 
