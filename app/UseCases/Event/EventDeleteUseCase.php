@@ -45,19 +45,19 @@ class EventDeleteUseCase
      * 指定されたイベントを削除します。参加者がいる場合は削除できません。
      * 関連する画像ファイルも削除されます。
      *
-     * @param  int  $id イベントID
+     * @param  int  $event_id イベントID
      * @return bool イベントが正常に削除された場合はtrue、削除できない場合はfalseを返します。
      */
-    public function deleteEvent($id)
+    public function deleteEvent($event_id)
     {
-        $event = Event::findOrFail($id);
+        $event = Event::findOrFail($event_id);
 
-        if (!$this->checkEventOrganizerService->check($id)) {    // イベント作成者ではない場合
+        if (!$this->checkEventOrganizerService->check($event_id)) {    // イベント作成者ではない場合
             return false;
         }
 
         // イベントに参加者が登録されているかどうかを確認します
-        $participantCount = EventParticipant::where('event_id', $id)->where('status', 'approved')->orWhere('status', 'pending')->count();
+        $participantCount = EventParticipant::where('event_id', $event_id)->where('status', 'approved')->orWhere('status', 'pending')->count();
         if ($participantCount > 0) {
             return false;
         }
@@ -69,7 +69,7 @@ class EventDeleteUseCase
         $this->operationLogUseCase->store([
             'detail' => null,
             'user_id' => null,
-            'target_event_id' => $event->id,
+            'target_event_id' => $event_id,
             'target_user_id' => null,
             'target_topic_id' => null,
             'action' => 'event-delete',
