@@ -23,6 +23,6 @@ class MailSendController extends Controller
     public function send(SendMailRequest $request)
     {
         $this->mailSendUseCase->send($request);
-        return redirect()->back()->with('message', 'Mail sent successfully!');
+        return redirect()->back()->with('status', 'mail-send');
     }
 }
