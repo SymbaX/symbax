@@ -57,7 +57,12 @@ class EventDeleteUseCase
         }
 
         // イベントに参加者が登録されているかどうかを確認します
-        $participantCount = EventParticipant::where('event_id', $event_id)->where('status', 'approved')->orWhere('status', 'pending')->count();
+        $participantCount = EventParticipant::where('event_id', $event_id)
+            ->where(function ($query) {
+                $query->where('status', 'approved')
+                    ->orWhere('status', 'pending');
+            })->count();
+
         if ($participantCount > 0) {
             return false;
         }
