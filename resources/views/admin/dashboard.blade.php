@@ -10,10 +10,15 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <a href="{{ route('admin.users') }}" class="text-blue-500 hover:text-blue-700">
-                        {{ __('Account lists') }}<br />
-                        <a href="{{ route('admin.operation-logs') }}" class="text-blue-500 hover:text-blue-700">
-                            {{ __('Operation logs') }}
-                        </a>
+                        {{ __('Account lists') }}</a>
+                    <br />
+                    <a href="{{ route('admin.operation-logs') }}" class="text-blue-500 hover:text-blue-700">
+                        {{ __('Operation logs') }}
+                    </a>
+                    <br />
+                    <a href="{{ route('admin.mail') }}" class="text-blue-500 hover:text-blue-700">
+                        {{ __('Mail') }}</a>
+                    <br />
                 </div>
             </div>
         </div>
