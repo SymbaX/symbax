@@ -207,5 +207,7 @@
     "Reject": "リジェクトする",
     "Are you sure you want to cancel this event?": "本当にこのイベントをキャンセルしますか？",
     "Back to top page": "トップページに戻る",
-    "Icon": "アイコン"
+    "Icon": "アイコン",
+    "Subject": "件名",
+    "Body": "本文"
 }

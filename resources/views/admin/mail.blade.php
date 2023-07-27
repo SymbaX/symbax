@@ -21,12 +21,11 @@
                         </div>
 
                         <div>
-                            <x-input-label for="title" :value="__('Title')" />
-                            <x-text-input id="title" name="title" type="text" class="mt-1 block w-full"
-                                :value="old('title', '')" required autofocus autocomplete="off" />
-                            <x-input-error class="mt-2" :messages="$errors->get('title')" />
+                            <x-input-label for="subject" :value="__('Subject')" />
+                            <x-text-input id="subject" name="subject" type="text" class="mt-1 block w-full"
+                                :value="old('subject', '')" required autofocus autocomplete="off" />
+                            <x-input-error class="mt-2" :messages="$errors->get('subject')" />
                         </div>
-
 
                         <div>
                             <x-input-label for="body" :value="__('Body')" />

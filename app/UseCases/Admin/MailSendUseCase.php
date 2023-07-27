@@ -20,7 +20,7 @@ class MailSendUseCase
     {
         // メール送信処理
         $mail = new MailSendAdmin();
-        $mail->sendEmail($request->title, $request->body);
+        $mail->sendEmail($request->subject, $request->body);
         Mail::to($request->email)->send($mail);
 
         return true;
