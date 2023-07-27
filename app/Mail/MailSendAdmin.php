@@ -21,4 +21,14 @@ class MailSendAdmin extends Mailable
                 'email' => $email,
             ]);
     }
+
+    public function sendEmail($subject, $body)
+    {
+        return $this->markdown('emails.admin-send')
+            ->subject($subject)
+            ->with([
+                'title' => $subject,
+                'body' => $body,
+            ]);
+    }
 }

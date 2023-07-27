@@ -193,6 +193,9 @@
     "Sign Up": "新規登録",
     "Date and time": "日時",
     "User id": "ユーザーID",
+    "Target event id": "対象イベント",
+    "Target user id": "対象ユーザー",
+    "Target topic id": "対象トピック",
     "Log id": "ログID",
     "Organizer event": "主催イベント",
     "Join event": "参加イベント",
@@ -204,5 +207,7 @@
     "Reject": "リジェクトする",
     "Are you sure you want to cancel this event?": "本当にこのイベントをキャンセルしますか？",
     "Back to top page": "トップページに戻る",
-    "Icon": "アイコン"
+    "Icon": "アイコン",
+    "Subject": "件名",
+    "Body": "本文"
 }

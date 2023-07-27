@@ -1,22 +1,22 @@
 <?php
 
-namespace App\UseCases\Event;
+namespace App\Services;
 
 use App\Models\Event;
 use Illuminate\Support\Facades\Auth;
 
 /**
- * イベント作成者をチェックするUseCase
+ * イベント作成者をチェックするサービス
  */
-class CheckEventOrganizerUseCase
+class CheckEventOrganizerService
 {
     /**
      * イベント作成者であるかどうかをチェックします。
      *
-     * @param int $eventId イベントID
+     * @param int $event_id イベントID
      * @return bool|null イベント作成者の場合はtrue、ユーザーが認証済みでない場合はnull、イベントが存在しない場合はnullを返します。
      */
-    public function execute(int $eventId): ?bool
+    public function check(int $event_id): ?bool
     {
         // ユーザーが認証済みでない場合はnullを返す
         if (!Auth::check()) {
@@ -24,7 +24,7 @@ class CheckEventOrganizerUseCase
         }
 
         // イベントを取得し、存在しない場合はnullを返す
-        $event = Event::find($eventId);
+        $event = Event::find($event_id);
         if (!$event) {
             return null;
         }
