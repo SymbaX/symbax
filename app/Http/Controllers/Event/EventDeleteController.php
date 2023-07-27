@@ -34,17 +34,17 @@ class EventDeleteController extends Controller
      * 指定されたイベントを削除します。参加者がいる場合は削除できません。
      * 関連する画像ファイルも削除されます。
      *
-     * @param int $id 削除対象のイベントID
+     * @param int $event_id 削除対象のイベントID
      * @return RedirectResponse リダイレクトレスポンス
      */
-    public function deleteEvent($id): RedirectResponse
+    public function deleteEvent($event_id): RedirectResponse
     {
-        $deleted = $this->eventDeleteUseCase->deleteEvent($id);
+        $deleted = $this->eventDeleteUseCase->deleteEvent($event_id);
 
         if ($deleted) {
             return redirect()->route('index.upcoming')->with('status', 'event-deleted');
         } else {
-            return redirect()->route('event.show', ['event_id' => $id])->with('status', 'cannot-delete-event');
+            return redirect()->route('event.show', ['event_id' => $event_id])->with('status', 'cannot-delete-event');
         }
     }
 }
