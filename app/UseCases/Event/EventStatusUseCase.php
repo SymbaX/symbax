@@ -167,6 +167,11 @@ class EventStatusUseCase
             abort(403);
         }
 
+        if ($status !== 'approved' and $status !== 'rejected') {
+            return 'not-change-status';
+        }
+
+
         $participant = EventParticipant::where('event_id', $event_id)
             ->where('user_id', $user_id)
             ->first();
