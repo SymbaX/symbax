@@ -58,7 +58,11 @@ class EventStatusUseCase
         $user_id = Auth::id();
         $event_id = $request->input('event_id');
         $event = Event::findOrFail($event_id);
-        $participantCount = EventParticipant::where('event_id', $event_id)->count();
+        $participantCount = EventParticipant::where('event_id', $event_id)
+            ->where(function ($query) {
+                $query->where('status', 'approved')
+                    ->orWhere('status', 'pending');
+            })->count();
 
         // 自分が作成したイベントであればエラー
         if ($event->organizer_id == $user_id) {
