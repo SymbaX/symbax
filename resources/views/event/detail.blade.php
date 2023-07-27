@@ -123,15 +123,14 @@
                     </ul>
 
                     <a href="{{ route('event.community', ['event_id' => $event->id]) }}">
-                        <x-primary-button onclick="showLoading()"> {{ __('Participant only page') }}
-                        </x-primary-button>
+                        <x-primary-button> {{ __('Participant only page') }}</x-primary-button>
                     </a>
 
                     <br /><br />
 
 
                     <a href="{{ route('event.edit', ['event_id' => $event->id]) }}" class="text-blue-500 underline">
-                        <x-secondary-button onclick="showLoading()">{{ __('Edit event') }}</x-secondary-button>
+                        <x-secondary-button>{{ __('Edit event') }}</x-secondary-button>
                     </a>
 
                     <br /><br />
@@ -162,7 +161,7 @@
                         <!-- 参加済みの場合 -->
                         @if ($your_status == 'approved')
                             <a href="{{ route('event.community', ['event_id' => $event->id]) }}">
-                                <x-primary-button onclick="showLoading()"> {{ __('Participant only page') }}
+                                <x-primary-button> {{ __('Participant only page') }}
                                 </x-primary-button>
                             </a>
 
