@@ -23,6 +23,18 @@ class MailSendUseCase
         $mail->sendEmail($request->subject, $request->body);
         Mail::to($request->email)->send($mail);
 
+        $this->operationLogUseCase->store([
+            'detail' => "▼ subject: {$request->subject}\n" .
+                "▼ email: {$request->email}\n\n" .
+                "▼ body: \n{$request->body}\n",
+            'user_id' => auth()->user()->id,
+            'target_event_id' => null,
+            'target_user_id' => null,
+            'target_topic_id' => null,
+            'action' => 'admin-mail-send',
+            'ip' => request()->ip(),
+        ]);
+
         return true;
     }
 }
