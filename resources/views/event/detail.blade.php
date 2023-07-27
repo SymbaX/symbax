@@ -51,8 +51,13 @@
                                                 </td>
                                             </tr>
                                             <tr>
+                                                {{-- 参加者数 リクエスト承認待ち、承認済みの数 --}}
                                                 <th>{{ __('Number of recruits') }}</th>
-                                                <td>{{ $participants->Count() }} / {{ $event->number_of_recruits }}
+                                                <td>{{ $participants->filter(function ($participant) {
+                                                        return $participant->status === 'approved' || $participant->status === 'pending';
+                                                    })->count() }}
+                                                    / {{ $event->number_of_recruits }}
+
                                                 </td>
                                             </tr>
                                             <tr>

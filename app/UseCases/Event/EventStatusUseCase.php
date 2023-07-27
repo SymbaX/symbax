@@ -58,7 +58,11 @@ class EventStatusUseCase
         $user_id = Auth::id();
         $event_id = $request->input('event_id');
         $event = Event::findOrFail($event_id);
-        $participantCount = EventParticipant::where('event_id', $event_id)->count();
+        $participantCount = EventParticipant::where('event_id', $event_id)
+            ->where(function ($query) {
+                $query->where('status', 'approved')
+                    ->orWhere('status', 'pending');
+            })->count();
 
         // 自分が作成したイベントであればエラー
         if ($event->organizer_id == $user_id) {
@@ -166,6 +170,11 @@ class EventStatusUseCase
         if ($status_change_token !== session('status_change_token') || $event_id !== session('status_change_event_id')) {
             abort(403);
         }
+
+        if ($status !== 'approved' and $status !== 'rejected') {
+            return 'not-change-status';
+        }
+
 
         $participant = EventParticipant::where('event_id', $event_id)
             ->where('user_id', $user_id)
