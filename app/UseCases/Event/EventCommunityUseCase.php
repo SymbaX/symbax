@@ -6,6 +6,7 @@ use App\Models\Topic;
 use App\UseCases\OperationLog\OperationLogUseCase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Services\CheckEventOrganizerService;
 
 /**
  * イベントとコミュニティに関連するビジネスロジックを扱うクラス
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 class EventCommunityUseCase
 {
     protected $checkParticipantStatus;
-    protected $checkEventOrganizer;
+    protected $checkEventOrganizerService;
 
     /**
      * @var OperationLogUseCase
@@ -24,16 +25,16 @@ class EventCommunityUseCase
      * コンストラクタ
      *
      * @param CheckEventParticipantStatusUseCase $checkParticipantStatus
-     * @param CheckEventOrganizerUseCase $checkEventOrganizer
+     * @param CheckEventOrganizerService $checkEventOrganizerService
      * @param  OperationLogUseCase  $operationLogUseCase
      */
     public function __construct(
         CheckEventParticipantStatusUseCase $checkParticipantStatus,
-        CheckEventOrganizerUseCase $checkEventOrganizer,
+        CheckEventOrganizerService $checkEventOrganizerService,
         OperationLogUseCase $operationLogUseCase
     ) {
         $this->checkParticipantStatus = $checkParticipantStatus;
-        $this->checkEventOrganizer = $checkEventOrganizer;
+        $this->checkEventOrganizerService = $checkEventOrganizerService;
         $this->operationLogUseCase = $operationLogUseCase;
     }
 
@@ -46,9 +47,8 @@ class EventCommunityUseCase
     public function checkAccess($id): bool
     {
         $isParticipantApproved = $this->checkParticipantStatus->execute($id);
-        $isEventOrganizer = $this->checkEventOrganizer->execute($id);
 
-        if ($isParticipantApproved === "approved" || $isEventOrganizer) {
+        if ($isParticipantApproved === "approved" || $this->checkEventOrganizerService->check($id)) {
             return true;
         }
 
