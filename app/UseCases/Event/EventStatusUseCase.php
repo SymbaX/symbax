@@ -7,6 +7,7 @@ use App\Mail\MailSend;
 use App\Models\Event;
 use App\Models\EventParticipant;
 use App\Models\User;
+use App\Services\CheckEventOrganizerService;
 use App\UseCases\OperationLog\OperationLogUseCase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,15 +27,23 @@ class EventStatusUseCase
     private $operationLogUseCase;
 
     /**
+     * @var CheckEventOrganizerService
+     */
+    private $checkEventOrganizerService;
+
+    /**
      * OperationLogUseCaseの新しいインスタンスを作成します。
      *
      * @param  OperationLogUseCase  $operationLogUseCase
+     * @param  CheckEventOrganizerService  $checkEventOrganizerService
      * @return void
      */
-    public function __construct(OperationLogUseCase $operationLogUseCase)
+    public function __construct(OperationLogUseCase $operationLogUseCase, CheckEventOrganizerService $checkEventOrganizerService)
     {
         $this->operationLogUseCase = $operationLogUseCase;
+        $this->checkEventOrganizerService = $checkEventOrganizerService;
     }
+
 
     /**
      * イベントへの参加リクエスト
@@ -146,50 +155,56 @@ class EventStatusUseCase
         $user_id = $request->input('user_id');
         $status = $request->input('status');
 
-        $user = User::find($user_id);
 
-        $event = Event::find($event_id);
-
-        if (!$event) {
-            return 'not-found';
+        // イベント作成者でない場合はエラー
+        if (!$this->checkEventOrganizerService->check($event_id)) {
+            return 'not-change-status';
         }
 
-        // イベント作成者の場合の処理
-        if ($event->organizer_id === Auth::id()) {
-            $participant = EventParticipant::where('event_id', $event_id)
-                ->where('user_id', $user_id)
-                ->first();
+        // セッションに保存されたイベントIDとトークンを取得し、リクエストの値と比較
+        $status_change_token = $request->input('status_change_token');
+        if ($status_change_token !== session('status_change_token') || $event_id !== session('status_change_event_id')) {
+            abort(403);
+        }
 
-            if ($participant) {
-                $originalStatus = $participant->status; // 変更前のステータスを保存
+        $participant = EventParticipant::where('event_id', $event_id)
+            ->where('user_id', $user_id)
+            ->first();
 
-                if ($originalStatus === $status) {
-                    return 'no-change'; // ステータスに変更がなければ以降の処理をスキップ
-                }
+        if ($participant) {
+            $originalStatus = $participant->status; // 変更前のステータスを保存
 
-                $participant->status = $status;
-                $participant->save();
-
-                $detail = "status: {$originalStatus} ▶ {$status}"; // ステータスの変更をdetailに追加
-
-                $this->operationLogUseCase->store([
-                    'detail' => $detail,
-                    'user_id' => null,
-                    'target_event_id' => $event_id,
-                    'target_user_id' => $user_id,
-                    'target_topic_id' => null,
-                    'action' => 'event-change-status',
-                    'ip' => request()->ip(),
-                ]);
-
-                // メール送信処理
-                $mail = new MailSend($event);
-                $mail->eventChangeStatus($event, $status);
-                Mail::to($user->email)->send($mail); // 変更された参加者にメールを送信
-            } else {
-                return 'not-change-status';
+            if ($originalStatus === $status) {
+                return 'no-change'; // ステータスに変更がなければ以降の処理をスキップ
             }
+
+            $participant->status = $status;
+            $participant->save();
+
+            $detail = "status: {$originalStatus} ▶ {$status}"; // ステータスの変更をdetailに追加
+
+            $this->operationLogUseCase->store([
+                'detail' => $detail,
+                'user_id' => null,
+                'target_event_id' => $event_id,
+                'target_user_id' => $user_id,
+                'target_topic_id' => null,
+                'action' => 'event-change-status',
+                'ip' => request()->ip(),
+            ]);
+
+
+            $user = User::find($user_id);
+            $event = Event::find($event_id);
+
+            // メール送信処理
+            $mail = new MailSend($event);
+            $mail->eventChangeStatus($event, $status);
+            Mail::to($user->email)->send($mail); // 変更された参加者にメールを送信
+        } else {
+            return 'not-change-status';
         }
+
 
         // 二重送信防止
         $request->session()->regenerateToken();

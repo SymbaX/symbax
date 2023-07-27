@@ -4,6 +4,7 @@ namespace App\UseCases\Event;
 
 use App\Models\Event;
 use App\Models\EventParticipant;
+use App\Services\CheckEventOrganizerService;
 use Illuminate\Support\Facades\Storage;
 use App\UseCases\OperationLog\OperationLogUseCase;
 
@@ -20,15 +21,23 @@ class EventDeleteUseCase
     private $operationLogUseCase;
 
     /**
+     * @var CheckEventOrganizerService
+     */
+    private $checkEventOrganizerService;
+
+    /**
      * OperationLogUseCaseの新しいインスタンスを作成します。
      *
      * @param  OperationLogUseCase  $operationLogUseCase
+     * @param  CheckEventOrganizerService  $checkEventOrganizerService
      * @return void
      */
-    public function __construct(OperationLogUseCase $operationLogUseCase)
+    public function __construct(OperationLogUseCase $operationLogUseCase, CheckEventOrganizerService $checkEventOrganizerService)
     {
         $this->operationLogUseCase = $operationLogUseCase;
+        $this->checkEventOrganizerService = $checkEventOrganizerService;
     }
+
 
     /**
      * イベントの削除
@@ -43,12 +52,7 @@ class EventDeleteUseCase
     {
         $event = Event::findOrFail($id);
 
-        // イベント作成者であるかどうかをチェック
-        $eventOrganizerUseCase = new CheckEventOrganizerUseCase();
-        $isEventOrganizer = $eventOrganizerUseCase->execute($id);
-
-        // ユーザーがイベント作成者でない場合はエラーとする
-        if (!$isEventOrganizer) {
+        if (!$this->checkEventOrganizerService->check($id)) {    // イベント作成者ではない場合
             return false;
         }
 
