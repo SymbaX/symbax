@@ -14,35 +14,13 @@ Flexboxを指定"space-between"で各アイテムを均等に配置し、
     -webkit-box-pack: justify;
     justify-content: space-between;
 }
-
-/* リンクテキストの下線を非表示 */
-a.card-link {
-    text-decoration: none;
-}
-
-/* カードレイアウト内の画像を幅いっぱいに表示 */
-#cardlayout-wrap img {
-    display: block;
-    width: 400px;
-    height: 250px;
-    object-fit: cover;
-}
-
-.card-figure {
-    margin: 0;
+/* カードレイアウトを1カラムで配置 */
+.card-list {
+    margin: 1em auto;
     padding: 0;
-}
-
-/* カードレイアウトのタイトル部分 */
-.card-title {
-    margin: 0.6em 0 0;
-    color: #333;
-    text-align: center;
-    font-size: 1.6em;
-    width: 360px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    width: 100%;
+    background: #f0f0f0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
 }
 
 /* カードレイアウトの説明文部分 */
@@ -55,27 +33,30 @@ a.card-link {
     text-overflow: ellipsis;
 }
 
-/* カードレイアウトを1カラムで配置 */
-.card-list {
-    margin: 0.5em auto;
-    padding: 0;
-    width: 100%;
-    background: #f0f0f0;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+/* カードレイアウトのタイトル部分 */
+.card-title {
+    margin: 0.6em 0 0;
+    color: #333;
+    text-align: center;
+    font-size: 1.6em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* 画面幅768px以上の場合カードレイアウトを2カラムで配置 */
 @media all and (min-width: 768px) {
     .card-list {
-        margin: 0.5em 0;
-        width: calc(100% / 2); /* 100%幅を2で割るという指定 */
+        margin: 1em;
+        width: calc(100% / 2 - 2em); /* マージンを考慮 */
     }
 }
 
 /* 画面幅992px以上の場合カードレイアウトを3カラムで配置 */
 @media all and (min-width: 992px) {
     .card-list {
-        width: calc(100% / 3); /* 100%幅を3で割るという指定 */
+        margin: 1em;
+        width: calc(100% / 3 - 2em); /* マージンを考慮 */
     }
 
     /* 最後の行が3列より少ない場合左寄せにレイアウトさせる */
