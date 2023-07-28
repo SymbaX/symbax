@@ -63,11 +63,9 @@
                             </x-dropdown-link>
                         @endif
 
-                        <div id="inquiry">
                         <x-dropdown-link href="https://forms.gle/1Vvjkeda4tHZT9d3A">
                             {{ __('Inquiry form') }}
                         </x-dropdown-link>
-                        </div>
 
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
@@ -139,6 +137,10 @@
                         {{ __('Admin dashboard') }}
                     </x-responsive-nav-link>
                 @endif
+
+                <x-responsive-nav-link href="https://forms.gle/1Vvjkeda4tHZT9d3A">
+                    {{ __('Inquiry form') }}
+                </x-responsive-nav-link>
 
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
