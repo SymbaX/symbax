@@ -17,7 +17,6 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-
 /.phpdoc
 /docs
 .DS_Store

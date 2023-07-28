@@ -58,7 +58,8 @@
                 <p class="error_detail">@yield('detail')</p>
 
                 @if (!isset($errorCode) || $errorCode != 503)
-                    <a href="{{ route('welcome') }}">{{ __('Back to top page') }}</a>
+                    <p><a href="{{ route('welcome') }}">{{ __('Back to top page') }}</a></p>
+                    <p><a href="https://forms.gle/1Vvjkeda4tHZT9d3A">{{ __('Inquiry form') }}</a></p>
                 @endif
 
                 @if (env('APP_DEBUG') == 1 && isset($exception))

@@ -63,6 +63,12 @@
                             </x-dropdown-link>
                         @endif
 
+                        <div id="inquiry">
+                        <x-dropdown-link href="https://forms.gle/1Vvjkeda4tHZT9d3A">
+                            {{ __('Inquiry form') }}
+                        </x-dropdown-link>
+                        </div>
+
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
