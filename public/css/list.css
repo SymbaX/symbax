@@ -14,6 +14,15 @@ Flexboxを指定"space-between"で各アイテムを均等に配置し、
     -webkit-box-pack: justify;
     justify-content: space-between;
 }
+
+#cardlayout-wrap img {
+    display: block;
+    width: 400px;
+    height: 250px;
+    object-fit: cover;
+    padding: 5px;
+}
+
 /* カードレイアウトを1カラムで配置 */
 .card-list {
     margin: 1em auto;
