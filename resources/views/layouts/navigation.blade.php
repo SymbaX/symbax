@@ -63,6 +63,10 @@
                             </x-dropdown-link>
                         @endif
 
+                        <x-dropdown-link href="https://forms.gle/1Vvjkeda4tHZT9d3A">
+                            {{ __('Inquiry form') }}
+                        </x-dropdown-link>
+
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -133,6 +137,10 @@
                         {{ __('Admin dashboard') }}
                     </x-responsive-nav-link>
                 @endif
+
+                <x-responsive-nav-link href="https://forms.gle/1Vvjkeda4tHZT9d3A">
+                    {{ __('Inquiry form') }}
+                </x-responsive-nav-link>
 
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
