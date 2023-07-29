@@ -1,4 +1,3 @@
-/* 新しいカードレイアウトのラッピング */
 #highlighted-event-wrap {
     display: flex;
     overflow-x: auto;
@@ -14,11 +13,10 @@
     display: none;
 }
 
-/* 既存のスタイルを新しいクラス名に適用 */
 .highlighted-event-card {
     margin: 1em;
     padding: 0;
-    min-width: calc(100% / 3 - 2em);
+    min-width: calc(100% - 2em);
     background: #f0f0f0;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
     border-radius: 10px;
@@ -49,6 +47,26 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+@media all and (min-width: 550px) {
+    .highlighted-event-card {
+        margin: 1em;
+        min-width: calc(100% / 2 - 2em);
+    }
+}
+
+@media all and (min-width: 900px) {
+    .highlighted-event-card {
+        margin: 1em;
+        min-width: calc(100% / 3 - 2em);
+    }
+
+    #highlighted-event-wrap::after {
+        content: "";
+        display: block;
+        width: calc(100% / 3);
+    }
 }
 
 #carousel-container {
