@@ -1,3 +1,7 @@
+@push('script')
+    <script src="{{ asset('script/loading.js') }}"></script>
+@endpush
+
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -20,7 +24,7 @@
                             <x-input-error class="mt-2" :messages="$errors->get('content')" />
                         </div>
 
-                        <x-primary-button>{{ __('Send') }}</x-primary-button>
+                        <x-primary-button onclick="showLoading()">{{ __('Send') }}</x-primary-button>
                     </form>
                     <br />
                     @forelse($topics as $topic)

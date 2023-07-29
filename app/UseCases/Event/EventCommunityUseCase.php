@@ -120,7 +120,9 @@ class EventCommunityUseCase
         }
 
         // メンションされた全員に対して一度でメール送信
-        $this->sendMentionNotification($mentionedUsers, $topic, $event->name, Auth::user()->name);
+        if (!empty($mentionedUsers)) {
+            $this->sendMentionNotification($mentionedUsers, $topic, $event->name, Auth::user()->name);
+        }
 
         return $topic;
     }
