@@ -29,16 +29,19 @@
                     <div id="carousel-container">
                         <button id="carousel-button-prev" class="carousel-button">{{ __('Prev') }}</button>
                         <div id="highlighted-event-wrap">
-                            @foreach ($events as $event)
+                            @foreach ($newest_events as $newest_event)
                                 <section class="highlighted-event-card">
                                     <a class="card-link" href="#">
                                         <ul>
-                                            <li><a href="{{ route('event.show', $event->id) }}">
-                                                    <h3 class="highlighted-event-title">{{ $event->name }}</h3>
+                                            <li><a href="{{ route('event.show', $newest_event->id) }}">
+                                                    <h3 class="highlighted-event-title">{{ $newest_event->name }}</h3>
                                                     <figure class="card-figure"><img class="event_image mx-auto"
-                                                            src="{{ Storage::url($event->image_path) }}" alt="">
+                                                            src="{{ Storage::url($newest_event->image_path) }}"
+                                                            alt="">
                                                     </figure>
-                                                    <p class="highlighted-event-text">{{ $event->detail }}</p>
+                                                    <p class="highlighted-event-text">{{ $newest_event->detail }}</p>
+                                                    <p class="highlighted-event-text">{{ $newest_event->created_at }}
+                                                    </p>
                                                 </a></li>
                                         </ul>
                                     </a>

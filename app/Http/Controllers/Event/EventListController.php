@@ -39,7 +39,8 @@ class EventListController extends Controller
     public function indexHome(): View
     {
         $events = $this->eventListUseCase->getUpcomingEvents();
-        return view('event.list-home', ['events' => $events]);
+        $newest_events = $this->eventListUseCase->getNewestEvents();
+        return view('event.list-home', ['events' => $events, 'newest_events' => $newest_events]);
     }
 
     /**
