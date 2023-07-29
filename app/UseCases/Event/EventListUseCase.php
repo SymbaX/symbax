@@ -28,6 +28,14 @@ class EventListUseCase
             ->paginate($perPage);
     }
 
+    public function getNewestEvents($limit = 6)
+    {
+        return Event::whereDate('date', '>=', Carbon::today())
+            ->orderBy('created_at', 'desc')
+            ->take($limit)
+            ->get();
+    }
+
     /**
      * 全てのイベント一覧の取得
      *

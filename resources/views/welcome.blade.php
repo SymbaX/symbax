@@ -22,7 +22,7 @@
         <div class="buttons">
             @if (Route::has('login'))
                 @auth
-                    <a href="{{ route('index.upcoming') }}">{{ __('Start') }}</a>
+                    <a href="{{ route('index.home') }}">{{ __('Start') }}</a>
                 @else
                     <a href="{{ route('login') }}">{{ __('Login') }}</a>
                     @if (Route::has('register'))
