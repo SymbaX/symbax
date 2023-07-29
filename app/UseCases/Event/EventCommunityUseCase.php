@@ -2,6 +2,7 @@
 
 namespace App\UseCases\Event;
 
+use App\Models\Event;
 use App\Models\EventParticipant;
 use App\Models\Topic;
 use App\Models\User;
@@ -101,7 +102,11 @@ class EventCommunityUseCase
         preg_match_all('/@(\w+)/', $request->content, $matches);
         $mentionedLoginIds = $matches[1] ?? [];
 
+        $eventOrganizer = Event::where('id', $request->event_id)->first()->organizer;
         $participants = $this->getEventParticipants($request->event_id);
+
+        $participants[] = $eventOrganizer->id;
+        $participants = array_unique($participants);
 
         foreach ($mentionedLoginIds as $loginId) {
             $user = $this->getUserByLoginId($loginId);
