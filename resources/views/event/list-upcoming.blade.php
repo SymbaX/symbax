@@ -1,6 +1,10 @@
 @push('css')
     <link rel="stylesheet" href="{{ asset('css/list.css') }}">
 @endpush
+@push('script')
+    <script src="{{ asset('script/event-carousel.js') }}"></script>
+@endpush
+
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -14,23 +18,28 @@
                 @if ($events->currentPage() === 1)
                     <h3>注目のイベント</h3>
 
-                    <div id="highlighted-event-wrap">
-                        @foreach ($events as $event)
-                            <section class="highlighted-event-card">
-                                <a class="card-link" href="#">
-                                    <ul>
-                                        <li><a href="{{ route('event.show', $event->id) }}">
-                                                <h3 class="highlighted-event-title">{{ $event->name }}</h3>
-                                                <figure class="card-figure"><img class="event_image mx-auto"
-                                                        src="{{ Storage::url($event->image_path) }}" alt="">
-                                                </figure>
-                                                <p class="highlighted-event-text">{{ $event->detail }}</p>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </a>
-                            </section>
-                        @endforeach
+                    <div id="carousel-container">
+                        <button id="carousel-button-prev" class="carousel-button">Prev</button>
+
+                        <div id="highlighted-event-wrap">
+                            @foreach ($events as $event)
+                                <section class="highlighted-event-card">
+                                    <a class="card-link" href="#">
+                                        <ul>
+                                            <li><a href="{{ route('event.show', $event->id) }}">
+                                                    <h3 class="highlighted-event-title">{{ $event->name }}</h3>
+                                                    <figure class="card-figure"><img class="event_image mx-auto"
+                                                            src="{{ Storage::url($event->image_path) }}" alt="">
+                                                    </figure>
+                                                    <p class="highlighted-event-text">{{ $event->detail }}</p>
+                                                </a></li>
+                                        </ul>
+                                    </a>
+                                </section>
+                            @endforeach
+                        </div>
+
+                        <button id="carousel-button-next" class="carousel-button">Next</button>
                     </div>
                 @endif
 
