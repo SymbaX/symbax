@@ -15,7 +15,7 @@ class MailSendCommunity extends Mailable
         $buttonUrl = config('app.url') . '/event/' . $event_id . '/community';
 
         return $this->markdown('emails.event-mention')
-            ->subject('メンションされました')
+            ->subject('🔔 メンションされました')
             ->with([
                 'event_name' => $event_name,
                 'send_name' => $send_name,
