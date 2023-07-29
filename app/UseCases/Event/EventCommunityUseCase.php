@@ -115,9 +115,12 @@ class EventCommunityUseCase
         foreach ($mentionedLoginIds as $loginId) {
             $user = $this->getUserByLoginId($loginId);
             if ($user && in_array($user->id, $participants)) {
-                $this->sendMentionNotification($user, $topic, $event->name, Auth::user()->name);
+                $mentionedUsers[] = $user;
             }
         }
+
+        // メンションされた全員に対して一度でメール送信
+        $this->sendMentionNotification($mentionedUsers, $topic, $event->name, Auth::user()->name);
 
         return $topic;
     }
@@ -125,19 +128,25 @@ class EventCommunityUseCase
     /**
      * メンションの通知メールを送る
      *
-     * @param \App\Models\User $user ユーザーモデル
+     * @param array<User> $users ユーザーモデルの配列
      * @param \App\Models\Topic $topic トピックモデル
      * @param string $eventName イベント名
      * @param string $senderName 送信者の名前
      * @return void
      */
-    protected function sendMentionNotification(User $user, Topic $topic, string $eventName, string $senderName)
+    protected function sendMentionNotification(array $users, Topic $topic, string $eventName, string $senderName)
     {
         // メール送信処理
         $mail = new MailSendCommunity();
         $mail->eventMention($eventName, $topic->event_id, $senderName);
-        Mail::to($user->email)->send($mail);
+
+        $recipientEmails = array_map(function (User $user) {
+            return $user->email;
+        }, $users);
+
+        Mail::bcc($recipientEmails)->send($mail);
     }
+
 
 
     public function getEventParticipants(int $eventId)
