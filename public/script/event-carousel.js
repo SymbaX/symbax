@@ -2,6 +2,10 @@ $(document).ready(function () {
     var scrollAmount = 0;
     var cardWidth = $(".highlighted-event-card").outerWidth(true);
 
+    $("#highlighted-event-wrap").scroll(function () {
+        scrollAmount = $(this).scrollLeft();
+    });
+
     $(window).resize(function () {
         var previousCardWidth = cardWidth;
         cardWidth = $(".highlighted-event-card").outerWidth(true);
