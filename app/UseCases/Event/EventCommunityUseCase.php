@@ -2,11 +2,14 @@
 
 namespace App\UseCases\Event;
 
+use App\Models\EventParticipant;
 use App\Models\Topic;
+use App\Models\User;
 use App\UseCases\OperationLog\OperationLogUseCase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Services\CheckEventOrganizerService;
+use Illuminate\Support\Facades\DB;
 
 /**
  * イベントとコミュニティに関連するビジネスロジックを扱うクラス
@@ -94,7 +97,46 @@ class EventCommunityUseCase
             'ip' => request()->ip(),
         ]);
 
+        // 検出したメンションの処理
+        preg_match_all('/@(\w+)/', $request->content, $matches);
+        $mentionedLoginIds = $matches[1] ?? [];
+
+        $participants = $this->getEventParticipants($request->event_id);
+
+        foreach ($mentionedLoginIds as $loginId) {
+            $user = $this->getUserByLoginId($loginId);
+            if ($user && in_array($user->id, $participants)) {
+                $this->sendMentionNotification($user, $topic);
+            }
+        }
 
         return $topic;
+    }
+
+    /**
+     * メンションの通知メールを送る
+     *
+     * @param \App\Models\User $user ユーザーモデル
+     * @param \App\Models\Topic $topic トピックモデル
+     * @return void
+     */
+    protected function sendMentionNotification(User $user, Topic $topic)
+    {
+        dd("メンションの通知メールを送る{{ $user->name }}さんに{{ $topic->content}} {{ $user->email}}");
+    }
+
+
+    public function getEventParticipants(int $eventId)
+    {
+        return EventParticipant::where('event_id', $eventId)
+            ->where('status', 'approved')
+            ->pluck('user_id')
+            ->all();
+    }
+
+    public function getUserByLoginId(string $loginId)
+    {
+        // login_idに基づいてユーザーを取得する
+        return User::where('login_id', $loginId)->first();
     }
 }
