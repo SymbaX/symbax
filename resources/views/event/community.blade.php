@@ -1,3 +1,7 @@
+@push('script')
+    <script src="{{ asset('script/loading.js') }}"></script>
+@endpush
+
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -20,12 +24,13 @@
                             <x-input-error class="mt-2" :messages="$errors->get('content')" />
                         </div>
 
-                        <x-primary-button>{{ __('Send') }}</x-primary-button>
+                        <x-primary-button onclick="showLoading()">{{ __('Send') }}</x-primary-button>
                     </form>
                     <br />
                     @forelse($topics as $topic)
                         <div class="border my-2 p-2">
-                            <div class="text-secondary">{{ $topic->user->name }} さん</div>
+                            <div class="text-secondary">{{ $topic->user->name }} さん( &#64;{{ $topic->user->login_id }} )
+                            </div>
                             <div class="mr-3">
                                 <img id="preview"
                                     src="{{ isset($topic->user->profile_photo_path) ? Storage::url($topic->user->profile_photo_path) : asset('img/default-user.png') }}"
