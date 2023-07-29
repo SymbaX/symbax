@@ -31,7 +31,7 @@
                     <div class="flex">
                         <!-- Logo -->
                         <div class="shrink-0 flex items-center">
-                            <a href="{{ route('index.upcoming') }}">
+                            <a href="{{ route('index.home') }}">
                                 <img src="{{ asset('img/logo.svg') }}" width="50" height="50">
                             </a>
                         </div>

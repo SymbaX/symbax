@@ -1,3 +1,82 @@
+/* 新しいカードレイアウトのラッピング */
+#highlighted-event-wrap {
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(155, 155, 155, 0.5) transparent;
+    padding: 2em auto;
+    width: 100%;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+#highlighted-event-wrap::-webkit-scrollbar {
+    display: none;
+}
+
+/* 既存のスタイルを新しいクラス名に適用 */
+.highlighted-event-card {
+    margin: 1em;
+    padding: 0;
+    min-width: calc(100% / 3 - 2em);
+    background: #f0f0f0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    border-radius: 10px;
+}
+
+.highlighted-event-card img {
+    display: block;
+    width: 400px;
+    height: 250px;
+    object-fit: cover;
+    padding: 5px;
+}
+
+.highlighted-event-text {
+    margin: 0;
+    padding: 1em;
+    color: #818181;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.highlighted-event-title {
+    margin: 0.6em 0 0;
+    color: #333;
+    text-align: center;
+    font-size: 1.6em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#carousel-container {
+    position: relative;
+    width: 100%;
+}
+
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    padding: 1em;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    cursor: pointer;
+}
+
+#carousel-button-prev {
+    left: 0;
+}
+
+#carousel-button-next {
+    right: 0;
+}
+
+/* --- --- --- --- --- ---*/
+
 /* カードレイアウト部分をラッピングし、
 Flexboxを指定"space-between"で各アイテムを均等に配置し、
 最初と最後のアイテムを端に寄せます。*/
