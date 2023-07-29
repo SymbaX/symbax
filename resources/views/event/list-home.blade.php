@@ -15,12 +15,19 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                <div class="flex items-center gap-4">
+                    @if (session('status') === 'event-deleted')
+                        <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                            class="text-sm text-gray-600">
+                            {{ __('Deleted the event.') }}</p>
+                    @endif
+                </div>
+
                 @if ($events->currentPage() === 1)
-                    <h3>{{ __('New events') }}</h3>
+                    <h3 class="title-h3">{{ __('New events') }}</h3>
 
                     <div id="carousel-container">
                         <button id="carousel-button-prev" class="carousel-button">{{ __('Prev') }}</button>
-
                         <div id="highlighted-event-wrap">
                             @foreach ($events as $event)
                                 <section class="highlighted-event-card">
@@ -42,7 +49,8 @@
                         <button id="carousel-button-next" class="carousel-button">{{ __('Next') }}</button>
                     </div>
                 @endif
-                <h3>{{ __('Upcoming events') }}</h3>
+                <br />
+                <h3 class="title-h3">{{ __('Upcoming events') }}</h3>
 
                 @include('event.partials.list')
             </div>
