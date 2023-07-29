@@ -2,11 +2,17 @@
 
 namespace App\UseCases\Event;
 
+use App\Mail\MailSendCommunity;
+use App\Models\Event;
+use App\Models\EventParticipant;
 use App\Models\Topic;
+use App\Models\User;
 use App\UseCases\OperationLog\OperationLogUseCase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Services\CheckEventOrganizerService;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 /**
  * イベントとコミュニティに関連するビジネスロジックを扱うクラス
@@ -94,7 +100,68 @@ class EventCommunityUseCase
             'ip' => request()->ip(),
         ]);
 
+        // 検出したメンションの処理
+        preg_match_all('/@(\w+)/', $request->content, $matches);
+        $mentionedLoginIds = $matches[1] ?? [];
+        $mentionedLoginIds = array_unique($mentionedLoginIds);
+
+        $event = Event::where('id', $request->event_id)->first();
+        $eventOrganizer = $event->organizer;
+
+        $participants = $this->getEventParticipants($request->event_id);
+        $participants[] = $eventOrganizer->id;
+        $participants = array_unique($participants);
+
+        foreach ($mentionedLoginIds as $loginId) {
+            $user = $this->getUserByLoginId($loginId);
+            if ($user && in_array($user->id, $participants)) {
+                $mentionedUsers[] = $user;
+            }
+        }
+
+        // メンションされた全員に対して一度でメール送信
+        if (!empty($mentionedUsers)) {
+            $this->sendMentionNotification($mentionedUsers, $topic, $event->name, Auth::user()->name);
+        }
 
         return $topic;
+    }
+
+    /**
+     * メンションの通知メールを送る
+     *
+     * @param array<User> $users ユーザーモデルの配列
+     * @param \App\Models\Topic $topic トピックモデル
+     * @param string $eventName イベント名
+     * @param string $senderName 送信者の名前
+     * @return void
+     */
+    protected function sendMentionNotification(array $users, Topic $topic, string $eventName, string $senderName)
+    {
+        // メール送信処理
+        $mail = new MailSendCommunity();
+        $mail->eventMention($eventName, $topic->event_id, $senderName);
+
+        $recipientEmails = array_map(function (User $user) {
+            return $user->email;
+        }, $users);
+
+        Mail::bcc($recipientEmails)->send($mail);
+    }
+
+
+
+    public function getEventParticipants(int $eventId)
+    {
+        return EventParticipant::where('event_id', $eventId)
+            ->where('status', 'approved')
+            ->pluck('user_id')
+            ->all();
+    }
+
+    public function getUserByLoginId(string $loginId)
+    {
+        // login_idに基づいてユーザーを取得する
+        return User::where('login_id', $loginId)->first();
     }
 }
