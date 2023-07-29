@@ -103,6 +103,7 @@ class EventCommunityUseCase
         // 検出したメンションの処理
         preg_match_all('/@(\w+)/', $request->content, $matches);
         $mentionedLoginIds = $matches[1] ?? [];
+        $mentionedLoginIds = array_unique($mentionedLoginIds);
 
         $event = Event::where('id', $request->event_id)->first();
         $eventOrganizer = $event->organizer;
