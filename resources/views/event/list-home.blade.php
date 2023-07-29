@@ -19,7 +19,7 @@
                     <h3>{{ __('New events') }}</h3>
 
                     <div id="carousel-container">
-                        <button id="carousel-button-prev" class="carousel-button">Prev</button>
+                        <button id="carousel-button-prev" class="carousel-button">{{ __('Prev') }}</button>
 
                         <div id="highlighted-event-wrap">
                             @foreach ($events as $event)
@@ -39,7 +39,7 @@
                             @endforeach
                         </div>
 
-                        <button id="carousel-button-next" class="carousel-button">Next</button>
+                        <button id="carousel-button-next" class="carousel-button">{{ __('Next') }}</button>
                     </div>
                 @endif
                 <h3>{{ __('Upcoming events') }}</h3>
