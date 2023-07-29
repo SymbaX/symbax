@@ -25,33 +25,39 @@
 
                 @if ($events->currentPage() === 1)
                     <h3 class="title-h3">{{ __('New events') }}</h3>
-
-                    <div id="carousel-container">
-                        <button id="carousel-button-prev" class="carousel-button">{{ __('Prev') }}</button>
-                        <div id="highlighted-event-wrap">
-                            @foreach ($newest_events as $newest_event)
-                                <section class="highlighted-event-card">
-                                    <a class="card-link" href="#">
-                                        <ul>
-                                            <li><a href="{{ route('event.show', $newest_event->id) }}">
-                                                    <h3 class="highlighted-event-title">{{ $newest_event->name }}</h3>
-                                                    <figure class="card-figure"><img class="event_image mx-auto"
-                                                            src="{{ Storage::url($newest_event->image_path) }}"
-                                                            alt="">
-                                                    </figure>
-                                                    <p class="highlighted-event-text">{{ $newest_event->detail }}</p>
-                                                    <p class="highlighted-event-text">{{ $newest_event->created_at }}
-                                                    </p>
-                                                </a></li>
-                                        </ul>
-                                    </a>
-                                </section>
-                            @endforeach
+                    @if ($events->isEmpty())
+                        <p>{{ __('No events found.') }}</p>
+                    @else
+                        <div id="carousel-container">
+                            <button id="carousel-button-prev" class="carousel-button">{{ __('Prev') }}</button>
+                            <div id="highlighted-event-wrap">
+                                @foreach ($newest_events as $newest_event)
+                                    <section class="highlighted-event-card">
+                                        <a class="card-link" href="#">
+                                            <ul>
+                                                <li><a href="{{ route('event.show', $newest_event->id) }}">
+                                                        <h3 class="highlighted-event-title">{{ $newest_event->name }}
+                                                        </h3>
+                                                        <figure class="card-figure"><img class="event_image mx-auto"
+                                                                src="{{ Storage::url($newest_event->image_path) }}"
+                                                                alt="">
+                                                        </figure>
+                                                        <p class="highlighted-event-text">{{ $newest_event->detail }}
+                                                        </p>
+                                                        <p class="highlighted-event-text">
+                                                            {{ $newest_event->created_at }}
+                                                        </p>
+                                                    </a></li>
+                                            </ul>
+                                        </a>
+                                    </section>
+                                @endforeach
+                            </div>
+                            <button id="carousel-button-next" class="carousel-button">{{ __('Next') }}</button>
                         </div>
-
-                        <button id="carousel-button-next" class="carousel-button">{{ __('Next') }}</button>
-                    </div>
+                    @endif
                 @endif
+
                 <br />
                 <h3 class="title-h3">{{ __('Upcoming events') }}</h3>
 
