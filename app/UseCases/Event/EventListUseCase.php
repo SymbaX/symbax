@@ -30,7 +30,8 @@ class EventListUseCase
 
     public function getNewestEvents($limit = 6)
     {
-        return Event::orderBy('created_at', 'desc')
+        return Event::whereDate('date', '>=', Carbon::today())
+            ->orderBy('created_at', 'desc')
             ->take($limit)
             ->get();
     }
