@@ -8,7 +8,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Upcoming events') }}
+            {{ __('Home') }}
         </h2>
     </x-slot>
 
@@ -16,7 +16,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 @if ($events->currentPage() === 1)
-                    <h3>注目のイベント</h3>
+                    <h3>{{ __('New events') }}</h3>
 
                     <div id="carousel-container">
                         <button id="carousel-button-prev" class="carousel-button">Prev</button>
@@ -42,6 +42,7 @@
                         <button id="carousel-button-next" class="carousel-button">Next</button>
                     </div>
                 @endif
+                <h3>{{ __('Upcoming events') }}</h3>
 
                 @include('event.partials.list')
             </div>

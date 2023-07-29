@@ -11,11 +11,6 @@ use App\Http\Controllers\Profile\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'verified', 'disabled'])->group(function () {
-    // プロフィール編集画面
-    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile/delete', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
     // イベント関連
     Route::get('/event/create',  [EventCreateController::class, 'create'])->name('event.create');
     Route::patch('/event/store', [EventCreateController::class, 'store'])->name('event.store');
@@ -35,5 +30,5 @@ Route::middleware(['auth', 'verified', 'disabled'])->group(function () {
     Route::get('/events/all', [EventListController::class, 'indexAll'])->name('index.all');
     Route::get('/events/join', [EventListController::class, 'indexJoin'])->name('index.join');
     Route::get('/events/organizer', [EventListController::class, 'indexOrganizer'])->name('index.organizer');
-    Route::get('/upcoming', [EventListController::class, 'indexUpcoming'])->name('index.upcoming');
+    Route::get('/home', [EventListController::class, 'indexHome'])->name('index.home');
 });

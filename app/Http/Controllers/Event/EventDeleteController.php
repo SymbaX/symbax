@@ -42,7 +42,7 @@ class EventDeleteController extends Controller
         $deleted = $this->eventDeleteUseCase->deleteEvent($event_id);
 
         if ($deleted) {
-            return redirect()->route('index.upcoming')->with('status', 'event-deleted');
+            return redirect()->route('index.home')->with('status', 'event-deleted');
         } else {
             return redirect()->route('event.show', ['event_id' => $event_id])->with('status', 'cannot-delete-event');
         }
