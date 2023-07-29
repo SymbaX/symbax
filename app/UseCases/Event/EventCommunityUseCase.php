@@ -2,6 +2,7 @@
 
 namespace App\UseCases\Event;
 
+use App\Mail\MailSendCommunity;
 use App\Models\Event;
 use App\Models\EventParticipant;
 use App\Models\Topic;
@@ -11,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Services\CheckEventOrganizerService;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 /**
  * イベントとコミュニティに関連するビジネスロジックを扱うクラス
@@ -102,16 +104,17 @@ class EventCommunityUseCase
         preg_match_all('/@(\w+)/', $request->content, $matches);
         $mentionedLoginIds = $matches[1] ?? [];
 
-        $eventOrganizer = Event::where('id', $request->event_id)->first()->organizer;
-        $participants = $this->getEventParticipants($request->event_id);
+        $event = Event::where('id', $request->event_id)->first();
+        $eventOrganizer = $event->organizer;
 
+        $participants = $this->getEventParticipants($request->event_id);
         $participants[] = $eventOrganizer->id;
         $participants = array_unique($participants);
 
         foreach ($mentionedLoginIds as $loginId) {
             $user = $this->getUserByLoginId($loginId);
             if ($user && in_array($user->id, $participants)) {
-                $this->sendMentionNotification($user, $topic);
+                $this->sendMentionNotification($user, $topic, $event->name, Auth::user()->name);
             }
         }
 
@@ -123,11 +126,16 @@ class EventCommunityUseCase
      *
      * @param \App\Models\User $user ユーザーモデル
      * @param \App\Models\Topic $topic トピックモデル
+     * @param string $eventName イベント名
+     * @param string $senderName 送信者の名前
      * @return void
      */
-    protected function sendMentionNotification(User $user, Topic $topic)
+    protected function sendMentionNotification(User $user, Topic $topic, string $eventName, string $senderName)
     {
-        dd("メンションの通知メールを送る{{ $user->name }}さんに{{ $topic->content}} {{ $user->email}}");
+        // メール送信処理
+        $mail = new MailSendCommunity();
+        $mail->eventMention($eventName, $topic->event_id, $senderName);
+        Mail::to($user->email)->send($mail);
     }
 
 
