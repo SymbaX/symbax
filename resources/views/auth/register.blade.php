@@ -121,7 +121,8 @@
 
         <div class="mt-4">
             <label for="terms" class="inline-flex items-center">
-                <input id="terms" type="checkbox" name="terms" class="form-checkbox">
+                <input id="terms" type="checkbox" name="terms" class="form-checkbox"
+                    {{ old('terms') ? 'checked' : '' }}>
                 <span class="ml-2"><a href="https://symbax.github.io/help/articles/2" class="underline"
                         target="__blank">{{ __('Terms of service') }}</a>{{ __('agree to') }} </span>
             </label>
@@ -130,7 +131,8 @@
 
         <div class="mt-4">
             <label for="privacy_policy" class="inline-flex items-center">
-                <input id="privacy_policy" type="checkbox" name="privacy_policy" class="form-checkbox">
+                <input id="privacy_policy" type="checkbox" name="privacy_policy" class="form-checkbox"
+                    {{ old('privacy_policy') ? 'checked' : '' }}>
                 <span class="ml-2"><a href="https://symbax.github.io/help/articles/3" class="underline"
                         target="__blank">{{ __('Privacy Policy') }}</a>{{ __('agree to') }}</span>
             </label>
