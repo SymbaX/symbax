@@ -88,6 +88,12 @@ class EventCommunityUseCase
         $loginIds = $matches[1] ?? [];
 
         foreach ($loginIds as $loginId) {
+            if ($loginId === 'all') {
+                $replacement = "<span class='mention-all'>@{$loginId}</span>";
+                $content = str_replace("@{$loginId}", $replacement, $content);
+                continue;
+            }
+
             $user = User::where('login_id', $loginId)->first();
             if (!$user || !$this->isParticipant($eventId, $user->id)) {
                 continue;
