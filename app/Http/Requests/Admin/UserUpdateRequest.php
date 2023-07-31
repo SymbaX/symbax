@@ -23,6 +23,7 @@ class UserUpdateRequest extends FormRequest
                 'max:15',
                 Rule::unique('users')->ignore($this->user),
                 'regex:/^(?=.*[a-z0-9])[a-z0-9_]+$/',
+                'not_in:all'
             ],
             'name' => ['required', 'string', 'max:20'],
             'email' => ['required', 'string', 'email'],
