@@ -64,6 +64,8 @@
                     @empty
                         <p>トピックがありません。</p>
                     @endforelse
+                    {{ $topics->links('vendor.pagination.tailwind02') }}
+
 
                 </div>
             </div>

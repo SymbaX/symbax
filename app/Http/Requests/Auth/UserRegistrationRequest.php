@@ -30,6 +30,8 @@ class UserRegistrationRequest extends FormRequest
                     $query->where('college_id', $this->input('college'));
                 }),
             ],
+            'terms' => 'required|accepted',
+            'privacy_policy' => 'required|accepted',
         ];
     }
 }
