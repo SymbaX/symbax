@@ -16,7 +16,19 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <!-- ... フォームのコード ... -->
+                    <form method="POST">
+                        @csrf
+                        <input type="hidden" name="event_id" value="{{ $event }}">
+
+                        <div>
+                            <x-textarea id="content" name="content" type="text" style="height:100px"
+                                class="mt-1 block w-full" required autocomplete="off">{{ old('content', '') }}
+                            </x-textarea>
+                            <x-input-error class="mt-2" :messages="$errors->get('content')" />
+                        </div>
+
+                        <x-primary-button onclick="showLoading()">{{ __('Send') }}</x-primary-button>
+                    </form>
 
                     @forelse($topics as $topic)
                         <div class="border my-2 p-2 comment-box">
