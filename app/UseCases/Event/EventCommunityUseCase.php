@@ -84,6 +84,8 @@ class EventCommunityUseCase
 
     public function replaceMentions($content, $eventId)
     {
+        $content = htmlspecialchars($content, ENT_QUOTES, 'UTF-8');
+
         preg_match_all('/@(\w+)/', $content, $matches);
         $loginIds = $matches[1] ?? [];
 
@@ -93,6 +95,7 @@ class EventCommunityUseCase
                 $content = str_replace("@{$loginId}", $replacement, $content);
                 continue;
             }
+
 
             $user = User::where('login_id', $loginId)->first();
             if (!$user || !$this->isParticipant($eventId, $user->id)) {
