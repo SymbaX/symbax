@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Services\CheckEventOrganizerService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Symfony\Component\Uid\NilUlid;
 
 /**
  * イベントとコミュニティに関連するビジネスロジックを扱うクラス
@@ -80,6 +81,13 @@ class EventCommunityUseCase
      */
     public function saveTopic(Request $request)
     {
+        $eventId = $request->event_id;
+
+        $isParticipantApproved = $this->checkParticipantStatus->execute($eventId);
+        if ($isParticipantApproved !== "approved" && !$this->checkEventOrganizerService->check($eventId)) {
+            return null;
+        }
+
         $topic = new Topic();
 
         if ($request->content) {

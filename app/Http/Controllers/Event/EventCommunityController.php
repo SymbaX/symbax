@@ -51,6 +51,10 @@ class EventCommunityController extends Controller
     public function save(TopicRequest $request)
     {
         $topic = $this->useCase->saveTopic($request);
+        if ($topic === null) {
+            abort(403);
+        }
+
         return redirect()->route('event.community', ['event_id' => $topic->event_id]);
     }
 }
