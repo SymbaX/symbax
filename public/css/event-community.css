@@ -254,3 +254,11 @@
 .comment-detail br {
     display: none;
 }
+
+.mention-me {
+    background-color: rgb(246, 246, 174);
+}
+
+.mention {
+    background-color: rgb(188, 224, 251);
+}
