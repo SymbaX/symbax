@@ -64,6 +64,7 @@
                     @empty
                         <p>トピックがありません。</p>
                     @endforelse
+                    {{ $topics->links() }}
 
                 </div>
             </div>
