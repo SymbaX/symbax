@@ -197,7 +197,7 @@
 	color: #b05000;
 }
 
-.event-detail table.text th, .event-detail table.text td {
+.event-detail th, .event-detail td {
 	vertical-align: top;
 	border-top: 1px solid #ccc;
 	padding:5px;

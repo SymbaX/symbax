@@ -245,7 +245,7 @@
 	color: #b05000;
 }
 
-.comment-detail table.text th, .comment-detail table.text td {
+.comment-detail th, .comment-detail td {
 	vertical-align: top;
 	border-top: 1px solid #ccc;
 	padding:5px;
