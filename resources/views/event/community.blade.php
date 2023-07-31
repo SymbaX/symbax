@@ -54,7 +54,9 @@
                             </div>
                             <div class="comment-detail-wrapper">
                                 <div class="comment-detail">
-                                    <div class="p-2">{!! nl2br(e($topic->content)) !!}</div>
+
+                                    <div class="p-2">{!! nl2br($topic->content) !!}</div>
+
                                     <div class="text-secondary">{{ $topic->created_at }}</div>
                                 </div>
                             </div>

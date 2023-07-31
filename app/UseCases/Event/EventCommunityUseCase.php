@@ -11,6 +11,7 @@ use App\UseCases\OperationLog\OperationLogUseCase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Services\CheckEventOrganizerService;
+use Illuminate\Mail\Markdown;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Symfony\Component\Uid\NilUlid;
@@ -70,7 +71,56 @@ class EventCommunityUseCase
      */
     public function getTopics($id)
     {
-        return Topic::where("event_id", $id)->latest()->get();
+
+        $topics = Topic::where("event_id", $id)->latest()->get();
+
+        foreach ($topics as $topic) {
+            $topic->content = $this->replaceMentions($topic->content, $topic->event_id);
+        }
+
+
+        return $topics;
+    }
+
+    public function replaceMentions($content, $eventId)
+    {
+        preg_match_all('/@(\w+)/', $content, $matches);
+        $loginIds = $matches[1] ?? [];
+
+        foreach ($loginIds as $loginId) {
+            if ($loginId === 'all') {
+                $replacement = "<span class='mention-all'>@{$loginId}</span>";
+                $content = str_replace("@{$loginId}", $replacement, $content);
+                continue;
+            }
+
+            $user = User::where('login_id', $loginId)->first();
+            if (!$user || !$this->isParticipant($eventId, $user->id)) {
+                continue;
+            }
+
+            $class = $loginId === Auth::user()->login_id ? 'mention-me' : 'mention';
+
+            $url = url('/profile/' . $loginId);
+            $replacement = "<a href='{$url}' class='{$class}' target='_blank' rel='noopener noreferrer'>@{$loginId}</a>";
+            $content = str_replace("@{$loginId}", $replacement, $content);
+        }
+
+        return Markdown::parse($content);
+    }
+
+    public function isParticipant($eventId, $userId)
+    {
+        $isOrganizer = Event::where('id', $eventId)
+            ->where('organizer_id', $userId)
+            ->exists();
+
+        $isApprovedParticipant = EventParticipant::where('event_id', $eventId)
+            ->where('user_id', $userId)
+            ->where('status', 'approved')
+            ->exists();
+
+        return $isOrganizer || $isApprovedParticipant;
     }
 
     /**
