@@ -4,6 +4,9 @@
 @push('script')
     <script src="{{ asset('script/loading.js') }}"></script>
 @endpush
+@push('script')
+    <script src="{{ asset('script/community-dropdown.js') }}"></script>
+@endpush
 
 <x-app-layout>
     <x-slot name="header">
@@ -32,6 +35,14 @@
 
                     @forelse($topics as $topic)
                         <div class="border my-2 p-2 comment-box">
+                            <div class="dropdown-container">
+                                <div class="dropdown">
+                                    <span class="dropdown-btn">&#x22EE;</span>
+                                    <div class="dropdown-menu">
+                                        <a href="{{ route('index.home') }}">TBD...</a>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="user-info-wrapper">
                                 <img id="preview"
                                     src="{{ isset($topic->user->profile_photo_path) ? Storage::url($topic->user->profile_photo_path) : asset('img/default-user.png') }}"
