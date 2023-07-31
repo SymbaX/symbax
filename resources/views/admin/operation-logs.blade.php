@@ -46,7 +46,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                    {{ $operation_logs->links() }}
+                    {{ $operation_logs->links('vendor.pagination.tailwind02') }}
                 </div>
             </div>
         </div>
