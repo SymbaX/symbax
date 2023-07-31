@@ -37,7 +37,7 @@
                         <div class="border my-2 p-2 comment-box">
                             <div class="dropdown-container">
                                 <div class="dropdown">
-                                    <span class="dropdown-btn">&#x22EE;</span>
+                                    <span class="dropdown-btn">&or;</span>
                                     <div class="dropdown-menu">
                                         <a href="{{ route('index.home') }}">TBD...</a>
                                     </div>
