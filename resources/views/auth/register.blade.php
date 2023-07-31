@@ -125,10 +125,17 @@
                 <span class="ml-2"><a href="https://symbax.github.io/help/articles/2" class="underline"
                         target="__blank">{{ __('Terms of service') }}</a>{{ __('agree to') }} </span>
             </label>
-
             <x-input-error :messages="$errors->get('terms')" class="mt-2" />
         </div>
 
+        <div class="mt-4">
+            <label for="privacy_policy" class="inline-flex items-center">
+                <input id="privacy_policy" type="checkbox" name="privacy_policy" class="form-checkbox">
+                <span class="ml-2"><a href="https://symbax.github.io/help/articles/3" class="underline"
+                        target="__blank">{{ __('Privacy Policy') }}</a>{{ __('agree to') }}</span>
+            </label>
+            <x-input-error :messages="$errors->get('privacy_policy')" class="mt-2" />
+        </div>
 
         <div class="flex items-center justify-end mt-4">
             <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"

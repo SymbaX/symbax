@@ -166,6 +166,12 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'terms' => [
+            'required' => 'Agreeing to the terms of service is required for registration.',
+        ],
+        'privacy_policy' => [
+            'required' => 'Agreeing to the privacy policy is required for registration.',
+        ],
     ],
 
     /*
@@ -180,8 +186,8 @@ return [
     */
 
     'attributes' => [
-        'college' => 'ENカレッジ',
-        'department' => 'EN学科',
+        'college' => 'College',
+        'department' => 'Department',
     ],
 
 ];

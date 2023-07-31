@@ -31,6 +31,7 @@ class UserRegistrationRequest extends FormRequest
                 }),
             ],
             'terms' => 'required|accepted',
+            'privacy_policy' => 'required|accepted',
         ];
     }
 }
