@@ -31,10 +31,8 @@
                 @endauth
             @endif
         </div>
+        <br />
         <a href="https://forms.gle/1Vvjkeda4tHZT9d3A">{{ __('Inquiry form') }}</a>
-    </div>
-    <div class="footer">
-        <p>&copy; 2023 SymbaX. All rights reserved.</p>
     </div>
 </body>
 
