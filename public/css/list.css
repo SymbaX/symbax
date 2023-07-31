@@ -17,10 +17,17 @@
     margin: 1em;
     padding: 0;
     min-width: calc(100% - 2em);
-    background: #f0f0f0;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    border: 1px solid #ddd;
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
+    margin-bottom: 20px;
+    transition: background-color 0.3s;
 }
+
+.highlighted-event-card:hover{
+    background-color: #eee;
+}
+
 
 .highlighted-event-card img {
     display: block;
@@ -125,9 +132,15 @@ Flexboxを指定"space-between"で各アイテムを均等に配置し、
     margin: 1em auto;
     padding: 0;
     width: 100%;
-    background: #f0f0f0;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    border: 1px solid #ddd;
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
+    margin-bottom: 20px;
+    transition: background-color 0.3s;
+}
+
+.card-list:hover{
+    background-color: #eee;
 }
 
 /* カードレイアウトの説明文部分 */
