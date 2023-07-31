@@ -37,14 +37,14 @@
     font-size: 0.8rem;
 }
 
-.comment-detail-wrapper {
+.comment-detail -wrapper {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     width: 100%;
 }
 
-.comment-detail {
+.comment-detail  {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -52,14 +52,14 @@
     background-color: #fff;
 }
 
-.comment-detail .text-secondary {
+.comment-detail  .text-secondary {
     font-size: 0.8rem;
     color: #6c757d;
     align-self: flex-end;
     margin-top: 10px;
 }
 
-.comment-detail .p-2 {
+.comment-detail  .p-2 {
     text-align: left;
     color: #343a40;
 }
@@ -113,4 +113,72 @@
     color: #444;
     background-color: #eee;
     border-radius: 50%;
+}
+
+
+.comment-detail h1 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.comment-detail h2 {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.comment-detail h3 {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.comment-detail h4 {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.comment-detail h5 {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.comment-detail h6 {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.comment-detail p {
+    margin-bottom: 10px;
+}
+
+.comment-detail strong {
+    font-weight: bold;
+}
+
+.comment-detail em {
+    font-style: italic;
+}
+
+.comment-detail a {
+    color: blue;
+    text-decoration: underline;
+}
+
+.comment-detail a:hover {
+    text-decoration: none;
+}
+
+.comment-detail hr {
+    border: none;
+    border-top: 1px solid black;
+    margin: 10px 0;
+}
+
+.comment-detail ul {
+    list-style-type: disc;
+    margin-left: 20px;
+}
+
+.comment-detail ol {
+    list-style-type: decimal;
+    margin-left: 20px;
 }

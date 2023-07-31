@@ -11,6 +11,7 @@ use App\UseCases\OperationLog\OperationLogUseCase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Services\CheckEventOrganizerService;
+use Illuminate\Mail\Markdown;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Symfony\Component\Uid\NilUlid;
@@ -70,7 +71,14 @@ class EventCommunityUseCase
      */
     public function getTopics($id)
     {
-        return Topic::where("event_id", $id)->latest()->get();
+
+        $topics = Topic::where("event_id", $id)->latest()->get();
+
+        foreach ($topics as $topic) {
+            $topic->content = Markdown::parse(e($topic->content));
+        }
+
+        return $topics;
     }
 
     /**
