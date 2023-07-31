@@ -97,7 +97,7 @@
 }
 
 .dropdown-btn {
-    display: inline-block; /* 追加 */
+    display: inline-block;
     font-size: 1em;
     color: #888;
     cursor: pointer;

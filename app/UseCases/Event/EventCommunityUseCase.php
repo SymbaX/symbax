@@ -112,10 +112,16 @@ class EventCommunityUseCase
         $participants[] = $eventOrganizer->id;
         $participants = array_unique($participants);
 
-        foreach ($mentionedLoginIds as $loginId) {
-            $user = $this->getUserByLoginId($loginId);
-            if ($user && in_array($user->id, $participants)) {
-                $mentionedUsers[] = $user;
+        if (in_array('all', $mentionedLoginIds)) {
+            // @allが含まれていたら全参加者を$mentionedUsersに含める
+            $mentionedUsers = User::whereIn('id', $participants)->get()->all();
+        } else {
+            // それ以外の場合はメンションされた参加者だけを$mentionedUsersに含める
+            foreach ($mentionedLoginIds as $loginId) {
+                $user = $this->getUserByLoginId($loginId);
+                if ($user && in_array($user->id, $participants)) {
+                    $mentionedUsers[] = $user;
+                }
             }
         }
 
