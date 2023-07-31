@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Services\CheckEventOrganizerService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Symfony\Component\Uid\NilUlid;
 
 /**
  * イベントとコミュニティに関連するビジネスロジックを扱うクラス
@@ -80,6 +81,13 @@ class EventCommunityUseCase
      */
     public function saveTopic(Request $request)
     {
+        $eventId = $request->event_id;
+
+        $isParticipantApproved = $this->checkParticipantStatus->execute($eventId);
+        if ($isParticipantApproved !== "approved" && !$this->checkEventOrganizerService->check($eventId)) {
+            return null;
+        }
+
         $topic = new Topic();
 
         if ($request->content) {
@@ -112,10 +120,16 @@ class EventCommunityUseCase
         $participants[] = $eventOrganizer->id;
         $participants = array_unique($participants);
 
-        foreach ($mentionedLoginIds as $loginId) {
-            $user = $this->getUserByLoginId($loginId);
-            if ($user && in_array($user->id, $participants)) {
-                $mentionedUsers[] = $user;
+        if (in_array('all', $mentionedLoginIds)) {
+            // @allが含まれていたら全参加者を$mentionedUsersに含める
+            $mentionedUsers = User::whereIn('id', $participants)->get()->all();
+        } else {
+            // それ以外の場合はメンションされた参加者だけを$mentionedUsersに含める
+            foreach ($mentionedLoginIds as $loginId) {
+                $user = $this->getUserByLoginId($loginId);
+                if ($user && in_array($user->id, $participants)) {
+                    $mentionedUsers[] = $user;
+                }
             }
         }
 

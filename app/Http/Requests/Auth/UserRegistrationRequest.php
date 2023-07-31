@@ -18,6 +18,7 @@ class UserRegistrationRequest extends FormRequest
                 'max:15',
                 Rule::unique('users'),
                 'regex:/^(?=.*[a-z0-9])[a-z0-9_]+$/',
+                'not_in:all'
             ],
             'email' => [
                 'required', 'string', 'email', 'max:255', Rule::unique('users'), 'regex:/^[a-zA-Z0-9][^@]+@g\.neec\.ac\.jp$/', 'regex:/^(?!.*[+]).*$/'
