@@ -69,10 +69,10 @@ class EventCommunityUseCase
      * @param int $id イベントのID
      * @return \Illuminate\Database\Eloquent\Collection 最新のトピックのコレクションを返す
      */
-    public function getTopics($id)
+    public function getTopics($id, $perPage = 10)
     {
 
-        $topics = Topic::where("event_id", $id)->latest()->get();
+        $topics = Topic::where("event_id", $id)->latest()->paginate($perPage);
 
         foreach ($topics as $topic) {
             $topic->content = $this->replaceMentions($topic->content, $topic->event_id);

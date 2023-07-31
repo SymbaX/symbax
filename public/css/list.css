@@ -17,10 +17,17 @@
     margin: 1em;
     padding: 0;
     min-width: calc(100% - 2em);
-    background: #f0f0f0;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    border: 1px solid #ddd;
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
+    margin-bottom: 20px;
+    transition: background-color 0.3s;
 }
+
+.highlighted-event-card:hover{
+    background-color: #eee;
+}
+
 
 .highlighted-event-card img {
     display: block;
@@ -93,12 +100,8 @@
     right: 0;
 }
 
-/* --- --- --- --- --- ---*/
 
-/* カードレイアウト部分をラッピングし、
-Flexboxを指定"space-between"で各アイテムを均等に配置し、
-最初と最後のアイテムを端に寄せます。*/
-#cardlayout-wrap {
+#card-layout-wrap {
     position: relative;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -112,7 +115,7 @@ Flexboxを指定"space-between"で各アイテムを均等に配置し、
     justify-content: space-between;
 }
 
-#cardlayout-wrap img {
+#card-layout-wrap img {
     display: block;
     width: 400px;
     height: 250px;
@@ -120,17 +123,21 @@ Flexboxを指定"space-between"で各アイテムを均等に配置し、
     padding: 5px;
 }
 
-/* カードレイアウトを1カラムで配置 */
 .card-list {
     margin: 1em auto;
     padding: 0;
     width: 100%;
-    background: #f0f0f0;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    border: 1px solid #ddd;
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
+    margin-bottom: 20px;
+    transition: background-color 0.3s;
 }
 
-/* カードレイアウトの説明文部分 */
+.card-list:hover{
+    background-color: #eee;
+}
+
 .card-text-tax {
     margin: 0;
     padding: 1em;
@@ -140,7 +147,6 @@ Flexboxを指定"space-between"で各アイテムを均等に配置し、
     text-overflow: ellipsis;
 }
 
-/* カードレイアウトのタイトル部分 */
 .card-title {
     margin: 0.6em 0 0;
     color: #333;
@@ -151,23 +157,20 @@ Flexboxを指定"space-between"で各アイテムを均等に配置し、
     text-overflow: ellipsis;
 }
 
-/* 画面幅768px以上の場合カードレイアウトを2カラムで配置 */
 @media all and (min-width: 768px) {
     .card-list {
         margin: 1em;
-        width: calc(100% / 2 - 2em); /* マージンを考慮 */
+        width: calc(100% / 2 - 2em);
     }
 }
 
-/* 画面幅992px以上の場合カードレイアウトを3カラムで配置 */
 @media all and (min-width: 992px) {
     .card-list {
         margin: 1em;
-        width: calc(100% / 3 - 2em); /* マージンを考慮 */
+        width: calc(100% / 3 - 2em);
     }
 
-    /* 最後の行が3列より少ない場合左寄せにレイアウトさせる */
-    #cardlayout-wrap::after {
+    #card-layout-wrap::after {
         content: "";
         display: block;
         width: calc(100% / 3);

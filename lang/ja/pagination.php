@@ -6,5 +6,8 @@ return [
 
     'previous' => '&laquo; 前',
     'next' => '次 &raquo;',
-
+    'showing' => '表示中',
+    'from' => 'から',
+    'to' => '/',
+    'of' => '件',
 ];
