@@ -1,7 +1,7 @@
 @if ($events->isEmpty())
     <p>{{ __('No events found.') }}</p>
 @else
-    <div id="cardlayout-wrap">
+    <div id="card-layout-wrap">
         @foreach ($events as $event)
             <section class="card-list">
                 <a class="card-link" href="#">
