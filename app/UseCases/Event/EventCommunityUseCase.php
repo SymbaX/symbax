@@ -75,10 +75,46 @@ class EventCommunityUseCase
         $topics = Topic::where("event_id", $id)->latest()->get();
 
         foreach ($topics as $topic) {
-            $topic->content = Markdown::parse(e($topic->content));
+            $topic->content = $this->replaceMentions($topic->content, $topic->event_id);
         }
 
+
         return $topics;
+    }
+
+    public function replaceMentions($content, $eventId)
+    {
+        preg_match_all('/@(\w+)/', $content, $matches);
+        $loginIds = $matches[1] ?? [];
+
+        foreach ($loginIds as $loginId) {
+            $user = User::where('login_id', $loginId)->first();
+            if (!$user || !$this->isParticipant($eventId, $user->id)) {
+                continue;
+            }
+
+            $class = $loginId === Auth::user()->login_id ? 'mention-me' : 'mention';
+
+            $url = url('/profile/' . $loginId);
+            $replacement = "<a href='{$url}' class='{$class}' target='_blank' rel='noopener noreferrer'>@{$loginId}</a>";
+            $content = str_replace("@{$loginId}", $replacement, $content);
+        }
+
+        return Markdown::parse($content);
+    }
+
+    public function isParticipant($eventId, $userId)
+    {
+        $isOrganizer = Event::where('id', $eventId)
+            ->where('organizer_id', $userId)
+            ->exists();
+
+        $isApprovedParticipant = EventParticipant::where('event_id', $eventId)
+            ->where('user_id', $userId)
+            ->where('status', 'approved')
+            ->exists();
+
+        return $isOrganizer || $isApprovedParticipant;
     }
 
     /**

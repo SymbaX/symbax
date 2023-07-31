@@ -55,20 +55,7 @@
                             <div class="comment-detail-wrapper">
                                 <div class="comment-detail">
 
-                                    <?php
-                                    $content = $topic->content;
-                                    preg_match_all('/@(\w+)/', $content, $matches);
-                                    $loginIds = $matches[1] ?? [];
-                                    
-                                    foreach ($loginIds as $loginId) {
-                                        $class = $loginId === Auth::user()->login_id ? 'mention-me' : 'mention';
-                                    
-                                        $url = url('/profile/' . $loginId);
-                                        $replacement = "<a href='{$url}' class='{$class}' target='_blank' rel='noopener noreferrer'>@{$loginId}</a>";
-                                        $content = str_replace("@{$loginId}", $replacement, $content);
-                                    }
-                                    ?>
-                                    <div class="p-2">{!! nl2br($content) !!}</div>
+                                    <div class="p-2">{!! nl2br($topic->content) !!}</div>
 
                                     <div class="text-secondary">{{ $topic->created_at }}</div>
                                 </div>
