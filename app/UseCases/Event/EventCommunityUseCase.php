@@ -238,6 +238,17 @@ class EventCommunityUseCase
         $topic->is_deleted = true;
         $topic->save();
 
+        $this->operationLogUseCase->store([
+            'detail' => null,
+            'user_id' => null,
+            'target_event_id' => $eventId,
+            'target_user_id' => null,
+            'target_topic_id' => $topic->id,
+            'action' => 'delete-topic',
+            'ip' => request()->ip(),
+        ]);
+
+
         return true;
     }
 
