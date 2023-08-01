@@ -31,10 +31,13 @@
                             <x-textarea id="content" name="content" type="text" style="height:100px"
                                 class="mt-1 block w-full" required autocomplete="off">{{ old('content', '') }}
                             </x-textarea>
+                            <div id="content-count">0 / 300</div>
                             <x-input-error class="mt-2" :messages="$errors->get('content')" />
                         </div>
 
-                        <x-primary-button onclick="showLoading()">{{ __('Send') }}</x-primary-button>
+                        <x-primary-button class="send-button" onclick="showLoading()"
+                            disabled>{{ __('Post') }}</x-primary-button>
+
                     </form>
 
                     @forelse($topics as $topic)

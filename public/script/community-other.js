@@ -1,4 +1,7 @@
 $(document).ready(function () {
+    let textLength = $("#content").val().length;
+    $("#content-count").text(textLength + " / 300");
+
     $(".copy-id-btn").on("click", function (e) {
         e.preventDefault();
 
@@ -9,5 +12,16 @@ $(document).ready(function () {
         $tempInput.val(topicId).select();
         document.execCommand("copy");
         $tempInput.remove();
+    });
+
+    $("#content").on("keyup", function () {
+        let textLength = $(this).val().length;
+        $("#content-count").text(textLength + " / 300");
+
+        if (textLength > 0 && textLength <= 300) {
+            $(".send-button").prop("disabled", false);
+        } else {
+            $(".send-button").prop("disabled", true);
+        }
     });
 });
