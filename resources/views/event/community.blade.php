@@ -57,7 +57,7 @@
 
                                     <div class="p-2">{{ $topic->content }}</div>
 
-                                    <div class="text-secondary">{{ $topic->created_at }}</div>
+                                    <div class="text-secondary text-right-abs">{{ $topic->created_at }}</div>
                                 </div>
                             </div>
                         </div>

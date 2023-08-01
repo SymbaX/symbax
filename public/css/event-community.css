@@ -44,7 +44,7 @@
     width: 100%;
 }
 
-.comment-detail  {
+.comment-detail {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -52,16 +52,22 @@
     background-color: #fff;
 }
 
-.comment-detail  .text-secondary {
+.comment-detail .text-secondary {
     font-size: 0.8rem;
     color: #6c757d;
     align-self: flex-end;
     margin-top: 10px;
 }
 
-.comment-detail  .p-2 {
+.comment-detail .p-2 {
     text-align: left;
     color: #343a40;
+}
+
+.text-right-abs {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
 }
 
 .dropdown-container {
@@ -114,7 +120,6 @@
     background-color: #eee;
     border-radius: 50%;
 }
-
 
 .comment-detail h1 {
     font-size: 24px;
@@ -184,19 +189,19 @@
 }
 
 .comment-detail li {
-	color: black;
+    color: black;
 }
 
 .comment-detail h1,
-.comment-detail h2, 
-.comment-detail h3, 
-.comment-detail h4, 
-.comment-detail h5, 
+.comment-detail h2,
+.comment-detail h3,
+.comment-detail h4,
+.comment-detail h5,
 .comment-detail h6 {
     border: 0 none !important;
 }
 
-.comment-detail h1 {    
+.comment-detail h1 {
     margin-top: 0.5em;
     margin-bottom: 0.5em;
     border-bottom: 2px solid #000080 !important;
@@ -204,12 +209,12 @@
 
 .comment-detail h2 {
     margin-top: 1em;
-    margin-bottom: 0.5em;    
-	border-bottom: 2px solid #000080 !important;    
+    margin-bottom: 0.5em;
+    border-bottom: 2px solid #000080 !important;
 }
 
 .comment-detail pre {
-	background-color: #f8f8f8;    
+    background-color: #f8f8f8;
     border: 1px solid #2f6fab;
     border-radius: 3px;
     overflow: auto;
@@ -218,37 +223,40 @@
 
 .comment-detail pre code {
     background-color: inherit;
-    border: none;    
+    border: none;
     padding: 0;
 }
 
 .comment-detail code {
-	background-color: #ffffe0;
+    background-color: #ffffe0;
     border: 1px solid orange;
     border-radius: 3px;
     padding: 0 0.2em;
 }
 
 .comment-detail a {
-	text-decoration: underline;	
+    text-decoration: underline;
 }
 
-.comment-detail ul, .comment-detail ol {
-	padding-left: 30px;
+.comment-detail ul,
+.comment-detail ol {
+    padding-left: 30px;
 }
 
 .comment-detail li {
-	margin: 0.2em 0 0 0em; padding: 0px;
+    margin: 0.2em 0 0 0em;
+    padding: 0px;
 }
 
 .comment-detail em {
-	color: #b05000;
+    color: #b05000;
 }
 
-.comment-detail th, .comment-detail td {
-	vertical-align: top;
-	border-top: 1px solid #ccc;
-	padding:5px;
+.comment-detail th,
+.comment-detail td {
+    vertical-align: top;
+    border-top: 1px solid #ccc;
+    padding: 5px;
 }
 
 .comment-detail br {
