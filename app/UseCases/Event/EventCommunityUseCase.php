@@ -235,7 +235,7 @@ class EventCommunityUseCase
             return false;
         }
 
-        $topic->content = 'This message has been deleted.';
+        $topic->is_deleted = true;
         $topic->save();
 
         return true;

@@ -62,8 +62,11 @@
                             </div>
                             <div class="comment-detail-wrapper">
                                 <div class="comment-detail">
-
-                                    <div class="p-2">{{ $topic->content }}</div>
+                                    @if ($topic->is_deleted == true)
+                                        <div class="p-2 is_deleted"><i>{{ __('This post has been deleted') }}</i></div>
+                                    @else
+                                        <div class="p-2">{{ $topic->content }}</div>
+                                    @endif
 
                                     <div class="text-secondary text-right-abs">{{ $topic->created_at }}</div>
                                 </div>
