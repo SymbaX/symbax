@@ -7,6 +7,10 @@
 @push('script')
     <script src="{{ asset('script/community-dropdown.js') }}"></script>
 @endpush
+@push('script')
+    <script src="{{ asset('script/community-other.js') }}"></script>
+@endpush
+
 
 <x-app-layout>
     <x-slot name="header">
@@ -39,7 +43,9 @@
                                 <div class="dropdown">
                                     <span class="dropdown-btn">&or;</span>
                                     <div class="dropdown-menu">
-                                        <a href="{{ route('index.home') }}">TBD...</a>
+                                        <a href="#" class="copy-id-btn"
+                                            data-topic-id="{{ $topic->id }}">{{ __('Copy ID') }}</a>
+
                                         @if ($topic->user_id == Auth::id())
                                             <form method="POST"
                                                 action="{{ route('topic.delete', ['event_id' => $event, 'topic_id' => $topic->id]) }}">
