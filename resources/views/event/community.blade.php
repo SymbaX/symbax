@@ -7,6 +7,10 @@
 @push('script')
     <script src="{{ asset('script/community-dropdown.js') }}"></script>
 @endpush
+@push('script')
+    <script src="{{ asset('script/community-other.js') }}"></script>
+@endpush
+
 
 <x-app-layout>
     <x-slot name="header">
@@ -27,10 +31,13 @@
                             <x-textarea id="content" name="content" type="text" style="height:100px"
                                 class="mt-1 block w-full" required autocomplete="off">{{ old('content', '') }}
                             </x-textarea>
+                            <div id="content-count">0 / 300</div>
                             <x-input-error class="mt-2" :messages="$errors->get('content')" />
                         </div>
 
-                        <x-primary-button onclick="showLoading()">{{ __('Send') }}</x-primary-button>
+                        <x-primary-button class="send-button" onclick="showLoading()"
+                            disabled>{{ __('Post') }}</x-primary-button>
+
                     </form>
 
                     @forelse($topics as $topic)
@@ -39,7 +46,17 @@
                                 <div class="dropdown">
                                     <span class="dropdown-btn">&or;</span>
                                     <div class="dropdown-menu">
-                                        <a href="{{ route('index.home') }}">TBD...</a>
+                                        <a href="#" class="copy-id-btn"
+                                            data-topic-id="{{ $topic->id }}">{{ __('Copy ID') }}</a>
+
+                                        @if ($topic->user_id == Auth::id() and $topic->is_deleted == false)
+                                            <form method="POST"
+                                                action="{{ route('topic.delete', ['event_id' => $event, 'topic_id' => $topic->id]) }}">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit">{{ __('Delete') }}</button>
+                                            </form>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -54,10 +71,13 @@
                             </div>
                             <div class="comment-detail-wrapper">
                                 <div class="comment-detail">
+                                    @if ($topic->is_deleted == true)
+                                        <div class="p-2 is_deleted"><i>{{ __('This post has been deleted') }}</i></div>
+                                    @else
+                                        <div class="p-2">{{ $topic->content }}</div>
+                                    @endif
 
-                                    <div class="p-2">{{ $topic->content }}</div>
-
-                                    <div class="text-secondary">{{ $topic->created_at }}</div>
+                                    <div class="text-secondary text-right-abs">{{ $topic->created_at }}</div>
                                 </div>
                             </div>
                         </div>

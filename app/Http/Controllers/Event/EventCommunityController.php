@@ -57,4 +57,23 @@ class EventCommunityController extends Controller
 
         return redirect()->route('event.community', ['event_id' => $topic->event_id]);
     }
+
+    /**
+     * トピックを削除する
+     *
+     * @param Request $request
+     * @param int $eventId
+     * @param int $topicId
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function deleteTopic(Request $request, $eventId, $topicId)
+    {
+        $userId = $request->user()->id;
+
+        if (!$this->useCase->deleteTopic($topicId, $eventId, $userId)) {
+            abort(403);
+        }
+
+        return redirect()->route('event.community', ['event_id' => $eventId]);
+    }
 }
