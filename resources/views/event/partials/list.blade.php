@@ -21,4 +21,4 @@
     </div>
 @endif
 <br />
-{{ $events->links() }}
+{{ $events->links('vendor.pagination.tailwind02') }}

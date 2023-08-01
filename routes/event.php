@@ -26,6 +26,9 @@ Route::middleware(['auth', 'verified', 'disabled'])->group(function () {
     Route::patch('/event/{event_id}/change-status', [EventStatusController::class, 'changeStatus'])->where('event_id', '[0-9]+')->name('event.change.status');
     Route::get('/event/{event_id}/community', [EventCommunityController::class, 'create'])->where('event_id', '[0-9]+')->name('event.community');
     Route::post('/event/{event_id}/community', [EventCommunityController::class, 'save'])->where('event_id', '[0-9]+')->name('event.save');
+    Route::delete('/event/{event_id}/community/{topic_id}', [EventCommunityController::class, 'deleteTopic'])
+        ->where(['event_id' => '[0-9]+', 'topic_id' => '[0-9]+'])
+        ->name('topic.delete');
 
     Route::get('/events/all', [EventListController::class, 'indexAll'])->name('index.all');
     Route::get('/events/join', [EventListController::class, 'indexJoin'])->name('index.join');

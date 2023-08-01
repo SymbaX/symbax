@@ -22,7 +22,7 @@ class TopicRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'content' => ['required', 'max:200'],
+            'content' => ['required', 'max:400'],
         ];
     }
 }

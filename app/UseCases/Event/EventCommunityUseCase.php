@@ -216,6 +216,42 @@ class EventCommunityUseCase
         Mail::bcc($recipientEmails)->send($mail);
     }
 
+    /**
+     * トピックを削除する
+     *
+     * @param int $topicId
+     * @param int $eventId
+     * @param int $userId
+     * @return bool
+     */
+    public function deleteTopic(int $topicId, int $eventId, int $userId)
+    {
+        $topic = Topic::where('id', $topicId)
+            ->where('event_id', $eventId)
+            ->where('user_id', $userId)
+            ->first();
+
+        if (!$topic) {
+            return false;
+        }
+
+        $topic->is_deleted = true;
+        $topic->save();
+
+        $this->operationLogUseCase->store([
+            'detail' => null,
+            'user_id' => null,
+            'target_event_id' => $eventId,
+            'target_user_id' => null,
+            'target_topic_id' => $topic->id,
+            'action' => 'delete-topic',
+            'ip' => request()->ip(),
+        ]);
+
+
+        return true;
+    }
+
 
 
     public function getEventParticipants(int $eventId)

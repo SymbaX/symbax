@@ -2,6 +2,10 @@ html {
     overflow-y: scroll;
 }
 
+button[disabled] {
+    cursor: not-allowed;
+}
+
 .footer {
     display: flex;
     align-items: center;
