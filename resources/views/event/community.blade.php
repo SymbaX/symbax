@@ -40,6 +40,14 @@
                                     <span class="dropdown-btn">&or;</span>
                                     <div class="dropdown-menu">
                                         <a href="{{ route('index.home') }}">TBD...</a>
+                                        @if ($topic->user_id == Auth::id())
+                                            <form method="POST"
+                                                action="{{ route('topic.delete', ['event_id' => $event, 'topic_id' => $topic->id]) }}">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit">{{ __('Delete') }}</button>
+                                            </form>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
