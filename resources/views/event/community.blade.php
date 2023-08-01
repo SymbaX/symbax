@@ -46,7 +46,7 @@
                                         <a href="#" class="copy-id-btn"
                                             data-topic-id="{{ $topic->id }}">{{ __('Copy ID') }}</a>
 
-                                        @if ($topic->user_id == Auth::id())
+                                        @if ($topic->user_id == Auth::id() and $topic->is_deleted == false)
                                             <form method="POST"
                                                 action="{{ route('topic.delete', ['event_id' => $event, 'topic_id' => $topic->id]) }}">
                                                 @csrf
