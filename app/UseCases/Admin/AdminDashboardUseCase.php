@@ -25,8 +25,6 @@ class AdminDashboardUseCase
 
     public function execute()
     {
-        $users = User::where('role_id', 'admin')->get();
-
         $this->operationLogUseCase->store([
             'detail' => null,
             'user_id' => auth()->user()->id,
@@ -36,6 +34,6 @@ class AdminDashboardUseCase
             'action' => 'admin-top-show',
             'ip' => request()->ip(),
         ]);
-        return $users;
+        return;
     }
 }
