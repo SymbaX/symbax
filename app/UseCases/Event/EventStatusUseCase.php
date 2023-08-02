@@ -57,7 +57,7 @@ class EventStatusUseCase
     {
         $user_id = Auth::id();
         $event_id = $request->input('event_id');
-        $event = Event::findOrFail($event_id);
+        $event = Event::where('id', $event_id)->where('is_deleted', false)->firstOrFail();
         $participantCount = EventParticipant::where('event_id', $event_id)
             ->where(function ($query) {
                 $query->where('status', 'approved')
@@ -117,6 +117,9 @@ class EventStatusUseCase
         $user_id = Auth::id();
         $event_id = $request->input('event_id');
 
+        Event::where('id', $event_id)->where('is_deleted', false)->firstOrFail();
+
+
         // ユーザーが参加しているか確認
         $participant = EventParticipant::where('event_id', $event_id)->where('user_id', $user_id)->first();
 
@@ -158,6 +161,8 @@ class EventStatusUseCase
         $event_id = $request->input('event_id');
         $user_id = $request->input('user_id');
         $status = $request->input('status');
+
+        Event::where('id', $event_id)->where('is_deleted', false)->firstOrFail();
 
 
         // イベント作成者でない場合はエラー

@@ -39,6 +39,7 @@ class EventDetailController extends Controller
     {
         $eventDetail = $this->eventDetailUseCase->getEventDetail($id);
 
+
         return view('event.detail', $eventDetail);
     }
 }

@@ -48,7 +48,7 @@ class EventEditUseCase
     public function edit($id)
     {
         $categories = EventCategories::all();
-        $event = Event::findOrFail($id);
+        $event = Event::where('id', $id)->where('is_deleted', false)->firstOrFail();
 
         if (!$this->checkEventOrganizerService->check($id)) {    // イベント作成者ではない場合
             return null;
@@ -88,7 +88,8 @@ class EventEditUseCase
             abort(403);
         }
 
-        $event = Event::findOrFail($id);
+        $event = Event::where('id', $id)->where('is_deleted', false)->firstOrFail();
+
 
         $validatedData = $request->validated();
 

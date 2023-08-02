@@ -55,10 +55,13 @@ class EventCommunityUseCase
     public function checkAccess($id): bool
     {
         $isParticipantApproved = $this->checkParticipantStatus->execute($id);
+        Event::where('id', $id)->where('is_deleted', false)->firstOrFail();
 
         if ($isParticipantApproved === "approved" || $this->checkEventOrganizerService->check($id)) {
             return true;
         }
+
+
 
         return false;
     }
@@ -134,7 +137,11 @@ class EventCommunityUseCase
      */
     public function saveTopic(Request $request)
     {
+
         $eventId = $request->event_id;
+
+        Event::where('id', $eventId)->where('is_deleted', false)->firstOrFail();
+
 
         $isParticipantApproved = $this->checkParticipantStatus->execute($eventId);
         if ($isParticipantApproved !== "approved" && !$this->checkEventOrganizerService->check($eventId)) {
