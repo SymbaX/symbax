@@ -43,7 +43,6 @@ class EventDeleteUseCase
      * イベントの削除
      *
      * 指定されたイベントを削除します。参加者がいる場合は削除できません。
-     * 関連する画像ファイルも削除されます。
      *
      * @param  int  $event_id イベントID
      * @return bool イベントが正常に削除された場合はtrue、削除できない場合はfalseを返します。
@@ -67,9 +66,12 @@ class EventDeleteUseCase
             return false;
         }
 
-        // イベントを削除し、関連する画像ファイルを削除します
-        Storage::delete($event->image_path);
-        $event->delete();
+        // // イベントを削除し、関連する画像ファイルを削除します
+        // Storage::delete($event->image_path);
+        // $event->delete();
+
+        $event->is_deleted = true;
+        $event->save();
 
         $this->operationLogUseCase->store([
             'detail' => null,

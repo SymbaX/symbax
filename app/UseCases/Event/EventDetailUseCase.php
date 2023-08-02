@@ -28,7 +28,9 @@ class EventDetailUseCase
      */
     public function getEventDetail($id): array
     {
-        $event = Event::findOrFail($id);
+        $event = Event::where('id', $id)->where('is_deleted', false)->firstOrFail();
+
+
         $detail_markdown = Markdown::parse(e($event->detail));
 
         $participants = EventParticipant::where('event_id', $id)

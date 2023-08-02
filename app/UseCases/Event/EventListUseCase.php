@@ -24,6 +24,7 @@ class EventListUseCase
     public function getUpcomingEvents($perPage = 12)
     {
         return Event::whereDate('date', '>=', Carbon::today())
+            ->where('is_deleted', false)
             ->orderBy('date', 'desc')
             ->paginate($perPage);
     }
@@ -31,6 +32,7 @@ class EventListUseCase
     public function getNewestEvents($limit = 6)
     {
         return Event::whereDate('date', '>=', Carbon::today())
+            ->where('is_deleted', false)
             ->orderBy('created_at', 'desc')
             ->take($limit)
             ->get();
@@ -46,7 +48,8 @@ class EventListUseCase
      */
     public function getAllEvents($perPage = 12)
     {
-        return Event::orderBy('date', 'desc')
+        return Event::where('is_deleted', false)
+            ->orderBy('date', 'desc')
             ->paginate($perPage);
     }
 
@@ -63,6 +66,7 @@ class EventListUseCase
     {
         return $user->joinedEvents()
             ->whereDate('date', '>=', Carbon::today())
+            ->where('is_deleted', false)
             ->orderBy('date', 'desc')
             ->paginate($perPage);
     }
@@ -78,6 +82,9 @@ class EventListUseCase
      */
     public function getOrganizedEvents(User $user, $perPage = 12)
     {
-        return $user->organizedEvents()->orderBy('date', 'desc')->paginate($perPage);
+        return $user->organizedEvents()
+            ->where('is_deleted', false)
+            ->orderBy('date', 'desc')
+            ->paginate($perPage);
     }
 }
