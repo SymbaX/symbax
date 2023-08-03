@@ -15,7 +15,7 @@
 }
 
 .event-flex .right {
-    width: 100%;
+    max-width: 500px;
     margin: 0 0 0 20px;
     padding: 0;
 }
@@ -57,6 +57,7 @@
     overflow: auto;
     white-space: nowrap;
 }
+
 .scroll::-webkit-scrollbar {
     height: 5px;
 }
