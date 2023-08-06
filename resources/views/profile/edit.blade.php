@@ -24,6 +24,9 @@
                     @include('profile.partials.delete-user-form')
                 </div>
             </div>
+
+            <x-status-modal />
+
         </div>
     </div>
 </x-app-layout>
