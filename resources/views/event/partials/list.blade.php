@@ -11,7 +11,9 @@
                                 <figure class="card-figure"><img class="event_image mx-auto"
                                         src="{{ Storage::url($event->image_path) }}" alt="">
                                 </figure>
-                                <p class="card-text-tax">{{ $event->detail }}</p>
+                                <p class="card-text-tax">
+                                    {{ Carbon\Carbon::parse($event->date)->format('Y/m/d') }}
+                                    {{ $event->detail }}</p>
                             </a>
                         </li>
                     </ul>

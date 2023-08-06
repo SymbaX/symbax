@@ -42,10 +42,9 @@
                                                                 src="{{ Storage::url($newest_event->image_path) }}"
                                                                 alt="">
                                                         </figure>
-                                                        <p class="highlighted-event-text">{{ $newest_event->detail }}
-                                                        </p>
                                                         <p class="highlighted-event-text">
-                                                            {{ $newest_event->created_at }}
+                                                            {{ Carbon\Carbon::parse($newest_event->date)->format('Y/m/d') }}
+                                                            {{ $newest_event->detail }}
                                                         </p>
                                                     </a></li>
                                             </ul>
