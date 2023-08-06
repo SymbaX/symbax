@@ -61,6 +61,11 @@
                                                 </td>
                                             </tr>
                                             <tr>
+                                                <th>{{ __('Date') }}</th>
+                                                <td>{{ Carbon\Carbon::parse($event->date)->format('Y/m/d') }}
+                                                </td>
+                                            </tr>
+                                            <tr>
                                                 <th>{{ __('Deadline date') }}</th>
                                                 <td>{{ Carbon\Carbon::parse($event->deadline_date)->format('Y/m/d') }}
                                                 </td>
