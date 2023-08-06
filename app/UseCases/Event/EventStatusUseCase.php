@@ -9,6 +9,7 @@ use App\Models\EventParticipant;
 use App\Models\User;
 use App\Services\CheckEventOrganizerService;
 use App\UseCases\OperationLog\OperationLogUseCase;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -78,6 +79,12 @@ class EventStatusUseCase
         // 参加可能な枠がなければエラー
         if ($event->number_of_recruits <= $participantCount) {
             return 'no-participation-slots';
+        }
+
+        // 現在日時が締切日の終わり（23:59:59）を過ぎていればエラー
+        $deadline = Carbon::parse($event->deadline_date)->endOfDay();
+        if (Carbon::now() > $deadline) {
+            return 'deadline-passed';
         }
 
         EventParticipant::create([
