@@ -15,14 +15,6 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="flex items-center gap-4">
-                    @if (session('status') === 'event-deleted')
-                        <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
-                            class="text-sm text-gray-600">
-                            {{ __('Deleted the event.') }}</p>
-                    @endif
-                </div>
-
                 @if ($events->currentPage() === 1)
                     <h3 class="title-h3">{{ __('New events') }}</h3>
                     @if ($events->isEmpty())
@@ -42,10 +34,9 @@
                                                                 src="{{ Storage::url($newest_event->image_path) }}"
                                                                 alt="">
                                                         </figure>
-                                                        <p class="highlighted-event-text">{{ $newest_event->detail }}
-                                                        </p>
                                                         <p class="highlighted-event-text">
-                                                            {{ $newest_event->created_at }}
+                                                            {{ Carbon\Carbon::parse($newest_event->date)->format('Y/m/d') }}
+                                                            {{ $newest_event->detail }}
                                                         </p>
                                                     </a></li>
                                             </ul>
@@ -62,7 +53,9 @@
                 <h3 class="title-h3">{{ __('Upcoming events') }}</h3>
 
                 @include('event.partials.list')
+
+                <x-status-modal />
+
             </div>
         </div>
-    </div>
 </x-app-layout>

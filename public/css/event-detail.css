@@ -15,7 +15,7 @@
 }
 
 .event-flex .right {
-    width: 100%;
+    max-width: 500px;
     margin: 0 0 0 20px;
     padding: 0;
 }
@@ -57,6 +57,7 @@
     overflow: auto;
     white-space: nowrap;
 }
+
 .scroll::-webkit-scrollbar {
     height: 5px;
 }
@@ -67,6 +68,10 @@
     background: #bcbcbc;
 }
 
+.event-detail {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
 
 .event-detail h1 {
     font-size: 24px;
@@ -136,19 +141,19 @@
 }
 
 .event-detail li {
-	color: black;
+    color: black;
 }
 
 .event-detail h1,
-.event-detail h2, 
-.event-detail h3, 
-.event-detail h4, 
-.event-detail h5, 
+.event-detail h2,
+.event-detail h3,
+.event-detail h4,
+.event-detail h5,
 .event-detail h6 {
     border: 0 none !important;
 }
 
-.event-detail h1 {    
+.event-detail h1 {
     margin-top: 0.5em;
     margin-bottom: 0.5em;
     border-bottom: 2px solid #000080 !important;
@@ -156,12 +161,12 @@
 
 .event-detail h2 {
     margin-top: 1em;
-    margin-bottom: 0.5em;    
-	border-bottom: 2px solid #000080 !important;    
+    margin-bottom: 0.5em;
+    border-bottom: 2px solid #000080 !important;
 }
 
 .event-detail pre {
-	background-color: #f8f8f8;    
+    background-color: #f8f8f8;
     border: 1px solid #2f6fab;
     border-radius: 3px;
     overflow: auto;
@@ -170,35 +175,38 @@
 
 .event-detail pre code {
     background-color: inherit;
-    border: none;    
+    border: none;
     padding: 0;
 }
 
 .event-detail code {
-	background-color: #ffffe0;
+    background-color: #ffffe0;
     border: 1px solid orange;
     border-radius: 3px;
     padding: 0 0.2em;
 }
 
 .event-detail a {
-	text-decoration: underline;	
+    text-decoration: underline;
 }
 
-.event-detail ul, .event-detail ol {
-	padding-left: 30px;
+.event-detail ul,
+.event-detail ol {
+    padding-left: 30px;
 }
 
 .event-detail li {
-	margin: 0.2em 0 0 0em; padding: 0px;
+    margin: 0.2em 0 0 0em;
+    padding: 0px;
 }
 
 .event-detail em {
-	color: #b05000;
+    color: #b05000;
 }
 
-.event-detail th, .event-detail td {
-	vertical-align: top;
-	border-top: 1px solid #ccc;
-	padding:5px;
+.event-detail th,
+.event-detail td {
+    vertical-align: top;
+    border-top: 1px solid #ccc;
+    padding: 5px;
 }

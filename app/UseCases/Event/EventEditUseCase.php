@@ -108,7 +108,7 @@ class EventEditUseCase
         $detail = "";
         $fields = [
             'name', 'category', 'tag', 'participation_condition',
-            'external_link', 'date', 'deadline_date', 'place',
+            'external_link', 'place',
             'number_of_recruits', 'image_path', 'organizer_id'
         ];
 

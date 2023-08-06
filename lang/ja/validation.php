@@ -163,6 +163,14 @@ return [
         'privacy_policy' => [
             'required' => '登録にはプライバシーポリシーへの同意が必須となります。',
         ],
+        'date' => [
+            'after_or_equal' => ':attributeには、今日以降の日付を指定してください。',
+        ],
+        'deadline_date' => [
+            'after_or_equal' => ':attributeには、今日以降の日付を指定してください。',
+            'before_event_date' => '締切日は開催日の前日までにしてください。',
+
+        ],
     ],
 
     /*

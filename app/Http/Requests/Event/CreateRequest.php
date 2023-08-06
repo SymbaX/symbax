@@ -31,13 +31,36 @@ class CreateRequest extends FormRequest
             'tag' => ['required', 'max:30'],
             'participation_condition' => ['required', 'max:100'],
             'external_link' => ['required', 'max:255', 'url'],
-            'date' => ['required', 'date'],
-            'deadline_date' => ['required', 'date'],
+            'date' => ['required', 'date', 'after_or_equal:today'],
+            'deadline_date' => ['required', 'date', 'after_or_equal:today'],
             'place' => ['required', 'max:50'],
             'number_of_recruits' => ['required', 'integer', 'min:1'],
             'image_path' => ['required', 'max:5000', 'mimes:jpg,jpeg,png,gif'],
         ];
 
         return $rules;
+    }
+
+    /**
+     * Configure the validator instance.
+     *
+     * @param  \Illuminate\Validation\Validator  $validator
+     * @return void
+     */
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            $deadline_date = $this->get('deadline_date');
+            $date = $this->get('date');
+
+            if ($deadline_date !== null && $date !== null) {
+                $deadline_date = \Carbon\Carbon::createFromFormat('Y-m-d', $deadline_date);
+                $date = \Carbon\Carbon::createFromFormat('Y-m-d', $date);
+
+                if ($deadline_date->gte($date)) {
+                    $validator->errors()->add('deadline_date', trans('validation.custom.deadline_date.before_event_date'));
+                }
+            }
+        });
     }
 }

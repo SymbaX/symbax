@@ -172,6 +172,13 @@ return [
         'privacy_policy' => [
             'required' => 'Agreeing to the privacy policy is required for registration.',
         ],
+        'date' => [
+            'after_or_equal' => 'The :attribute must be a date after or equal to today.',
+        ],
+        'deadline_date' => [
+            'after_or_equal' => 'The :attribute must be a date after or equal to today.',
+            'before_event_date' => 'The deadline date must be a day before the event date.',
+        ],
     ],
 
     /*
