@@ -31,8 +31,6 @@ class UpdateRequest extends FormRequest
             'tag' => ['required', 'max:30'],
             'participation_condition' => ['required', 'max:100'],
             'external_link' => ['required', 'max:255', 'url'],
-            'date' => ['required', 'date'],
-            'deadline_date' => ['required', 'date'],
             'place' => ['required', 'max:50'],
             'number_of_recruits' => ['required', 'integer', 'min:1'],
             'image_path' => ['nullable', 'max:5000', 'mimes:jpg,jpeg,png,gif'],

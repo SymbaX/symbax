@@ -66,16 +66,12 @@
 
         <div>
             <x-input-label for="date" :value="__('Date')" />
-            <x-text-input id="date" name="date" type="date" class="mt-1 block w-full" :value="old('date', $event->date)"
-                required autocomplete="off" />
-            <x-input-error class="mt-2" :messages="$errors->get('date')" />
+            {{ $event->date }}
         </div>
 
         <div>
             <x-input-label for="deadline_date" :value="__('Deadline date')" />
-            <x-text-input id="deadline_date" name="deadline_date" type="date" class="mt-1 block w-full"
-                :value="old('deadline_date', $event->deadline_date)" required autocomplete="off" />
-            <x-input-error class="mt-2" :messages="$errors->get('deadline_date')" />
+            {{ $event->deadline_date }}
         </div>
 
         <div>
