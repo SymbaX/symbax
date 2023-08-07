@@ -80,6 +80,42 @@
                                     <div class="text-secondary text-right-abs">{{ $topic->created_at }}</div>
                                 </div>
                             </div>
+
+
+
+
+                            <button onclick="toggleEmojiPicker(this)">😀</button>
+
+                            <div class="emoji-picker" style="display: none;">
+                                <form action="{{ route('reactions.store', ['topic' => $topic->id]) }}" method="post">
+                                    @csrf
+                                    <button type="submit" name="emoji" value="😀">😀</button>
+                                    <button type="submit" name="emoji" value="😂">😂</button>
+                                    <button type="submit" name="emoji" value="😍">😍</button>
+                                    <button type="submit" name="emoji" value="😊">😊</button>
+                                    <button type="submit" name="emoji" value="👍">👍</button>
+                                </form>
+
+                                <button onclick="toggleMoreEmojis(this)">More</button>
+
+                                <div class="more-emojis" style="display: none;">
+                                    <form action="{{ route('reactions.store', ['topic' => $topic->id]) }}"
+                                        method="post">
+                                        @csrf
+                                        <button type="submit" name="emoji" value="😎">😎</button>
+                                        <button type="submit" name="emoji" value="🎉">🎉</button>
+                                    </form>
+                                </div>
+                            </div>
+
+
+                            <div class="reaction-counts">
+                                <span>😀: {{ \App\Models\Reaction::getCountForTopic($topic->id, '😀') }}</span>
+                                <span>😂: {{ \App\Models\Reaction::getCountForTopic($topic->id, '😂') }}</span>
+                                <span>😍: {{ \App\Models\Reaction::getCountForTopic($topic->id, '😍') }}</span>
+                            </div>
+
+
                         </div>
                     @empty
                         <p>トピックがありません。</p>
@@ -91,4 +127,17 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function toggleEmojiPicker(button) {
+            const picker = button.nextElementSibling;
+            picker.style.display = picker.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function toggleMoreEmojis(button) {
+            const moreEmojis = button.nextElementSibling;
+            moreEmojis.style.display = moreEmojis.style.display === 'none' ? 'block' : 'none';
+        }
+    </script>
+
 </x-app-layout>
