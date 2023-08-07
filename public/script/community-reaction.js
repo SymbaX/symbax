@@ -1,74 +1,64 @@
-document.addEventListener("DOMContentLoaded", (event) => {
-    const emojis = JSON.parse(
-        document.querySelector(".py-12").getAttribute("data-emojis")
-    );
+$(document).ready(function () {
+    const emojis = JSON.parse($(".py-12").attr("data-emojis"));
 
-    document.querySelectorAll(".emoji-picker-button").forEach((button) => {
-        button.addEventListener("click", function () {
-            toggleEmojiPicker(this);
-        });
+    $(".emoji-picker-button").click(function () {
+        toggleEmojiPicker(this);
     });
 
     window.toggleEmojiPicker = function (button) {
-        const picker = button.nextElementSibling;
-        picker.style.display =
-            picker.style.display === "none" ? "block" : "none";
+        const $picker = $(button).next();
+        $picker.toggle();
     };
 
-    // function toggleMoreEmojis(button) {
     window.toggleMoreEmojis = function (button) {
-        const moreEmojis = button.nextElementSibling;
-        moreEmojis.style.display =
-            moreEmojis.style.display === "none" ? "block" : "none";
+        const $moreEmojis = $(button).next();
+        $moreEmojis.toggle();
     };
 
-    document.querySelectorAll(".emoji-tab-button").forEach((button) => {
-        button.addEventListener("click", function () {
-            const tabName = this.getAttribute("data-tab");
-            const picker = this.parentElement.parentElement.parentElement;
-            switchEmojiTab(tabName, picker);
-        });
+    $(".emoji-tab-button").click(function () {
+        const tabName = $(this).attr("data-tab");
+        const $picker = $(this).parent().parent().parent();
+        switchEmojiTab(tabName, $picker);
     });
 
-    window.switchEmojiTab = function (tabName, picker) {
-        const tabs = picker.querySelectorAll(
-            ".emoji-tab-container .emoji-tabs button"
-        );
-        tabs.forEach((tab) => tab.classList.remove("active"));
-        const selectedTab = picker.querySelector(
+    window.switchEmojiTab = function (tabName, $picker) {
+        const $tabs = $picker.find(".emoji-tab-container .emoji-tabs button");
+        $tabs.removeClass("active");
+        const $selectedTab = $picker.find(
             `.emoji-tab-container .emoji-tabs button[data-tab="${tabName}"]`
         );
-        selectedTab.classList.add("active");
+        $selectedTab.addClass("active");
 
-        const emojiList = picker.querySelector(
-            ".emoji-tab-container .emoji-list"
-        );
-        emojiList.innerHTML = "";
+        const $emojiList = $picker.find(".emoji-tab-container .emoji-list");
+        $emojiList.empty();
 
         const emojiCategory = emojis[tabName];
 
         emojiCategory.forEach((emoji) => {
-            const button = document.createElement("button");
-            button.type = "button";
-            button.name = "emoji";
-            button.value = emoji;
-            button.innerHTML = emoji;
-            button.onclick = function () {
-                const topicId = this.parentElement.parentElement.parentElement
-                    .querySelector("form")
-                    .id.split("-")[2];
-                document.getElementById(`reaction-emoji-${topicId}`).value =
-                    this.value;
-                document.getElementById(`reaction-form-${topicId}`).submit();
-            };
-            emojiList.appendChild(button);
+            const $button = $("<button></button>");
+            $button.attr("type", "button");
+            $button.attr("name", "emoji");
+            $button.val(emoji);
+            $button.html(emoji);
+            $button.on("click", function () {
+                const topicId = $(this)
+                    .parent()
+                    .parent()
+                    .parent()
+                    .find("form")
+                    .attr("id")
+                    .split("-")[2];
+                $(`#reaction-emoji-${topicId}`).val($(this).val());
+                $(`#reaction-form-${topicId}`).submit();
+            });
+            $emojiList.append($button);
         });
     };
 
-    window.onload = function () {
-        const pickers = document.querySelectorAll(".emoji-picker");
-        pickers.forEach((picker) => {
-            switchEmojiTab("smileys", picker);
+    $(window).on("load", function () {
+        const $pickers = $(".emoji-picker");
+        $pickers.each(function () {
+            switchEmojiTab("smileys", $(this));
         });
-    };
+    });
 });
