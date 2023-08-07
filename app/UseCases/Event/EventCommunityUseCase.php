@@ -91,34 +91,7 @@ class EventCommunityUseCase
     }
 
     /**
-     * トピックを保存する
-     *
-     * @param \Illuminate\Http\Request $request HTTPリクエストインスタンス
-     * @return \App\Models\Topic 保存されたトピックのインスタンスを返す
-     */
-    public function saveTopic(Request $request)
-    {
-        $eventId = $request->event_id;
-
-        $event = Event::where('id', $eventId)->where('is_deleted', false)->firstOrFail();
-
-        $isParticipantApproved = $this->checkParticipantStatus->execute($eventId);
-        if ($isParticipantApproved !== "approved" && !$this->checkEventOrganizerService->check($eventId)) {
-            return null;
-        }
-
-        $topic = $this->createTopic($request);
-        $this->logTopicCreation($topic, $request);
-        $mentionedUsers = $this->getMentionedUsers($request->content, $eventId);
-        if (!empty($mentionedUsers)) {
-            $this->sendMentionNotification($mentionedUsers, $topic, $event->name, Auth::user()->name);
-        }
-
-        return $topic;
-    }
-
-    /**
-     * 文字列中のメンションを特定のフォーマットに変換します。
+     * トピックを表示する際、文字列中のメンションを特定のフォーマットに変換します。
      *
      * メンションは @ユーザー名 の形式で、全てのメンションをHTMLリンクに変換します。
      * 特別なメンション @all は全員を指すものとしてスタイルを適用します。
@@ -129,33 +102,77 @@ class EventCommunityUseCase
      */
     public function replaceMentions($content, $eventId)
     {
+        // 元の文字列をエスケープ
         $content = htmlspecialchars($content, ENT_QUOTES, 'UTF-8');
 
+        // 文字列中からすべてのメンションを検出
         preg_match_all('/@(\w+)/', $content, $matches);
         $loginIds = $matches[1] ?? [];
 
         foreach ($loginIds as $loginId) {
-            if ($loginId === 'all') {
+            if ($loginId === 'all') { // メンションが'@all'の場合
                 $replacement = "<span class='mention-all'>@{$loginId}</span>";
                 $content = str_replace("@{$loginId}", $replacement, $content);
                 continue;
             }
 
+            // ログインIDに基づいてユーザーを取得
             $user = User::where('login_id', $loginId)->first();
+
+            // ユーザーが存在しない、またはイベントの参加者でない場合、そのメンションは無視
             if (!$user || !$this->isParticipant($eventId, $user->id)) {
                 continue;
             }
 
+            // ユーザー名が現在のユーザーと一致するかチェックし、一致する場合はクラスとして'mention-me'を、
+            // 一致しない場合は'mention'を使用
             $class = $loginId === Auth::user()->login_id ? 'mention-me' : 'mention';
 
+            // ユーザーのプロフィールページへのURLを生成
             $url = url('/profile/' . $loginId);
+
+            // メンションをHTMLリンクに変換
             $replacement = "<a href='{$url}' class='{$class}' target='_blank' rel='noopener noreferrer'>@{$loginId}</a>";
             $content = str_replace("@{$loginId}", $replacement, $content);
         }
 
-        return Markdown::parse($content);
+        return Markdown::parse($content); // Markdown形式のコンテンツをHTMLに変換して返す
     }
 
+    /**
+     * トピックを保存する
+     *
+     * @param \Illuminate\Http\Request $request HTTPリクエストインスタンス
+     * @return \App\Models\Topic 保存されたトピックのインスタンスを返す
+     */
+    public function saveTopic(Request $request)
+    {
+        $eventId = $request->event_id;
+
+        // イベントIDに紐づく、削除されていないイベントを取得。該当するイベントが存在しない場合は例外をスロー
+        $event = Event::where('id', $eventId)->where('is_deleted', false)->firstOrFail();
+
+        // 参加者のステータスが「承認済み」であるか、またはイベントの主催者であるかをチェック
+        $isParticipantApproved = $this->checkParticipantStatus->execute($eventId);
+        if ($isParticipantApproved !== "approved" && !$this->checkEventOrganizerService->check($eventId)) {
+            return null;
+        }
+
+        // 新しいトピックを作成
+        $topic = $this->createTopic($request);
+        // トピックの作成を操作ログに記録
+        $this->logTopicCreation($topic, $request);
+
+        // リクエストの内容に含まれるメンションに紐づくユーザーを取得
+        $mentionedUsers = $this->getMentionedUsers($request->content, $eventId);
+
+        // メンションされたユーザーが存在する場合、メンションの通知を送信
+        if (!empty($mentionedUsers)) {
+            $this->sendMentionNotification($mentionedUsers, $topic, $event->name, Auth::user()->name);
+        }
+
+        return $topic;
+    }
 
     /**
      * ユーザーがイベントの参加者、または主催者であるかを判定します。
@@ -166,15 +183,19 @@ class EventCommunityUseCase
      */
     public function isParticipant($eventId, $userId)
     {
+        // ユーザーがイベントの主催者であるかどうかをチェック
         $isOrganizer = Event::where('id', $eventId)
             ->where('organizer_id', $userId)
             ->exists();
 
+        // ユーザーが承認済みのイベント参加者であるかどうかをチェック
         $isApprovedParticipant = EventParticipant::where('event_id', $eventId)
             ->where('user_id', $userId)
             ->where('status', 'approved')
             ->exists();
 
+        // ユーザーが主催者または承認済みの参加者であれば、関数はtrueを返します。
+        // それ以外の場合はfalseを返します。
         return $isOrganizer || $isApprovedParticipant;
     }
 
