@@ -107,17 +107,17 @@ class EventCommunityUseCase
 
         // 文字列中からすべてのメンションを検出
         preg_match_all('/@(\w+)/', $content, $matches);
-        $loginIds = $matches[1] ?? [];
+        $mentions = $matches[1] ?? [];
 
-        foreach ($loginIds as $loginId) {
-            if ($loginId === 'all') { // メンションが'@all'の場合
-                $replacement = "<span class='mention-all'>@{$loginId}</span>";
-                $content = str_replace("@{$loginId}", $replacement, $content);
+        foreach ($mentions as $mention) {
+            if ($mention === 'all') { // メンションが'@all'の場合
+                $replacement = "<span class='mention-all'>@{$mention}</span>";
+                $content = str_replace("@{$mention}", $replacement, $content);
                 continue;
             }
 
-            // ログインIDに基づいてユーザーを取得
-            $user = User::where('login_id', $loginId)->first();
+            // mentionのlogin_idを持つUserが存在するか
+            $user = User::where('login_id', $mention)->first();
 
             // ユーザーが存在しない、またはイベントの参加者でない場合、そのメンションは無視
             if (!$user || !$this->isParticipant($eventId, $user->id)) {
@@ -126,14 +126,14 @@ class EventCommunityUseCase
 
             // ユーザー名が現在のユーザーと一致するかチェックし、一致する場合はクラスとして'mention-me'を、
             // 一致しない場合は'mention'を使用
-            $class = $loginId === Auth::user()->login_id ? 'mention-me' : 'mention';
+            $class = $mention === Auth::user()->login_id ? 'mention-me' : 'mention';
 
             // ユーザーのプロフィールページへのURLを生成
-            $url = url('/profile/' . $loginId);
+            $url = url('/profile/' . $mention);
 
             // メンションをHTMLリンクに変換
-            $replacement = "<a href='{$url}' class='{$class}' target='_blank' rel='noopener noreferrer'>@{$loginId}</a>";
-            $content = str_replace("@{$loginId}", $replacement, $content);
+            $replacement = "<a href='{$url}' class='{$class}' target='_blank' rel='noopener noreferrer'>@{$mention}</a>";
+            $content = str_replace("@{$mention}", $replacement, $content);
         }
 
         return Markdown::parse($content); // Markdown形式のコンテンツをHTMLに変換して返す
@@ -248,29 +248,52 @@ class EventCommunityUseCase
      */
     private function getMentionedUsers(string $content, int $eventId)
     {
+        // 正規表現を用いてメンション（@以降の単語）を全て取り出す
         preg_match_all('/@(\w+)/', $content, $matches);
+
+        // メンションされたユーザーのIDを取得
         $mentionedLoginIds = $matches[1] ?? [];
+
+        // ユーザーIDの重複を排除
         $mentionedLoginIds = array_unique($mentionedLoginIds);
 
+        // イベント情報を取得
         $event = Event::where('id', $eventId)->first();
+
+        // イベントの主催者を取得
         $eventOrganizer = $event->organizer;
 
-        $participants = $this->getEventParticipants($eventId);
+        // イベントの参加者をすべて取得
+        $participants = EventParticipant::where('event_id', $eventId)
+            ->where('status', 'approved')
+            ->pluck('user_id')
+            ->all();;
+
+        // 主催者のIDも参加者として追加
         $participants[] = $eventOrganizer->id;
+
+        // 重複する参加者を排除
         $participants = array_unique($participants);
 
+        // 'all' がメンションされていた場合、全ての参加者を返す
         if (in_array('all', $mentionedLoginIds)) {
             return User::whereIn('id', $participants)->get()->all();
         }
 
+        // メンションされたユーザーを格納する配列を初期化
         $mentionedUsers = [];
         foreach ($mentionedLoginIds as $loginId) {
-            $user = $this->getUserByLoginId($loginId);
+
+            // ユーザー情報を取得
+            $user = User::where('login_id', $loginId)->first();
+
+            // ユーザーが存在し、かつそのユーザーが参加者である場合、メンションされたユーザーとして追加
             if ($user && in_array($user->id, $participants)) {
                 $mentionedUsers[] = $user;
             }
         }
 
+        // メンションされたユーザーのリストを返す
         return $mentionedUsers;
     }
 
@@ -332,32 +355,6 @@ class EventCommunityUseCase
 
 
         return true;
-    }
-
-    /**
-     * イベントに参加しているユーザーの一覧を取得します。
-     * 
-     * @param int $eventId イベントID
-     * @return array<int> 参加ユーザーのIDの配列
-     */
-    public function getEventParticipants(int $eventId)
-    {
-        return EventParticipant::where('event_id', $eventId)
-            ->where('status', 'approved')
-            ->pluck('user_id')
-            ->all();
-    }
-
-    /**
-     * ログインIDによりユーザーを検索します。
-     * 
-     * @param string $loginId ログインID
-     * @return \App\Models\User|null ユーザーモデル、見つからない場合はnull
-     */
-    public function getUserByLoginId(string $loginId)
-    {
-        // login_idに基づいてユーザーを取得する
-        return User::where('login_id', $loginId)->first();
     }
 
     /**
