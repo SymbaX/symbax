@@ -84,9 +84,6 @@
                                 </div>
                             </div>
 
-
-
-
                             <button class="emoji-picker-button">😀</button>
 
                             <div class="emoji-picker" style="display: none;">
@@ -104,7 +101,6 @@
                                 </div>
                                 <button type="button" class="more-emojis-button"
                                     onclick="event.preventDefault();">...</button>
-
 
                                 <div class="more-emojis" style="display: none;">
                                     <form id="reaction-form-{{ $topic->id }}"
@@ -135,7 +131,7 @@
                                                 class="reaction-form">
                                                 @csrf
                                                 <input type="hidden" name="emoji" value="{{ $emoji }}">
-                                                <button type="submit" name="emoji"
+                                                <button type="submit"
                                                     class="{{ $reactionData[$topic->id][$emoji]['hasReacted'] ? 'reacted-emoji' : 'reaction-emoji' }}">
                                                     {{ $emoji }}
                                                     {{ $reactionData[$topic->id][$emoji]['count'] }}
@@ -145,8 +141,6 @@
                                     @endforeach
                                 @endforeach
                             </div>
-
-
                         </div>
                     @empty
                         <p>トピックがありません。</p>
