@@ -27,6 +27,10 @@ class ReactionController extends Controller
      */
     public function store(Request $request, Topic $topic)
     {
+        $request->validate([
+            'emoji' => 'required'
+        ]);
+
         $emoji = $request->input('emoji');
 
         if (Reaction::hasReacted(Auth::id(), $topic->id, $emoji)) {

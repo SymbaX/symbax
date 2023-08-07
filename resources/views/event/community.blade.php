@@ -117,10 +117,7 @@
                                         <div class="emoji-tabs">
                                             <button data-tab="face_and_persons" class="emoji-tab-button">😃</button>
                                             <button data-tab="emotions" class="emoji-tab-button">💖</button>
-                                            <button data-tab="awards" class="emoji-tab-button">🏆</button>
                                             <button data-tab="tasks" class="emoji-tab-button">✅</button>
-
-
                                         </div>
                                         <div class="emoji-list">
                                             {{-- 絵文字 --}}
