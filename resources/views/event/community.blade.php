@@ -5,6 +5,9 @@
     <script src="{{ asset('script/loading.js') }}"></script>
 @endpush
 @push('script')
+    <script src="{{ asset('script/community-reaction.js') }}"></script>
+@endpush
+@push('script')
     <script src="{{ asset('script/community-dropdown.js') }}"></script>
 @endpush
 @push('script')
@@ -19,7 +22,7 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-12" data-emojis="{{ json_encode($emojis) }}">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
@@ -84,7 +87,7 @@
 
 
 
-                            <button onclick="toggleEmojiPicker(this)">😀</button>
+                            <button class="emoji-picker-button">😀</button>
 
                             <div class="emoji-picker" style="display: none;">
                                 <form action="{{ route('reactions.store', ['topic' => $topic->id]) }}" method="post">
@@ -108,15 +111,12 @@
                                     </form>
                                     <div class="emoji-tab-container">
                                         <div class="emoji-tabs">
-                                            <button data-tab="smileys"
-                                                onclick="switchEmojiTab('smileys', this.parentElement.parentElement.parentElement)">Smileys</button>
-                                            <button data-tab="emotions"
-                                                onclick="switchEmojiTab('emotions', this.parentElement.parentElement.parentElement)">Emotions</button>
-                                            <button data-tab="expressions"
-                                                onclick="switchEmojiTab('expressions', this.parentElement.parentElement.parentElement)">Expressions</button>
+                                            <button data-tab="smileys" class="emoji-tab-button">Smileys</button>
+                                            <button data-tab="emotions" class="emoji-tab-button">emotions</button>
+                                            <button data-tab="expressions" class="emoji-tab-button">expressions</button>
                                         </div>
                                         <div class="emoji-list">
-                                            <!-- 絵文字の一覧はここに表示されます -->
+                                            {{-- 絵文字 --}}
                                         </div>
                                     </div>
                                 </div>
@@ -154,51 +154,5 @@
         </div>
     </div>
 
-    <script>
-        function toggleEmojiPicker(button) {
-            const picker = button.nextElementSibling;
-            picker.style.display = picker.style.display === 'none' ? 'block' : 'none';
-        }
-
-        function toggleMoreEmojis(button) {
-            const moreEmojis = button.nextElementSibling;
-            moreEmojis.style.display = moreEmojis.style.display === 'none' ? 'block' : 'none';
-        }
-
-        function switchEmojiTab(tabName, picker) {
-            const tabs = picker.querySelectorAll('.emoji-tab-container .emoji-tabs button');
-            tabs.forEach(tab => tab.classList.remove('active'));
-            const selectedTab = picker.querySelector(`.emoji-tab-container .emoji-tabs button[data-tab="${tabName}"]`);
-            selectedTab.classList.add('active');
-
-            const emojiList = picker.querySelector('.emoji-tab-container .emoji-list');
-            emojiList.innerHTML = '';
-
-            const emojis = {!! json_encode($emojis) !!};
-            const emojiCategory = emojis[tabName];
-
-            emojiCategory.forEach(emoji => {
-                const button = document.createElement('button');
-                button.type = 'button';
-                button.name = 'emoji';
-                button.value = emoji;
-                button.innerHTML = emoji;
-                button.onclick = function() {
-                    const topicId = this.parentElement.parentElement.parentElement.querySelector('form').id
-                        .split('-')[2];
-                    document.getElementById(`reaction-emoji-${topicId}`).value = this.value;
-                    document.getElementById(`reaction-form-${topicId}`).submit();
-                };
-                emojiList.appendChild(button);
-            });
-        }
-
-        window.onload = function() {
-            const pickers = document.querySelectorAll('.emoji-picker');
-            pickers.forEach(picker => {
-                switchEmojiTab('smileys', picker);
-            });
-        }
-    </script>
 
 </x-app-layout>
