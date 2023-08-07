@@ -39,7 +39,7 @@ class Reaction extends Model
      */
     public static function getCountForTopic($topicId, $emoji)
     {
-        return Reaction::where('topic_id', $topicId)
+        return self::where('topic_id', $topicId)
             ->where('emoji', $emoji)
             ->count();
     }

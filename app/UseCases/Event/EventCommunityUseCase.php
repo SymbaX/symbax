@@ -5,6 +5,7 @@ namespace App\UseCases\Event;
 use App\Mail\MailSendCommunity;
 use App\Models\Event;
 use App\Models\EventParticipant;
+use App\Models\Reaction;
 use App\Models\Topic;
 use App\Models\User;
 use App\UseCases\OperationLog\OperationLogUseCase;
@@ -283,16 +284,23 @@ class EventCommunityUseCase
         return User::where('login_id', $loginId)->first();
     }
 
+    /**
+     * トピックと絵文字の組み合わせに対する反応のデータを取得します。
+     *
+     * @param Collection $topics
+     * @param array $emojis
+     * @return array
+     */
     public function getTopicReactionData($topics, $emojis)
     {
         $data = [];
 
         foreach ($topics as $topic) {
             foreach ($emojis as $emoji) {
-                $count = \App\Models\Reaction::getCountForTopic($topic->id, $emoji);
-                $hasReacted = \App\Models\Reaction::hasReacted(Auth::id(), $topic->id, $emoji);
-
-                $data[$topic->id][$emoji] = ['count' => $count, 'hasReacted' => $hasReacted];
+                $data[$topic->id][$emoji] = [
+                    'count' => Reaction::getCountForTopic($topic->id, $emoji),
+                    'hasReacted' => Reaction::hasReacted(Auth::id(), $topic->id, $emoji)
+                ];
             }
         }
 
