@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Event;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Event\TopicRequest;
 use App\UseCases\Event\EventCommunityUseCase;
+use App\UseCases\Event\ReactionUseCase;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -14,15 +15,17 @@ use Illuminate\View\View;
 class EventCommunityController extends Controller
 {
     protected $useCase;
+    protected $reactionUseCase;
 
     /**
      * コンストラクタ
      *
      * @param EventCommunityUseCase $useCase イベントコミュニティに関連するビジネスロジックを扱うUseCase
      */
-    public function __construct(EventCommunityUseCase $useCase)
+    public function __construct(EventCommunityUseCase $useCase, ReactionUseCase $reactionUseCase)
     {
         $this->useCase = $useCase;
+        $this->reactionUseCase = $reactionUseCase;
     }
 
     /**
@@ -39,7 +42,12 @@ class EventCommunityController extends Controller
         }
 
         $topics = $this->useCase->getTopics($id);
-        return view('event.community', ['event' => $id, 'topics' => $topics]);
+
+        $emojis = $this->reactionUseCase->getEmojis();
+
+        $reactionData = $this->useCase->getTopicReactionData($topics, $emojis);
+
+        return view('event.community', ['event' => $id, 'topics' => $topics, 'emojis' => $emojis, 'reactionData' => $reactionData]);
     }
 
     /**

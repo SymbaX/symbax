@@ -65,6 +65,153 @@
     color: #343a40;
 }
 
+.emoji-picker-button {
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    border-radius: 20px;
+    width: 28px;
+    height: 28px;
+    transition: background-color 0.3s;
+}
+
+.emoji-picker-button:hover {
+    background-color: #ececec;
+}
+
+.reaction-counts {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 5px 0;
+    color: #343a40;
+}
+
+.emoji-picker {
+    display: flex;
+    flex-direction: column;
+    width: 480px;
+    gap: 5px;
+    padding: 5px;
+    background-color: #ddd;
+    border-radius: 10px;
+}
+
+@media all and (max-width: 590px) {
+    .emoji-picker {
+        width: 100%;
+    }
+}
+
+.emoji-picker-content {
+    display: flex;
+    gap: 5px;
+}
+
+.emoji-picker button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    width: 28px;
+    height: 28px;
+    transition: background-color 0.3s;
+    border-radius: 20px;
+}
+
+.emoji-picker button:hover {
+    background-color: #ececec;
+}
+
+.more-emojis {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    padding: 5px;
+    border-top: 1px solid #bbb;
+}
+
+.emoji-tab-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    min-height: 200px;
+}
+
+.emoji-tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 5px;
+    border-right: 1px solid #bbb;
+    width: 39px;
+}
+
+.emoji-tabs button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 5px;
+    color: #333;
+}
+
+.emoji-tabs button.active {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.emoji-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 10px;
+    padding: 5px;
+    overflow-y: auto;
+}
+
+.emoji-list button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 0;
+    margin: 0;
+}
+
+.reaction-form {
+    display: inline-block;
+}
+
+.reaction-emoji,
+.reacted-emoji {
+    min-width: 45px;
+    margin-right: 5px;
+    border-radius: 12px;
+    padding: 4px;
+    cursor: pointer;
+}
+
+.reaction-emoji {
+    background-color: #dddddd !important;
+}
+.reaction-emoji:hover {
+    background-color: #e3e3e3 !important;
+}
+
+.reacted-emoji {
+    background-color: #ade0ee !important;
+}
+.reacted-emoji:hover {
+    background-color: #c8e6f0 !important;
+}
+
 .text-right-abs {
     position: absolute;
     right: 10px;
