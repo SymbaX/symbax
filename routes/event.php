@@ -7,6 +7,7 @@ use App\Http\Controllers\Event\EventEditController;
 use App\Http\Controllers\Event\EventListController;
 use App\Http\Controllers\Event\EventStatusController;
 use App\Http\Controllers\Event\EventCommunityController;
+use App\Http\Controllers\Event\ReactionController;
 use App\Http\Controllers\Profile\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,9 @@ Route::middleware(['auth', 'verified', 'disabled'])->group(function () {
     Route::delete('/event/{event_id}/community/{topic_id}', [EventCommunityController::class, 'deleteTopic'])
         ->where(['event_id' => '[0-9]+', 'topic_id' => '[0-9]+'])
         ->name('topic.delete');
+
+    Route::post('/topic/{topic}/reaction', [ReactionController::class, 'store'])->name('reactions.store');
+
 
     Route::get('/events/all', [EventListController::class, 'indexAll'])->name('index.all');
     Route::get('/events/join', [EventListController::class, 'indexJoin'])->name('index.join');

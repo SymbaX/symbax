@@ -5,6 +5,9 @@
     <script src="{{ asset('script/loading.js') }}"></script>
 @endpush
 @push('script')
+    <script src="{{ asset('script/community-reaction.js') }}"></script>
+@endpush
+@push('script')
     <script src="{{ asset('script/community-dropdown.js') }}"></script>
 @endpush
 @push('script')
@@ -19,7 +22,7 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-12" data-emojis="{{ json_encode($emojis) }}">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
@@ -80,6 +83,66 @@
                                     <div class="text-secondary text-right-abs">{{ $topic->created_at }}</div>
                                 </div>
                             </div>
+
+                            <button class="emoji-picker-button">😀</button>
+
+                            <div class="emoji-picker" style="display: none;">
+                                <div class="emoji-picker-content">
+                                    <form action="{{ route('reactions.store', ['topic' => $topic->id]) }}"
+                                        method="post">
+                                        @csrf
+                                        <button type="submit" name="emoji" value="😀">😀</button>
+                                        <button type="submit" name="emoji" value="😂">😂</button>
+                                        <button type="submit" name="emoji" value="😍">😍</button>
+                                        <button type="submit" name="emoji" value="🎉">🎉</button>
+                                        <button type="submit" name="emoji" value="👍">👍</button>
+                                        <x-input-error class="mt-2" :messages="$errors->get('emoji')" />
+
+                                    </form>
+
+                                </div>
+                                <button type="button" class="more-emojis-button"
+                                    onclick="event.preventDefault();">...</button>
+
+                                <div class="more-emojis" style="display: none;">
+                                    <form id="reaction-form-{{ $topic->id }}"
+                                        action="{{ route('reactions.store', ['topic' => $topic->id]) }}"
+                                        method="post">
+                                        @csrf
+                                        <input id="reaction-emoji-{{ $topic->id }}" type="hidden" name="emoji">
+                                    </form>
+                                    <div class="emoji-tab-container">
+                                        <div class="emoji-tabs">
+                                            <button data-tab="face_and_persons" class="emoji-tab-button">😃</button>
+                                            <button data-tab="emotions" class="emoji-tab-button">💖</button>
+                                            <button data-tab="tasks" class="emoji-tab-button">✅</button>
+                                        </div>
+                                        <div class="emoji-list">
+                                            {{-- 絵文字 --}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="reaction-counts">
+                                @foreach ($emojis as $emojiCategory => $emojiList)
+                                    @foreach ($emojiList as $emoji)
+                                        @if (isset($reactionData[$topic->id][$emoji]) && $reactionData[$topic->id][$emoji]['count'] > 0)
+                                            <form action="{{ route('reactions.store', ['topic' => $topic->id]) }}"
+                                                method="post" onsubmit="event.preventDefault(); this.submit();"
+                                                class="reaction-form">
+                                                @csrf
+                                                <input type="hidden" name="emoji" value="{{ $emoji }}">
+                                                <button type="submit"
+                                                    class="{{ $reactionData[$topic->id][$emoji]['hasReacted'] ? 'reacted-emoji' : 'reaction-emoji' }}">
+                                                    {{ $emoji }}
+                                                    {{ $reactionData[$topic->id][$emoji]['count'] }}
+                                                </button>
+                                            </form>
+                                        @endif
+                                    @endforeach
+                                @endforeach
+                            </div>
                         </div>
                     @empty
                         <p>トピックがありません。</p>
@@ -91,4 +154,6 @@
             </div>
         </div>
     </div>
+
+
 </x-app-layout>
