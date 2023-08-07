@@ -8,13 +8,28 @@ use App\Models\Topic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * リアクションコントローラー
+ * 
+ * ユーザーの反応を管理するコントローラーです。
+ */
 class ReactionController extends Controller
 {
+    /**
+     * ユーザーの反応（リアクション）を保存または削除します。
+     *
+     * @param Request $request
+     * @param Topic $topic
+     * 
+     * @return \Illuminate\Http\RedirectResponse
+     * 
+     * ユーザーがすでに反応している場合は反応を削除し、反応していない場合は新たに反応を保存します。
+     */
     public function store(Request $request, Topic $topic)
     {
         $emoji = $request->input('emoji');
 
-        if (Reaction::userHasReacted(Auth::id(), $topic->id, $emoji)) {
+        if (Reaction::hasReacted(Auth::id(), $topic->id, $emoji)) {
             Reaction::where('user_id', Auth::id())
                 ->where('topic_id', $topic->id)
                 ->where('emoji', $emoji)
