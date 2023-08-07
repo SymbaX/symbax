@@ -2,10 +2,14 @@ $(document).ready(function () {
     // ".py-12" クラスを持つ要素の "data-emojis" 属性から JSON を取得して解析します
     const emojis = JSON.parse($(".py-12").attr("data-emojis"));
 
-    // ".emoji-picker-button" クラスを持つ各要素に対して、クリックイベントリスナーを追加します
-    $(".emoji-picker-button").click(function () {
-        toggleEmojiPicker(this);
-    });
+    // ".emoji-picker-button" および ".more-emojis-button" クラスを持つ各要素に対して、クリックイベントリスナーを追加します
+    $(document).on(
+        "click",
+        ".emoji-picker-button, .more-emojis-button",
+        function () {
+            toggleEmojiPicker(this);
+        }
+    );
 
     // 引数として与えられた button 要素の隣にある要素の表示/非表示を切り替えます
     window.toggleEmojiPicker = function (button) {
@@ -66,7 +70,7 @@ $(document).ready(function () {
     $(window).on("load", function () {
         const $pickers = $(".emoji-picker");
         $pickers.each(function () {
-            switchEmojiTab("smileys", $(this));
+            switchEmojiTab("face_and_persons", $(this));
         });
     });
 });

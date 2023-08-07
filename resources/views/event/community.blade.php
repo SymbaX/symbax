@@ -90,16 +90,20 @@
                             <button class="emoji-picker-button">😀</button>
 
                             <div class="emoji-picker" style="display: none;">
-                                <form action="{{ route('reactions.store', ['topic' => $topic->id]) }}" method="post">
-                                    @csrf
-                                    <button type="submit" name="emoji" value="😀">😀</button>
-                                    <button type="submit" name="emoji" value="😂">😂</button>
-                                    <button type="submit" name="emoji" value="😍">😍</button>
-                                    <button type="submit" name="emoji" value="😊">😊</button>
-                                    <button type="submit" name="emoji" value="👍">👍</button>
-                                </form>
+                                <div class="emoji-picker-content">
+                                    <form action="{{ route('reactions.store', ['topic' => $topic->id]) }}"
+                                        method="post">
+                                        @csrf
+                                        <button type="submit" name="emoji" value="😀">😀</button>
+                                        <button type="submit" name="emoji" value="😂">😂</button>
+                                        <button type="submit" name="emoji" value="😍">😍</button>
+                                        <button type="submit" name="emoji" value="🎉">🎉</button>
+                                        <button type="submit" name="emoji" value="👍">👍</button>
+                                    </form>
 
-                                <button onclick="toggleMoreEmojis(this)">...</button>
+                                </div>
+                                <button type="button" class="more-emojis-button"
+                                    onclick="event.preventDefault();">...</button>
 
 
                                 <div class="more-emojis" style="display: none;">
@@ -111,9 +115,12 @@
                                     </form>
                                     <div class="emoji-tab-container">
                                         <div class="emoji-tabs">
-                                            <button data-tab="smileys" class="emoji-tab-button">Smileys</button>
-                                            <button data-tab="emotions" class="emoji-tab-button">emotions</button>
-                                            <button data-tab="expressions" class="emoji-tab-button">expressions</button>
+                                            <button data-tab="face_and_persons" class="emoji-tab-button">😃</button>
+                                            <button data-tab="emotions" class="emoji-tab-button">💖</button>
+                                            <button data-tab="awards" class="emoji-tab-button">🏆</button>
+                                            <button data-tab="tasks" class="emoji-tab-button">✅</button>
+
+
                                         </div>
                                         <div class="emoji-list">
                                             {{-- 絵文字 --}}
