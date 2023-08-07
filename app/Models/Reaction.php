@@ -33,4 +33,12 @@ class Reaction extends Model
             ->where('emoji', $emoji)
             ->exists();
     }
+
+    public static function hasReacted($userId, $topicId, $emoji)
+    {
+        return self::where('user_id', $userId)
+            ->where('topic_id', $topicId)
+            ->where('emoji', $emoji)
+            ->exists();
+    }
 }

@@ -96,23 +96,39 @@
                                     <button type="submit" name="emoji" value="👍">👍</button>
                                 </form>
 
-                                <button onclick="toggleMoreEmojis(this)">More</button>
+                                <button onclick="toggleMoreEmojis(this)">...</button>
+
+
+                                @php
+                                    $emojis = ['😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '😊', '😇', '🙂', '🙃', '😉', '😌', '😍', '😘', '😗', '😙', '😚', '😋', '😛', '😜', '😝', '🤑', '🤗', '🤭', '🤫', '🤔', '🤐', '🤨', '😐', '😑', '😶', '😏', '😒', '🙄', '😬', '🤥', '😌', '😔', '😪', '🤤', '😴', '😷', '🤒', '🤕', '🤢', '🤮', '🤧', '🥵', '🥶', '🥴', '😵', '🤯', '🤠', '🥳', '😎', '🤓', '🧐', '😕', '😟', '🙁', '😮', '😯', '😲', '😳', '🥺', '😦', '😧', '😨', '😰', '😥', '😢', '😭', '😱', '😖', '😣', '😞', '😓', '😩', '😫', '😤', '😡', '😠', '🤬', '😈', '👿', '💀', '☠️', '💩', '🤡', '👹', '👺', '👻', '👽', '👾', '🤖', '😺', '😸', '😹', '😻', '😼', '😽', '🙀', '😿', '😾'];
+                                @endphp
+
 
                                 <div class="more-emojis" style="display: none;">
                                     <form action="{{ route('reactions.store', ['topic' => $topic->id]) }}"
                                         method="post">
                                         @csrf
-                                        <button type="submit" name="emoji" value="😎">😎</button>
-                                        <button type="submit" name="emoji" value="🎉">🎉</button>
+                                        @foreach ($emojis as $emoji)
+                                            <button type="submit" name="emoji"
+                                                value="{{ $emoji }}">{{ $emoji }}</button>
+                                        @endforeach
                                     </form>
                                 </div>
                             </div>
 
 
                             <div class="reaction-counts">
-                                <span>😀: {{ \App\Models\Reaction::getCountForTopic($topic->id, '😀') }}</span>
-                                <span>😂: {{ \App\Models\Reaction::getCountForTopic($topic->id, '😂') }}</span>
-                                <span>😍: {{ \App\Models\Reaction::getCountForTopic($topic->id, '😍') }}</span>
+                                @foreach ($emojis as $emoji)
+                                    @php
+                                        $count = \App\Models\Reaction::getCountForTopic($topic->id, $emoji);
+                                        $hasReacted = \App\Models\Reaction::hasReacted(Auth::id(), $topic->id, $emoji);
+                                    @endphp
+                                    @if ($count > 0)
+                                        <span
+                                            style="{{ $hasReacted ? 'background-color: #ADE0EE;' : '' }}">{{ $emoji }}:
+                                            {{ $count }}</span>
+                                    @endif
+                                @endforeach
                             </div>
 
 
