@@ -122,24 +122,25 @@
                                 </div>
                             </div>
 
-
                             <div class="reaction-counts">
                                 @foreach ($emojis as $emojiCategory => $emojiList)
                                     @foreach ($emojiList as $emoji)
                                         @if (isset($reactionData[$topic->id][$emoji]) && $reactionData[$topic->id][$emoji]['count'] > 0)
                                             <form action="{{ route('reactions.store', ['topic' => $topic->id]) }}"
-                                                method="post" onsubmit="event.preventDefault(); this.submit();">
+                                                method="post" onsubmit="event.preventDefault(); this.submit();"
+                                                class="reaction-form">
                                                 @csrf
                                                 <input type="hidden" name="emoji" value="{{ $emoji }}">
                                                 <button type="submit" name="emoji"
-                                                    style="{{ $reactionData[$topic->id][$emoji]['hasReacted'] ? 'background-color: #ADE0EE;' : '' }}">{{ $emoji }}
-                                                    {{ $reactionData[$topic->id][$emoji]['count'] }}</button>
+                                                    class="{{ $reactionData[$topic->id][$emoji]['hasReacted'] ? 'reacted-emoji' : 'reaction-emoji' }}">
+                                                    {{ $emoji }}
+                                                    {{ $reactionData[$topic->id][$emoji]['count'] }}
+                                                </button>
                                             </form>
                                         @endif
                                     @endforeach
                                 @endforeach
                             </div>
-
 
 
                         </div>
