@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Event;
 use App\Http\Controllers\Controller;
 use App\Models\Reaction;
 use App\Models\Topic;
+use App\UseCases\Event\ReactionUseCase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 /**
  * リアクションコントローラー
@@ -15,36 +17,27 @@ use Illuminate\Support\Facades\Auth;
  */
 class ReactionController extends Controller
 {
-    /**
-     * ユーザーの反応（リアクション）を保存または削除します。
-     *
-     * @param Request $request
-     * @param Topic $topic
-     * 
-     * @return \Illuminate\Http\RedirectResponse
-     * 
-     * ユーザーがすでに反応している場合は反応を削除し、反応していない場合は新たに反応を保存します。
-     */
+    private $reactionUseCase;
+
+    public function __construct(ReactionUseCase $reactionUseCase)
+    {
+        $this->reactionUseCase = $reactionUseCase;
+    }
+
     public function store(Request $request, Topic $topic)
     {
+        $emojis = $this->reactionUseCase->getEmojis();
+        $emojisFlat = array_merge([], ...array_values($emojis));
+
         $request->validate([
-            'emoji' => 'required'
+            'emoji' => [
+                'required',
+                Rule::in($emojisFlat)
+            ]
         ]);
 
         $emoji = $request->input('emoji');
-
-        if (Reaction::hasReacted(Auth::id(), $topic->id, $emoji)) {
-            Reaction::where('user_id', Auth::id())
-                ->where('topic_id', $topic->id)
-                ->where('emoji', $emoji)
-                ->delete();
-        } else {
-            $reaction = new Reaction;
-            $reaction->user_id = Auth::id();
-            $reaction->topic_id = $topic->id;
-            $reaction->emoji = $emoji;
-            $reaction->save();
-        }
+        $this->reactionUseCase->storeReaction(Auth::id(), $topic->id, $emoji);
 
         return back();
     }

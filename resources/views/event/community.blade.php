@@ -96,6 +96,8 @@
                                         <button type="submit" name="emoji" value="😍">😍</button>
                                         <button type="submit" name="emoji" value="🎉">🎉</button>
                                         <button type="submit" name="emoji" value="👍">👍</button>
+                                        <x-input-error class="mt-2" :messages="$errors->get('emoji')" />
+
                                     </form>
 
                                 </div>
