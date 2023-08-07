@@ -99,16 +99,11 @@
                                 <button onclick="toggleMoreEmojis(this)">...</button>
 
 
-                                @php
-                                    $emojis = ['👍', '😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '😊', '😇', '🙂', '🙃', '😉', '😌', '😍', '😘', '😗', '😙', '😚', '😋', '😛', '😜', '😝', '🤑', '🤗', '🤭', '🤫', '🤔', '🤐', '🤨', '😐', '😑', '😶', '😏', '😒', '🙄', '😬', '🤥', '😌', '😔', '😪', '🤤', '😴', '😷', '🤒', '🤕', '🤢', '🤮', '🤧', '🥵', '🥶', '🥴', '😵', '🤯', '🤠', '🥳', '😎', '🤓', '🧐', '😕', '😟', '🙁', '😮', '😯', '😲', '😳', '🥺', '😦', '😧', '😨', '😰', '😥', '😢', '😭', '😱', '😖', '😣', '😞', '😓', '😩', '😫', '😤', '😡', '😠', '🤬', '😈', '👿', '💀', '☠️', '💩', '🤡', '👹', '👺', '👻', '👽', '👾', '🤖', '😺', '😸', '😹', '😻', '😼', '😽', '🙀', '😿', '😾'];
-                                @endphp
-
-
                                 <div class="more-emojis" style="display: none;">
                                     <form action="{{ route('reactions.store', ['topic' => $topic->id]) }}"
                                         method="post">
                                         @csrf
-                                        @foreach ($emojis as $emoji)
+                                        @forelse($emojis as $emoji)
                                             <button type="submit" name="emoji"
                                                 value="{{ $emoji }}">{{ $emoji }}</button>
                                         @endforeach

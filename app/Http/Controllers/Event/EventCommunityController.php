@@ -39,7 +39,10 @@ class EventCommunityController extends Controller
         }
 
         $topics = $this->useCase->getTopics($id);
-        return view('event.community', ['event' => $id, 'topics' => $topics]);
+
+        $emojis = $this->useCase->getEmojis();
+
+        return view('event.community', ['event' => $id, 'topics' => $topics, 'emojis' => $emojis]);
     }
 
     /**
