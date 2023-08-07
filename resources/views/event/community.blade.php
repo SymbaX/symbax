@@ -113,22 +113,19 @@
 
 
                             <div class="reaction-counts">
-                                @foreach ($emojis as $emoji)
-                                    @php
-                                        $count = \App\Models\Reaction::getCountForTopic($topic->id, $emoji);
-                                        $hasReacted = \App\Models\Reaction::hasReacted(Auth::id(), $topic->id, $emoji);
-                                    @endphp
-                                    @if ($count > 0)
+                                @forelse($emojis as $emoji)
+                                    @if ($reactionData[$topic->id][$emoji]['count'] > 0)
                                         <form action="{{ route('reactions.store', ['topic' => $topic->id]) }}"
                                             method="post" onsubmit="event.preventDefault(); this.submit();">
                                             @csrf
                                             <input type="hidden" name="emoji" value="{{ $emoji }}">
                                             <button type="submit" name="emoji"
-                                                style="{{ $hasReacted ? 'background-color: #ADE0EE;' : '' }}">{{ $emoji }}
-                                                {{ $count }}</button>
+                                                style="{{ $reactionData[$topic->id][$emoji]['hasReacted'] ? 'background-color: #ADE0EE;' : '' }}">{{ $emoji }}
+                                                {{ $reactionData[$topic->id][$emoji]['count'] }}</button>
                                         </form>
                                     @endif
                                 @endforeach
+
                             </div>
 
 

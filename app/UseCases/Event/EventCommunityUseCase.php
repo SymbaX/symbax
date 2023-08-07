@@ -282,4 +282,20 @@ class EventCommunityUseCase
         // login_idに基づいてユーザーを取得する
         return User::where('login_id', $loginId)->first();
     }
+
+    public function getTopicReactionData($topics, $emojis)
+    {
+        $data = [];
+
+        foreach ($topics as $topic) {
+            foreach ($emojis as $emoji) {
+                $count = \App\Models\Reaction::getCountForTopic($topic->id, $emoji);
+                $hasReacted = \App\Models\Reaction::hasReacted(Auth::id(), $topic->id, $emoji);
+
+                $data[$topic->id][$emoji] = ['count' => $count, 'hasReacted' => $hasReacted];
+            }
+        }
+
+        return $data;
+    }
 }
