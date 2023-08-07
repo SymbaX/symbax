@@ -100,33 +100,46 @@
 
 
                                 <div class="more-emojis" style="display: none;">
-                                    <form action="{{ route('reactions.store', ['topic' => $topic->id]) }}"
+                                    <form id="reaction-form-{{ $topic->id }}"
+                                        action="{{ route('reactions.store', ['topic' => $topic->id]) }}"
                                         method="post">
                                         @csrf
-                                        @forelse($emojis as $emoji)
-                                            <button type="submit" name="emoji"
-                                                value="{{ $emoji }}">{{ $emoji }}</button>
-                                        @endforeach
+                                        <input id="reaction-emoji-{{ $topic->id }}" type="hidden" name="emoji">
                                     </form>
+                                    <div class="emoji-tab-container">
+                                        <div class="emoji-tabs">
+                                            <button data-tab="smileys"
+                                                onclick="switchEmojiTab('smileys', this.parentElement.parentElement.parentElement)">Smileys</button>
+                                            <button data-tab="emotions"
+                                                onclick="switchEmojiTab('emotions', this.parentElement.parentElement.parentElement)">Emotions</button>
+                                            <button data-tab="expressions"
+                                                onclick="switchEmojiTab('expressions', this.parentElement.parentElement.parentElement)">Expressions</button>
+                                        </div>
+                                        <div class="emoji-list">
+                                            <!-- 絵文字の一覧はここに表示されます -->
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
 
                             <div class="reaction-counts">
-                                @forelse($emojis as $emoji)
-                                    @if ($reactionData[$topic->id][$emoji]['count'] > 0)
-                                        <form action="{{ route('reactions.store', ['topic' => $topic->id]) }}"
-                                            method="post" onsubmit="event.preventDefault(); this.submit();">
-                                            @csrf
-                                            <input type="hidden" name="emoji" value="{{ $emoji }}">
-                                            <button type="submit" name="emoji"
-                                                style="{{ $reactionData[$topic->id][$emoji]['hasReacted'] ? 'background-color: #ADE0EE;' : '' }}">{{ $emoji }}
-                                                {{ $reactionData[$topic->id][$emoji]['count'] }}</button>
-                                        </form>
-                                    @endif
+                                @foreach ($emojis as $emojiCategory => $emojiList)
+                                    @foreach ($emojiList as $emoji)
+                                        @if (isset($reactionData[$topic->id][$emoji]) && $reactionData[$topic->id][$emoji]['count'] > 0)
+                                            <form action="{{ route('reactions.store', ['topic' => $topic->id]) }}"
+                                                method="post" onsubmit="event.preventDefault(); this.submit();">
+                                                @csrf
+                                                <input type="hidden" name="emoji" value="{{ $emoji }}">
+                                                <button type="submit" name="emoji"
+                                                    style="{{ $reactionData[$topic->id][$emoji]['hasReacted'] ? 'background-color: #ADE0EE;' : '' }}">{{ $emoji }}
+                                                    {{ $reactionData[$topic->id][$emoji]['count'] }}</button>
+                                            </form>
+                                        @endif
+                                    @endforeach
                                 @endforeach
-
                             </div>
+
 
 
                         </div>
@@ -150,6 +163,41 @@
         function toggleMoreEmojis(button) {
             const moreEmojis = button.nextElementSibling;
             moreEmojis.style.display = moreEmojis.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function switchEmojiTab(tabName, picker) {
+            const tabs = picker.querySelectorAll('.emoji-tab-container .emoji-tabs button');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            const selectedTab = picker.querySelector(`.emoji-tab-container .emoji-tabs button[data-tab="${tabName}"]`);
+            selectedTab.classList.add('active');
+
+            const emojiList = picker.querySelector('.emoji-tab-container .emoji-list');
+            emojiList.innerHTML = '';
+
+            const emojis = {!! json_encode($emojis) !!};
+            const emojiCategory = emojis[tabName];
+
+            emojiCategory.forEach(emoji => {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.name = 'emoji';
+                button.value = emoji;
+                button.innerHTML = emoji;
+                button.onclick = function() {
+                    const topicId = this.parentElement.parentElement.parentElement.querySelector('form').id
+                        .split('-')[2];
+                    document.getElementById(`reaction-emoji-${topicId}`).value = this.value;
+                    document.getElementById(`reaction-form-${topicId}`).submit();
+                };
+                emojiList.appendChild(button);
+            });
+        }
+
+        window.onload = function() {
+            const pickers = document.querySelectorAll('.emoji-picker');
+            pickers.forEach(picker => {
+                switchEmojiTab('smileys', picker);
+            });
         }
     </script>
 

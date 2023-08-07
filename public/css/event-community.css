@@ -106,6 +106,41 @@
     padding: 5px;
 }
 
+.emoji-tab-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.emoji-tabs button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 5px;
+    color: #333;
+}
+
+.emoji-tabs button.active {
+    font-weight: bold;
+}
+
+.emoji-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.emoji-list button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 0;
+    margin: 0;
+}
+
 .text-right-abs {
     position: absolute;
     right: 10px;
