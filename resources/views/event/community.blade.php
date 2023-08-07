@@ -124,9 +124,14 @@
                                         $hasReacted = \App\Models\Reaction::hasReacted(Auth::id(), $topic->id, $emoji);
                                     @endphp
                                     @if ($count > 0)
-                                        <span
-                                            style="{{ $hasReacted ? 'background-color: #ADE0EE;' : '' }}">{{ $emoji }}:
-                                            {{ $count }}</span>
+                                        <form action="{{ route('reactions.store', ['topic' => $topic->id]) }}"
+                                            method="post" onsubmit="event.preventDefault(); this.submit();">
+                                            @csrf
+                                            <input type="hidden" name="emoji" value="{{ $emoji }}">
+                                            <button type="submit" name="emoji"
+                                                style="{{ $hasReacted ? 'background-color: #ADE0EE;' : '' }}">{{ $emoji }}
+                                                {{ $count }}</button>
+                                        </form>
                                     @endif
                                 @endforeach
                             </div>
