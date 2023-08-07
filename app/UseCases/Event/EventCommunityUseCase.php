@@ -13,9 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Services\CheckEventOrganizerService;
 use Illuminate\Mail\Markdown;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
-use Symfony\Component\Uid\NilUlid;
 
 /**
  * イベントとコミュニティに関連するビジネスロジックを扱うクラス
@@ -47,13 +45,15 @@ class EventCommunityUseCase
         $this->operationLogUseCase = $operationLogUseCase;
     }
 
+    /**
+     * 使用可能な絵文字の一覧を取得する
+     *
+     * @return array 絵文字の配列
+     */
     public function getEmojis()
     {
         return ['👍', '😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '😊', '😇', '🙂', '🙃', '😉', '😌', '😍', '😘', '😗', '😙', '😚', '😋', '😛', '😜', '😝', '🤑', '🤗', '🤭', '🤫', '🤔', '🤐', '🤨', '😐', '😑', '😶', '😏', '😒', '🙄', '😬', '🤥', '😌', '😔', '😪', '🤤', '😴', '😷', '🤒', '🤕', '🤢', '🤮', '🤧', '🥵', '🥶', '🥴', '😵', '🤯', '🤠', '🥳', '😎', '🤓', '🧐', '😕', '😟', '🙁', '😮', '😯', '😲', '😳', '🥺', '😦', '😧', '😨', '😰', '😥', '😢', '😭', '😱', '😖', '😣', '😞', '😓', '😩', '😫', '😤', '😡', '😠', '🤬', '😈', '👿', '💀', '☠️', '💩', '🤡', '👹', '👺', '👻', '👽', '👾', '🤖', '😺', '😸', '😹', '😻', '😼', '😽', '🙀', '😿', '😾'];
     }
-
-
-
 
     /**
      * イベントへのアクセス権限をチェックする
@@ -70,8 +70,6 @@ class EventCommunityUseCase
             return true;
         }
 
-
-
         return false;
     }
 
@@ -83,17 +81,52 @@ class EventCommunityUseCase
      */
     public function getTopics($id, $perPage = 10)
     {
-
         $topics = Topic::where("event_id", $id)->latest()->paginate($perPage);
 
         foreach ($topics as $topic) {
             $topic->content = $this->replaceMentions($topic->content, $topic->event_id);
         }
 
-
         return $topics;
     }
 
+    /**
+     * トピックを保存する
+     *
+     * @param \Illuminate\Http\Request $request HTTPリクエストインスタンス
+     * @return \App\Models\Topic 保存されたトピックのインスタンスを返す
+     */
+    public function saveTopic(Request $request)
+    {
+        $eventId = $request->event_id;
+
+        $event = Event::where('id', $eventId)->where('is_deleted', false)->firstOrFail();
+
+        $isParticipantApproved = $this->checkParticipantStatus->execute($eventId);
+        if ($isParticipantApproved !== "approved" && !$this->checkEventOrganizerService->check($eventId)) {
+            return null;
+        }
+
+        $topic = $this->createTopic($request);
+        $this->logTopicCreation($topic, $request);
+        $mentionedUsers = $this->getMentionedUsers($request->content, $eventId);
+        if (!empty($mentionedUsers)) {
+            $this->sendMentionNotification($mentionedUsers, $topic, $event->name, Auth::user()->name);
+        }
+
+        return $topic;
+    }
+
+    /**
+     * 文字列中のメンションを特定のフォーマットに変換します。
+     *
+     * メンションは @ユーザー名 の形式で、全てのメンションをHTMLリンクに変換します。
+     * 特別なメンション @all は全員を指すものとしてスタイルを適用します。
+     * 
+     * @param string $content 元の文字列
+     * @param int $eventId イベントID
+     * @return string 変換後の文字列
+     */
     public function replaceMentions($content, $eventId)
     {
         $content = htmlspecialchars($content, ENT_QUOTES, 'UTF-8');
@@ -107,7 +140,6 @@ class EventCommunityUseCase
                 $content = str_replace("@{$loginId}", $replacement, $content);
                 continue;
             }
-
 
             $user = User::where('login_id', $loginId)->first();
             if (!$user || !$this->isParticipant($eventId, $user->id)) {
@@ -124,6 +156,14 @@ class EventCommunityUseCase
         return Markdown::parse($content);
     }
 
+
+    /**
+     * ユーザーがイベントの参加者、または主催者であるかを判定します。
+     * 
+     * @param int $eventId イベントID
+     * @param int $userId ユーザーID
+     * @return bool 参加者または主催者であればtrue、そうでなければfalse
+     */
     public function isParticipant($eventId, $userId)
     {
         $isOrganizer = Event::where('id', $eventId)
@@ -139,24 +179,13 @@ class EventCommunityUseCase
     }
 
     /**
-     * トピックを保存する
-     *
+     * 新規トピックを作成します。
+     * 
      * @param \Illuminate\Http\Request $request HTTPリクエストインスタンス
-     * @return \App\Models\Topic 保存されたトピックのインスタンスを返す
+     * @return \App\Models\Topic 作成したトピックのインスタンス
      */
-    public function saveTopic(Request $request)
+    private function createTopic(Request $request)
     {
-
-        $eventId = $request->event_id;
-
-        Event::where('id', $eventId)->where('is_deleted', false)->firstOrFail();
-
-
-        $isParticipantApproved = $this->checkParticipantStatus->execute($eventId);
-        if ($isParticipantApproved !== "approved" && !$this->checkEventOrganizerService->check($eventId)) {
-            return null;
-        }
-
         $topic = new Topic();
 
         if ($request->content) {
@@ -166,7 +195,18 @@ class EventCommunityUseCase
             $topic->save();
         }
 
+        return $topic;
+    }
 
+    /**
+     * トピック作成の操作ログを保存します。
+     * 
+     * @param \App\Models\Topic $topic トピックモデル
+     * @param \Illuminate\Http\Request $request HTTPリクエストインスタンス
+     * @return void
+     */
+    private function logTopicCreation(Topic $topic, Request $request)
+    {
         $this->operationLogUseCase->store([
             'detail' => "topic:\n{$request->content}\n",
             'user_id' => null,
@@ -176,44 +216,49 @@ class EventCommunityUseCase
             'action' => 'create-topic',
             'ip' => request()->ip(),
         ]);
+    }
 
-        // 検出したメンションの処理
-        preg_match_all('/@(\w+)/', $request->content, $matches);
+    /**
+     * 文字列中のメンションから、メンションされたユーザーの一覧を取得します。
+     * 
+     * @param string $content 元の文字列
+     * @param int $eventId イベントID
+     * @return array<User> メンションされたユーザーモデルの配列
+     */
+    private function getMentionedUsers(string $content, int $eventId)
+    {
+        preg_match_all('/@(\w+)/', $content, $matches);
         $mentionedLoginIds = $matches[1] ?? [];
         $mentionedLoginIds = array_unique($mentionedLoginIds);
 
-        $event = Event::where('id', $request->event_id)->first();
+        $event = Event::where('id', $eventId)->first();
         $eventOrganizer = $event->organizer;
 
-        $participants = $this->getEventParticipants($request->event_id);
+        $participants = $this->getEventParticipants($eventId);
         $participants[] = $eventOrganizer->id;
         $participants = array_unique($participants);
 
         if (in_array('all', $mentionedLoginIds)) {
-            // @allが含まれていたら全参加者を$mentionedUsersに含める
-            $mentionedUsers = User::whereIn('id', $participants)->get()->all();
-        } else {
-            // それ以外の場合はメンションされた参加者だけを$mentionedUsersに含める
-            foreach ($mentionedLoginIds as $loginId) {
-                $user = $this->getUserByLoginId($loginId);
-                if ($user && in_array($user->id, $participants)) {
-                    $mentionedUsers[] = $user;
-                }
+            return User::whereIn('id', $participants)->get()->all();
+        }
+
+        $mentionedUsers = [];
+        foreach ($mentionedLoginIds as $loginId) {
+            $user = $this->getUserByLoginId($loginId);
+            if ($user && in_array($user->id, $participants)) {
+                $mentionedUsers[] = $user;
             }
         }
 
-        // メンションされた全員に対して一度でメール送信
-        if (!empty($mentionedUsers)) {
-            $this->sendMentionNotification($mentionedUsers, $topic, $event->name, Auth::user()->name);
-        }
-
-        return $topic;
+        return $mentionedUsers;
     }
 
     /**
      * メンションの通知メールを送る
      *
-     * @param array<User> $users ユーザーモデルの配列
+     * メンションが含まれるトピックが投稿されたときに、メンションされたユーザー全員に対して通知メールを送信します。
+     *
+     * @param array<User> $users メンションされたユーザーモデルの配列
      * @param \App\Models\Topic $topic トピックモデル
      * @param string $eventName イベント名
      * @param string $senderName 送信者の名前
@@ -268,8 +313,12 @@ class EventCommunityUseCase
         return true;
     }
 
-
-
+    /**
+     * イベントに参加しているユーザーの一覧を取得します。
+     * 
+     * @param int $eventId イベントID
+     * @return array<int> 参加ユーザーのIDの配列
+     */
     public function getEventParticipants(int $eventId)
     {
         return EventParticipant::where('event_id', $eventId)
@@ -278,6 +327,12 @@ class EventCommunityUseCase
             ->all();
     }
 
+    /**
+     * ログインIDによりユーザーを検索します。
+     * 
+     * @param string $loginId ログインID
+     * @return \App\Models\User|null ユーザーモデル、見つからない場合はnull
+     */
     public function getUserByLoginId(string $loginId)
     {
         // login_idに基づいてユーザーを取得する
