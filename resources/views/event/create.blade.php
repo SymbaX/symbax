@@ -1,5 +1,6 @@
 @push('script')
     <script src="{{ asset('script/loading.js') }}"></script>
+    <script src="{{ asset('script/event-create-validation.js') }}"></script>
 @endpush
 
 <x-app-layout>
