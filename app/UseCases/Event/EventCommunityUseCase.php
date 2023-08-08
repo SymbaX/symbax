@@ -64,6 +64,19 @@ class EventCommunityUseCase
     }
 
     /**
+     *
+     * @param int $id イベントのID
+     * @return \Illuminate\Database\Eloquent\Collection 最新のトピックのコレクションを返す
+     */
+    public function getEvent($id)
+    {
+        $event = Event::findOrFail($id);
+
+
+        return $event;
+    }
+
+    /**
      * 指定したイベントに関連するトピックを取得する
      *
      * @param int $id イベントのID

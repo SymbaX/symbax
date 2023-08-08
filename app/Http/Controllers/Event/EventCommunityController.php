@@ -41,13 +41,14 @@ class EventCommunityController extends Controller
             abort(403);
         }
 
+        $event = $this->useCase->getEvent($id);
         $topics = $this->useCase->getTopics($id);
 
         $emojis = $this->reactionUseCase->getEmojis();
 
         $reactionData = $this->useCase->getTopicReactionData($topics, $emojis);
 
-        return view('event.community', ['event' => $id, 'topics' => $topics, 'emojis' => $emojis, 'reactionData' => $reactionData]);
+        return view('event.community', ['event' => $event, 'topics' => $topics, 'emojis' => $emojis, 'reactionData' => $reactionData]);
     }
 
     /**

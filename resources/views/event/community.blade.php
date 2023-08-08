@@ -18,7 +18,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('only') }}
+            🔐 {{ $event->name }}
         </h2>
     </x-slot>
 
@@ -28,7 +28,7 @@
                 <div class="p-6 text-gray-900">
                     <form method="POST">
                         @csrf
-                        <input type="hidden" name="event_id" value="{{ $event }}">
+                        <input type="hidden" name="event_id" value="{{ $event->id }}">
 
                         <div>
                             <x-textarea id="content" name="content" type="text" style="height:100px"
@@ -54,7 +54,7 @@
 
                                         @if ($topic->user_id == Auth::id() and $topic->is_deleted == false)
                                             <form method="POST"
-                                                action="{{ route('topic.delete', ['event_id' => $event, 'topic_id' => $topic->id]) }}">
+                                                action="{{ route('topic.delete', ['event_id' => $event->id, 'topic_id' => $topic->id]) }}">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit">{{ __('Delete') }}</button>
