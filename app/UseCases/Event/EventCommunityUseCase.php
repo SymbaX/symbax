@@ -126,6 +126,9 @@ class EventCommunityUseCase
             $content = str_replace("@{$mention}", $replacement, $content);
         }
 
+        // 改行を2つに変換
+        $content = str_replace("\n", "\n\n", $content);
+
         return Markdown::parse($content); // Markdown形式のコンテンツをHTMLに変換して返す
     }
 
