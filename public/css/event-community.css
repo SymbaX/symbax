@@ -371,6 +371,7 @@
     border-radius: 3px;
     overflow: auto;
     padding: 5px;
+    white-space: pre-wrap;
 }
 
 .comment-detail pre code {

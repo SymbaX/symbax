@@ -64,6 +64,19 @@ class EventCommunityUseCase
     }
 
     /**
+     *
+     * @param int $id イベントのID
+     * @return \Illuminate\Database\Eloquent\Collection 最新のトピックのコレクションを返す
+     */
+    public function getEvent($id)
+    {
+        $event = Event::findOrFail($id);
+
+
+        return $event;
+    }
+
+    /**
      * 指定したイベントに関連するトピックを取得する
      *
      * @param int $id イベントのID
@@ -125,6 +138,9 @@ class EventCommunityUseCase
             $replacement = "<a href='{$url}' class='{$class}' target='_blank' rel='noopener noreferrer'>@{$mention}</a>";
             $content = str_replace("@{$mention}", $replacement, $content);
         }
+
+        // 改行を2つに変換
+        $content = str_replace("\n", "\n\n", $content);
 
         return Markdown::parse($content); // Markdown形式のコンテンツをHTMLに変換して返す
     }
