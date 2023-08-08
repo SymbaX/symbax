@@ -30,8 +30,11 @@ class EventDetailUseCase
     {
         $event = Event::where('id', $id)->where('is_deleted', false)->firstOrFail();
 
+        // 改行を2つに変換
+        $detail_br = str_replace("\n", "\n\n", $event->detail);
 
-        $detail_markdown = Markdown::parse(e($event->detail));
+        // Markdownをパース
+        $detail_markdown = Markdown::parse(e($detail_br));
 
         $participants = EventParticipant::where('event_id', $id)
             ->join('users', 'users.id', '=', 'event_participants.user_id')
