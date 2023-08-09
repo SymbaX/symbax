@@ -85,7 +85,7 @@ class EventEditUseCase
         // セッションに保存されたイベントIDとトークンを取得し、リクエストの値と比較
         $editToken = $request->input('edit_token');
         if ($editToken !== session('edit_token') || $id !== session('edit_event_id')) {
-            abort(403);
+            abort(419);
         }
 
         $event = Event::where('id', $id)->where('is_deleted', false)->firstOrFail();
