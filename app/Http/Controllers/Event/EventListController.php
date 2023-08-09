@@ -20,7 +20,7 @@ class EventListController extends Controller
     private $eventListUseCase;
 
     /**
-     * EventListControllerの新しいインスタンスを作成します。
+     * コンストラクタ
      *
      * @param EventListUseCase $eventListUseCase イベント一覧取得に使用するUseCaseのインスタンス
      */
@@ -28,6 +28,8 @@ class EventListController extends Controller
     {
         $this->eventListUseCase = $eventListUseCase;
     }
+
+    /* =================== 以下メインの処理 =================== */
 
     /**
      * イベント一覧の表示

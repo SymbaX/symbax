@@ -20,7 +20,7 @@ class EventEditController extends Controller
     private $eventEditUseCase;
 
     /**
-     * EventEditControllerの新しいインスタンスを作成します。
+     * コンストラクタ
      *
      * @param EventEditUseCase $eventEditUseCase イベント編集に使用するUseCaseのインスタンス
      */
@@ -29,8 +29,10 @@ class EventEditController extends Controller
         $this->eventEditUseCase = $eventEditUseCase;
     }
 
+    /* =================== 以下メインの処理 =================== */
+
     /**
-     * イベントの編集
+     * イベントの編集画面を表示
      *
      * 指定されたイベントを編集するためのビューを表示します。
      * 現在のユーザーがイベントの作成者でない場合は編集できません。

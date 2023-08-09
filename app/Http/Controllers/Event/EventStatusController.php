@@ -20,7 +20,7 @@ class EventStatusController extends Controller
     private $eventStatusUseCase;
 
     /**
-     * EventStatusControllerの新しいインスタンスを作成します。
+     * コンストラクタ
      *
      * @param EventStatusUseCase $eventStatusUseCase イベントステータスの操作に使用するUseCaseのインスタンス
      */
@@ -28,6 +28,8 @@ class EventStatusController extends Controller
     {
         $this->eventStatusUseCase = $eventStatusUseCase;
     }
+
+    /* =================== 以下メインの処理 =================== */
 
     /**
      * イベントへの参加リクエスト

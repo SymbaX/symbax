@@ -28,6 +28,8 @@ class EventCommunityController extends Controller
         $this->reactionUseCase = $reactionUseCase;
     }
 
+    /* =================== 以下メインの処理 =================== */
+
     /**
      * トピック作成画面を表示する
      *

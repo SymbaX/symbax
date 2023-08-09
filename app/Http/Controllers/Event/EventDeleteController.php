@@ -19,7 +19,7 @@ class EventDeleteController extends Controller
     private $eventDeleteUseCase;
 
     /**
-     * EventDeleteControllerの新しいインスタンスを作成します。
+     * コンストラクタ
      *
      * @param EventDeleteUseCase $eventDeleteUseCase イベント削除に使用するUseCase
      */
@@ -27,6 +27,8 @@ class EventDeleteController extends Controller
     {
         $this->eventDeleteUseCase = $eventDeleteUseCase;
     }
+
+    /* =================== 以下メインの処理 =================== */
 
     /**
      * イベントの削除

@@ -21,7 +21,7 @@ class EventCreateController extends Controller
     private $eventCreateUseCase;
 
     /**
-     * EventCreateControllerの新しいインスタンスを作成します。
+     * コンストラクタ
      *
      * @param EventCreateUseCase $eventCreateUseCase イベント作成に使用するUseCaseのインスタンス
      */
@@ -29,6 +29,8 @@ class EventCreateController extends Controller
     {
         $this->eventCreateUseCase = $eventCreateUseCase;
     }
+
+    /* =================== 以下メインの処理 =================== */
 
     /**
      * イベント作成フォームの表示

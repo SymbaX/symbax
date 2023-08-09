@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Event;
 
 use App\Http\Controllers\Controller;
-use App\Models\Reaction;
 use App\Models\Topic;
 use App\UseCases\Event\ReactionUseCase;
 use Illuminate\Http\Request;
@@ -23,6 +22,8 @@ class ReactionController extends Controller
     {
         $this->reactionUseCase = $reactionUseCase;
     }
+
+    /* =================== 以下メインの処理 =================== */
 
     public function store(Request $request, Topic $topic)
     {
