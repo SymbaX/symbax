@@ -45,6 +45,7 @@ class EventStatusUseCase
         $this->checkEventOrganizerService = $checkEventOrganizerService;
     }
 
+    /* =================== 以下メインの処理 =================== */
 
     /**
      * イベントへの参加リクエスト

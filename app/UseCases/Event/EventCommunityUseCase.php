@@ -45,6 +45,9 @@ class EventCommunityUseCase
         $this->operationLogUseCase = $operationLogUseCase;
     }
 
+    /* =================== 以下メインの処理 =================== */
+
+
     /**
      * イベントへのアクセス権限をチェックする
      *
@@ -82,9 +85,9 @@ class EventCommunityUseCase
      * @param int $id イベントのID
      * @return \Illuminate\Database\Eloquent\Collection 最新のトピックのコレクションを返す
      */
-    public function getTopics($id, $perPage = 10)
+    public function getTopics($id, $per_page = 10)
     {
-        $topics = Topic::where("event_id", $id)->latest()->paginate($perPage);
+        $topics = Topic::where("event_id", $id)->latest()->paginate($per_page);
 
         foreach ($topics as $topic) {
             $topic->content = $this->replaceMentions($topic->content, $topic->event_id);

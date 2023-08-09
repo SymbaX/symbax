@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
  */
 class CheckEventParticipantStatusUseCase
 {
+    /* =================== 以下メインの処理 =================== */
+
     /**
      * イベント参加者のステータスをチェックします。
      *

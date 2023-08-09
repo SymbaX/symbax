@@ -6,41 +6,39 @@ use App\Http\Controllers\Controller;
 use App\UseCases\Admin\ListUsersUseCase;
 
 /**
- * Class ListUsersController
- * 
- * 管理者向けユーザーリストのコントローラーです。
+ * 管理者向けユーザーリストのコントローラクラス
  */
 class ListUsersController extends Controller
 {
     /**
-     * @var ListUsersUseCase
+     * ユーザーリスト表示のビジネスロジックを提供するユースケース
      * 
-     * ユーザーリスト表示のためのユースケース
+     * @var ListUsersUseCase ユーザーリスト表示に使用するUseCaseインスタンス
      */
     private $listUsersUseCase;
 
     /**
-     * ListUsersController constructor.
+     * ListUsersControllerのコンストラクタ
      *
-     * @param ListUsersUseCase $listUsersUseCase
+     * 使用するユースケースをインジェクション（注入）します。
      * 
-     * ユーザーリストのユースケースを注入します。
+     * @param ListUsersUseCase $listUsersUseCase ユーザーリスト表示のためのユースケース
      */
     public function __construct(ListUsersUseCase $listUsersUseCase)
     {
         $this->listUsersUseCase = $listUsersUseCase;
     }
 
+    /* =================== 以下メインの処理 =================== */
+
     /**
-     * Handle the incoming request.
+     * ユーザーリストのページを表示するメソッド
      *
-     * @return \Illuminate\Http\Response
-     * 
-     * ユーザーリストのページを表示します。ユースケースから取得したデータをビューに渡します。
+     * @return \Illuminate\Http\Response ユーザーリストのビューページ
      */
-    public function __invoke()
+    public function listUsers()
     {
-        $data = $this->listUsersUseCase->execute();
+        $data = $this->listUsersUseCase->fetchUsersData();
         return view('admin.users-list', $data);
     }
 }

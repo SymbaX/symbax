@@ -8,43 +8,41 @@ use App\Http\Requests\Admin\UserUpdateRequest;
 use App\Models\User;
 
 /**
- * Class UserUpdateController
- * 
- * 管理者向けユーザー更新のコントローラーです。
+ * 管理者向けユーザー更新のコントローラクラス
  */
 class UserUpdateController extends Controller
 {
     /**
-     * @var UserUpdateUseCase
+     * ユーザー更新のビジネスロジックを提供するユースケース
      * 
-     * ユーザー更新のためのユースケース
+     * @var UserUpdateUseCase ユーザー更新に使用するUseCaseインスタンス
      */
     private $userUpdateUseCase;
 
     /**
-     * UserUpdateController constructor.
+     * UserUpdateControllerのコンストラクタ
      *
-     * @param UserUpdateUseCase $userUpdateUseCase
+     * 使用するユースケースをインジェクション（注入）します。
      * 
-     * ユーザー更新のユースケースを注入します。
+     * @param UserUpdateUseCase $userUpdateUseCase ユーザー更新のユースケース
      */
     public function __construct(UserUpdateUseCase $userUpdateUseCase)
     {
         $this->userUpdateUseCase = $userUpdateUseCase;
     }
 
+    /* =================== 以下メインの処理 =================== */
+
     /**
-     * Handle the incoming request.
+     * ユーザー情報の更新すをるメソッド
      * 
-     * @param UserUpdateRequest $request
-     * @param User $user
+     * @param UserUpdateRequest $request 更新情報が含まれるリクエスト
+     * @param User $user 対象ユーザーのモデル
      *
      * @return \Illuminate\Http\Response
-     * 
-     * ユーザー情報を更新します。更新情報と対象ユーザーはリクエストから取得します。
      */
-    public function __invoke(UserUpdateRequest $request, User $user)
+    public function updateUser(UserUpdateRequest $request, User $user)
     {
-        return $this->userUpdateUseCase->execute($request, $user);
+        return $this->userUpdateUseCase->updateUser($request, $user);
     }
 }

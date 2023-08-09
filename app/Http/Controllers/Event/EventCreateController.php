@@ -16,13 +16,17 @@ use Illuminate\View\View;
 class EventCreateController extends Controller
 {
     /**
-     * @var EventCreateUseCase イベント作成に使用するUseCaseのインスタンス
+     * イベント作成のビジネスロジックを提供するユースケース
+     * 
+     * @var EventCreateUseCase イベント作成に使用するUseCaseインスタンス
      */
     private $eventCreateUseCase;
 
     /**
-     * EventCreateControllerの新しいインスタンスを作成します。
+     * EventCreateControllerのコンストラクタ。
      *
+     * 使用するユースケースをインジェクション（注入）します。
+     * 
      * @param EventCreateUseCase $eventCreateUseCase イベント作成に使用するUseCaseのインスタンス
      */
     public function __construct(EventCreateUseCase $eventCreateUseCase)
@@ -30,12 +34,12 @@ class EventCreateController extends Controller
         $this->eventCreateUseCase = $eventCreateUseCase;
     }
 
+    /* =================== 以下メインの処理 =================== */
+
     /**
-     * イベント作成フォームの表示
+     * イベント新規作成フォームを表示するメソッド
      *
-     * イベント作成フォームを表示します。
-     *
-     * @return View イベント作成フォームのビュー
+     * @return View 
      */
     public function create(): View
     {
@@ -43,12 +47,12 @@ class EventCreateController extends Controller
     }
 
     /**
-     * イベントの作成
+     * 新しいイベントをデータベースに保存するメソッド
      *
-     * リクエストから受け取ったデータを検証し、新しいイベントを作成します。
+     * フォームから受け取ったイベント情報を検証し、新しいイベントとしてデータベースに保存します。
      *
-     * @param CreateRequest $request イベント作成のためのリクエスト
-     * @return RedirectResponse 作成されたイベントの詳細ページへのリダイレクトレスポンス
+     * @param CreateRequest $request イベント情報を持つリクエストオブジェクト
+     * @return RedirectResponse 新しいイベントの詳細ページへリダイレクトするレスポンス
      */
     public function store(CreateRequest $request): RedirectResponse
     {

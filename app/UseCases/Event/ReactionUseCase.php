@@ -27,6 +27,8 @@ class ReactionUseCase
         $this->checkEventOrganizerService = $checkEventOrganizerService;
     }
 
+    /* =================== 以下メインの処理 =================== */
+
     /**
      * 使用可能な絵文字の一覧を取得する
      *
