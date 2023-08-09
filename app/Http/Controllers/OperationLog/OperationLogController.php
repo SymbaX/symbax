@@ -13,7 +13,7 @@ class OperationLogController extends Controller
     /**
      * 操作ログのビジネスロジックを提供するユースケース
      * 
-     * @var OperationLogUseCase
+     * @var OperationLogUseCase 操作ログに使用するUseCaseインスタンス
      */
     private $operationLogUseCase;
 

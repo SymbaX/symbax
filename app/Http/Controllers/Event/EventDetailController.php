@@ -15,7 +15,7 @@ class EventDetailController extends Controller
     /**
      * イベント詳細のビジネスロジックを提供するユースケース
      * 
-     * @var EventDetailUseCase イベント詳細情報取得に使用するUseCaseのインスタンス
+     * @var EventDetailUseCase イベント詳細情報取得に使用するUseCaseインスタンス
      */
     private $eventDetailUseCase;
 

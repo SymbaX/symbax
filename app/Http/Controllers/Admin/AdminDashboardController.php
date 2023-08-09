@@ -13,7 +13,7 @@ class AdminDashboardController extends Controller
     /**
      * 管理者ダッシュボードのビジネスロジックを提供するユースケース
      * 
-     * @var AdminDashboardUseCase
+     * @var AdminDashboardUseCase 管理ダッシュボードに使用するUseCaseインスタンス
      */
     private $adminDashboardUseCase;
 

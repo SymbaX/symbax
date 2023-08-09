@@ -21,7 +21,7 @@ class ProfileController extends Controller
     /**
      * プロフィールのビジネスロジックを提供するユースケース
      * 
-     * @var ProfileUseCase
+     * @var ProfileUseCase プロフィールに使用するUseCaseインスタンス
      */
     private $profileUseCase;
 
@@ -87,7 +87,6 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
-
 
     public function show($loginId)
     {

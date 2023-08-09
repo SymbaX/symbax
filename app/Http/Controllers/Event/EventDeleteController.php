@@ -16,7 +16,7 @@ class EventDeleteController extends Controller
     /**
      * イベント削除のビジネスロジックを提供するユースケース
      * 
-     * @var EventDeleteUseCase イベント削除に使用するUseCaseのインスタンス
+     * @var EventDeleteUseCase イベント削除にに使用するUseCaseインスタンス
      */
     private $eventDeleteUseCase;
 

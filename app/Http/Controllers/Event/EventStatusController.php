@@ -17,7 +17,7 @@ class EventStatusController extends Controller
     /**
      * イベントステータス操作のビジネスロジックを提供するユースケース
      * 
-     * @var EventStatusUseCase イベントステータスの操作に使用するUseCaseのインスタンス
+     * @var EventStatusUseCase イベントステータスの操作に使用するUseCaseインスタンス
      */
     private $eventStatusUseCase;
 

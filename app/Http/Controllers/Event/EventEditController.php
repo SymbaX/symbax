@@ -15,9 +15,9 @@ use Illuminate\Http\RedirectResponse;
 class EventEditController extends Controller
 {
     /**
-     * イベント編集情報取得のビジネスロジックを提供するユースケース
+     * イベント編集のビジネスロジックを提供するユースケース
      * 
-     * @var EventEditUseCase
+     * @var EventEditUseCase イベント編集に使用するUseCaseインスタンス
      */
     private $eventEditUseCase;
 

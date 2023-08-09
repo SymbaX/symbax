@@ -14,7 +14,7 @@ class MailSendController extends Controller
     /**
      * メール送信のビジネスロジックを提供するユースケース
      * 
-     * @var MailSendUseCase
+     * @var MailSendUseCase メール送信に使用するUseCaseインスタンス
      */
     private $mailSendUseCase;
 

@@ -15,7 +15,7 @@ class UserUpdateController extends Controller
     /**
      * ユーザー更新のビジネスロジックを提供するユースケース
      * 
-     * @var UserUpdateUseCase
+     * @var UserUpdateUseCase ユーザー更新に使用するUseCaseインスタンス
      */
     private $userUpdateUseCase;
 

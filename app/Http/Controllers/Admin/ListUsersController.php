@@ -13,7 +13,7 @@ class ListUsersController extends Controller
     /**
      * ユーザーリスト表示のビジネスロジックを提供するユースケース
      * 
-     * @var ListUsersUseCase
+     * @var ListUsersUseCase ユーザーリスト表示に使用するUseCaseインスタンス
      */
     private $listUsersUseCase;
 

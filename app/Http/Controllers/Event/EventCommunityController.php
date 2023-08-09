@@ -17,7 +17,7 @@ class EventCommunityController extends Controller
     /**
      * イベントコミュニティのビジネスロジックを提供するユースケース
      *
-     * @var EventCommunityUseCase
+     * @var EventCommunityUseCase イベントコミュニティに使用するUseCaseインスタンス
      */
     protected $useCase;
 

@@ -15,9 +15,9 @@ use Illuminate\View\View;
 class EventListController extends Controller
 {
     /**
-     * イベント一覧情報取得のビジネスロジックを提供するユースケース
+     * イベント一覧表示のビジネスロジックを提供するユースケース
      * 
-     * @var EventListUseCase
+     * @var EventListUseCase イベント一覧表示に使用するUseCaseインスタンス
      */
     private $eventListUseCase;
 
@@ -36,7 +36,7 @@ class EventListController extends Controller
     /* =================== 以下メインの処理 =================== */
 
     /**
-     * 今日以降のイベント一覧を表示
+     * 今日以降のイベント一覧を表示するメソッド
      * 
      * 今日以降に開催されるイベントを取得し、ビューに渡して表示します。
      * 
@@ -50,7 +50,7 @@ class EventListController extends Controller
     }
 
     /**
-     * 全てのイベント一覧を表示
+     * 全てのイベント一覧を表示するメソッド
      * 
      * 登録されている全てのイベントを取得し、ビューに渡して表示します。
      * 
@@ -63,7 +63,7 @@ class EventListController extends Controller
     }
 
     /**
-     * ユーザーが参加しているイベント一覧を表示
+     * ユーザーが参加しているイベント一覧を表示するメソッド
      * 
      * ログイン中のユーザーが参加しているイベントを取得し、ビューに渡して表示します。
      * 
@@ -77,7 +77,7 @@ class EventListController extends Controller
     }
 
     /**
-     * ユーザーが作成したイベント一覧を表示
+     * ユーザーが作成したイベント一覧を表示するメソッド
      * 
      * ログイン中のユーザーが作成したイベントを取得し、ビューに渡して表示します。
      * 

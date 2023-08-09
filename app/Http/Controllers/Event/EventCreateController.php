@@ -18,7 +18,7 @@ class EventCreateController extends Controller
     /**
      * イベント作成のビジネスロジックを提供するユースケース
      * 
-     * @var EventCreateUseCase イベント作成に使用するUseCaseのインスタンス
+     * @var EventCreateUseCase イベント作成に使用するUseCaseインスタンス
      */
     private $eventCreateUseCase;
 

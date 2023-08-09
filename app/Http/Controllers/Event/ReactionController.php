@@ -19,7 +19,7 @@ class ReactionController extends Controller
     /**
      * リアクションのビジネスロジックを提供するユースケース
      * 
-     * @var ReactionUseCase
+     * @var ReactionUseCase リアクションに使用するUseCaseインスタンス
      */
     private $reactionUseCase;
 
