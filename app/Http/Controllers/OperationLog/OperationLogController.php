@@ -11,7 +11,7 @@ use App\Http\Requests\OperationLog\OperationLogStoreRequest;
 class OperationLogController extends Controller
 {
     /**
-     * 操作ログのユースケースインスタンス
+     * 操作ログのビジネスロジックを提供するユースケース
      * 
      * @var OperationLogUseCase
      */
@@ -32,7 +32,7 @@ class OperationLogController extends Controller
     /* =================== 以下メインの処理 =================== */
 
     /**
-     * 操作ログを保存
+     * 操作ログを保存するメソッド
      * 
      * @param OperationLogStoreRequest $request
      * @return \Illuminate\Http\RedirectResponse

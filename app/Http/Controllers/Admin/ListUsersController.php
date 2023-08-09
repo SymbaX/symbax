@@ -11,7 +11,7 @@ use App\UseCases\Admin\ListUsersUseCase;
 class ListUsersController extends Controller
 {
     /**
-     * ユーザーリスト表示のためのユースケース
+     * ユーザーリスト表示のビジネスロジックを提供するユースケース
      * 
      * @var ListUsersUseCase
      */

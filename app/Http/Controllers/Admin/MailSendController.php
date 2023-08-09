@@ -12,7 +12,7 @@ use App\UseCases\Admin\MailSendUseCase;
 class MailSendController extends Controller
 {
     /**
-     * メール送信のためのユースケース
+     * メール送信のビジネスロジックを提供するユースケース
      * 
      * @var MailSendUseCase
      */
@@ -33,7 +33,7 @@ class MailSendController extends Controller
     /* =================== 以下メインの処理 =================== */
 
     /**
-     * メール作成画面を表示
+     * メール作成画面を表示するメソッド
      *
      * @return \Illuminate\Contracts\View\View
      */
@@ -43,7 +43,7 @@ class MailSendController extends Controller
     }
 
     /**
-     * メールの送信処理
+     * メールの送信をするメソッド
      * 
      * @param SendMailRequest $request 送信するメールの情報が含まれるリクエスト
      * 

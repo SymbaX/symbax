@@ -11,9 +11,9 @@ use App\UseCases\Admin\AdminDashboardUseCase;
 class AdminDashboardController extends Controller
 {
     /**
-     * @var AdminDashboardUseCase
+     * 管理者ダッシュボードのビジネスロジックを提供するユースケース
      * 
-     * 管理者ダッシュボードのユースケース
+     * @var AdminDashboardUseCase
      */
     private $adminDashboardUseCase;
 

@@ -11,7 +11,7 @@ use App\UseCases\Admin\ListOperationLogsUseCase;
 class ListOperationLogsController extends Controller
 {
     /**
-     * 操作ログリストのユースケース
+     * 操作ログリストのビジネスロジックを提供するユースケース
      * 
      * @var ListOperationLogsUseCase
      */
@@ -32,7 +32,7 @@ class ListOperationLogsController extends Controller
     /* =================== 以下メインの処理 =================== */
 
     /**
-     * 操作ログのリストを表示
+     * 操作ログのリストを表示するメソッド
      *
      * @return View 操作ログリストページを表示。ユースケースから取得した操作ログをビューに渡す。
      */

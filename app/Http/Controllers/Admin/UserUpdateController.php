@@ -13,7 +13,7 @@ use App\Models\User;
 class UserUpdateController extends Controller
 {
     /**
-     * ユーザー更新のためのユースケース
+     * ユーザー更新のビジネスロジックを提供するユースケース
      * 
      * @var UserUpdateUseCase
      */
@@ -34,7 +34,7 @@ class UserUpdateController extends Controller
     /* =================== 以下メインの処理 =================== */
 
     /**
-     * ユーザー情報の更新
+     * ユーザー情報の更新すをるメソッド
      * 
      * @param UserUpdateRequest $request 更新情報が含まれるリクエスト
      * @param User $user 対象ユーザーのモデル

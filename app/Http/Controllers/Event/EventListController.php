@@ -22,7 +22,7 @@ class EventListController extends Controller
     private $eventListUseCase;
 
     /**
-     * コンストラクタ
+     * EventListControllerのコンストラクタ
      *
      * 使用するユースケースをインジェクション（注入）します。
      * 

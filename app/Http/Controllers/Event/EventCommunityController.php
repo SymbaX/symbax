@@ -15,14 +15,14 @@ use Illuminate\View\View;
 class EventCommunityController extends Controller
 {
     /**
-     * イベントコミュニティ関連のユースケース
+     * イベントコミュニティのビジネスロジックを提供するユースケース
      *
      * @var EventCommunityUseCase
      */
     protected $useCase;
 
     /**
-     * リアクション関連のユースケース
+     * リアクションのビジネスロジックを提供するユースケース
      *
      * @var ReactionUseCase
      */
@@ -45,7 +45,7 @@ class EventCommunityController extends Controller
     /* =================== 以下メインの処理 =================== */
 
     /**
-     * トピック作成画面を表示
+     * トピック作成画面を表示するメソッド
      * 
      * 指定されたイベントIDに関連するトピック作成画面を表示するためのメソッド。
      *
@@ -69,7 +69,7 @@ class EventCommunityController extends Controller
     }
 
     /**
-     * トピック情報を保存
+     * トピック情報を保存するメソッド
      * 
      * リクエストから送信されたトピック情報をデータベースに保存するメソッド。
      *
@@ -87,7 +87,7 @@ class EventCommunityController extends Controller
     }
 
     /**
-     * 指定されたトピックを削除
+     * 指定されたトピックを削除するメソッド
      * 
      * イベントIDとトピックIDを基に、対応するトピックを削除するメソッド。
      *

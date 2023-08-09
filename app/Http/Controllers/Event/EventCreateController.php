@@ -37,7 +37,7 @@ class EventCreateController extends Controller
     /* =================== 以下メインの処理 =================== */
 
     /**
-     * イベント新規作成フォームを表示
+     * イベント新規作成フォームを表示するメソッド
      *
      * @return View 
      */
@@ -47,7 +47,7 @@ class EventCreateController extends Controller
     }
 
     /**
-     * 新しいイベントをデータベースに保存
+     * 新しいイベントをデータベースに保存するメソッド
      *
      * フォームから受け取ったイベント情報を検証し、新しいイベントとしてデータベースに保存します。
      *

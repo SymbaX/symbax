@@ -20,7 +20,7 @@ class EventDetailController extends Controller
     private $eventDetailUseCase;
 
     /**
-     * コンストラクタ
+     * EventDetailControllerのコンストラクタ
      *
      * 使用するユースケースをインジェクション（注入）します。
      * 
@@ -34,7 +34,7 @@ class EventDetailController extends Controller
     /* =================== 以下メインの処理 =================== */
 
     /**
-     * イベントの詳細情報を表示
+     * イベントの詳細情報を表示するメソッド
      * 
      * 指定されたイベントIDに関連する詳細情報を取得し、ビューに渡して表示します。
      *

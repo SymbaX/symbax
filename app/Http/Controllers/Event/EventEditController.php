@@ -15,14 +15,14 @@ use Illuminate\Http\RedirectResponse;
 class EventEditController extends Controller
 {
     /**
-     * イベント編集情報取得に関するユースケース
+     * イベント編集情報取得のビジネスロジックを提供するユースケース
      * 
      * @var EventEditUseCase
      */
     private $eventEditUseCase;
 
     /**
-     * コンストラクタ
+     * EventEditControllerのコンストラクタ
      *
      * 使用するユースケースをインジェクション（注入）します。
      *
@@ -36,7 +36,7 @@ class EventEditController extends Controller
     /* =================== 以下メインの処理 =================== */
 
     /**
-     * イベント編集画面を表示します。
+     * イベント編集画面を表示するメソッド
      * 
      * 指定されたイベントIDに関連する編集画面を表示します。
      * ただし、編集権限がない場合はエラーメッセージとともに詳細ページにリダイレクトします。
@@ -56,7 +56,7 @@ class EventEditController extends Controller
     }
 
     /**
-     * イベント情報の更新を行います。
+     * イベント情報を更新するメソッド
      * 
      * 指定されたイベントIDの情報をリクエストに基づき更新します。
      * 更新権限がない場合や、更新に失敗した場合はエラーメッセージとともに詳細ページにリダイレクトします。
