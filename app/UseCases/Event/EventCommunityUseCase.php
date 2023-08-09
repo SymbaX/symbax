@@ -45,6 +45,9 @@ class EventCommunityUseCase
         $this->operationLogUseCase = $operationLogUseCase;
     }
 
+    /* =================== 以下メインの処理 =================== */
+
+
     /**
      * イベントへのアクセス権限をチェックする
      *

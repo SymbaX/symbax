@@ -31,6 +31,9 @@ class ProfileUseCase
     {
         $this->operationLogUseCase = $operationLogUseCase;
     }
+
+    /* =================== 以下メインの処理 =================== */
+
     /**
      * プロフィールを更新します。
      *

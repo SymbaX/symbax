@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Auth;
  */
 class EventDetailUseCase
 {
+    /* =================== 以下メインの処理 =================== */
+
     /**
      * イベントの詳細を取得します。
      *

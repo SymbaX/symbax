@@ -32,6 +32,8 @@ class EventCreateUseCase
         $this->operationLogUseCase = $operationLogUseCase;
     }
 
+    /* =================== 以下メインの処理 =================== */
+
     /**
      * イベント作成フォームの表示
      *

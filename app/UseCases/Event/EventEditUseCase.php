@@ -39,6 +39,8 @@ class EventEditUseCase
         $this->checkEventOrganizerService = $checkEventOrganizerService;
     }
 
+    /* =================== 以下メインの処理 =================== */
+
     /**
      * 指定されたイベントIDに基づいて、イベント情報を取得し、表示します。
      *

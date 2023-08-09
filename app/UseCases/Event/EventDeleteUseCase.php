@@ -38,6 +38,7 @@ class EventDeleteUseCase
         $this->checkEventOrganizerService = $checkEventOrganizerService;
     }
 
+    /* =================== 以下メインの処理 =================== */
 
     /**
      * イベントの削除
