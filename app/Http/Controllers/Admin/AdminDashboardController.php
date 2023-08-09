@@ -29,6 +29,8 @@ class AdminDashboardController extends Controller
         $this->adminDashboardUseCase = $adminDashboardUseCase;
     }
 
+    /* =================== 以下メインの処理 =================== */
+
     /**
      * 管理者ダッシュボードページを表示するメソッド
      * 

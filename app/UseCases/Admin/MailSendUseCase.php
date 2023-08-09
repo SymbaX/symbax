@@ -20,7 +20,7 @@ class MailSendUseCase
     private $operationLogUseCase;
 
     /**
-     * コンストラクタ
+     * MailSendUseCaseのコンストラクタ
      * 
      * 操作ログを管理するユースケースをインジェクションします。
      *

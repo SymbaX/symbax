@@ -28,6 +28,8 @@ class MailSendController extends Controller
         $this->mailSendUseCase = $mailSendUseCase;
     }
 
+    /* =================== 以下メインの処理 =================== */
+
     /**
      * メール作成画面を表示
      *

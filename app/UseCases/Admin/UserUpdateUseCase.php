@@ -22,7 +22,7 @@ class UserUpdateUseCase
     private $operationLogUseCase;
 
     /**
-     * コンストラクタ
+     * UserUpdateUseCaseのコンストラクタ
      * 
      * 操作ログを管理するユースケースをインジェクションします。
      *

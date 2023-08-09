@@ -20,7 +20,7 @@ class ListOperationLogsUseCase
     private $operationLogUseCase;
 
     /**
-     * コンストラクタ
+     * ListOperationLogsUseCaseのコンストラクタ
      * 
      * 操作ログを管理するユースケースをインジェクションします。
      *

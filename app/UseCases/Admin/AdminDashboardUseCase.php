@@ -20,7 +20,7 @@ class AdminDashboardUseCase
     private $operationLogUseCase;
 
     /**
-     * コンストラクタ
+     * AdminDashboardUseCaseのコンストラクタ
      * 
      * 操作ログを管理するユースケースをインジェクションします。
      *
