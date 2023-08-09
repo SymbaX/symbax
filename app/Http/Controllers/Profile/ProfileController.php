@@ -23,7 +23,9 @@ class ProfileController extends Controller
     private $profileUseCase;
 
     /**
-     * ProfileControllerの新しいインスタンスを生成します。
+     * ProfileControllerのコンストラクタ
+     * 
+     * 使用するユースケースをインジェクション（注入）します。
      *
      * @param ProfileUseCase $profileUseCase プロフィールのユースケースインスタンス
      */

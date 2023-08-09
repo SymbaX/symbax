@@ -15,12 +15,16 @@ use Illuminate\Http\RedirectResponse;
 class EventStatusController extends Controller
 {
     /**
+     * イベントステータス操作のビジネスロジックを提供するユースケース
+     * 
      * @var EventStatusUseCase イベントステータスの操作に使用するUseCaseのインスタンス
      */
     private $eventStatusUseCase;
 
     /**
      * コンストラクタ
+     *
+     * 使用するユースケースをインジェクション（注入）します。
      *
      * @param EventStatusUseCase $eventStatusUseCase イベントステータスの操作に使用するUseCaseのインスタンス
      */

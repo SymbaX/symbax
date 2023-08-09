@@ -12,12 +12,24 @@ use Illuminate\Validation\Rule;
 /**
  * リアクションコントローラー
  * 
- * ユーザーの反応を管理するコントローラーです。
+ * トピックに対するユーザーのリアクションを管理するコントローラーです。
  */
 class ReactionController extends Controller
 {
+    /**
+     * リアクションのビジネスロジックを提供するユースケース
+     * 
+     * @var ReactionUseCase
+     */
     private $reactionUseCase;
 
+    /**
+     * ReactionControllerのコンストラクタ
+     * 
+     * 使用するユースケースをインジェクション（注入）します。
+     * 
+     * @param ReactionUseCase $reactionUseCase リアクションに関する処理を提供するユースケース
+     */
     public function __construct(ReactionUseCase $reactionUseCase)
     {
         $this->reactionUseCase = $reactionUseCase;
@@ -25,6 +37,15 @@ class ReactionController extends Controller
 
     /* =================== 以下メインの処理 =================== */
 
+    /**
+     * リアクションを保存します。
+     * 
+     * ユーザーがトピックに対して選択した絵文字のリアクションを保存します。
+     * 
+     * @param Request $request リアクション情報を持つリクエストオブジェクト
+     * @param Topic $topic リアクションの対象となるトピック
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request, Topic $topic)
     {
         $emojis = $this->reactionUseCase->getEmojis();

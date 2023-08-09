@@ -15,13 +15,17 @@ use Illuminate\View\View;
 class EventListController extends Controller
 {
     /**
-     * @var EventListUseCase イベント一覧取得に使用するUseCaseのインスタンス
+     * イベント一覧情報取得のビジネスロジックを提供するユースケース
+     * 
+     * @var EventListUseCase
      */
     private $eventListUseCase;
 
     /**
      * コンストラクタ
      *
+     * 使用するユースケースをインジェクション（注入）します。
+     * 
      * @param EventListUseCase $eventListUseCase イベント一覧取得に使用するUseCaseのインスタンス
      */
     public function __construct(EventListUseCase $eventListUseCase)
@@ -32,11 +36,11 @@ class EventListController extends Controller
     /* =================== 以下メインの処理 =================== */
 
     /**
-     * イベント一覧の表示
-     *
-     * 今日以降の日付で開催されるイベントを日付の降順でページネーションして表示します。
-     *
-     * @return View イベント一覧のビュー
+     * 今日以降のイベント一覧を表示
+     * 
+     * 今日以降に開催されるイベントを取得し、ビューに渡して表示します。
+     * 
+     * @return View イベント一覧画面のビュー
      */
     public function indexHome(): View
     {
@@ -46,11 +50,11 @@ class EventListController extends Controller
     }
 
     /**
-     * 全てのイベント一覧の表示
-     *
-     * すべてのイベントを日付の降順でページネーションして表示します。
-     *
-     * @return View イベント一覧のビュー
+     * 全てのイベント一覧を表示
+     * 
+     * 登録されている全てのイベントを取得し、ビューに渡して表示します。
+     * 
+     * @return View イベント一覧画面のビュー
      */
     public function indexAll(): View
     {
@@ -59,11 +63,11 @@ class EventListController extends Controller
     }
 
     /**
-     * 参加しているイベント一覧の表示
-     *
-     * 参加しているイベントを日付の降順でページネーションして表示します。
-     *
-     * @return View イベント一覧のビュー
+     * ユーザーが参加しているイベント一覧を表示
+     * 
+     * ログイン中のユーザーが参加しているイベントを取得し、ビューに渡して表示します。
+     * 
+     * @return View イベント一覧画面のビュー
      */
     public function indexJoin(): View
     {
@@ -73,11 +77,11 @@ class EventListController extends Controller
     }
 
     /**
-     * 作成したイベント一覧の表示
-     *
-     * ユーザーが作成したイベントを日付の降順でページネーションして表示します。
-     *
-     * @return View イベント一覧のビュー
+     * ユーザーが作成したイベント一覧を表示
+     * 
+     * ログイン中のユーザーが作成したイベントを取得し、ビューに渡して表示します。
+     * 
+     * @return View イベント一覧画面のビュー
      */
     public function indexOrganizer(): View
     {

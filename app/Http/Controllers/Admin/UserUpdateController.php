@@ -22,6 +22,8 @@ class UserUpdateController extends Controller
     /**
      * UserUpdateControllerのコンストラクタ
      *
+     * 使用するユースケースをインジェクション（注入）します。
+     * 
      * @param UserUpdateUseCase $userUpdateUseCase ユーザー更新のユースケース
      */
     public function __construct(UserUpdateUseCase $userUpdateUseCase)

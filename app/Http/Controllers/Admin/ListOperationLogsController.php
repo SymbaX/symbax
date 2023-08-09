@@ -20,6 +20,8 @@ class ListOperationLogsController extends Controller
     /**
      * ListOperationLogsControllerのコンストラクタ
      *
+     * 使用するユースケースをインジェクション（注入）します。
+     * 
      * @param ListOperationLogsUseCase $listOperationLogsUseCase 操作ログリストのユースケース
      */
     public function __construct(ListOperationLogsUseCase $listOperationLogsUseCase)

@@ -14,14 +14,18 @@ use Illuminate\Http\RedirectResponse;
 class EventDeleteController extends Controller
 {
     /**
-     * @var EventDeleteUseCase
+     * イベント削除のビジネスロジックを提供するユースケース
+     * 
+     * @var EventDeleteUseCase イベント削除に使用するUseCaseのインスタンス
      */
     private $eventDeleteUseCase;
 
     /**
-     * コンストラクタ
+     * EventDeleteControllerのコンストラクタ。
      *
-     * @param EventDeleteUseCase $eventDeleteUseCase イベント削除に使用するUseCase
+     * 使用するユースケースをインジェクション（注入）します。
+     * 
+     * @param EventDeleteUseCase $eventDeleteUseCase イベント削除に使用するUseCaseのインスタンス
      */
     public function __construct(EventDeleteUseCase $eventDeleteUseCase)
     {
@@ -33,8 +37,8 @@ class EventDeleteController extends Controller
     /**
      * イベントの削除
      *
-     * 指定されたイベントを削除します。参加者がいる場合は削除できません。
-     * 関連する画像ファイルも削除されます。
+     * 指定されたイベントを削除します。参加者がいる場合や関連する画像ファイルがある場合も削除されます。
+     * 削除後は、ホームページにリダイレクトされます。
      *
      * @param int $event_id 削除対象のイベントID
      * @return RedirectResponse リダイレクトレスポンス

@@ -20,7 +20,7 @@ class AdminDashboardController extends Controller
     /**
      * AdminDashboardControllerのコンストラクタ
      * 
-     * 管理者ダッシュボード用のユースケースを注入します。
+     * 使用するユースケースをインジェクション（注入）します。
      *
      * @param AdminDashboardUseCase $adminDashboardUseCase 管理者ダッシュボード用のユースケース
      */

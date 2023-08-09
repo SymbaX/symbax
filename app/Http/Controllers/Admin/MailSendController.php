@@ -21,6 +21,8 @@ class MailSendController extends Controller
     /**
      * MailSendControllerのコンストラクタ
      *
+     * 使用するユースケースをインジェクション（注入）します。
+     * 
      * @param MailSendUseCase $mailSendUseCase メール送信のユースケース
      */
     public function __construct(MailSendUseCase $mailSendUseCase)

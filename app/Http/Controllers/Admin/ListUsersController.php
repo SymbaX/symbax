@@ -20,9 +20,9 @@ class ListUsersController extends Controller
     /**
      * ListUsersControllerのコンストラクタ
      *
-     * @param ListUsersUseCase $listUsersUseCase ユーザーリスト表示のためのユースケース
+     * 使用するユースケースをインジェクション（注入）します。
      * 
-     * ユーザーリストのユースケースを注入します。
+     * @param ListUsersUseCase $listUsersUseCase ユーザーリスト表示のためのユースケース
      */
     public function __construct(ListUsersUseCase $listUsersUseCase)
     {

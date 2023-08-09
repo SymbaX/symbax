@@ -15,12 +15,16 @@ use Illuminate\Http\RedirectResponse;
 class EventEditController extends Controller
 {
     /**
-     * @var EventEditUseCase イベント編集に使用するUseCaseのインスタンス
+     * イベント編集情報取得に関するユースケース
+     * 
+     * @var EventEditUseCase
      */
     private $eventEditUseCase;
 
     /**
      * コンストラクタ
+     *
+     * 使用するユースケースをインジェクション（注入）します。
      *
      * @param EventEditUseCase $eventEditUseCase イベント編集に使用するUseCaseのインスタンス
      */
@@ -32,12 +36,12 @@ class EventEditController extends Controller
     /* =================== 以下メインの処理 =================== */
 
     /**
-     * イベントの編集画面を表示
+     * イベント編集画面を表示します。
+     * 
+     * 指定されたイベントIDに関連する編集画面を表示します。
+     * ただし、編集権限がない場合はエラーメッセージとともに詳細ページにリダイレクトします。
      *
-     * 指定されたイベントを編集するためのビューを表示します。
-     * 現在のユーザーがイベントの作成者でない場合は編集できません。
-     *
-     * @param int $id 編集するイベントのID
+     * @param int $id 編集対象のイベントID
      * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
      */
     public function edit($id)
@@ -52,15 +56,14 @@ class EventEditController extends Controller
     }
 
     /**
-     * イベントの更新
+     * イベント情報の更新を行います。
+     * 
+     * 指定されたイベントIDの情報をリクエストに基づき更新します。
+     * 更新権限がない場合や、更新に失敗した場合はエラーメッセージとともに詳細ページにリダイレクトします。
      *
-     * リクエストから受け取ったデータを検証し、指定されたイベントを更新します。
-     * 現在のユーザーがイベントの作成者でない場合は更新できません。
-     * 画像がアップロードされた場合は既存の画像を削除して新しい画像を保存します。
-     *
-     * @param UpdateRequest $request イベント更新のためのリクエスト
-     * @param int $id 更新するイベントのID
-     * @return RedirectResponse イベント詳細ページへのリダイレクトレスポンス
+     * @param UpdateRequest $request イベント情報更新のためのリクエスト
+     * @param int $id 更新対象のイベントID
+     * @return RedirectResponse イベント詳細ページへのリダイレクト
      */
     public function update(UpdateRequest $request, $id): RedirectResponse
     {

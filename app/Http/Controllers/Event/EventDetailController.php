@@ -13,13 +13,17 @@ use App\UseCases\Event\EventDetailUseCase;
 class EventDetailController extends Controller
 {
     /**
-     * @var EventDetailUseCase
+     * イベント詳細のビジネスロジックを提供するユースケース
+     * 
+     * @var EventDetailUseCase イベント詳細情報取得に使用するUseCaseのインスタンス
      */
     private $eventDetailUseCase;
 
     /**
      * コンストラクタ
      *
+     * 使用するユースケースをインジェクション（注入）します。
+     * 
      * @param EventDetailUseCase $eventDetailUseCase イベント詳細情報取得に使用するUseCase
      */
     public function __construct(EventDetailUseCase $eventDetailUseCase)
@@ -30,12 +34,12 @@ class EventDetailController extends Controller
     /* =================== 以下メインの処理 =================== */
 
     /**
-     * イベントの詳細表示
-     *
-     * 指定されたイベントの詳細情報を表示します。
+     * イベントの詳細情報を表示
+     * 
+     * 指定されたイベントIDに関連する詳細情報を取得し、ビューに渡して表示します。
      *
      * @param int $id 表示するイベントのID
-     * @return \Illuminate\View\View
+     * @return View イベント詳細画面のビュー
      */
     public function show($id)
     {

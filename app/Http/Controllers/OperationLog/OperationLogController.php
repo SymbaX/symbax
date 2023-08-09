@@ -20,6 +20,8 @@ class OperationLogController extends Controller
     /**
      * コンストラクタ
      *
+     * 使用するユースケースをインジェクション（注入）します。
+     * 
      * @param OperationLogUseCase $operationLogUseCase 操作ログに関するユースケース
      */
     public function __construct(OperationLogUseCase $operationLogUseCase)
@@ -30,7 +32,7 @@ class OperationLogController extends Controller
     /* =================== 以下メインの処理 =================== */
 
     /**
-     * 操作ログを保存する
+     * 操作ログを保存
      * 
      * @param OperationLogStoreRequest $request
      * @return \Illuminate\Http\RedirectResponse
