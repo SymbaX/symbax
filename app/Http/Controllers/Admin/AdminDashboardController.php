@@ -6,9 +6,7 @@ use App\Http\Controllers\Controller;
 use App\UseCases\Admin\AdminDashboardUseCase;
 
 /**
- * Class AdminDashboardController
- * 
- * 管理者用ダッシュボードのコントローラーです。
+ * 管理者用ダッシュボードのコントローラー
  */
 class AdminDashboardController extends Controller
 {
@@ -20,11 +18,11 @@ class AdminDashboardController extends Controller
     private $adminDashboardUseCase;
 
     /**
-     * AdminDashboardController constructor.
-     *
-     * @param AdminDashboardUseCase $adminDashboardUseCase
+     * AdminDashboardControllerのコンストラクタ
      * 
      * 管理者ダッシュボード用のユースケースを注入します。
+     *
+     * @param AdminDashboardUseCase $adminDashboardUseCase 管理者ダッシュボード用のユースケース
      */
     public function __construct(AdminDashboardUseCase $adminDashboardUseCase)
     {
@@ -32,15 +30,18 @@ class AdminDashboardController extends Controller
     }
 
     /**
-     * Handle the incoming request.
-     *
-     * @return \Illuminate\Http\Response
+     * 管理者ダッシュボードページを表示するメソッド
      * 
      * 管理者ダッシュボードページを表示します。
+     * 
+     * @return \Illuminate\Http\Response 管理者ダッシュボードのビュー
      */
-    public function __invoke()
+    public function dashboard()
     {
-        $this->adminDashboardUseCase->execute();
+        // ログを記録する
+        $this->adminDashboardUseCase->dashboardLog();
+
+        // Viewを返す
         return view('admin.dashboard');
     }
 }

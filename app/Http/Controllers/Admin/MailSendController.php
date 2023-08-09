@@ -7,25 +7,21 @@ use App\Http\Requests\Admin\SendMailRequest;
 use App\UseCases\Admin\MailSendUseCase;
 
 /**
- * Class MailSendController
- * 
- * 管理者向けメール送信のコントローラーです。
+ * 管理者向けメール送信のコントローラクラス
  */
 class MailSendController extends Controller
 {
     /**
-     * @var MailSendUseCase
-     * 
      * メール送信のためのユースケース
+     * 
+     * @var MailSendUseCase
      */
     private $mailSendUseCase;
 
     /**
-     * MailSendController constructor.
+     * MailSendControllerのコンストラクタ
      *
-     * @param MailSendUseCase $mailSendUseCase
-     * 
-     * メール送信のユースケースを注入します。
+     * @param MailSendUseCase $mailSendUseCase メール送信のユースケース
      */
     public function __construct(MailSendUseCase $mailSendUseCase)
     {
@@ -33,25 +29,25 @@ class MailSendController extends Controller
     }
 
     /**
-     * メール作成画面を表示します。
+     * メール作成画面を表示
      *
      * @return \Illuminate\Contracts\View\View
      */
-    public function create()
+    public function showMailForm()
     {
         return view('admin.mail');
     }
 
     /**
-     * メールを送信します。
+     * メールの送信処理
      * 
-     * @param SendMailRequest $request
+     * @param SendMailRequest $request 送信するメールの情報が含まれるリクエスト
      * 
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function send(SendMailRequest $request)
+    public function sendMail(SendMailRequest $request)
     {
-        $this->mailSendUseCase->send($request);
+        $this->mailSendUseCase->performMailSending($request);
         return redirect()->back()->with('status', 'mail-send');
     }
 }

@@ -9,12 +9,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'verified', 'admin', 'disabled'])->group(function () {
 
-    Route::get('/admin', AdminDashboardController::class)->name('admin.dashboard');
-    Route::get('/admin/users', ListUsersController::class)->name('admin.users');
-    Route::patch('/admin/users/{user}', UserUpdateController::class)->name('admin.user.update');
+    Route::get('/admin', [AdminDashboardController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/admin/users', [ListUsersController::class, 'listUsers'])->name('admin.users');
+    Route::patch('/admin/users/{user}', [UserUpdateController::class, 'updateUser'])->name('admin.user.update');
 
-    Route::get('/admin/operation-logs', ListOperationLogsController::class)->name('admin.operation-logs');
+    Route::get('/admin/operation-logs', [ListOperationLogsController::class, 'showLogs'])->name('admin.operation-logs');
 
-    Route::get('/admin/mail', [MailSendController::class, 'create'])->name('admin.mail');
-    Route::patch('/admin/mail', [MailSendController::class, 'send'])->name('admin.mail.send');
+    Route::get('/admin/mail', [MailSendController::class, 'showMailForm'])->name('admin.mail');
+    Route::patch('/admin/mail', [MailSendController::class, 'sendMail'])->name('admin.mail.send');
 });

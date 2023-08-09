@@ -6,25 +6,21 @@ use App\Http\Controllers\Controller;
 use App\UseCases\Admin\ListOperationLogsUseCase;
 
 /**
- * Class ListOperationLogsController
- * 
- * 管理者用操作ログリストのコントローラーです。
+ * 管理者用操作ログリストのコントローラクラス
  */
 class ListOperationLogsController extends Controller
 {
     /**
-     * @var ListOperationLogsUseCase
-     * 
      * 操作ログリストのユースケース
+     * 
+     * @var ListOperationLogsUseCase
      */
     private $listOperationLogsUseCase;
 
     /**
-     * ListOperationLogsController constructor.
+     * ListOperationLogsControllerのコンストラクタ
      *
-     * @param ListOperationLogsUseCase $listOperationLogsUseCase
-     * 
-     * 操作ログリストのユースケースを注入します。
+     * @param ListOperationLogsUseCase $listOperationLogsUseCase 操作ログリストのユースケース
      */
     public function __construct(ListOperationLogsUseCase $listOperationLogsUseCase)
     {
@@ -32,15 +28,13 @@ class ListOperationLogsController extends Controller
     }
 
     /**
-     * Handle the incoming request.
+     * 操作ログのリストを表示
      *
-     * @return \Illuminate\Http\Response
-     * 
-     * 操作ログリストページを表示します。ユースケースから取得した操作ログをビューに渡します。
+     * @return View 操作ログリストページを表示。ユースケースから取得した操作ログをビューに渡す。
      */
-    public function __invoke()
+    public function showLogs()
     {
-        $operation_logs = $this->listOperationLogsUseCase->execute();
+        $operation_logs = $this->listOperationLogsUseCase->fetchLogs();
         return view('admin.operation-logs', compact('operation_logs'));
     }
 }

@@ -5,30 +5,45 @@ namespace App\UseCases\Admin;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\Admin\UserUpdateRequest;
-use App\Mail\MailSendAdmin;
 use App\Models\User;
 use App\UseCases\OperationLog\OperationLogUseCase;
-use Illuminate\Support\Facades\Mail;
 
+/**
+ * 管理者向けユーザー更新ユースケースクラス
+ */
 class UserUpdateUseCase
 {
     /**
+     * 操作ログを保存するためのユースケースインスタンス。
+     * このユースケースを利用して、システムの操作に関するログの記録処理を行います。
+     * 
      * @var OperationLogUseCase
      */
     private $operationLogUseCase;
 
     /**
-     * OperationLogUseCaseの新しいインスタンスを作成します。
+     * コンストラクタ
+     * 
+     * 操作ログを管理するユースケースをインジェクションします。
      *
-     * @param  OperationLogUseCase  $operationLogUseCase
-     * @return void
+     * @param OperationLogUseCase $operationLogUseCase 操作ログに関するユースケース
      */
     public function __construct(OperationLogUseCase $operationLogUseCase)
     {
         $this->operationLogUseCase = $operationLogUseCase;
     }
 
-    public function execute(UserUpdateRequest $request, User $user): RedirectResponse
+    /* =================== 以下メインの処理 =================== */
+
+    /**
+     * ユーザー情報の更新処理
+     *
+     * @param UserUpdateRequest $request 更新情報が含まれるリクエスト
+     * @param User $user 対象ユーザーのモデル
+     * 
+     * @return RedirectResponse リダイレクトレスポンス
+     */
+    public function updateUser(UserUpdateRequest $request, User $user): RedirectResponse
     {
         // ユーザーデータのコピーを作成
         $originalUser = clone $user;

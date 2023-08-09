@@ -2,28 +2,43 @@
 
 namespace App\UseCases\Admin;
 
-use App\Models\User;
 use App\UseCases\OperationLog\OperationLogUseCase;
 
+/**
+ * 管理者ダッシュボードのユースケースクラス
+ * 
+ * 管理者ダッシュボードの動作やログ記録に関連する処理を担当します。
+ */
 class AdminDashboardUseCase
 {
     /**
+     * 操作ログを保存するためのユースケースインスタンス。
+     * このユースケースを利用して、システムの操作に関するログの記録処理を行います。
+     * 
      * @var OperationLogUseCase
      */
     private $operationLogUseCase;
 
     /**
-     * OperationLogUseCaseの新しいインスタンスを作成します。
+     * コンストラクタ
+     * 
+     * 操作ログを管理するユースケースをインジェクションします。
      *
-     * @param  OperationLogUseCase  $operationLogUseCase
-     * @return void
+     * @param OperationLogUseCase $operationLogUseCase 操作ログに関するユースケース
      */
     public function __construct(OperationLogUseCase $operationLogUseCase)
     {
         $this->operationLogUseCase = $operationLogUseCase;
     }
 
-    public function execute()
+    /* =================== 以下メインの処理 =================== */
+
+    /**
+     * 管理者ダッシュボードのアクセスログを保存する
+     * 
+     * 管理者ダッシュボードがアクセスされた際のログ情報を保存します。
+     */
+    public function dashboardLog()
     {
         $this->operationLogUseCase->store([
             'detail' => null,
@@ -34,6 +49,5 @@ class AdminDashboardUseCase
             'action' => 'admin-top-show',
             'ip' => request()->ip(),
         ]);
-        return;
     }
 }
