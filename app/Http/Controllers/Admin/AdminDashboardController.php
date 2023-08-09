@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\UseCases\Admin\AdminDashboardUseCase;
 
 /**
- * 管理者用ダッシュボードのコントローラー
+ * 管理者用ダッシュボードのコントローラークラス
  */
 class AdminDashboardController extends Controller
 {
