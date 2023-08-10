@@ -48,13 +48,15 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
+        // カレッジと学科の一覧を取得
         $colleges = College::all();
         $departments = Department::all();
 
-        // 登録フォームの初期値として選択されているカレッジとデパートメントの ID を取得
+        // 登録フォームの初期値として選択されているカレッジと学科の ID を取得
         $selectedCollegeId = old('college', null);
         $selectedDepartmentId = old('department', null);
 
+        // 値をViewに渡して、登録フォームを表示する
         return view('auth.register', [
             'colleges' => $colleges,
             'departments' => $departments,
@@ -71,10 +73,13 @@ class RegisteredUserController extends Controller
      */
     public function store(UserRegistrationRequest $request): RedirectResponse
     {
+        // ユーザーの新規登録処理を行う
         $user = $this->registrationUseCase->register($request->all());
 
+        // ユーザーをログインさせる
         $this->registrationUseCase->login($user);
 
+        // ユーザーの新規登録処理の結果に応じてリダイレクトする
         return redirect(RouteServiceProvider::HOME);
     }
 }

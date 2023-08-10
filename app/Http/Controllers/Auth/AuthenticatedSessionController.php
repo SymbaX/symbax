@@ -55,14 +55,16 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
+        // リクエストからemailとpasswordのみを取得して、$credentialsに代入する
         $credentials = $request->only('email', 'password');
 
-        // ログイン処理が成功した場合、指定されたリダイレクト先にリダイレクトします
+        // $credentialsを使用してログイン処理を試みる
+        // ログイン処理が成功した場合、RouteServiceProvider::HOMEにリダイレクトする
         if ($this->authSessionUseCase->processLogin($credentials)) {
             return redirect()->intended(RouteServiceProvider::HOME);
         }
 
-        // ログイン処理が失敗した場合、エラーメッセージと共にログイン画面にリダイレクトします
+        // ログイン処理が失敗した場合、エラーメッセージと共にログイン画面にリダイレクトする
         return back()->withErrors([
             'email' => trans('auth.failed'),
         ]);
@@ -75,8 +77,10 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(): RedirectResponse
     {
+        // ログアウト処理を行う
         $this->authSessionUseCase->logout();
 
+        // トップページにリダイレクトする
         return redirect('/');
     }
 }

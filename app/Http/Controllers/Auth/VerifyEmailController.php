@@ -43,6 +43,7 @@ class VerifyEmailController extends Controller
      */
     public function __invoke(EmailVerificationRequest $request): RedirectResponse
     {
+        // メールアドレスの検証処理を行う
         return $this->emailVerificationUseCase->verify($request);
     }
 }

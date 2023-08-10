@@ -43,8 +43,10 @@ class EmailVerificationNotificationController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        // メールアドレス確認用通知を再送信する
         $this->emailVerificationNotificationUseCase->resendEmailVerificationNotification($request->user());
 
+        // リダイレクトする
         return back()->with('status', 'verification-link-sent');
     }
 }

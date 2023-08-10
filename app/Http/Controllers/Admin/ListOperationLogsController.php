@@ -38,7 +38,10 @@ class ListOperationLogsController extends Controller
      */
     public function showLogs()
     {
+        // 操作ログを取得する
         $operation_logs = $this->listOperationLogsUseCase->fetchLogs();
+
+        // 操作ログをViewに渡して返す
         return view('admin.operation-logs', compact('operation_logs'));
     }
 }

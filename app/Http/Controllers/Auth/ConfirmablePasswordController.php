@@ -44,6 +44,7 @@ class ConfirmablePasswordController extends Controller
      */
     public function show(): View
     {
+        // パスワード確認画面を表示
         return view('auth.confirm-password');
     }
 
@@ -54,11 +55,14 @@ class ConfirmablePasswordController extends Controller
      */
     public function store(ConfirmPasswordRequest $request): RedirectResponse
     {
+        // ユーザーのメールアドレスとリクエストから取得したパスワードを使用して、
+        // パスワードの確認処理を行います。
         $this->confirmablePasswordUseCase->confirmPassword(
             $request->user()->email,
             $request->password
         );
 
+        // パスワード確認が成功した場合、RouteServiceProvider::HOMEにリダイレクトします。
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 }

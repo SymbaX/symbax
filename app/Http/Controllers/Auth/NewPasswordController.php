@@ -44,6 +44,7 @@ class NewPasswordController extends Controller
      */
     public function create(Request $request): View
     {
+        // パスワードリセット画面を表示する
         return view('auth.reset-password', ['request' => $request]);
     }
 
@@ -55,8 +56,12 @@ class NewPasswordController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        // パスワードリセット処理を行う
         $status = $this->newPasswordUseCase->resetPassword($request);
 
+        // パスワードリセット処理の結果に応じてリダイレクトする
+        // パスワードリセット処理が成功した場合はログイン画面にリダイレクトする
+        // パスワードリセット処理が失敗した場合はパスワードリセット画面にリダイレクトする
         return $status == \Illuminate\Support\Facades\Password::PASSWORD_RESET
             ? redirect()->route('login')->with('status', __($status))
             : back()->withInput($request->only('email'))->withErrors(['email' => __($status)]);

@@ -39,6 +39,7 @@ class MailSendController extends Controller
      */
     public function showMailForm()
     {
+        // メール作成画面を表示する
         return view('admin.mail');
     }
 
@@ -51,7 +52,10 @@ class MailSendController extends Controller
      */
     public function sendMail(SendMailRequest $request)
     {
+        // メールを送信する
         $this->mailSendUseCase->performMailSending($request);
+
+        // メール作成画面にリダイレクトする
         return redirect()->back()->with('status', 'mail-send');
     }
 }

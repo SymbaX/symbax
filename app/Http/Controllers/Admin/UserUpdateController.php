@@ -43,6 +43,7 @@ class UserUpdateController extends Controller
      */
     public function updateUser(UserUpdateRequest $request, User $user)
     {
+        // ユーザー情報を更新する
         return $this->userUpdateUseCase->updateUser($request, $user);
     }
 }

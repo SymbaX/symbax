@@ -34,7 +34,6 @@ class PasswordController extends Controller
         $this->passwordUseCase = $passwordUseCase;
     }
 
-
     /* =================== 以下メインの処理 =================== */
 
     /**
@@ -45,13 +44,17 @@ class PasswordController extends Controller
      */
     public function update(Request $request): RedirectResponse
     {
+        // リクエストデータを検証します。指定のルールに従って入力データのバリデーションを行い、
+        // 問題がある場合はエラーメッセージをセットしてリクエストをリダイレクトします。
         $validated = $request->validateWithBag('updatePassword', [
             'current_password' => ['required', 'current_password'],
             'password' => ['required', Password::defaults(), 'confirmed'],
         ]);
 
+        // バリデーションが成功した場合、ユーザーのパスワードを更新します。
         $this->passwordUseCase->updatePassword($request->user(), $validated);
 
+        // パスワードの更新が完了した後、ステータスメッセージを付けて前のページにリダイレクトします。
         return back()->with('status', 'password-updated');
     }
 }
