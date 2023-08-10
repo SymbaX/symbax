@@ -15,19 +15,25 @@ use App\UseCases\Auth\EmailVerificationNotificationUseCase;
 class EmailVerificationNotificationController extends Controller
 {
     /**
-     * @var EmailVerificationNotificationUseCase
+     * メールアドレス確認通知のビジネスロジックを提供するユースケース
+     * 
+     * @var EmailVerificationNotificationUseCase メールアドレス確認通知に使用するUseCaseインスタンス
      */
     private $emailVerificationNotificationUseCase;
 
     /**
-     * EmailVerificationNotificationControllerの新しいインスタンスを生成します。
+     * EmailVerificationNotificationControllerのコンストラクタ
+     * 
+     * 使用するユースケースをインジェクション（注入）します。
      *
-     * @param EmailVerificationNotificationUseCase $emailVerificationNotificationUseCase メールアドレス確認通知のユースケースインスタンス
+     * @param EmailVerificationNotificationUseCase $emailVerificationNotificationUseCase メールアドレス確認通知のユースケース
      */
     public function __construct(EmailVerificationNotificationUseCase $emailVerificationNotificationUseCase)
     {
         $this->emailVerificationNotificationUseCase = $emailVerificationNotificationUseCase;
     }
+
+    /* =================== 以下メインの処理 =================== */
 
     /**
      * メールアドレス確認用通知を再送信するメソッド

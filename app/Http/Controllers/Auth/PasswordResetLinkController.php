@@ -16,19 +16,25 @@ use Illuminate\View\View;
 class PasswordResetLinkController extends Controller
 {
     /**
-     * @var PasswordResetLinkUseCase
+     * パスワードリセットリンクの作成に関連するビジネスロジックを提供するユースケース
+     * 
+     * @var PasswordResetLinkUseCase パスワードリセットリンクの作成に使用するUseCaseインスタンス
      */
     private $passwordResetLinkUseCase;
 
     /**
-     * PasswordResetLinkControllerの新しいインスタンスを生成します。
+     * PasswordResetLinkControllerのコンストラクタ
+     * 
+     * 使用するユースケースをインジェクション（注入）します。
      *
-     * @param PasswordResetLinkUseCase $passwordResetLinkUseCase パスワードリセットリンクの作成に関連するユースケースインスタンス
+     * @param PasswordResetLinkUseCase $passwordResetLinkUseCase パスワードリセットリンクの作成に関連するユースケース
      */
     public function __construct(PasswordResetLinkUseCase $passwordResetLinkUseCase)
     {
         $this->passwordResetLinkUseCase = $passwordResetLinkUseCase;
     }
+
+    /* =================== 以下メインの処理 =================== */
 
     /**
      * パスワードリセットリンク作成画面を表示するメソッド

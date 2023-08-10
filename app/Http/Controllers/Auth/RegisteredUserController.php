@@ -21,19 +21,25 @@ use Illuminate\View\View;
 class RegisteredUserController extends Controller
 {
     /**
-     * @var RegistrationUseCase
+     * ユーザーの新規登録に関連するビジネスロジックを提供するユースケース
+     * 
+     * @var RegistrationUseCase ユーザーの新規登録に使用するUseCaseインスタンス
      */
     private $registrationUseCase;
 
     /**
-     * RegisteredUserControllerの新しいインスタンスを生成します。
+     * RegisteredUserControllerのコンストラクタ
+     * 
+     * 使用するユースケースをインジェクション（注入）します。
      *
-     * @param RegistrationUseCase $registrationUseCase ユーザーの新規登録に関連するユースケースインスタンス
+     * @param RegistrationUseCase $registrationUseCase ユーザーの新規登録に関連するユースケース
      */
     public function __construct(RegistrationUseCase $registrationUseCase)
     {
         $this->registrationUseCase = $registrationUseCase;
     }
+
+    /* =================== 以下メインの処理 =================== */
 
     /**
      * 登録フォームを表示するメソッド

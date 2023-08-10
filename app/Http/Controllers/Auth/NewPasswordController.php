@@ -16,19 +16,25 @@ use App\UseCases\Auth\NewPasswordUseCase;
 class NewPasswordController extends Controller
 {
     /**
-     * @var NewPasswordUseCase
+     * 新しいパスワードの作成に関連するビジネスロジックを提供するユースケース
+     * 
+     * @var NewPasswordUseCase 新しいパスワードの作成に使用するUseCaseインスタンス
      */
     private $newPasswordUseCase;
 
     /**
-     * NewPasswordControllerの新しいインスタンスを生成します。
+     * NewPasswordControllerのコンストラクタ
+     * 
+     * 使用するユースケースをインジェクション（注入）します。
      *
-     * @param NewPasswordUseCase $newPasswordUseCase 新しいパスワードの作成に関連するユースケースインスタンス
+     * @param NewPasswordUseCase $newPasswordUseCase 新しいパスワードの作成に関連するユースケース
      */
     public function __construct(NewPasswordUseCase $newPasswordUseCase)
     {
         $this->newPasswordUseCase = $newPasswordUseCase;
     }
+
+    /* =================== 以下メインの処理 =================== */
 
     /**
      * パスワードリセット画面を表示するメソッド

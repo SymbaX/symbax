@@ -15,6 +15,8 @@ use Illuminate\View\View;
  */
 class EmailVerificationPromptController extends Controller
 {
+    /* =================== 以下メインの処理 =================== */
+
     /**
      * メール検証プロンプトを表示するメソッド
      *

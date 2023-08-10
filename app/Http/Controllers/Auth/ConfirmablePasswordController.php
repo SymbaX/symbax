@@ -17,19 +17,25 @@ use App\UseCases\Auth\ConfirmablePasswordUseCase;
 class ConfirmablePasswordController extends Controller
 {
     /**
-     * @var ConfirmablePasswordUseCase
+     * パスワード確認のビジネスロジックを提供するユースケース
+     * 
+     * @var ConfirmablePasswordUseCase パスワード確認に使用するUseCaseインスタンス
      */
     private $confirmablePasswordUseCase;
 
     /**
-     * ConfirmablePasswordControllerの新しいインスタンスを生成します。
+     * ConfirmablePasswordControllerのコンストラクタ
+     * 
+     * 使用するユースケースをインジェクション（注入）します。
      *
-     * @param ConfirmablePasswordUseCase $confirmablePasswordUseCase パスワード確認のユースケースインスタンス
+     * @param ConfirmablePasswordUseCase $confirmablePasswordUseCase パスワード確認のユースケース
      */
     public function __construct(ConfirmablePasswordUseCase $confirmablePasswordUseCase)
     {
         $this->confirmablePasswordUseCase = $confirmablePasswordUseCase;
     }
+
+    /* =================== 以下メインの処理 =================== */
 
     /**
      * パスワード確認画面を表示するメソッド

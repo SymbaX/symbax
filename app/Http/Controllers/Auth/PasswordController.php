@@ -16,19 +16,26 @@ use Illuminate\Validation\Rules\Password;
 class PasswordController extends Controller
 {
     /**
-     * @var PasswordUseCase
+     * パスワードの更新に関連するビジネスロジックを提供するユースケース
+     * 
+     * @var PasswordUseCase パスワードの更新に使用するUseCaseインスタンス
      */
     private $passwordUseCase;
 
     /**
-     * PasswordControllerの新しいインスタンスを生成します。
+     * PasswordControllerのコンストラクタ
+     * 
+     * 使用するユースケースをインジェクション（注入）します。
      *
-     * @param PasswordUseCase $passwordUseCase パスワードの更新に関連するユースケースインスタンス
+     * @param PasswordUseCase $passwordUseCase パスワードの更新に関連するユースケース
      */
     public function __construct(PasswordUseCase $passwordUseCase)
     {
         $this->passwordUseCase = $passwordUseCase;
     }
+
+
+    /* =================== 以下メインの処理 =================== */
 
     /**
      * パスワードを更新するメソッド
