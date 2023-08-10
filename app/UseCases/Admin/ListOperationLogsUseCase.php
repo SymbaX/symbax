@@ -12,7 +12,7 @@ use App\UseCases\OperationLog\OperationLogUseCase;
 class ListOperationLogsUseCase
 {
     /**
-     * 操作ログを保存するためのユースケースインスタンス。
+     * 操作ログを保存するためのビジネスロジックを提供するユースケース
      * このユースケースを利用して、システムの操作に関するログの記録処理を行います。
      * 
      * @var OperationLogUseCase
@@ -22,7 +22,7 @@ class ListOperationLogsUseCase
     /**
      * ListOperationLogsUseCaseのコンストラクタ
      * 
-     * 操作ログを管理するユースケースをインジェクションします。
+     * 使用するユースケースをインジェクション（注入）します。
      *
      * @param OperationLogUseCase $operationLogUseCase 操作ログに関するユースケース
      */

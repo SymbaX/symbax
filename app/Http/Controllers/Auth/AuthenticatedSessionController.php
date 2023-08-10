@@ -17,22 +17,28 @@ use App\UseCases\Auth\AuthSessionUseCase;
 class AuthenticatedSessionController extends Controller
 {
     /**
-     * @var AuthSessionUseCase
+     * 認証セッションのビジネスロジックを提供するユースケース
+     * 
+     * @var AuthSessionUseCase 認証セッションに使用するUseCaseインスタンス
      */
     private $authSessionUseCase;
 
     /**
-     * AuthenticatedSessionControllerの新しいインスタンスを生成します。
+     * AuthenticatedSessionControllerのコンストラクタ
+     * 
+     * 使用するユースケースをインジェクション（注入）します。
      *
-     * @param AuthSessionUseCase $authSessionUseCase 認証セッションのユースケースインスタンス
+     * @param AuthSessionUseCase $authSessionUseCase 認証セッションのユースケース
      */
     public function __construct(AuthSessionUseCase $authSessionUseCase)
     {
         $this->authSessionUseCase = $authSessionUseCase;
     }
 
+    /* =================== 以下メインの処理 =================== */
+
     /**
-     * ログイン画面を表示します。
+     * ログイン画面を表示するメソッド
      *
      * @return View ログイン画面のViewインスタンス
      */
@@ -42,35 +48,39 @@ class AuthenticatedSessionController extends Controller
     }
 
     /**
-     * ログイン処理を行います。
+     * ログイン処理を行うメソッド
      *
      * @param LoginRequest $request ログインリクエスト
      * @return RedirectResponse リダイレクトレスポンス
      */
     public function store(LoginRequest $request): RedirectResponse
     {
+        // リクエストからemailとpasswordのみを取得して、$credentialsに代入する
         $credentials = $request->only('email', 'password');
 
-        // ログイン処理が成功した場合、指定されたリダイレクト先にリダイレクトします
+        // $credentialsを使用してログイン処理を試みる
+        // ログイン処理が成功した場合、RouteServiceProvider::HOMEにリダイレクトする
         if ($this->authSessionUseCase->processLogin($credentials)) {
             return redirect()->intended(RouteServiceProvider::HOME);
         }
 
-        // ログイン処理が失敗した場合、エラーメッセージと共にログイン画面にリダイレクトします
+        // ログイン処理が失敗した場合、エラーメッセージと共にログイン画面にリダイレクトする
         return back()->withErrors([
             'email' => trans('auth.failed'),
         ]);
     }
 
     /**
-     * ログアウト処理を行います。
+     * ログアウト処理を行うメソッド
      *
      * @return RedirectResponse リダイレクトレスポンス
      */
     public function destroy(): RedirectResponse
     {
+        // ログアウト処理を行う
         $this->authSessionUseCase->logout();
 
+        // トップページにリダイレクトする
         return redirect('/');
     }
 }

@@ -42,7 +42,7 @@ class EventEditController extends Controller
      * ただし、編集権限がない場合はエラーメッセージとともに詳細ページにリダイレクトします。
      *
      * @param int $id 編集対象のイベントID
-     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+     * @return RedirectResponse View イベント編集画面のビュー。
      */
     public function edit($id)
     {

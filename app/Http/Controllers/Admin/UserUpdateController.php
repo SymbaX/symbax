@@ -39,10 +39,11 @@ class UserUpdateController extends Controller
      * @param UserUpdateRequest $request 更新情報が含まれるリクエスト
      * @param User $user 対象ユーザーのモデル
      *
-     * @return \Illuminate\Http\Response
+     * @return Response ユーザー情報更新後のユーザー一覧画面
      */
     public function updateUser(UserUpdateRequest $request, User $user)
     {
+        // ユーザー情報を更新する
         return $this->userUpdateUseCase->updateUser($request, $user);
     }
 }

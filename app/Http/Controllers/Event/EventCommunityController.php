@@ -50,7 +50,7 @@ class EventCommunityController extends Controller
      * 指定されたイベントIDに関連するトピック作成画面を表示するためのメソッド。
      *
      * @param int $id イベントID
-     * @return \Illuminate\View\View トピック作成画面
+     * @return View トピック作成画面
      */
     public function create($id): View
     {
@@ -72,9 +72,10 @@ class EventCommunityController extends Controller
      * トピック情報を保存するメソッド
      * 
      * リクエストから送信されたトピック情報をデータベースに保存するメソッド。
+     * 保存に失敗した場合は403エラーを返す。
      *
      * @param \App\Http\Requests\Event\TopicRequest $request トピックの情報を持つリクエスト
-     * @return \Illuminate\Http\RedirectResponse 保存後のリダイレクトレスポンス
+     * @return RedirectResponse 保存後のリダイレクトレスポンス。
      */
     public function save(TopicRequest $request)
     {
@@ -90,11 +91,12 @@ class EventCommunityController extends Controller
      * 指定されたトピックを削除するメソッド
      * 
      * イベントIDとトピックIDを基に、対応するトピックを削除するメソッド。
+     * 削除に失敗した場合は403エラーを返す。
      *
      * @param Request $request リクエスト情報
      * @param int $eventId イベントID
      * @param int $topicId トピックID
-     * @return \Illuminate\Http\RedirectResponse 削除後のリダイレクトレスポンス
+     * @return RedirectResponse 削除後のリダイレクトレスポンス
      */
     public function deleteTopic(Request $request, $eventId, $topicId)
     {

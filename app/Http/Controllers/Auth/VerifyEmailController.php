@@ -15,28 +15,35 @@ use Illuminate\Http\RedirectResponse;
 class VerifyEmailController extends Controller
 {
     /**
-     * @var EmailVerificationUseCase
+     * メールアドレスの検証に関連するビジネスロジックを提供するユースケース
+     * 
+     * @var EmailVerificationUseCase メールアドレスの検証に使用するUseCaseインスタンス
      */
     private $emailVerificationUseCase;
 
     /**
-     * VerifyEmailControllerの新しいインスタンスを生成します。
+     * VerifyEmailControllerのコンストラクタ
+     * 
+     * 使用するユースケースをインジェクション（注入）します。
      *
-     * @param EmailVerificationUseCase $emailVerificationUseCase メールアドレスの検証に関連するユースケースインスタンス
+     * @param EmailVerificationUseCase $emailVerificationUseCase メールアドレスの検証に関連するユースケース
      */
     public function __construct(EmailVerificationUseCase $emailVerificationUseCase)
     {
         $this->emailVerificationUseCase = $emailVerificationUseCase;
     }
 
+    /* =================== 以下メインの処理 =================== */
+
     /**
-     * メールアドレスの検証を行います。
+     * メールアドレスの検証を行うメソッド
      *
      * @param EmailVerificationRequest $request メールアドレス検証リクエスト
      * @return RedirectResponse リダイレクトレスポンス
      */
     public function __invoke(EmailVerificationRequest $request): RedirectResponse
     {
+        // メールアドレスの検証処理を行う
         return $this->emailVerificationUseCase->verify($request);
     }
 }

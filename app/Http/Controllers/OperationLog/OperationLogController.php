@@ -35,7 +35,7 @@ class OperationLogController extends Controller
      * 操作ログを保存するメソッド
      * 
      * @param OperationLogStoreRequest $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse 操作ログ一覧ページへのリダイレクトレスポンス
      */
     public function saveLog(OperationLogStoreRequest $request)
     {

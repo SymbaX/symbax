@@ -39,7 +39,7 @@ class EventCreateController extends Controller
     /**
      * イベント新規作成フォームを表示するメソッド
      *
-     * @return View 
+     * @return View イベント新規作成フォームのビュー
      */
     public function create(): View
     {

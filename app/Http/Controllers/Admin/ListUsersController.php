@@ -34,11 +34,14 @@ class ListUsersController extends Controller
     /**
      * ユーザーリストのページを表示するメソッド
      *
-     * @return \Illuminate\Http\Response ユーザーリストのビューページ
+     * @return Response ユーザーリストのビューページ。ユースケースから取得したユーザーリストをビューに渡す。
      */
     public function listUsers()
     {
+        // ユーザーリストを取得する
         $data = $this->listUsersUseCase->fetchUsersData();
+
+        // ユーザーリストをViewに渡して返す
         return view('admin.users-list', $data);
     }
 }
