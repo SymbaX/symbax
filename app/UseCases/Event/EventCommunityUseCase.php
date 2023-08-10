@@ -20,20 +20,36 @@ use Illuminate\Support\Facades\Mail;
  */
 class EventCommunityUseCase
 {
+    /**
+     * イベント参加者のステータスをチェックするユースケース
+     * 
+     * @var CheckEventParticipantStatusUseCase
+     */
     protected $checkParticipantStatus;
+
+    /**
+     * イベントオーガナイザーサービスをチェックするサービス
+     * 
+     * @var CheckEventOrganizerService
+     */
     protected $checkEventOrganizerService;
 
     /**
+     * 操作ログを保存するためのビジネスロジックを提供するユースケース
+     * このユースケースを利用して、システムの操作に関するログの記録処理を行います。
+     * 
      * @var OperationLogUseCase
      */
     private $operationLogUseCase;
 
     /**
-     * コンストラクタ
+     * EventCommunityUseCaseのコンストラクタ
+     * 
+     * 使用するユースケースとサービスをインジェクション（注入）します。
      *
-     * @param CheckEventParticipantStatusUseCase $checkParticipantStatus
-     * @param CheckEventOrganizerService $checkEventOrganizerService
-     * @param  OperationLogUseCase  $operationLogUseCase
+     * @param CheckEventParticipantStatusUseCase $checkParticipantStatus イベント参加者のステータスをチェックするユースケース
+     * @param CheckEventOrganizerService $checkEventOrganizerService イベントオーガナイザーサービスをチェックするサービス
+     * @param OperationLogUseCase $operationLogUseCase 操作ログに関するユースケース
      */
     public function __construct(
         CheckEventParticipantStatusUseCase $checkParticipantStatus,
@@ -44,6 +60,8 @@ class EventCommunityUseCase
         $this->checkEventOrganizerService = $checkEventOrganizerService;
         $this->operationLogUseCase = $operationLogUseCase;
     }
+
+    /* =================== 以下メインの処理 =================== */
 
     /**
      * イベントへのアクセス権限をチェックする
@@ -82,9 +100,9 @@ class EventCommunityUseCase
      * @param int $id イベントのID
      * @return \Illuminate\Database\Eloquent\Collection 最新のトピックのコレクションを返す
      */
-    public function getTopics($id, $perPage = 10)
+    public function getTopics($id, $per_page = 10)
     {
-        $topics = Topic::where("event_id", $id)->latest()->paginate($perPage);
+        $topics = Topic::where("event_id", $id)->latest()->paginate($per_page);
 
         foreach ($topics as $topic) {
             $topic->content = $this->replaceMentions($topic->content, $topic->event_id);

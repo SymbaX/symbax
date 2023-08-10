@@ -10,17 +10,31 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 /**
- * イベントコミュニティに関連するアクションを制御するクラス
+ * イベントコミュニティのアクションを制御するコントローラー
  */
 class EventCommunityController extends Controller
 {
+    /**
+     * イベントコミュニティのビジネスロジックを提供するユースケース
+     *
+     * @var EventCommunityUseCase イベントコミュニティに使用するUseCaseインスタンス
+     */
     protected $useCase;
+
+    /**
+     * リアクションのビジネスロジックを提供するユースケース
+     *
+     * @var ReactionUseCase
+     */
     protected $reactionUseCase;
 
     /**
-     * コンストラクタ
+     * EventCommunityControllerのコンストラクタ
+     * 
+     * 使用するユースケースをインジェクション（注入）します。
      *
-     * @param EventCommunityUseCase $useCase イベントコミュニティに関連するビジネスロジックを扱うUseCase
+     * @param EventCommunityUseCase $useCase イベントコミュニティに関するユースケース
+     * @param ReactionUseCase $reactionUseCase リアクションに関するユースケース
      */
     public function __construct(EventCommunityUseCase $useCase, ReactionUseCase $reactionUseCase)
     {
@@ -28,14 +42,17 @@ class EventCommunityController extends Controller
         $this->reactionUseCase = $reactionUseCase;
     }
 
+    /* =================== 以下メインの処理 =================== */
+
     /**
-     * トピック作成画面を表示する
+     * トピック作成画面を表示するメソッド
+     * 
+     * 指定されたイベントIDに関連するトピック作成画面を表示するためのメソッド。
      *
-     * @param \Illuminate\Http\Request $request HTTPリクエストインスタンス
      * @param int $id イベントID
-     * @return \Illuminate\View\View トピック作成画面のビューを返す
+     * @return View トピック作成画面
      */
-    public function create(Request $request, $id): View
+    public function create($id): View
     {
         if (!$this->useCase->checkAccess($id)) {
             abort(403);
@@ -52,10 +69,13 @@ class EventCommunityController extends Controller
     }
 
     /**
-     * トピックを保存する
+     * トピック情報を保存するメソッド
+     * 
+     * リクエストから送信されたトピック情報をデータベースに保存するメソッド。
+     * 保存に失敗した場合は403エラーを返す。
      *
-     * @param \App\Http\Requests\Event\TopicRequest $request フォームリクエスト
-     * @return \Illuminate\Http\RedirectResponse リダイレクトレスポンスを返す
+     * @param \App\Http\Requests\Event\TopicRequest $request トピックの情報を持つリクエスト
+     * @return RedirectResponse 保存後のリダイレクトレスポンス。
      */
     public function save(TopicRequest $request)
     {
@@ -68,12 +88,15 @@ class EventCommunityController extends Controller
     }
 
     /**
-     * トピックを削除する
+     * 指定されたトピックを削除するメソッド
+     * 
+     * イベントIDとトピックIDを基に、対応するトピックを削除するメソッド。
+     * 削除に失敗した場合は403エラーを返す。
      *
-     * @param Request $request
-     * @param int $eventId
-     * @param int $topicId
-     * @return \Illuminate\Http\RedirectResponse
+     * @param Request $request リクエスト情報
+     * @param int $eventId イベントID
+     * @param int $topicId トピックID
+     * @return RedirectResponse 削除後のリダイレクトレスポンス
      */
     public function deleteTopic(Request $request, $eventId, $topicId)
     {

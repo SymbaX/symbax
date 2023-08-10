@@ -6,41 +6,42 @@ use App\Http\Controllers\Controller;
 use App\UseCases\Admin\ListUsersUseCase;
 
 /**
- * Class ListUsersController
- * 
- * 管理者向けユーザーリストのコントローラーです。
+ * 管理者向けユーザーリストのコントローラクラス
  */
 class ListUsersController extends Controller
 {
     /**
-     * @var ListUsersUseCase
+     * ユーザーリスト表示のビジネスロジックを提供するユースケース
      * 
-     * ユーザーリスト表示のためのユースケース
+     * @var ListUsersUseCase ユーザーリスト表示に使用するUseCaseインスタンス
      */
     private $listUsersUseCase;
 
     /**
-     * ListUsersController constructor.
+     * ListUsersControllerのコンストラクタ
      *
-     * @param ListUsersUseCase $listUsersUseCase
+     * 使用するユースケースをインジェクション（注入）します。
      * 
-     * ユーザーリストのユースケースを注入します。
+     * @param ListUsersUseCase $listUsersUseCase ユーザーリスト表示のためのユースケース
      */
     public function __construct(ListUsersUseCase $listUsersUseCase)
     {
         $this->listUsersUseCase = $listUsersUseCase;
     }
 
+    /* =================== 以下メインの処理 =================== */
+
     /**
-     * Handle the incoming request.
+     * ユーザーリストのページを表示するメソッド
      *
-     * @return \Illuminate\Http\Response
-     * 
-     * ユーザーリストのページを表示します。ユースケースから取得したデータをビューに渡します。
+     * @return Response ユーザーリストのビューページ。ユースケースから取得したユーザーリストをビューに渡す。
      */
-    public function __invoke()
+    public function listUsers()
     {
-        $data = $this->listUsersUseCase->execute();
+        // ユーザーリストを取得する
+        $data = $this->listUsersUseCase->fetchUsersData();
+
+        // ユーザーリストをViewに渡して返す
         return view('admin.users-list', $data);
     }
 }

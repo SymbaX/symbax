@@ -7,51 +7,55 @@ use App\Http\Requests\Admin\SendMailRequest;
 use App\UseCases\Admin\MailSendUseCase;
 
 /**
- * Class MailSendController
- * 
- * 管理者向けメール送信のコントローラーです。
+ * 管理者向けメール送信のコントローラクラス
  */
 class MailSendController extends Controller
 {
     /**
-     * @var MailSendUseCase
+     * メール送信のビジネスロジックを提供するユースケース
      * 
-     * メール送信のためのユースケース
+     * @var MailSendUseCase メール送信に使用するUseCaseインスタンス
      */
     private $mailSendUseCase;
 
     /**
-     * MailSendController constructor.
+     * MailSendControllerのコンストラクタ
      *
-     * @param MailSendUseCase $mailSendUseCase
+     * 使用するユースケースをインジェクション（注入）します。
      * 
-     * メール送信のユースケースを注入します。
+     * @param MailSendUseCase $mailSendUseCase メール送信のユースケース
      */
     public function __construct(MailSendUseCase $mailSendUseCase)
     {
         $this->mailSendUseCase = $mailSendUseCase;
     }
 
+    /* =================== 以下メインの処理 =================== */
+
     /**
-     * メール作成画面を表示します。
+     * メール作成画面を表示するメソッド
      *
-     * @return \Illuminate\Contracts\View\View
+     * @return View メール作成画面のビュー
      */
-    public function create()
+    public function showMailForm()
     {
+        // メール作成画面を表示する
         return view('admin.mail');
     }
 
     /**
-     * メールを送信します。
+     * メールの送信をするメソッド
      * 
-     * @param SendMailRequest $request
+     * @param SendMailRequest $request 送信するメールの情報が含まれるリクエスト
      * 
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse メール作成画面にリダイレクトする
      */
-    public function send(SendMailRequest $request)
+    public function sendMail(SendMailRequest $request)
     {
-        $this->mailSendUseCase->send($request);
+        // メールを送信する
+        $this->mailSendUseCase->performMailSending($request);
+
+        // メール作成画面にリダイレクトする
         return redirect()->back()->with('status', 'mail-send');
     }
 }

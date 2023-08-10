@@ -17,27 +17,34 @@ use App\UseCases\OperationLog\OperationLogUseCase;
 class EventEditUseCase
 {
     /**
+     * 操作ログを保存するためのビジネスロジックを提供するユースケース
+     * 
      * @var OperationLogUseCase
      */
     private $operationLogUseCase;
 
     /**
+     * イベントオーガナイザーを確認するためのサービス
+     * 
      * @var CheckEventOrganizerService
      */
     private $checkEventOrganizerService;
 
     /**
-     * OperationLogUseCaseの新しいインスタンスを作成します。
-     *
-     * @param  OperationLogUseCase  $operationLogUseCase
-     * @param  CheckEventOrganizerService  $checkEventOrganizerService
-     * @return void
+     * EventEditUseCaseのコンストラクタ
+     * 
+     * 使用するユースケースとサービスをインジェクション（注入）します。
+     * 
+     * @param OperationLogUseCase $operationLogUseCase 操作ログに関するユースケース
+     * @param CheckEventOrganizerService $checkEventOrganizerService イベントオーガナイザーを確認するためのサービス
      */
     public function __construct(OperationLogUseCase $operationLogUseCase, CheckEventOrganizerService $checkEventOrganizerService)
     {
         $this->operationLogUseCase = $operationLogUseCase;
         $this->checkEventOrganizerService = $checkEventOrganizerService;
     }
+
+    /* =================== 以下メインの処理 =================== */
 
     /**
      * 指定されたイベントIDに基づいて、イベント情報を取得し、表示します。
@@ -85,7 +92,7 @@ class EventEditUseCase
         // セッションに保存されたイベントIDとトークンを取得し、リクエストの値と比較
         $editToken = $request->input('edit_token');
         if ($editToken !== session('edit_token') || $id !== session('edit_event_id')) {
-            abort(403);
+            abort(419);
         }
 
         $event = Event::where('id', $id)->where('is_deleted', false)->firstOrFail();

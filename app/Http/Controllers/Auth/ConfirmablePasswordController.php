@@ -17,43 +17,52 @@ use App\UseCases\Auth\ConfirmablePasswordUseCase;
 class ConfirmablePasswordController extends Controller
 {
     /**
-     * @var ConfirmablePasswordUseCase
+     * パスワード確認のビジネスロジックを提供するユースケース
+     * 
+     * @var ConfirmablePasswordUseCase パスワード確認に使用するUseCaseインスタンス
      */
     private $confirmablePasswordUseCase;
 
     /**
-     * ConfirmablePasswordControllerの新しいインスタンスを生成します。
+     * ConfirmablePasswordControllerのコンストラクタ
+     * 
+     * 使用するユースケースをインジェクション（注入）します。
      *
-     * @param ConfirmablePasswordUseCase $confirmablePasswordUseCase パスワード確認のユースケースインスタンス
+     * @param ConfirmablePasswordUseCase $confirmablePasswordUseCase パスワード確認のユースケース
      */
     public function __construct(ConfirmablePasswordUseCase $confirmablePasswordUseCase)
     {
         $this->confirmablePasswordUseCase = $confirmablePasswordUseCase;
     }
 
+    /* =================== 以下メインの処理 =================== */
+
     /**
-     * パスワード確認画面を表示します。
+     * パスワード確認画面を表示するメソッド
      *
      * @return View パスワード確認画面のViewインスタンス
      */
     public function show(): View
     {
+        // パスワード確認画面を表示
         return view('auth.confirm-password');
     }
 
     /**
-     * パスワード確認を行います。
-     *
+     * パスワード確認を行うメソッド
      * @param ConfirmPasswordRequest $request パスワード確認のリクエスト
      * @return RedirectResponse リダイレクトレスポンス
      */
     public function store(ConfirmPasswordRequest $request): RedirectResponse
     {
+        // ユーザーのメールアドレスとリクエストから取得したパスワードを使用して、
+        // パスワードの確認処理を行います。
         $this->confirmablePasswordUseCase->confirmPassword(
             $request->user()->email,
             $request->password
         );
 
+        // パスワード確認が成功した場合、RouteServiceProvider::HOMEにリダイレクトします。
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 }

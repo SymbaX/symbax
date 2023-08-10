@@ -6,26 +6,41 @@ use App\Models\Reaction;
 use App\Services\CheckEventOrganizerService;
 
 /**
- * 
+ * トピックのリアクションを扱うユースケース
  */
 class ReactionUseCase
 {
+    /**
+     * イベント参加者のステータスをチェックするユースケース
+     * 
+     * @var CheckEventParticipantStatusUseCase
+     */
     protected $checkParticipantStatus;
+
+    /**
+     * イベントオーガナイザーを確認するサービス
+     * 
+     * @var CheckEventOrganizerService
+     */
     protected $checkEventOrganizerService;
 
     /**
-     * コンストラクタ
-     *
-     * @param CheckEventParticipantStatusUseCase $checkParticipantStatus
-     * @param CheckEventOrganizerService $checkEventOrganizerService
+     * EventCommunityUseCaseのコンストラクタ
+     * 
+     * 使用するユースケースとサービスをインジェクション（注入）します。
+     * 
+     * @param CheckEventParticipantStatusUseCase $checkParticipantStatus イベント参加者のステータスをチェックするユースケース
+     * @param CheckEventOrganizerService $checkEventOrganizerService イベントオーガナイザーを確認するサービス
      */
     public function __construct(
         CheckEventParticipantStatusUseCase $checkParticipantStatus,
-        CheckEventOrganizerService $checkEventOrganizerService,
+        CheckEventOrganizerService $checkEventOrganizerService
     ) {
         $this->checkParticipantStatus = $checkParticipantStatus;
         $this->checkEventOrganizerService = $checkEventOrganizerService;
     }
+
+    /* =================== 以下メインの処理 =================== */
 
     /**
      * 使用可能な絵文字の一覧を取得する

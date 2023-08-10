@@ -15,12 +15,16 @@ use Illuminate\Http\RedirectResponse;
 class EventStatusController extends Controller
 {
     /**
-     * @var EventStatusUseCase イベントステータスの操作に使用するUseCaseのインスタンス
+     * イベントステータス操作のビジネスロジックを提供するユースケース
+     * 
+     * @var EventStatusUseCase イベントステータスの操作に使用するUseCaseインスタンス
      */
     private $eventStatusUseCase;
 
     /**
-     * EventStatusControllerの新しいインスタンスを作成します。
+     * EventStatusControllerのコンストラクタ
+     *
+     * 使用するユースケースをインジェクション（注入）します。
      *
      * @param EventStatusUseCase $eventStatusUseCase イベントステータスの操作に使用するUseCaseのインスタンス
      */
@@ -29,8 +33,10 @@ class EventStatusController extends Controller
         $this->eventStatusUseCase = $eventStatusUseCase;
     }
 
+    /* =================== 以下メインの処理 =================== */
+
     /**
-     * イベントへの参加リクエスト
+     * イベントへの参加をリクエストするメソッド
      *
      * リクエストから受け取ったデータを検証し、指定されたイベントに参加リクエストを送信します。
      *
@@ -45,7 +51,7 @@ class EventStatusController extends Controller
     }
 
     /**
-     * イベントへの参加のキャンセル
+     * イベントへの参加のキャンセルするメソッド
      *
      * リクエストから受け取ったデータを検証し、指定されたイベントへの参加をキャンセルします。
      *
@@ -60,7 +66,7 @@ class EventStatusController extends Controller
     }
 
     /**
-     * イベントへの参加ステータスを変更
+     * イベントへの参加ステータスを変更するメソッド
      *
      * リクエストから受け取ったデータを検証し、指定されたイベントへの参加ステータスを変更します。
      *

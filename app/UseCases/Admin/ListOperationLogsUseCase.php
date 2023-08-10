@@ -6,26 +6,42 @@ use App\Models\OperationLog;
 use App\Models\User;
 use App\UseCases\OperationLog\OperationLogUseCase;
 
+/**
+ * 管理者用の操作ログリスト取得ユースケース
+ */
 class ListOperationLogsUseCase
 {
     /**
+     * 操作ログを保存するためのビジネスロジックを提供するユースケース
+     * このユースケースを利用して、システムの操作に関するログの記録処理を行います。
+     * 
      * @var OperationLogUseCase
      */
     private $operationLogUseCase;
 
     /**
-     * OperationLogUseCaseの新しいインスタンスを作成します。
+     * ListOperationLogsUseCaseのコンストラクタ
+     * 
+     * 使用するユースケースをインジェクション（注入）します。
      *
-     * @param  OperationLogUseCase  $operationLogUseCase
-     * @return void
+     * @param OperationLogUseCase $operationLogUseCase 操作ログに関するユースケース
      */
     public function __construct(OperationLogUseCase $operationLogUseCase)
     {
         $this->operationLogUseCase = $operationLogUseCase;
     }
 
+    /* =================== 以下メインの処理 =================== */
 
-    public function execute()
+    /**
+     * 最新の操作ログを取得する
+     * 
+     * 最新の操作ログを取得し、それらのログに関連するユーザー名をセットします。
+     * さらに、この操作のログも保存します。
+     * 
+     * @return \Illuminate\Pagination\LengthAwarePaginator 操作ログのリスト
+     */
+    public function fetchLogs()
     {
         $operation_logs = OperationLog::latest('created_at')->paginate(100);
         $users = User::pluck('name', 'id');

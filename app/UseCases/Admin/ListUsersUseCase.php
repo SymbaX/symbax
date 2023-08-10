@@ -8,25 +8,39 @@ use App\Models\Department;
 use App\Models\Role;
 use App\UseCases\OperationLog\OperationLogUseCase;
 
+/**
+ * ユーザー情報および関連データの取得に関するユースケース
+ */
 class ListUsersUseCase
 {
     /**
+     * 操作ログを保存するためのビジネスロジックを提供するユースケース
+     * このユースケースを利用して、システムの操作に関するログの記録処理を行います。
+     * 
      * @var OperationLogUseCase
      */
     private $operationLogUseCase;
 
     /**
-     * OperationLogUseCaseの新しいインスタンスを作成します。
+     * ListUsersUseCaseのコンストラクタ
+     * 
+     * 使用するユースケースをインジェクション（注入）します。
      *
-     * @param  OperationLogUseCase  $operationLogUseCase
-     * @return void
+     * @param OperationLogUseCase $operationLogUseCase 操作ログに関するユースケース
      */
     public function __construct(OperationLogUseCase $operationLogUseCase)
     {
         $this->operationLogUseCase = $operationLogUseCase;
     }
 
-    public function execute()
+    /* =================== 以下メインの処理 =================== */
+
+    /**
+     * ユーザー情報および関連データを取得する
+     *
+     * @return array ユーザー情報、カレッジ情報、学科情報、ロール情報を含む配列
+     */
+    public function fetchUsersData()
     {
         $users = User::paginate(10);
         $colleges = College::all();

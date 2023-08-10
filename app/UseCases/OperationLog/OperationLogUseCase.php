@@ -4,13 +4,18 @@ namespace App\UseCases\OperationLog;
 
 use App\Models\OperationLog;
 
+/**
+ * 操作ログに関するユースケースクラス
+ */
 class OperationLogUseCase
 {
-    public function index()
-    {
-        return OperationLog::all();
-    }
+    /* =================== 以下メインの処理 =================== */
 
+    /**
+     * 操作ログの詳細を保存する
+     * 
+     * @param array $data 操作ログのデータ
+     */
     public function store(array $data)
     {
         $log = new OperationLog();

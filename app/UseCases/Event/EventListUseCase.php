@@ -13,20 +13,22 @@ use Carbon\Carbon;
  */
 class EventListUseCase
 {
+    /* =================== 以下メインの処理 =================== */
+
     /**
      * 今後のイベント一覧の取得
      *
      * 今日以降の日付で開催されるイベントを日付の降順で指定されたページ数毎に取得します。
      *
-     * @param int $perPage 1ページ当たりの表示件数
+     * @param int $per_page 1ページ当たりの表示件数
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator 今後のイベントのページネーションオブジェクト
      */
-    public function getUpcomingEvents($perPage = 12)
+    public function getUpcomingEvents($per_page = 12)
     {
         return Event::whereDate('date', '>=', Carbon::today())
             ->where('is_deleted', false)
             ->orderBy('date', 'desc')
-            ->paginate($perPage);
+            ->paginate($per_page);
     }
 
     public function getNewestEvents($limit = 6)
@@ -43,14 +45,14 @@ class EventListUseCase
      *
      * すべてのイベントを日付の降順で指定されたページ数毎に取得します。
      *
-     * @param int $perPage 1ページ当たりの表示件数
+     * @param int $per_page 1ページ当たりの表示件数
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator 全てのイベントのページネーションオブジェクト
      */
-    public function getAllEvents($perPage = 12)
+    public function getAllEvents($per_page = 12)
     {
         return Event::where('is_deleted', false)
             ->orderBy('date', 'desc')
-            ->paginate($perPage);
+            ->paginate($per_page);
     }
 
     /**
@@ -59,16 +61,16 @@ class EventListUseCase
      * 指定したユーザーが参加している今後のイベントを日付の降順で指定されたページ数毎に取得します。
      *
      * @param User $user ユーザー
-     * @param int $perPage 1ページ当たりの表示件数
+     * @param int $per_page 1ページ当たりの表示件数
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator ユーザーが参加しているイベントのページネーションオブジェクト
      */
-    public function getJoinedEvents(User $user, $perPage = 12)
+    public function getJoinedEvents(User $user, $per_page = 12)
     {
         return $user->joinedEvents()
             ->whereDate('date', '>=', Carbon::today())
             ->where('is_deleted', false)
             ->orderBy('date', 'desc')
-            ->paginate($perPage);
+            ->paginate($per_page);
     }
 
     /**
@@ -77,14 +79,14 @@ class EventListUseCase
      * 指定したユーザーが作成したイベントを日付の降順で指定されたページ数毎に取得します。
      *
      * @param User $user ユーザー
-     * @param int $perPage 1ページ当たりの表示件数
+     * @param int $per_page 1ページ当たりの表示件数
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator ユーザーが作成したイベントのページネーションオブジェクト
      */
-    public function getOrganizedEvents(User $user, $perPage = 12)
+    public function getOrganizedEvents(User $user, $per_page = 12)
     {
         return $user->organizedEvents()
             ->where('is_deleted', false)
             ->orderBy('date', 'desc')
-            ->paginate($perPage);
+            ->paginate($per_page);
     }
 }

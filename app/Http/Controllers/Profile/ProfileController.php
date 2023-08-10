@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\UseCases\Profile\ProfileUseCase;
 use App\Http\Requests\Profile\ProfileDeleteRequest;
 use App\Http\Requests\Profile\ProfileUpdateRequest;
-use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -14,16 +13,22 @@ use Illuminate\View\View;
 
 /**
  * プロフィールコントローラークラス
+ * 
+ * ユーザーのプロフィールに関連する操作を提供するコントローラーです。
  */
 class ProfileController extends Controller
 {
     /**
-     * @var ProfileUseCase
+     * プロフィールのビジネスロジックを提供するユースケース
+     * 
+     * @var ProfileUseCase プロフィールに使用するUseCaseインスタンス
      */
     private $profileUseCase;
 
     /**
-     * ProfileControllerの新しいインスタンスを生成します。
+     * ProfileControllerのコンストラクタ
+     * 
+     * 使用するユースケースをインジェクション（注入）します。
      *
      * @param ProfileUseCase $profileUseCase プロフィールのユースケースインスタンス
      */
@@ -32,9 +37,13 @@ class ProfileController extends Controller
         $this->profileUseCase = $profileUseCase;
     }
 
+    /* =================== 以下メインの処理 =================== */
+
     /**
-     * プロフィールの編集画面を表示します。
-     *
+     * プロフィール編集画面を表示するメソッド
+     * 
+     * ログイン中のユーザーのプロフィール編集画面を表示します。
+     * 
      * @param Request $request HTTPリクエスト
      * @return View プロフィール編集画面のViewインスタンス
      */
@@ -50,8 +59,10 @@ class ProfileController extends Controller
     }
 
     /**
-     * プロフィールを更新します。
-     *
+     * プロフィールを更新するメソッド
+     * 
+     * ユーザーが入力した新しい情報を元にプロフィールを更新します。
+     * 
      * @param ProfileUpdateRequest $request プロフィール更新のリクエスト
      * @return RedirectResponse プロフィール編集画面へのリダイレクトレスポンス
      */
@@ -63,8 +74,10 @@ class ProfileController extends Controller
     }
 
     /**
-     * プロフィールを削除します。
-     *
+     * プロフィールを削除するメソッド
+     * 
+     * ユーザーのプロフィールを削除します。
+     * 
      * @param ProfileDeleteRequest $request プロフィール削除のリクエスト
      * @return RedirectResponse ルートURLへのリダイレクトレスポンス
      */
@@ -74,7 +87,6 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
-
 
     public function show($loginId)
     {

@@ -15,19 +15,26 @@ use Illuminate\Support\Facades\Hash;
 class RegistrationUseCase
 {
     /**
+     * 操作ログを保存するためのビジネスロジックを提供するユースケース
+     * このユースケースを利用して、システムの操作に関するログの記録処理を行います。
+     * 
      * @var OperationLogUseCase
      */
     private $operationLogUseCase;
 
     /**
-     * OperationLogUseCaseの新しいインスタンスを生成します。
+     * RegistrationUseCaseのコンストラクタ
+     * 
+     * 使用するユースケースをインジェクション（注入）します。
      *
-     * @param OperationLogUseCase $operationLogUseCase 操作ログに関連するユースケースインスタンス
+     * @param OperationLogUseCase $operationLogUseCase 操作ログに関するユースケース
      */
     public function __construct(OperationLogUseCase $operationLogUseCase)
     {
         $this->operationLogUseCase = $operationLogUseCase;
     }
+
+    /* =================== 以下メインの処理 =================== */
 
     /**
      * ユーザーの登録を行います。
@@ -37,6 +44,7 @@ class RegistrationUseCase
      */
     public function register(array $requestData): User
     {
+        // ユーザーを作成する
         $user = User::create([
             'name' => $requestData['name'],
             'login_id' => $requestData['login_id'],
@@ -46,7 +54,10 @@ class RegistrationUseCase
             'department_id' => $requestData['department'],
         ]);
 
+        // 作成したユーザーに対し、メールアドレス確認メールを送信する
         $user->sendEmailVerificationNotification();
+
+        // 操作ログを記録
         $this->operationLogUseCase->store([
             'detail' => "name: {$user->name}\n" .
                 "login_id: {$user->login_id}\n" .
@@ -61,6 +72,7 @@ class RegistrationUseCase
             'ip' => request()->ip(),
         ]);
 
+        // 登録されたユーザーを返す
         return $user;
     }
 
@@ -72,6 +84,7 @@ class RegistrationUseCase
      */
     public function login(User $user): void
     {
+        // ユーザーをログインさせる
         Auth::login($user);
     }
 }
