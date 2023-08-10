@@ -16,7 +16,7 @@ use Illuminate\View\View;
 class EmailVerificationPromptController extends Controller
 {
     /**
-     * メール検証プロンプトを表示する
+     * メール検証プロンプトを表示するメソッド
      *
      * @param Request $request リクエスト
      * @return RedirectResponse|View リダイレクトレスポンスまたはビュー

@@ -30,7 +30,7 @@ class VerifyEmailController extends Controller
     }
 
     /**
-     * メールアドレスの検証を行います。
+     * メールアドレスの検証を行うメソッド
      *
      * @param EmailVerificationRequest $request メールアドレス検証リクエスト
      * @return RedirectResponse リダイレクトレスポンス

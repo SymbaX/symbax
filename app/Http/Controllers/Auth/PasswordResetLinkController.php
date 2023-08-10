@@ -31,7 +31,7 @@ class PasswordResetLinkController extends Controller
     }
 
     /**
-     * パスワードリセットリンク作成画面を表示します。
+     * パスワードリセットリンク作成画面を表示するメソッド
      *
      * @return View パスワードリセットリンク作成画面のViewインスタンス
      */
@@ -41,7 +41,7 @@ class PasswordResetLinkController extends Controller
     }
 
     /**
-     * パスワードリセットリンクを作成します。
+     * パスワードリセットリンクを作成するメソッド
      *
      * @param Request $request リクエスト
      * @return RedirectResponse リダイレクトレスポンス

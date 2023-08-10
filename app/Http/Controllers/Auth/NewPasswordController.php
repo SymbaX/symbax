@@ -31,7 +31,7 @@ class NewPasswordController extends Controller
     }
 
     /**
-     * パスワードリセット画面を表示します。
+     * パスワードリセット画面を表示するメソッド
      *
      * @param Request $request リクエスト
      * @return View パスワードリセット画面のViewインスタンス
@@ -42,7 +42,7 @@ class NewPasswordController extends Controller
     }
 
     /**
-     * パスワードリセットを行います。
+     * パスワードリセットを行うメソッド
      *
      * @param Request $request リクエスト
      * @return RedirectResponse リダイレクトレスポンス

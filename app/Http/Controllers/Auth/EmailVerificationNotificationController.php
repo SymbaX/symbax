@@ -30,7 +30,7 @@ class EmailVerificationNotificationController extends Controller
     }
 
     /**
-     * メールアドレス確認用通知を再送信します。
+     * メールアドレス確認用通知を再送信するメソッド
      *
      * @param Request $request HTTPリクエスト
      * @return RedirectResponse リダイレクトレスポンス

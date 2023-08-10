@@ -32,7 +32,7 @@ class AuthenticatedSessionController extends Controller
     }
 
     /**
-     * ログイン画面を表示します。
+     * ログイン画面を表示するメソッド
      *
      * @return View ログイン画面のViewインスタンス
      */
@@ -42,7 +42,7 @@ class AuthenticatedSessionController extends Controller
     }
 
     /**
-     * ログイン処理を行います。
+     * ログイン処理を行うメソッド
      *
      * @param LoginRequest $request ログインリクエスト
      * @return RedirectResponse リダイレクトレスポンス
@@ -63,7 +63,7 @@ class AuthenticatedSessionController extends Controller
     }
 
     /**
-     * ログアウト処理を行います。
+     * ログアウト処理を行うメソッド
      *
      * @return RedirectResponse リダイレクトレスポンス
      */

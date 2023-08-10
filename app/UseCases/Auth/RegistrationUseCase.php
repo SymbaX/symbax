@@ -37,6 +37,7 @@ class RegistrationUseCase
      */
     public function register(array $requestData): User
     {
+        // ユーザーを作成する
         $user = User::create([
             'name' => $requestData['name'],
             'login_id' => $requestData['login_id'],
@@ -46,7 +47,10 @@ class RegistrationUseCase
             'department_id' => $requestData['department'],
         ]);
 
+        // 作成したユーザーに対し、メールアドレス確認メールを送信する
         $user->sendEmailVerificationNotification();
+
+        // 操作ログを記録
         $this->operationLogUseCase->store([
             'detail' => "name: {$user->name}\n" .
                 "login_id: {$user->login_id}\n" .
@@ -61,6 +65,7 @@ class RegistrationUseCase
             'ip' => request()->ip(),
         ]);
 
+        // 登録されたユーザーを返す
         return $user;
     }
 
@@ -72,6 +77,7 @@ class RegistrationUseCase
      */
     public function login(User $user): void
     {
+        // ユーザーをログインさせる
         Auth::login($user);
     }
 }

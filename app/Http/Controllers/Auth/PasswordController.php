@@ -31,7 +31,7 @@ class PasswordController extends Controller
     }
 
     /**
-     * パスワードを更新します。
+     * パスワードを更新するメソッド
      *
      * @param Request $request リクエスト
      * @return RedirectResponse リダイレクトレスポンス

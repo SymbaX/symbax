@@ -36,7 +36,7 @@ class RegisteredUserController extends Controller
     }
 
     /**
-     * 登録フォームを表示します。
+     * 登録フォームを表示するメソッド
      *
      * @return View 登録フォームのViewインスタンス
      */
@@ -58,7 +58,7 @@ class RegisteredUserController extends Controller
     }
 
     /**
-     * ユーザーの新規登録を行います。
+     * ユーザーの新規登録を行うメソッド
      *
      * @param Request $request リクエスト
      * @return RedirectResponse リダイレクトレスポンス

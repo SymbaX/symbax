@@ -32,7 +32,7 @@ class ConfirmablePasswordController extends Controller
     }
 
     /**
-     * パスワード確認画面を表示します。
+     * パスワード確認画面を表示するメソッド
      *
      * @return View パスワード確認画面のViewインスタンス
      */
@@ -42,8 +42,7 @@ class ConfirmablePasswordController extends Controller
     }
 
     /**
-     * パスワード確認を行います。
-     *
+     * パスワード確認を行うメソッド
      * @param ConfirmPasswordRequest $request パスワード確認のリクエスト
      * @return RedirectResponse リダイレクトレスポンス
      */
