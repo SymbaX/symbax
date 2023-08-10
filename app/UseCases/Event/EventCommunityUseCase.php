@@ -20,20 +20,36 @@ use Illuminate\Support\Facades\Mail;
  */
 class EventCommunityUseCase
 {
+    /**
+     * イベント参加者のステータスをチェックするユースケース
+     * 
+     * @var CheckEventParticipantStatusUseCase
+     */
     protected $checkParticipantStatus;
+
+    /**
+     * イベントオーガナイザーサービスをチェックするサービス
+     * 
+     * @var CheckEventOrganizerService
+     */
     protected $checkEventOrganizerService;
 
     /**
+     * 操作ログを保存するためのビジネスロジックを提供するユースケース
+     * このユースケースを利用して、システムの操作に関するログの記録処理を行います。
+     * 
      * @var OperationLogUseCase
      */
     private $operationLogUseCase;
 
     /**
-     * コンストラクタ
+     * EventCommunityUseCaseのコンストラクタ
+     * 
+     * 使用するユースケースとサービスをインジェクション（注入）します。
      *
-     * @param CheckEventParticipantStatusUseCase $checkParticipantStatus
-     * @param CheckEventOrganizerService $checkEventOrganizerService
-     * @param  OperationLogUseCase  $operationLogUseCase
+     * @param CheckEventParticipantStatusUseCase $checkParticipantStatus イベント参加者のステータスをチェックするユースケース
+     * @param CheckEventOrganizerService $checkEventOrganizerService イベントオーガナイザーサービスをチェックするサービス
+     * @param OperationLogUseCase $operationLogUseCase 操作ログに関するユースケース
      */
     public function __construct(
         CheckEventParticipantStatusUseCase $checkParticipantStatus,
@@ -46,7 +62,6 @@ class EventCommunityUseCase
     }
 
     /* =================== 以下メインの処理 =================== */
-
 
     /**
      * イベントへのアクセス権限をチェックする

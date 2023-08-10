@@ -17,15 +17,19 @@ use Illuminate\Support\Facades\Auth;
 class EventCreateUseCase
 {
     /**
+     * 操作ログを保存するためのビジネスロジックを提供するユースケース
+     * このユースケースを利用して、システムの操作に関するログの記録処理を行います。
+     * 
      * @var OperationLogUseCase
      */
     private $operationLogUseCase;
 
     /**
-     * OperationLogUseCaseの新しいインスタンスを作成します。
+     * EventCreateUseCaseのコンストラクタ
+     * 
+     * 使用するユースケースをインジェクション（注入）します。
      *
-     * @param  OperationLogUseCase  $operationLogUseCase
-     * @return void
+     * @param OperationLogUseCase $operationLogUseCase 操作ログに関するユースケース
      */
     public function __construct(OperationLogUseCase $operationLogUseCase)
     {
