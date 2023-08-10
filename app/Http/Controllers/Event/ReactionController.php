@@ -44,7 +44,7 @@ class ReactionController extends Controller
      * 
      * @param Request $request リアクション情報を持つリクエストオブジェクト
      * @param Topic $topic リアクションの対象となるトピック
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse リダイレクトレスポンス
      */
     public function store(Request $request, Topic $topic)
     {

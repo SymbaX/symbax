@@ -34,7 +34,7 @@ class ListOperationLogsController extends Controller
     /**
      * 操作ログのリストを表示するメソッド
      *
-     * @return View 操作ログリストページを表示。ユースケースから取得した操作ログをビューに渡す。
+     * @return Response 操作ログリストページを表示。ユースケースから取得した操作ログをビューに渡す。
      */
     public function showLogs()
     {

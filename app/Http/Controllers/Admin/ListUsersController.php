@@ -34,7 +34,7 @@ class ListUsersController extends Controller
     /**
      * ユーザーリストのページを表示するメソッド
      *
-     * @return \Illuminate\Http\Response ユーザーリストのビューページ
+     * @return Response ユーザーリストのビューページ。ユースケースから取得したユーザーリストをビューに渡す。
      */
     public function listUsers()
     {

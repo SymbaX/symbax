@@ -35,7 +35,7 @@ class MailSendController extends Controller
     /**
      * メール作成画面を表示するメソッド
      *
-     * @return \Illuminate\Contracts\View\View
+     * @return View メール作成画面のビュー
      */
     public function showMailForm()
     {
@@ -47,7 +47,7 @@ class MailSendController extends Controller
      * 
      * @param SendMailRequest $request 送信するメールの情報が含まれるリクエスト
      * 
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse メール作成画面にリダイレクトする
      */
     public function sendMail(SendMailRequest $request)
     {

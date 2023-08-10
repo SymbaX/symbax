@@ -36,7 +36,7 @@ class AdminDashboardController extends Controller
      * 
      * 管理者ダッシュボードページを表示します。
      * 
-     * @return \Illuminate\Http\Response 管理者ダッシュボードのビュー
+     * @return View 管理者ダッシュボードのビュー
      */
     public function dashboard()
     {
