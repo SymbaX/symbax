@@ -72,26 +72,33 @@ class EventCommunityUseCase
      */
     public function checkAccess($id): bool
     {
-        $isParticipantApproved = $this->checkParticipantStatusService->check($id);
+        // イベント参加者のステータスをチェックする
+        $isParticipantApproved = $this->checkParticipantStatusService->check($id); // user_idはcheck関数内のAuth::id()で取得
+
+        // イベントに削除フラグが立っている場合は404を返す
         Event::where('id', $id)->where('is_deleted', false)->firstOrFail();
 
+        // 参加者が承認されているか、またはイベント主催者である場合はtrueを返す
         if ($isParticipantApproved === "approved" || $this->checkEventOrganizerService->check($id)) {
             return true;
         }
 
+        // それ以外の場合はfalseを返す
         return false;
     }
 
     /**
-     *
+     *  イベントを取得する
+     * 
      * @param int $id イベントのID
      * @return \Illuminate\Database\Eloquent\Collection 最新のトピックのコレクションを返す
      */
     public function getEvent($id)
     {
+        // イベントを取得する
         $event = Event::findOrFail($id);
 
-
+        // イベントを返す
         return $event;
     }
 
@@ -103,12 +110,15 @@ class EventCommunityUseCase
      */
     public function getTopics($id, $per_page = 10)
     {
+        // 指定したイベントに関連するトピックを取得する
         $topics = Topic::where("event_id", $id)->latest()->paginate($per_page);
 
+        // トピックの内容に含まれるメンションを置換する
         foreach ($topics as $topic) {
             $topic->content = $this->replaceMentions($topic->content, $topic->event_id);
         }
 
+        // トピックを返す
         return $topics;
     }
 
