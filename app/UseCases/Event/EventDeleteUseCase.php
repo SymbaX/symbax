@@ -72,13 +72,11 @@ class EventDeleteUseCase
             return false;
         }
 
-        // // イベントを削除し、関連する画像ファイルを削除します
-        // Storage::delete($event->image_path);
-        // $event->delete();
-
+        // イベントに削除フラグを立てます
         $event->is_deleted = true;
         $event->save();
 
+        // 操作ログを保存
         $this->operationLogUseCase->store([
             'detail' => null,
             'user_id' => null,
