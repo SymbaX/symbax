@@ -242,8 +242,10 @@ class EventCommunityUseCase
      */
     private function createTopic(Request $request)
     {
+        // 新しいトピックを作成
         $topic = new Topic();
 
+        // リクエストの内容にcontentが含まれている場合、トピックを作成
         if ($request->content) {
             $topic->user_id = Auth::id();
             $topic->event_id = $request->event_id;
@@ -251,6 +253,7 @@ class EventCommunityUseCase
             $topic->save();
         }
 
+        // 作成したトピックのインスタンスを返す
         return $topic;
     }
 
@@ -263,6 +266,7 @@ class EventCommunityUseCase
      */
     private function logTopicCreation(Topic $topic, Request $request)
     {
+        // 操作ログに記録
         $this->operationLogUseCase->store([
             'detail' => "topic:\n{$request->content}\n",
             'user_id' => null,
@@ -366,18 +370,22 @@ class EventCommunityUseCase
      */
     public function deleteTopic(int $topicId, int $eventId, int $userId)
     {
+        // トピックを取得
         $topic = Topic::where('id', $topicId)
             ->where('event_id', $eventId)
             ->where('user_id', $userId)
             ->first();
 
+        // トピックが存在しない場合はfalseを返す
         if (!$topic) {
             return false;
         }
 
+        // トピックをの削除フラグを立てる
         $topic->is_deleted = true;
         $topic->save();
 
+        // 操作ログを記録
         $this->operationLogUseCase->store([
             'detail' => null,
             'user_id' => null,
@@ -388,7 +396,7 @@ class EventCommunityUseCase
             'ip' => request()->ip(),
         ]);
 
-
+        // トピックの削除に成功した場合はtrueを返す
         return true;
     }
 
@@ -401,11 +409,16 @@ class EventCommunityUseCase
      */
     public function getTopicReactionData($topics, $emojis)
     {
+        // dataの初期化
         $data = [];
 
+        // トピックの数だけループ
         foreach ($topics as $topic) {
+            // 絵文字のカテゴリーの数だけにループ
             foreach ($emojis as $emojiCategory => $emojiList) {
+                // 絵文字の数だけループ
                 foreach ($emojiList as $emoji) {
+                    // topic_idとemojiをキーにして、カウント数と自分がリアクションしているかどうかを格納
                     $data[$topic->id][$emoji] = [
                         'count' => Reaction::getCountForTopic($topic->id, $emoji),
                         'hasReacted' => Reaction::hasReacted(Auth::id(), $topic->id, $emoji)
@@ -414,6 +427,7 @@ class EventCommunityUseCase
             }
         }
 
+        // dataを返す
         return $data;
     }
 }
