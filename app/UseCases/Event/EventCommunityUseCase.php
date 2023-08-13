@@ -12,6 +12,7 @@ use App\UseCases\OperationLog\OperationLogUseCase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Services\CheckEventOrganizerService;
+use App\Services\CheckEventParticipantStatusService;
 use Illuminate\Mail\Markdown;
 use Illuminate\Support\Facades\Mail;
 
@@ -21,11 +22,11 @@ use Illuminate\Support\Facades\Mail;
 class EventCommunityUseCase
 {
     /**
-     * イベント参加者のステータスをチェックするユースケース
+     * イベント参加者のステータスをチェックするサービス
      * 
-     * @var CheckEventParticipantStatusUseCase
+     * @var CheckEventParticipantStatusService
      */
-    protected $checkParticipantStatus;
+    protected $checkParticipantStatusService;
 
     /**
      * イベントオーガナイザーサービスをチェックするサービス
@@ -47,16 +48,16 @@ class EventCommunityUseCase
      * 
      * 使用するユースケースとサービスをインジェクション（注入）します。
      *
-     * @param CheckEventParticipantStatusUseCase $checkParticipantStatus イベント参加者のステータスをチェックするユースケース
+     * @param CheckEventParticipantStatusService $checkParticipantStatusService イベント参加者のステータスをチェックするユースケース
      * @param CheckEventOrganizerService $checkEventOrganizerService イベントオーガナイザーサービスをチェックするサービス
      * @param OperationLogUseCase $operationLogUseCase 操作ログに関するユースケース
      */
     public function __construct(
-        CheckEventParticipantStatusUseCase $checkParticipantStatus,
+        CheckEventParticipantStatusService $checkParticipantStatusService,
         CheckEventOrganizerService $checkEventOrganizerService,
         OperationLogUseCase $operationLogUseCase
     ) {
-        $this->checkParticipantStatus = $checkParticipantStatus;
+        $this->checkParticipantStatusService = $checkParticipantStatusService;
         $this->checkEventOrganizerService = $checkEventOrganizerService;
         $this->operationLogUseCase = $operationLogUseCase;
     }
@@ -71,7 +72,7 @@ class EventCommunityUseCase
      */
     public function checkAccess($id): bool
     {
-        $isParticipantApproved = $this->checkParticipantStatus->execute($id);
+        $isParticipantApproved = $this->checkParticipantStatusService->check($id);
         Event::where('id', $id)->where('is_deleted', false)->firstOrFail();
 
         if ($isParticipantApproved === "approved" || $this->checkEventOrganizerService->check($id)) {
@@ -177,7 +178,7 @@ class EventCommunityUseCase
         $event = Event::where('id', $eventId)->where('is_deleted', false)->firstOrFail();
 
         // 参加者のステータスが「承認済み」であるか、またはイベントの主催者であるかをチェック
-        $isParticipantApproved = $this->checkParticipantStatus->execute($eventId);
+        $isParticipantApproved = $this->checkParticipantStatusService->check($eventId);
         if ($isParticipantApproved !== "approved" && !$this->checkEventOrganizerService->check($eventId)) {
             return null;
         }
