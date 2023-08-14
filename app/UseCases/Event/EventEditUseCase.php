@@ -97,14 +97,16 @@ class EventEditUseCase
 
         $event = Event::where('id', $id)->where('is_deleted', false)->firstOrFail();
 
-
         $validatedData = $request->validated();
 
+        // 画像がアップロードされた場合は、既存の画像を削除して新しい画像を保存
         if ($request->hasFile('image_path')) {
+            // 画像がアップロードされた場合
             Storage::delete($event->image_path);
             $validatedData['image_path'] = $request->file('image_path')->store('public/events');
         } else {
-            $validatedData['image_path'] = $event->image_path; // 元の画像パスを使用
+            // 画像がアップロードされなかった場合は、元の画像パスを使用
+            $validatedData['image_path'] = $event->image_path;
         }
 
         $originalEvent = Event::findOrFail($id); // 原始的なイベントデータを取得

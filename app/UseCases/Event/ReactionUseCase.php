@@ -4,6 +4,7 @@ namespace App\UseCases\Event;
 
 use App\Models\Reaction;
 use App\Services\CheckEventOrganizerService;
+use App\Services\CheckEventParticipantStatusService;
 
 /**
  * トピックのリアクションを扱うユースケース
@@ -11,11 +12,11 @@ use App\Services\CheckEventOrganizerService;
 class ReactionUseCase
 {
     /**
-     * イベント参加者のステータスをチェックするユースケース
+     * イベント参加者のステータスをチェックするサービス
      * 
-     * @var CheckEventParticipantStatusUseCase
+     * @var CheckEventParticipantStatusService
      */
-    protected $checkParticipantStatus;
+    protected $checkParticipantStatusService;
 
     /**
      * イベントオーガナイザーを確認するサービス
@@ -29,14 +30,14 @@ class ReactionUseCase
      * 
      * 使用するユースケースとサービスをインジェクション（注入）します。
      * 
-     * @param CheckEventParticipantStatusUseCase $checkParticipantStatus イベント参加者のステータスをチェックするユースケース
+     * @param CheckEventParticipantStatusService $checkParticipantStatusService イベント参加者のステータスをチェックするサービス
      * @param CheckEventOrganizerService $checkEventOrganizerService イベントオーガナイザーを確認するサービス
      */
     public function __construct(
-        CheckEventParticipantStatusUseCase $checkParticipantStatus,
+        CheckEventParticipantStatusService $checkParticipantStatusService,
         CheckEventOrganizerService $checkEventOrganizerService
     ) {
-        $this->checkParticipantStatus = $checkParticipantStatus;
+        $this->checkParticipantStatusService = $checkParticipantStatusService;
         $this->checkEventOrganizerService = $checkEventOrganizerService;
     }
 
@@ -86,7 +87,7 @@ class ReactionUseCase
         $eventId = $topic->event_id;
 
         // 参加者のステータスが「承認済み」であるか、またはイベントの主催者であるかをチェック
-        $isParticipantApproved = $this->checkParticipantStatus->execute($eventId);
+        $isParticipantApproved = $this->checkParticipantStatusService->check($eventId);
         if ($isParticipantApproved !== "approved" && !$this->checkEventOrganizerService->check($eventId)) {
             return null;
         }

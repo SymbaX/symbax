@@ -1,14 +1,14 @@
 <?php
 
-namespace App\UseCases\Event;
+namespace App\Services;
 
 use App\Models\EventParticipant;
 use Illuminate\Support\Facades\Auth;
 
 /**
- * イベント参加者のステータスをチェックするUseCase
+ * イベント参加者のステータスをチェックするサービス
  */
-class CheckEventParticipantStatusUseCase
+class CheckEventParticipantStatusService
 {
     /* =================== 以下メインの処理 =================== */
 
@@ -19,13 +19,14 @@ class CheckEventParticipantStatusUseCase
      * @return string|null イベント参加者のステータス（"approved"、"pending"、"rejected"のいずれか）を返します。
      *                     ユーザーが認証済みでない場合はnullを返します。
      */
-    public function execute(int $eventId): ?string
+    public function check(int $eventId): ?string
     {
         // ユーザーが認証済みでない場合はnullを返す
         if (!Auth::check()) {
             return null;
         }
 
+        // イベント参加者のステータスを取得する
         $participant = EventParticipant::where('event_id', $eventId)
             ->where('user_id', Auth::id())
             ->first();

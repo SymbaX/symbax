@@ -47,6 +47,7 @@ class EventCreateUseCase
      */
     public function create()
     {
+        // イベントカテゴリーの一覧を取得
         $categories = EventCategories::all();
         $selectedCategoryId = old('category', null);
 
@@ -68,9 +69,13 @@ class EventCreateUseCase
     {
         $validatedData = $request->validated();
 
+        // 画像を保存
         $imagePath = $this->storeEventImage($request);
+
+        // イベント作成者のIDを取得(現在ログイン中のユーザーID)
         $organizerId = Auth::id();
 
+        // イベントを作成
         $event = Event::create([
             'name' => $validatedData['name'],
             'detail' => $validatedData['detail'],
@@ -86,6 +91,7 @@ class EventCreateUseCase
             'organizer_id' => $organizerId,
         ]);
 
+        // 操作ログを保存
         $this->operationLogUseCase->store([
             'detail' => "name: {$event->name}\n" .
                 "detail: \n\n{$event->detail}\n\n" .
