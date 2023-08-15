@@ -71,6 +71,9 @@
             <x-input-label for="date" class="required" :value="__('Date')" />
             <x-text-input id="date" name="date" type="date" class="mt-1 block w-full" :value="old('date', '')"
                 required autocomplete="off" />
+            <x-input-hint-text>
+                {{ __('This item cannot be changed later.') }}
+            </x-input-hint-text>
             <x-input-error class="mt-2" :messages="$errors->get('date')" />
         </div>
 
@@ -78,6 +81,9 @@
             <x-input-label for="deadline_date" class="required" :value="__('Deadline date')" />
             <x-text-input id="deadline_date" name="deadline_date" type="date" class="mt-1 block w-full"
                 :value="old('deadline_date', '')" required autocomplete="off" />
+            <x-input-hint-text>
+                {{ __('This item cannot be changed later.') }}
+            </x-input-hint-text>
             <x-input-error class="mt-2" :messages="$errors->get('deadline_date')" />
         </div>
 

@@ -7,10 +7,10 @@
             <x-input-label for="login_id" class="required" :value="__('Login Id')" />
             <x-text-input id="login_id" class="block mt-1 w-full" type="text" name="login_id" :value="old('login_id')" required
                 autofocus />
-            <x-input-error :messages="$errors->get('login_id')" class="mt-2" />
             <x-input-hint-text>
-                {{ __('The login ID cannot be changed later.') }}
+                {{ __('This item cannot be changed later.') }}
             </x-input-hint-text>
+            <x-input-error :messages="$errors->get('login_id')" class="mt-2" />
         </div>
 
         <!-- Name -->
@@ -26,10 +26,13 @@
             <x-input-label for="email" class="required" :value="__('Email')" />
             <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')"
                 required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
             <x-input-hint-text>
                 {{ __('Only "@g.neec.ac.jp" domain can be registered.') }}
             </x-input-hint-text>
+            <x-input-hint-text>
+                {{ __('This item cannot be changed later.') }}
+            </x-input-hint-text>
+            <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
         <!-- College -->
@@ -43,6 +46,9 @@
                         {{ $college->name }}</option>
                 @endforeach
             </select>
+            <x-input-hint-text>
+                {{ __('This item cannot be changed later.') }}
+            </x-input-hint-text>
             <x-input-error :messages="$errors->get('college')" class="mt-2" />
         </div>
 
@@ -59,6 +65,9 @@
                         {{ $department->name }}</option>
                 @endforeach
             </select>
+            <x-input-hint-text>
+                {{ __('This item cannot be changed later.') }}
+            </x-input-hint-text>
             <x-input-error :messages="$errors->get('department')" class="mt-2" />
         </div>
 
