@@ -9,6 +9,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <script type="text/javascript" src="{{ asset('script/jquery-3.7.0.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('css/main.css') }}">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">

@@ -4,7 +4,7 @@
 
         <!--login_id -->
         <div class="mt-4">
-            <x-input-label for="login_id" :value="__('Login Id')" />
+            <x-input-label for="login_id" class="required" :value="__('Login Id')" />
             <x-text-input id="login_id" class="block mt-1 w-full" type="text" name="login_id" :value="old('login_id')" required
                 autofocus />
             <x-input-error :messages="$errors->get('login_id')" class="mt-2" />
@@ -15,7 +15,7 @@
 
         <!-- Name -->
         <div class="mt-4">
-            <x-input-label for="name" :value="__('Name')" />
+            <x-input-label for="name" class="required" :value="__('Name')" />
             <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')"
                 required autocomplete="name" />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
@@ -23,7 +23,7 @@
 
         <!-- Email Address -->
         <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
+            <x-input-label for="email" class="required" :value="__('Email')" />
             <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')"
                 required autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
@@ -34,7 +34,7 @@
 
         <!-- College -->
         <div class="mt-4">
-            <x-input-label for="college" :value="__('College')" />
+            <x-input-label for="college" class="required" :value="__('College')" />
             <select name="college" id="college"
                 class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
                 <option value="" data-default="true">選択してください</option>
@@ -48,7 +48,7 @@
 
         <!-- Department -->
         <div class="mt-4">
-            <x-input-label for="department" :value="__('Department')" />
+            <x-input-label for="department" class="required" :value="__('Department')" />
             <select name="department" id="department"
                 class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
                 {{ $selectedCollegeId ? '' : 'disabled' }}>
@@ -101,7 +101,7 @@
 
         <!-- Password -->
         <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+            <x-input-label for="password" class="required" :value="__('Password')" />
 
             <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required
                 autocomplete="new-password" />
@@ -111,7 +111,7 @@
 
         <!-- Confirm Password -->
         <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+            <x-input-label for="password_confirmation" class="required" :value="__('Confirm Password')" />
 
             <x-text-input id="password_confirmation" class="block mt-1 w-full" type="password"
                 name="password_confirmation" required autocomplete="new-password" />
@@ -120,7 +120,7 @@
         </div>
 
         <div class="mt-4">
-            <label for="terms" class="inline-flex items-center">
+            <label for="terms" class="inline-flex items-center required">
                 <input id="terms" type="checkbox" name="terms" class="form-checkbox"
                     {{ old('terms') ? 'checked' : '' }}>
                 <span class="ml-2"><a href="https://symbax.github.io/help/articles/2" class="underline"
@@ -130,7 +130,7 @@
         </div>
 
         <div class="mt-4">
-            <label for="privacy_policy" class="inline-flex items-center">
+            <label for="privacy_policy" class="inline-flex items-center required">
                 <input id="privacy_policy" type="checkbox" name="privacy_policy" class="form-checkbox"
                     {{ old('privacy_policy') ? 'checked' : '' }}>
                 <span class="ml-2"><a href="https://symbax.github.io/help/articles/3" class="underline"
