@@ -89,7 +89,7 @@
         </div>
 
         <div>
-            <x-input-label for="image_path" :value="__('Image')" />
+            <x-input-label for="image_path" class="optional" :value="__('Image')" />
             <input id="image_path" name="image_path" type="file" class="mt-1 block w-full" accept="image/*">
             <x-input-error class="mt-2" :messages="$errors->get('image_path')" />
         </div>

@@ -132,6 +132,23 @@ button[disabled] {
     display: inline-block;
 }
 
+.optional::after {
+    content: "任意";
+    background-color: rgb(176, 176, 176);
+    color: #fff;
+    font-size: 10px;
+    font-weight: bold;
+    min-width: 10px;
+    padding: 3px 7px;
+    margin: 0px 5px;
+    line-height: 1;
+    vertical-align: middle;
+    white-space: nowrap;
+    text-align: center;
+    border-radius: 10px;
+    display: inline-block;
+}
+
 @keyframes spin {
     0% {
         transform: rotate(0deg);
