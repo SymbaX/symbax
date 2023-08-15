@@ -25,7 +25,14 @@
         </div>
 
         <div>
-            <x-input-label for="detail" class="required" :value="__('Detail')" />
+            <div class="label-with-tooltip">
+                <x-input-label for="detail" class="required" :value="__('Detail')" />
+                <span class="tooltip">
+                    <span class="tooltip-text">
+                        {{ __('Markdown notation can be used for this item.') }}
+                    </span>
+                </span>
+            </div>
             <x-textarea id="detail" name="detail" type="text" class="mt-1 block w-full" required
                 autocomplete="off">
                 {{ old('detail', '') }}
