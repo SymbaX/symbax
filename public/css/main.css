@@ -115,6 +115,23 @@ button[disabled] {
     margin-bottom: 10px;
 }
 
+.required::after {
+    content: "必須";
+    background-color: rgb(236, 166, 100);
+    color: #fff;
+    font-size: 10px;
+    font-weight: bold;
+    min-width: 10px;
+    padding: 3px 7px;
+    margin: 0px 5px;
+    line-height: 1;
+    vertical-align: middle;
+    white-space: nowrap;
+    text-align: center;
+    border-radius: 10px;
+    display: inline-block;
+}
+
 @keyframes spin {
     0% {
         transform: rotate(0deg);
