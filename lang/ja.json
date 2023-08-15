@@ -206,6 +206,7 @@
     "If you change your email address, we will send you a confirmation email.": "メールアドレスを変更すると確認メールが送信されます。",
     "Domains other than \"@g.neec.ac.jp\" can also be entered.": "「@g.neec.ac.jp」以外のドメインも入力できます。",
     "Markdown notation can be used for this item.": "この項目ではMarkdown記法が使用できます。",
+    "You can use lowercase letters (a-z), numbers (0-9), and underscores (_) within 4 to 15 characters. Include at least one lowercase letter or number.": "4~15文字内で、小文字(a-z)・数字(0-9)・アンダースコア(_)が使用可能です。最低1つの小文字か数字を含めてください。",
     "Approve": "承認する",
     "Reject": "リジェクトする",
     "Are you sure you want to cancel this event?": "本当にこのイベントをキャンセルしますか？",

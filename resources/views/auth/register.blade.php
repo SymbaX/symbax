@@ -4,9 +4,16 @@
 
         <!--login_id -->
         <div class="mt-4">
-            <x-input-label for="login_id" class="required" :value="__('Login Id')" />
-            <x-text-input id="login_id" class="block mt-1 w-full" type="text" name="login_id" :value="old('login_id')" required
-                autofocus />
+            <div class="label-with-tooltip">
+                <x-input-label for="login_id" class="required" :value="__('Login Id')" />
+                <span class="tooltip">
+                    <span class="tooltip-text">
+                        {{ __('You can use lowercase letters (a-z), numbers (0-9), and underscores (_) within 4 to 15 characters. Include at least one lowercase letter or number.') }}
+                    </span>
+                </span>
+            </div>
+            <x-text-input id="login_id" class="block mt-1 w-full" type="text" name="login_id" :value="old('login_id')"
+                required autofocus />
             <x-input-hint-text>
                 {{ __('This item cannot be changed later.') }}
             </x-input-hint-text>
