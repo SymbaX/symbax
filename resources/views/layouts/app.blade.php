@@ -15,6 +15,7 @@
     @stack('css')
     @stack('script')
 
+    @include('style.main')
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
