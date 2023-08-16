@@ -39,9 +39,9 @@ class ListUsersController extends Controller
     public function listUsers()
     {
         // ユーザーリストを取得する
-        $data = $this->listUsersUseCase->fetchUsersData();
+        $users = $this->listUsersUseCase->fetchUsersData();
 
         // ユーザーリストをViewに渡して返す
-        return view('admin.users-list', $data);
+        return view('admin.users-list', $users);
     }
 }

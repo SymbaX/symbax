@@ -12,6 +12,7 @@ use App\UseCases\OperationLog\OperationLogUseCase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Services\CheckEventOrganizerService;
+use App\Services\CheckEventParticipantStatusService;
 use Illuminate\Mail\Markdown;
 use Illuminate\Support\Facades\Mail;
 
@@ -21,11 +22,11 @@ use Illuminate\Support\Facades\Mail;
 class EventCommunityUseCase
 {
     /**
-     * イベント参加者のステータスをチェックするユースケース
+     * イベント参加者のステータスをチェックするサービス
      * 
-     * @var CheckEventParticipantStatusUseCase
+     * @var CheckEventParticipantStatusService
      */
-    protected $checkParticipantStatus;
+    protected $checkParticipantStatusService;
 
     /**
      * イベントオーガナイザーサービスをチェックするサービス
@@ -47,16 +48,16 @@ class EventCommunityUseCase
      * 
      * 使用するユースケースとサービスをインジェクション（注入）します。
      *
-     * @param CheckEventParticipantStatusUseCase $checkParticipantStatus イベント参加者のステータスをチェックするユースケース
+     * @param CheckEventParticipantStatusService $checkParticipantStatusService イベント参加者のステータスをチェックするユースケース
      * @param CheckEventOrganizerService $checkEventOrganizerService イベントオーガナイザーサービスをチェックするサービス
      * @param OperationLogUseCase $operationLogUseCase 操作ログに関するユースケース
      */
     public function __construct(
-        CheckEventParticipantStatusUseCase $checkParticipantStatus,
+        CheckEventParticipantStatusService $checkParticipantStatusService,
         CheckEventOrganizerService $checkEventOrganizerService,
         OperationLogUseCase $operationLogUseCase
     ) {
-        $this->checkParticipantStatus = $checkParticipantStatus;
+        $this->checkParticipantStatusService = $checkParticipantStatusService;
         $this->checkEventOrganizerService = $checkEventOrganizerService;
         $this->operationLogUseCase = $operationLogUseCase;
     }
@@ -71,26 +72,33 @@ class EventCommunityUseCase
      */
     public function checkAccess($id): bool
     {
-        $isParticipantApproved = $this->checkParticipantStatus->execute($id);
+        // イベント参加者のステータスをチェックする
+        $isParticipantApproved = $this->checkParticipantStatusService->check($id); // user_idはcheck関数内のAuth::id()で取得
+
+        // イベントに削除フラグが立っている場合は404を返す
         Event::where('id', $id)->where('is_deleted', false)->firstOrFail();
 
+        // 参加者が承認されているか、またはイベント主催者である場合はtrueを返す
         if ($isParticipantApproved === "approved" || $this->checkEventOrganizerService->check($id)) {
             return true;
         }
 
+        // それ以外の場合はfalseを返す
         return false;
     }
 
     /**
-     *
+     *  イベントを取得する
+     * 
      * @param int $id イベントのID
      * @return \Illuminate\Database\Eloquent\Collection 最新のトピックのコレクションを返す
      */
     public function getEvent($id)
     {
+        // イベントを取得する
         $event = Event::findOrFail($id);
 
-
+        // イベントを返す
         return $event;
     }
 
@@ -102,12 +110,15 @@ class EventCommunityUseCase
      */
     public function getTopics($id, $per_page = 10)
     {
+        // 指定したイベントに関連するトピックを取得する
         $topics = Topic::where("event_id", $id)->latest()->paginate($per_page);
 
+        // トピックの内容に含まれるメンションを置換する
         foreach ($topics as $topic) {
             $topic->content = $this->replaceMentions($topic->content, $topic->event_id);
         }
 
+        // トピックを返す
         return $topics;
     }
 
@@ -177,7 +188,7 @@ class EventCommunityUseCase
         $event = Event::where('id', $eventId)->where('is_deleted', false)->firstOrFail();
 
         // 参加者のステータスが「承認済み」であるか、またはイベントの主催者であるかをチェック
-        $isParticipantApproved = $this->checkParticipantStatus->execute($eventId);
+        $isParticipantApproved = $this->checkParticipantStatusService->check($eventId);
         if ($isParticipantApproved !== "approved" && !$this->checkEventOrganizerService->check($eventId)) {
             return null;
         }
@@ -231,8 +242,10 @@ class EventCommunityUseCase
      */
     private function createTopic(Request $request)
     {
+        // 新しいトピックを作成
         $topic = new Topic();
 
+        // リクエストの内容にcontentが含まれている場合、トピックを作成
         if ($request->content) {
             $topic->user_id = Auth::id();
             $topic->event_id = $request->event_id;
@@ -240,6 +253,7 @@ class EventCommunityUseCase
             $topic->save();
         }
 
+        // 作成したトピックのインスタンスを返す
         return $topic;
     }
 
@@ -252,6 +266,7 @@ class EventCommunityUseCase
      */
     private function logTopicCreation(Topic $topic, Request $request)
     {
+        // 操作ログに記録
         $this->operationLogUseCase->store([
             'detail' => "topic:\n{$request->content}\n",
             'user_id' => null,
@@ -355,18 +370,22 @@ class EventCommunityUseCase
      */
     public function deleteTopic(int $topicId, int $eventId, int $userId)
     {
+        // トピックを取得
         $topic = Topic::where('id', $topicId)
             ->where('event_id', $eventId)
             ->where('user_id', $userId)
             ->first();
 
+        // トピックが存在しない場合はfalseを返す
         if (!$topic) {
             return false;
         }
 
+        // トピックをの削除フラグを立てる
         $topic->is_deleted = true;
         $topic->save();
 
+        // 操作ログを記録
         $this->operationLogUseCase->store([
             'detail' => null,
             'user_id' => null,
@@ -377,7 +396,7 @@ class EventCommunityUseCase
             'ip' => request()->ip(),
         ]);
 
-
+        // トピックの削除に成功した場合はtrueを返す
         return true;
     }
 
@@ -390,11 +409,16 @@ class EventCommunityUseCase
      */
     public function getTopicReactionData($topics, $emojis)
     {
+        // dataの初期化
         $data = [];
 
+        // トピックの数だけループ
         foreach ($topics as $topic) {
+            // 絵文字のカテゴリーの数だけにループ
             foreach ($emojis as $emojiCategory => $emojiList) {
+                // 絵文字の数だけループ
                 foreach ($emojiList as $emoji) {
+                    // topic_idとemojiをキーにして、カウント数と自分がリアクションしているかどうかを格納
                     $data[$topic->id][$emoji] = [
                         'count' => Reaction::getCountForTopic($topic->id, $emoji),
                         'hasReacted' => Reaction::hasReacted(Auth::id(), $topic->id, $emoji)
@@ -403,6 +427,7 @@ class EventCommunityUseCase
             }
         }
 
+        // dataを返す
         return $data;
     }
 }

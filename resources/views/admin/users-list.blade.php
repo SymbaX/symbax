@@ -30,7 +30,6 @@
                             <th>{{ __('Icon') }}</th>
                             <th>{{ __('Name') }}</th>
                             <th>{{ __('Email') }}</th>
-                            <th>{{ __('Email Verified At') }}</th>
                             <th>{{ __('Role') }}</th>
                             <th>{{ __('College') }}</th>
                             <th>{{ __('Department') }}</th>
@@ -49,13 +48,14 @@
                                     </div>
                                 </td>
                                 <td data-label="{{ __('Name') }}">{{ $user->name }}</td>
-                                <td data-label="{{ __('Email') }}">{{ $user->email }}</td>
-                                <td data-label="{{ __('Email Verified At') }}">
+                                <td data-label="{{ __('Email') }}">
                                     @if ($user->email_verified_at != null)
-                                        {{ $user->email_verified_at }}
+                                        <span class="text-green-500">◯</span>
                                     @else
-                                        {{ __('Not verified') }}
+                                        <span class="text-red-500">✕</span>
                                     @endif
+
+                                    {{ $user->email }}
                                 </td>
                                 <td data-label="{{ __('Role') }}">{{ $user->role->name }}</td>
                                 <td data-label="{{ __('College') }}">{{ $user->college->name }}</td>

@@ -189,49 +189,54 @@ class EventStatusUseCase
             abort(403);
         }
 
+        // statusの値がapprovedでもrejectedでもない場合はエラー
         if ($status !== 'approved' and $status !== 'rejected') {
             return 'not-change-status';
         }
 
-
+        // イベントIDとユーザーIDを元に参加者を取得
         $participant = EventParticipant::where('event_id', $event_id)
             ->where('user_id', $user_id)
             ->first();
 
-        if ($participant) {
-            $originalStatus = $participant->status; // 変更前のステータスを保存
-
-            if ($originalStatus === $status) {
-                return 'no-change'; // ステータスに変更がなければ以降の処理をスキップ
-            }
-
-            $participant->status = $status;
-            $participant->save();
-
-            $detail = "status: {$originalStatus} ▶ {$status}"; // ステータスの変更をdetailに追加
-
-            $this->operationLogUseCase->store([
-                'detail' => $detail,
-                'user_id' => null,
-                'target_event_id' => $event_id,
-                'target_user_id' => $user_id,
-                'target_topic_id' => null,
-                'action' => 'event-change-status',
-                'ip' => request()->ip(),
-            ]);
-
-
-            $user = User::find($user_id);
-            $event = Event::find($event_id);
-
-            // メール送信処理
-            $mail = new MailSend($event);
-            $mail->eventChangeStatus($event, $status);
-            Mail::to($user->email)->send($mail); // 変更された参加者にメールを送信
-        } else {
+        // 参加者が存在しない場合はエラー
+        if (!$participant) {
             return 'not-change-status';
         }
 
+        $originalStatus = $participant->status; // 変更前のステータスを保存
+
+        // 変更前と変更後のステータスが同じ場合はエラー
+        if ($originalStatus === $status) {
+            return 'no-change';
+        }
+
+        // 参加者のステータスを変更
+        $participant->status = $status;
+        $participant->save();
+
+        // ステータスの変更をdetailに追加
+        $detail = "status: {$originalStatus} ▶ {$status}";
+
+        // ログを保存
+        $this->operationLogUseCase->store([
+            'detail' => $detail,
+            'user_id' => null,
+            'target_event_id' => $event_id,
+            'target_user_id' => $user_id,
+            'target_topic_id' => null,
+            'action' => 'event-change-status',
+            'ip' => request()->ip(),
+        ]);
+
+        // 参加者とイベントを取得
+        $user = User::find($user_id);
+        $event = Event::find($event_id);
+
+        // メール送信処理
+        $mail = new MailSend($event);
+        $mail->eventChangeStatus($event, $status);
+        Mail::to($user->email)->send($mail); // 変更された参加者にメールを送信
 
         // 二重送信防止
         $request->session()->regenerateToken();
