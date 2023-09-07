@@ -116,7 +116,7 @@ button[disabled] {
 }
 
 .create_fab {
-    background-color: #ff4081;
+    background-color: #f5851f;
     width: 56px;
     height: 56px;
     border-radius: 50%;
@@ -135,7 +135,7 @@ button[disabled] {
 }
 
 .create_fab:not(.bg-gray-400):hover {
-    background-color: #e91e63;
+    background-color: #f48f31;
 }
 
 .create_fab.bg-gray-400 {
