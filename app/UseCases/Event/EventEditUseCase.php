@@ -116,8 +116,7 @@ class EventEditUseCase
         // --- ログを記録 ここから ---
         $detail = "";
         $fields = [
-            'name', 'category', 'tag', 'participation_condition',
-            'external_link', 'place',
+            'name', 'category', 'place',
             'number_of_recruits', 'image_path', 'organizer_id'
         ];
 
