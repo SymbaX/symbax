@@ -32,24 +32,12 @@
                                                 <th>{{ __('Location') }}</th>
                                                 <td>{{ $event->place }}</td>
                                             </tr>
-                                            <tr>
-                                                <th>{{ __('Participation condition') }}</th>
-                                                <td>{{ $event->participation_condition }}</td>
-                                            </tr>
+                                            
                                             <tr>
                                                 <th>{{ __('Category') }}</th>
                                                 <td>{{ $category_name }}</td>
                                             </tr>
-                                            <tr>
-                                                <th>{{ __('Tag') }}</th>
-                                                <td>{{ $event->tag }}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>{{ __('External link') }}</th>
-                                                <td><a
-                                                        href="{{ $event->external_link }}">{{ __('External link') }}</a>
-                                                </td>
-                                            </tr>
+                                            
                                             <tr>
                                                 {{-- 参加者数 リクエスト承認待ち、承認済みの数 --}}
                                                 <th>{{ __('Number of recruits') }}</th>
