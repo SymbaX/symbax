@@ -268,7 +268,11 @@ return [
         'deadline_date' => '締切日',
         'place' => '場所',
         'number_of_recruits' => '人数',
-        'image_path' => '画像',
+        'image_path_a' => '画像1',
+        'image_path_b' => '画像2',
+        'image_path_c' => '画像3',
+        'image_path_d' => '画像4',
+        'image_path_e' => '画像5',
         "login_id" => "ログインID",
         "emoji" => "絵文字",
     ]

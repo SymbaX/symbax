@@ -33,7 +33,11 @@ class UpdateRequest extends FormRequest
             'external_link' => ['required', 'max:255', 'url'],
             'place' => ['required', 'max:50'],
             'number_of_recruits' => ['required', 'integer', 'min:1'],
-            'image_path' => ['nullable', 'max:5000', 'mimes:jpg,jpeg,png,gif'],
+            'image_path_a' => ['nullable', 'max:5000', 'mimes:jpg,jpeg,png,gif'],
+            'image_path_b' => ['nullable', 'max:5000', 'mimes:jpg,jpeg,png,gif'],
+            'image_path_c' => ['nullable', 'max:5000', 'mimes:jpg,jpeg,png,gif'],
+            'image_path_d' => ['nullable', 'max:5000', 'mimes:jpg,jpeg,png,gif'],
+            'image_path_e' => ['nullable', 'max:5000', 'mimes:jpg,jpeg,png,gif'],
         ];
 
         return $rules;

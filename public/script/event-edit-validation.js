@@ -9,7 +9,11 @@ $(document).ready(function () {
         external_link: true,
         place: true,
         number_of_recruits: true,
-        image_path: true,
+        image_path_a: true,
+        image_path_b: true,
+        image_path_c: true,
+        image_path_d: true,
+        image_path_e: true,
     };
 
     // イベント名
@@ -143,22 +147,98 @@ $(document).ready(function () {
     });
 
     // 画像
-    $("#image_path").change(function () {
+    $("#image_path_a").change(function () {
         var file = $(this).prop("files")[0];
         var fileExt = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
         if (file.size > 5000000) {
             // 5MB
             showError($(this), "画像ファイルは5MB以下である必要があります。");
-            validationResults.image_path = false;
+            validationResults.image_path_a = false;
         } else if (!fileExt.exec(file.name)) {
             showError(
                 $(this),
                 "有効な画像形式をアップロードしてください（jpg, jpeg, png, gif）。"
             );
-            validationResults.image_path = false;
+            validationResults.image_path_a = false;
         } else {
             removeError($(this));
-            validationResults.image_path = true;
+            validationResults.image_path_a = true;
+        }
+        checkValidation();
+    });
+    $("#image_path_b").change(function () {
+        var file = $(this).prop("files")[0];
+        var fileExt = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+        if (file.size > 5000000) {
+            // 5MB
+            showError($(this), "画像ファイルは5MB以下である必要があります。");
+            validationResults.image_path_b = false;
+        } else if (!fileExt.exec(file.name)) {
+            showError(
+                $(this),
+                "有効な画像形式をアップロードしてください（jpg, jpeg, png, gif）。"
+            );
+            validationResults.image_path_b = false;
+        } else {
+            removeError($(this));
+            validationResults.image_path_b = true;
+        }
+        checkValidation();
+    });
+    $("#image_path_c").change(function () {
+        var file = $(this).prop("files")[0];
+        var fileExt = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+        if (file.size > 5000000) {
+            // 5MB
+            showError($(this), "画像ファイルは5MB以下である必要があります。");
+            validationResults.image_path_c = false;
+        } else if (!fileExt.exec(file.name)) {
+            showError(
+                $(this),
+                "有効な画像形式をアップロードしてください（jpg, jpeg, png, gif）。"
+            );
+            validationResults.image_path_c = false;
+        } else {
+            removeError($(this));
+            validationResults.image_path_c = true;
+        }
+        checkValidation();
+    });
+    $("#image_path_d").change(function () {
+        var file = $(this).prop("files")[0];
+        var fileExt = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+        if (file.size > 5000000) {
+            // 5MB
+            showError($(this), "画像ファイルは5MB以下である必要があります。");
+            validationResults.image_path_d = false;
+        } else if (!fileExt.exec(file.name)) {
+            showError(
+                $(this),
+                "有効な画像形式をアップロードしてください（jpg, jpeg, png, gif）。"
+            );
+            validationResults.image_path_d = false;
+        } else {
+            removeError($(this));
+            validationResults.image_path_d = true;
+        }
+        checkValidation();
+    });
+    $("#image_path_e").change(function () {
+        var file = $(this).prop("files")[0];
+        var fileExt = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+        if (file.size > 5000000) {
+            // 5MB
+            showError($(this), "画像ファイルは5MB以下である必要があります。");
+            validationResults.image_path_e = false;
+        } else if (!fileExt.exec(file.name)) {
+            showError(
+                $(this),
+                "有効な画像形式をアップロードしてください（jpg, jpeg, png, gif）。"
+            );
+            validationResults.image_path_e = false;
+        } else {
+            removeError($(this));
+            validationResults.image_path_e = true;
         }
         checkValidation();
     });

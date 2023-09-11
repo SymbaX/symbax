@@ -9,7 +9,7 @@
                         <li><a href="{{ route('event.show', $event->id) }}">
                                 <h4 class="card-title">{{ $event->name }}</h4>
                                 <figure class="card-figure"><img class="event_image mx-auto"
-                                        src="{{ Storage::url($event->image_path) }}" alt="">
+                                        src="{{ Storage::url($event->image_path_a) }}" alt="">
                                 </figure>
                                 <p class="card-text-tax">
                                     {{ Carbon\Carbon::parse($event->date)->format('Y/m/d') }}

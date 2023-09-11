@@ -35,7 +35,11 @@ class CreateRequest extends FormRequest
             'deadline_date' => ['required', 'date', 'after_or_equal:today'],
             'place' => ['required', 'max:50'],
             'number_of_recruits' => ['required', 'integer', 'min:1'],
-            'image_path' => ['required', 'max:5000', 'mimes:jpg,jpeg,png,gif'],
+            'image_path_a' => ['required', 'max:5000', 'mimes:jpg,jpeg,png,gif'],
+            'image_path_b' => ['max:5000', 'mimes:jpg,jpeg,png,gif'],
+            'image_path_c' => ['max:5000', 'mimes:jpg,jpeg,png,gif'],
+            'image_path_d' => ['max:5000', 'mimes:jpg,jpeg,png,gif'],
+            'image_path_e' => ['max:5000', 'mimes:jpg,jpeg,png,gif'],
         ];
 
         return $rules;

@@ -28,7 +28,11 @@ class Event extends Model
         'deadline_date',
         'place',
         'number_of_recruits',
-        'image_path',
+        'image_path_a',
+        'image_path_b',
+        'image_path_c',
+        'image_path_d',
+        'image_path_e',
         'organizer_id',
     ];
 

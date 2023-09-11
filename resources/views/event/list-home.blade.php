@@ -31,7 +31,7 @@
                                                         <h3 class="highlighted-event-title">{{ $newest_event->name }}
                                                         </h3>
                                                         <figure class="card-figure"><img class="event_image mx-auto"
-                                                                src="{{ Storage::url($newest_event->image_path) }}"
+                                                                src="{{ Storage::url($newest_event->image_path_a) }}"
                                                                 alt="">
                                                         </figure>
                                                         <p class="highlighted-event-text">

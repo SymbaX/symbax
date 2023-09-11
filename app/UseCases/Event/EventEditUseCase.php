@@ -18,23 +18,23 @@ class EventEditUseCase
 {
     /**
      * 操作ログを保存するためのビジネスロジックを提供するユースケース
-     * 
+     *
      * @var OperationLogUseCase
      */
     private $operationLogUseCase;
 
     /**
      * イベントオーガナイザーを確認するためのサービス
-     * 
+     *
      * @var CheckEventOrganizerService
      */
     private $checkEventOrganizerService;
 
     /**
      * EventEditUseCaseのコンストラクタ
-     * 
+     *
      * 使用するユースケースとサービスをインジェクション（注入）します。
-     * 
+     *
      * @param OperationLogUseCase $operationLogUseCase 操作ログに関するユースケース
      * @param CheckEventOrganizerService $checkEventOrganizerService イベントオーガナイザーを確認するためのサービス
      */
@@ -100,13 +100,53 @@ class EventEditUseCase
         $validatedData = $request->validated();
 
         // 画像がアップロードされた場合は、既存の画像を削除して新しい画像を保存
-        if ($request->hasFile('image_path')) {
+        if ($request->hasFile('image_path_a')) {
             // 画像がアップロードされた場合
-            Storage::delete($event->image_path);
-            $validatedData['image_path'] = $request->file('image_path')->store('public/events');
+            Storage::delete($event->image_path_a);
+            $validatedData['image_path_a'] = $request->file('image_path_a')->store('public/events');
         } else {
             // 画像がアップロードされなかった場合は、元の画像パスを使用
-            $validatedData['image_path'] = $event->image_path;
+            $validatedData['image_path_a'] = $event->image_path_a;
+        }
+
+        // 画像がアップロードされた場合は、既存の画像を削除して新しい画像を保存
+        if ($request->hasFile('image_path_b')) {
+            // 画像がアップロードされた場合
+            Storage::delete($event->image_path_b);
+            $validatedData['image_path_b'] = $request->file('image_path_b')->store('public/events');
+        } else {
+            // 画像がアップロードされなかった場合は、元の画像パスを使用
+            $validatedData['image_path_b'] = $event->image_path_b;
+        }
+
+        // 画像がアップロードされた場合は、既存の画像を削除して新しい画像を保存
+        if ($request->hasFile('image_path_c')) {
+            // 画像がアップロードされた場合
+            Storage::delete($event->image_path_c);
+            $validatedData['image_path_c'] = $request->file('image_path_c')->store('public/events');
+        } else {
+            // 画像がアップロードされなかった場合は、元の画像パスを使用
+            $validatedData['image_path_c'] = $event->image_path_c;
+        }
+
+        // 画像がアップロードされた場合は、既存の画像を削除して新しい画像を保存
+        if ($request->hasFile('image_path_d')) {
+            // 画像がアップロードされた場合
+            Storage::delete($event->image_path_d);
+            $validatedData['image_path_d'] = $request->file('image_path_d')->store('public/events');
+        } else {
+            // 画像がアップロードされなかった場合は、元の画像パスを使用
+            $validatedData['image_path_d'] = $event->image_path_d;
+        }
+
+        // 画像がアップロードされた場合は、既存の画像を削除して新しい画像を保存
+        if ($request->hasFile('image_path_e')) {
+            // 画像がアップロードされた場合
+            Storage::delete($event->image_path_e);
+            $validatedData['image_path_e'] = $request->file('image_path_e')->store('public/events');
+        } else {
+            // 画像がアップロードされなかった場合は、元の画像パスを使用
+            $validatedData['image_path_e'] = $event->image_path_e;
         }
 
         $originalEvent = Event::findOrFail($id); // 原始的なイベントデータを取得
@@ -118,7 +158,9 @@ class EventEditUseCase
         $fields = [
             'name', 'category', 'tag', 'participation_condition',
             'external_link', 'place',
-            'number_of_recruits', 'image_path', 'organizer_id'
+            'number_of_recruits',
+            'image_path_a', 'image_path_b', 'image_path_c', 'image_path_d', 'image_path_e',
+            'organizer_id'
         ];
 
         foreach ($fields as $field) {

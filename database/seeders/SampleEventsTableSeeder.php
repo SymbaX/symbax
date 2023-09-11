@@ -16,7 +16,7 @@ class SampleEventsTableSeeder extends Seeder
 {
     /**
      * eventsテーブルにダミーデータを挿入します。
-     * 
+     *
      * @return void
      */
     public function run(): void
@@ -54,7 +54,7 @@ class SampleEventsTableSeeder extends Seeder
                 "deadline_date" => $deadlineDate->format('Y-m-d'),
                 "place" => "開催場所" . $formattedNum,
                 "number_of_recruits" => $numberOfRecruits,
-                "image_path" => "public/events/dummy" . $formattedNum . ".jpg",
+                "image_path_a" => "public/events/dummy" . $formattedNum . ".jpg",
                 "organizer_id" => $organizerId,
                 "created_at" => new DateTime()
             ]);

@@ -18,7 +18,11 @@
                 <div class="event-detail">
                     @if ($event)
                         <div class="event-flex">
-                            <img class="event_image" src="{{ Storage::url($event->image_path) }} " alt="">
+                            <img class="event_image" src="{{ Storage::url($event->image_path_a) }} " alt="">
+                            <img class="event_image" src="{{ Storage::url($event->image_path_b) }} " alt="">
+                            <img class="event_image" src="{{ Storage::url($event->image_path_c) }} " alt="">
+                            <img class="event_image" src="{{ Storage::url($event->image_path_d) }} " alt="">
+                            <img class="event_image" src="{{ Storage::url($event->image_path_e) }} " alt="">
 
                             <div class="right">
                                 <div class="scroll">

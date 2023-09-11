@@ -109,10 +109,38 @@
         </div>
 
         <div>
-            <x-input-label for="image_path" class="required" :value="__('Image')" />
-            <x-text-input id="image_path" name="image_path" type="file" class="mt-1 block w-full" :value="old('image_path', '')"
+            <x-input-label for="image_path_a" class="required" :value="__('Image_1')" />
+            <x-text-input id="image_path_a" name="image_path_a" type="file" class="mt-1 block w-full" :value="old('image_path_a', '')"
                 required autocomplete="off" />
-            <x-input-error class="mt-2" :messages="$errors->get('image_path')" />
+            <x-input-error class="mt-2" :messages="$errors->get('image_path_a')" />
+        </div>
+
+        <div>
+            <x-input-label for="image_path_b" class="optional" :value="__('Image_2')" />
+            <x-text-input id="image_path_b" name="image_path_b" type="file" class="mt-1 block w-full" :value="old('image_path_b', '')"
+                autocomplete="off" />
+            <x-input-error class="mt-2" :messages="$errors->get('image_path_b')" />
+        </div>
+
+        <div>
+            <x-input-label for="image_path_c" class="optional" :value="__('Image_3')" />
+            <x-text-input id="image_path_c" name="image_path_c" type="file" class="mt-1 block w-full" :value="old('image_path_c', '')"
+                autocomplete="off" />
+            <x-input-error class="mt-2" :messages="$errors->get('image_path_c')" />
+        </div>
+
+        <div>
+            <x-input-label for="image_path_d" class="optional" :value="__('Image_4')" />
+            <x-text-input id="image_path_d" name="image_path_d" type="file" class="mt-1 block w-full" :value="old('image_path_d', '')"
+                autocomplete="off" />
+            <x-input-error class="mt-2" :messages="$errors->get('image_path_d')" />
+        </div>
+
+        <div>
+            <x-input-label for="image_path_e" class="optional" :value="__('Image_5')" />
+            <x-text-input id="image_path_e" name="image_path_e" type="file" class="mt-1 block w-full" :value="old('image_path_e', '')"
+                autocomplete="off" />
+            <x-input-error class="mt-2" :messages="$errors->get('image_path_e')" />
         </div>
 
         <div class="flex items-center gap-4">

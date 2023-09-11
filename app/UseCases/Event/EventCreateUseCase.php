@@ -19,14 +19,14 @@ class EventCreateUseCase
     /**
      * 操作ログを保存するためのビジネスロジックを提供するユースケース
      * このユースケースを利用して、システムの操作に関するログの記録処理を行います。
-     * 
+     *
      * @var OperationLogUseCase
      */
     private $operationLogUseCase;
 
     /**
      * EventCreateUseCaseのコンストラクタ
-     * 
+     *
      * 使用するユースケースをインジェクション（注入）します。
      *
      * @param OperationLogUseCase $operationLogUseCase 操作ログに関するユースケース
@@ -70,7 +70,11 @@ class EventCreateUseCase
         $validatedData = $request->validated();
 
         // 画像を保存
-        $imagePath = $this->storeEventImage($request);
+        $imagePath_a = $this->storeEventImageA($request);
+        $imagePath_b = $this->storeEventImageB($request);
+        $imagePath_c = $this->storeEventImageC($request);
+        $imagePath_d = $this->storeEventImageD($request);
+        $imagePath_e = $this->storeEventImageE($request);
 
         // イベント作成者のIDを取得(現在ログイン中のユーザーID)
         $organizerId = Auth::id();
@@ -87,7 +91,11 @@ class EventCreateUseCase
             'deadline_date' => $validatedData['deadline_date'],
             'place' => $validatedData['place'],
             'number_of_recruits' => $validatedData['number_of_recruits'],
-            'image_path' => $imagePath,
+            'image_path_a' => $imagePath_a,
+            'image_path_b' => $imagePath_b,
+            'image_path_c' => $imagePath_c,
+            'image_path_d' => $imagePath_d,
+            'image_path_e' => $imagePath_e,
             'organizer_id' => $organizerId,
         ]);
 
@@ -103,7 +111,11 @@ class EventCreateUseCase
                 "deadline_date: {$event->deadline_date}\n" .
                 "place: {$event->place}\n" .
                 "number_of_recruits: {$event->number_of_recruits}\n" .
-                "image_path: {$event->image_path}\n" .
+                "image_path_a: {$event->image_path_a}\n" .
+                "image_path_b: {$event->image_path_b}\n" .
+                "image_path_c: {$event->image_path_c}\n" .
+                "image_path_d: {$event->image_path_d}\n" .
+                "image_path_e: {$event->image_path_e}\n" .
                 "organizer_id: {$event->organizer_id}",
             'user_id' => null,
             'target_event_id' => $event->id,
@@ -124,8 +136,44 @@ class EventCreateUseCase
      * @param  CreateRequest  $request
      * @return string
      */
-    private function storeEventImage(CreateRequest $request): string
+    private function storeEventImageA(CreateRequest $request): string
     {
-        return $request->file('image_path')->store('public/events');
+        return $request->file('image_path_a')->store('public/events');
+    }
+
+    private function storeEventImageB(CreateRequest|null $request=null): ?string
+    {
+        if ($request->hasFile('image_path_b')) {
+            // 'image_path_b'がファイルとして送信された場合の処理
+            return $request->file('image_path_b')->store('public/events');
+        }
+        return null;
+    }
+
+    private function storeEventImageC(CreateRequest|null $request=null): ?string
+    {
+        if ($request->hasFile('image_path_c')) {
+            // 'image_path_c'がファイルとして送信された場合の処理
+            return $request->file('image_path_c')->store('public/events');
+        }
+        return null;
+    }
+
+    private function storeEventImageD(CreateRequest|null $request=null): ?string
+    {
+        if ($request->hasFile('image_path_d')) {
+            // 'image_path_d'がファイルとして送信された場合の処理
+            return $request->file('image_path_d')->store('public/events');
+        }
+        return null;
+    }
+
+    private function storeEventImageE(CreateRequest|null $request=null): ?string
+    {
+        if ($request->hasFile('image_path_e')) {
+            // 'image_path_e'がファイルとして送信された場合の処理
+            return $request->file('image_path_e')->store('public/events');
+        }
+        return null;
     }
 }
