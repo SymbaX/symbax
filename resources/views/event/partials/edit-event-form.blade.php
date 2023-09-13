@@ -14,10 +14,6 @@
         @csrf
         @method('patch')
 
-        @foreach ($errors->all() as $error)
-          <li>{{$error}}</>
-        @endforeach
-
         <input type="hidden" name="edit_token" value="{{ session('edit_token') }}">
         <div>
             <x-input-label for="name" class="required" :value="__('Event Name')" />
