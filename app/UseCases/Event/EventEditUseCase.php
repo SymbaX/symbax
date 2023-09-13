@@ -165,23 +165,9 @@ class EventEditUseCase
             $validatedData['image_path_e'] = $event->image_path_e;
         }
 
-        // 画像削除チェックボックスがtrueなら画像を削除
-        if ($event->img_delete_b == true){
-            Storage::delete($event->image_path_b);
-        }
-        if ($event->img_delete_c == true){
-            Storage::delete($event->image_path_c);
-        }
-        if ($event->img_delete_d == true){
-            Storage::delete($event->image_path_d);
-        }
-        if ($event->img_delete_e == true){
-            Storage::delete($event->image_path_e);
-        }
-
         $originalEvent = Event::findOrFail($id); // 原始的なイベントデータを取得
 
-        // $event->update($validatedData);
+        $event->update($validatedData);
 
         // --- ログを記録 ここから ---
         $detail = "";
