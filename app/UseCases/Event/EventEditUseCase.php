@@ -109,8 +109,12 @@ class EventEditUseCase
             $validatedData['image_path_a'] = $event->image_path_a;
         }
 
-        // 画像がアップロードされた場合は、既存の画像を削除して新しい画像を保存
-        if ($request->hasFile('image_path_b')) {
+        // NULLで、画像がアップロードされた場合は、そのまま画像を保存
+        if (is_null($event->image_path_b) && $request->hasFile('image_path_b')){
+            $validatedData['image_path_b'] = $request->file('image_path_b')->store('public/events');
+        }
+        // NULLではなくて、画像がアップロードされた場合は、既存の画像を削除して新しい画像を保存
+        elseif ($request->hasFile('image_path_b')) {
             // 画像がアップロードされた場合
             Storage::delete($event->image_path_b);
             $validatedData['image_path_b'] = $request->file('image_path_b')->store('public/events');
@@ -119,8 +123,12 @@ class EventEditUseCase
             $validatedData['image_path_b'] = $event->image_path_b;
         }
 
-        // 画像がアップロードされた場合は、既存の画像を削除して新しい画像を保存
-        if ($request->hasFile('image_path_c')) {
+        // NULLで、画像がアップロードされた場合は、そのまま画像を保存
+        if (is_null($event->image_path_c) && $request->hasFile('image_path_c')){
+            $validatedData['image_path_c'] = $request->file('image_path_c')->store('public/events');
+        }
+        // NULLではなくて、画像がアップロードされた場合は、既存の画像を削除して新しい画像を保存
+        elseif ($request->hasFile('image_path_c')) {
             // 画像がアップロードされた場合
             Storage::delete($event->image_path_c);
             $validatedData['image_path_c'] = $request->file('image_path_c')->store('public/events');
@@ -129,8 +137,12 @@ class EventEditUseCase
             $validatedData['image_path_c'] = $event->image_path_c;
         }
 
-        // 画像がアップロードされた場合は、既存の画像を削除して新しい画像を保存
-        if ($request->hasFile('image_path_d')) {
+        // NULLで、画像がアップロードされた場合は、そのまま画像を保存
+        if (is_null($event->image_path_d) && $request->hasFile('image_path_d')){
+            $validatedData['image_path_d'] = $request->file('image_path_d')->store('public/events');
+        }
+        // NULLではなくて、画像がアップロードされた場合は、既存の画像を削除して新しい画像を保存
+        elseif ($request->hasFile('image_path_d')) {
             // 画像がアップロードされた場合
             Storage::delete($event->image_path_d);
             $validatedData['image_path_d'] = $request->file('image_path_d')->store('public/events');
@@ -139,8 +151,12 @@ class EventEditUseCase
             $validatedData['image_path_d'] = $event->image_path_d;
         }
 
-        // 画像がアップロードされた場合は、既存の画像を削除して新しい画像を保存
-        if ($request->hasFile('image_path_e')) {
+        // NULLで、画像がアップロードされた場合は、そのまま画像を保存
+        if (is_null($event->image_path_e) && $request->hasFile('image_path_e')){
+            $validatedData['image_path_e'] = $request->file('image_path_e')->store('public/events');
+        }
+        // NULLではなくて、画像がアップロードされた場合は、既存の画像を削除して新しい画像を保存
+        elseif ($request->hasFile('image_path_e')) {
             // 画像がアップロードされた場合
             Storage::delete($event->image_path_e);
             $validatedData['image_path_e'] = $request->file('image_path_e')->store('public/events');
