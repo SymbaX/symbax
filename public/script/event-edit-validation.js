@@ -14,6 +14,10 @@ $(document).ready(function () {
         image_path_c: true,
         image_path_d: true,
         image_path_e: true,
+        img_delete_b: true,
+        img_delete_c: true,
+        img_delete_d: true,
+        img_delete_e: true,
     };
 
     // イベント名

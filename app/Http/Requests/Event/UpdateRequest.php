@@ -38,6 +38,10 @@ class UpdateRequest extends FormRequest
             'image_path_c' => ['nullable', 'max:5000', 'mimes:jpg,jpeg,png,gif'],
             'image_path_d' => ['nullable', 'max:5000', 'mimes:jpg,jpeg,png,gif'],
             'image_path_e' => ['nullable', 'max:5000', 'mimes:jpg,jpeg,png,gif'],
+            'img_delete_b' => ['nullable'],
+            'img_delete_c' => ['nullable'],
+            'img_delete_d' => ['nullable'],
+            'img_delete_e' => ['nullable'],
         ];
 
         return $rules;

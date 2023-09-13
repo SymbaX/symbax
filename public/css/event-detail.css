@@ -210,3 +210,8 @@
     border-top: 1px solid #ccc;
     padding: 5px;
 }
+
+.splide__slide img {
+    width: 100%;
+    height: auto;
+}
