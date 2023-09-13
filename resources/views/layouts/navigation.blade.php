@@ -19,6 +19,14 @@
                         {{ __('Event list all') }}
                     </x-nav-link>
                 </div>
+
+                <div class="hidden sm:flex sm:items-center sm:ml-6">
+                        <form action="{{ route('index.Search') }}" method="GET">
+                            <input type="text" name="keyword" value="">
+                            <input type="submit" value="検索">
+                        </form>
+                </div>
+
             </div>
 
             <!-- Settings Dropdown -->

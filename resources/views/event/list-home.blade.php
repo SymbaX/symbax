@@ -15,14 +15,6 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-
-                <div>
-                    <form action="{{ route('index.Search') }}" method="GET">
-                      <input type="text" name="keyword" value="">
-                      <input type="submit" value="検索">
-                    </form>
-                  </div>
-
                 @if ($events->currentPage() === 1)
                     <h3 class="title-h3">{{ __('New events') }}</h3>
                     @if ($events->isEmpty())

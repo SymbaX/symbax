@@ -17,7 +17,8 @@ class EventSearchController extends Controller
         $query = Event::query();
 
         if (!empty($keyword)) {
-            $query->where('detail', 'LIKE', "%{$keyword}%");
+            $query->where('detail', 'LIKE', "%{$keyword}%")
+                ->orWhere('name', 'LIKE', "%{$keyword}%");
         }
 
         $events = $query->paginate(12);
