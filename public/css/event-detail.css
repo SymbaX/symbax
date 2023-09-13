@@ -222,12 +222,15 @@
 .contains {
     /* サイズは自由に変更してください。*/
     /* 下の.slideも同じサイズにしてください。 */
-    width: 100%;
+    width: 500px;
     height: auto;
+    max-height: 300px;
     overflow: hidden;
     position: relative;
     padding: 0;
     list-style: none;
+    object-fit: contain;
+    margin: 0;
 }
 
 /* スライド切り換え用ラジオボタンは常に非表示 */
@@ -239,9 +242,15 @@
 .slide {
     /* サイズは自由に変更してください。*/
     /* 上の.containsも同じサイズにしてください。 */
-    width: 100%;
+    width: 500px;
     height: auto;
+    max-height: 300px;
     position: absolute;
+    overflow: hidden;
+    padding: 0;
+    list-style: none;
+    object-fit: contain;
+    margin: 0;
     /* スライドの初期値は選択されていないので透明にしておく */
     opacity: 0;
 }
