@@ -89,33 +89,46 @@
         </div>
 
         <div>
+        <img class="event_image" src="{{ Storage::url($event->image_path_a) }} " alt="">
             <x-input-label for="image_path_a" class="optional" :value="__('Image_1')" />
             <input id="image_path_a" name="image_path_a" type="file" class="mt-1 block w-full" accept="image/*">
             <x-input-error class="mt-2" :messages="$errors->get('image_path_a')" />
         </div>
 
         <div>
+            <img class="event_image" src="{{ Storage::url($event->image_path_b) }} " alt="">
             <x-input-label for="image_path_b" class="optional" :value="__('Image_2')" />
             <input id="image_path_b" name="image_path_b" type="file" class="mt-1 block w-full" accept="image/*">
             <x-input-error class="mt-2" :messages="$errors->get('image_path_b')" />
+            <input type="checkbox" id="img_delete_b" name="img_delete_b" />
+            <label for="img_delete_b">{{ __('Delete Image') }}</label>
         </div>
 
         <div>
+            <img class="event_image" src="{{ Storage::url($event->image_path_c) }} " alt="">
             <x-input-label for="image_path_c" class="optional" :value="__('Image_3')" />
             <input id="image_path_c" name="image_path_c" type="file" class="mt-1 block w-full" accept="image/*">
             <x-input-error class="mt-2" :messages="$errors->get('image_path_c')" />
+            <input type="checkbox" id="img_delete_c" name="img_delete_c" />
+            <label for="img_delete_c">{{ __('Delete Image') }}</label>
         </div>
 
         <div>
+            <img class="event_image" src="{{ Storage::url($event->image_path_d) }} " alt="">
             <x-input-label for="image_path_d" class="optional" :value="__('Image_4')" />
             <input id="image_path_d" name="image_path_d" type="file" class="mt-1 block w-full" accept="image/*">
             <x-input-error class="mt-2" :messages="$errors->get('image_path_d')" />
+            <input type="checkbox" id="img_delete_d" name="img_delete_d" />
+            <label for="img_delete_d">{{ __('Delete Image') }}</label>
         </div>
 
         <div>
+            <img class="event_image" src="{{ Storage::url($event->image_path_e) }} " alt="">
             <x-input-label for="image_path_e" class="optional" :value="__('Image_5')" />
             <input id="image_path_e" name="image_path_e" type="file" class="mt-1 block w-full" accept="image/*">
             <x-input-error class="mt-2" :messages="$errors->get('image_path_e')" />
+            <input type="checkbox" id="img_delete_e" name="img_delete_e" />
+            <label for="img_delete_e">{{ __('Delete Image') }}</label>
         </div>
 
 
