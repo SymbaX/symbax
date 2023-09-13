@@ -16,4 +16,6 @@
             </div>
         </div>
     </div>
+
+    <a href="{{ route('event.create') }}" class="create_fab">+</a>
 </x-app-layout>
