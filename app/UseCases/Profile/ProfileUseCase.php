@@ -53,6 +53,9 @@ class ProfileUseCase
 
         $user->fill($request->validated());
 
+        // フォームから送信された自己紹介文を更新
+        $user->self_introduction = $request->input('self_introduction');
+
         if ($request->hasFile('picture')) {
             if ($user->profile_photo_path != null) {
                 Storage::delete('public/' . $user->profile_photo_path);

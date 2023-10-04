@@ -17,40 +17,53 @@
         @csrf
         @method('patch')
 
-        <div>
-            <x-picture-input />
-            <x-input-error class="mt-2" :messages="$errors->get('picture')" />
-        </div>
+        @csrf
 
-        <div>
-            <x-input-label for="login_id" :value="__('Login Id')" />
-            {{ $user->login_id }}
-        </div>
+        @foreach ($errors->all() as $error)
+        <li>{{$error}}</li>
+        @endforeach
 
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)"
-                required autofocus autocomplete="name" />
-            <x-input-error class="mt-2" :messages="$errors->get('name')" />
-        </div>
+        <div class="form-group">
+            <label for="self_introduction">自己紹介文:</label>
+            <textarea name="self_introduction" id="self_introduction" class="form-control" rows="4">{{ $user->self_introduction }}</textarea>
 
-        <div>
-            <x-input-label for="college" :value="__('College')" />
-            {{ $college->name }}
-        </div>
+            <div>
+                <x-input-label for="college" :value="__('College')" />
+                {{ $college->name }}
+            </div>
 
-        <div>
-            <x-input-label for="department" :value="__('Department')" />
-            {{ $department->name }}
-        </div>
+            <div>
+                <x-input-label for="department" :value="__('Department')" />
+                {{ $department->name }}
+            </div>
 
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            {{ $user->email }}
-        </div>
+            <div>
+                <x-input-label for="email" :value="__('Email')" />
+                {{ $user->email }}
+            </div>
 
-        <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Save') }}</x-primary-button>
+            <div>
+                <x-input-label for="login_id" :value="__('Login Id')" />
+                {{ $user->login_id }}
+            </div>
+
+            <div>
+                <x-input-label for="name" :value="__('Name')" />
+                <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
+                <x-input-error class="mt-2" :messages="$errors->get('name')" />
+            </div>
+
+            <div>
+                <x-picture-input />
+                <x-input-error class="mt-2" :messages="$errors->get('picture')" />
+            </div>
+
+            <div class="flex items-center gap-4">
+                <x-primary-button>{{ __('Save') }}</x-primary-button>
+            </div>
+
         </div>
     </form>
+
+
 </section>
