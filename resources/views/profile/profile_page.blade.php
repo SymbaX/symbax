@@ -13,12 +13,12 @@
                         <img id="preview" src="{{ isset($user->profile_photo_path) ? Storage::url($user->profile_photo_path) : asset('img/default-user.png') }}" alt="" class="w-16 h-16 rounded-full object-cover border-none bg-gray-200">
                     </div>
                     <h1>{{ $user->name }}</h1>
+                    <p>{{ $user->self_introduction}}</p>
                     <p>{{ $user->login_id }}</p>
                     <p>{{ $user->college->name }}</p>
                     <p>{{ $user->department->name }}</p>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 </x-app-layout>
