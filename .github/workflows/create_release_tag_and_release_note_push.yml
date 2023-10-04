@@ -1,15 +1,12 @@
-name: "リリースタグとノートを作成する(マージの場合)"
+name: "リリースタグとノートを作成する(pushされた場合)"
 
 on:
-  pull_request:
-    branches:
-      - main
-    types: [closed]
+  push:
+    branches: [main]
 
 jobs:
-  tag:
+  create-release-tag:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -32,42 +29,32 @@ jobs:
           echo "PREVIOUS_TAG_VERSION=$tag_version" >> $GITHUB_ENV
           echo "DEBUG: tag_version is $tag_version"
 
-      - name: "プルリクエストのタイトルを取得"
-        id: pr_title
+      - name: "コミットログを確認し、マージコミットであれば中断する"
+        id: check_merge
         run: |
-          pr_title=$(curl -H 'Accept: application/vnd.github.v3+json' -H 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }} | jq '.title' | sed 's/"//g')
-          if [[ -z "$pr_title" ]]; then
-            pr_title=""
+          commit_message=$(git log --format=%B -n 1)
+          if [[ "$commit_message" == "Merge pull request #"* ]]; then
+            echo "IS_MERGE=true" >> $GITHUB_ENV
+          else
+            echo "IS_MERGE=false" >> $GITHUB_ENV
           fi
-          echo "PR_TITLE=$pr_title" >> $GITHUB_ENV
-          echo "DEBUG: pr_title is $pr_title"
 
       - name: "バージョンをインクリメントする"
         id: bump_version
+        if: env.IS_MERGE == 'false'
         run: |
           IFS='.' read -ra version_parts <<< "${PREVIOUS_TAG_VERSION:-0.0.0}"
           major=${version_parts[0]:-0}
           minor=${version_parts[1]:-0}
           patch=${version_parts[2]:-0}
 
-          if [[ "${PR_TITLE}" == *"[major]"* ]]; then
-            major=$((major + 1))
-            minor=0
-            patch=0
-            echo "DEBUG: major."
-          elif [[ "${PR_TITLE}" == *"[minor]"* ]]; then
-            minor=$((minor + 1))
-            patch=0
-            echo "DEBUG: minor."
-          else
-            patch=$((patch + 1))
-            echo "DEBUG: patch."
-          fi
+          patch=$((patch + 1))
 
           new_version="Ver.$major.$minor.$patch"
           echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
 
       - name: "タグを作成する"
+        if: env.IS_MERGE == 'false'
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
@@ -77,12 +64,14 @@ jobs:
 
       - name: "リリースノートの本文を生成する"
         id: release_note
+        if: env.IS_MERGE == 'false'
         run: |
           release_note=$(curl -X POST -H 'Accept: application/vnd.github.v3+json' -H 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' https://api.github.com/repos/${{ github.repository }}/releases/generate-notes -d "{\"tag_name\":\"${NEW_VERSION}\", \"previous_tag_name\":\"Ver.${PREVIOUS_TAG_VERSION}\"}" | jq .body | sed 's/"//g')
           echo "RELEASE_NOTE=$release_note" >> $GITHUB_ENV
           echo "DEBUG: release_note is $release_note"
 
       - name: "リリースノートを作成する"
+        if: env.IS_MERGE == 'false'
         run: |
           curl -X POST \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
