@@ -147,7 +147,9 @@ class EventCreateUseCase
             // 'image_path_b'がファイルとして送信された場合の処理
             return $request->file('image_path_b')->store('public/events');
         }
-        return null;
+        else{
+            return 'public/events/noimage.png';
+        }
     }
 
     private function storeEventImageC(CreateRequest|null $request=null): ?string
@@ -156,7 +158,9 @@ class EventCreateUseCase
             // 'image_path_c'がファイルとして送信された場合の処理
             return $request->file('image_path_c')->store('public/events');
         }
-        return null;
+        else{
+            return 'public/events/noimage.png';
+        }
     }
 
     private function storeEventImageD(CreateRequest|null $request=null): ?string
@@ -165,7 +169,9 @@ class EventCreateUseCase
             // 'image_path_d'がファイルとして送信された場合の処理
             return $request->file('image_path_d')->store('public/events');
         }
-        return null;
+        else{
+            return 'public/events/noimage.png';
+        }
     }
 
     private function storeEventImageE(CreateRequest|null $request=null): ?string
@@ -174,6 +180,8 @@ class EventCreateUseCase
             // 'image_path_e'がファイルとして送信された場合の処理
             return $request->file('image_path_e')->store('public/events');
         }
-        return null;
+        else{
+            return 'public/events/noimage.png';
+        }
     }
 }

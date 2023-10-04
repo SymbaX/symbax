@@ -102,7 +102,6 @@ class EventEditUseCase
         // 画像がアップロードされた場合は、既存の画像を削除して新しい画像を保存
         if ($request->hasFile('image_path_a')) {
             // 画像がアップロードされた場合
-            Storage::delete($event->image_path_a);
             $validatedData['image_path_a'] = $request->file('image_path_a')->store('public/events');
         } else {
             // 画像がアップロードされなかった場合は、元の画像パスを使用
@@ -116,7 +115,6 @@ class EventEditUseCase
         // NULLではなくて、画像がアップロードされた場合は、既存の画像を削除して新しい画像を保存
         elseif ($request->hasFile('image_path_b')) {
             // 画像がアップロードされた場合
-            Storage::delete($event->image_path_b);
             $validatedData['image_path_b'] = $request->file('image_path_b')->store('public/events');
         } else {
             // 画像がアップロードされなかった場合は、元の画像パスを使用
@@ -130,7 +128,6 @@ class EventEditUseCase
         // NULLではなくて、画像がアップロードされた場合は、既存の画像を削除して新しい画像を保存
         elseif ($request->hasFile('image_path_c')) {
             // 画像がアップロードされた場合
-            Storage::delete($event->image_path_c);
             $validatedData['image_path_c'] = $request->file('image_path_c')->store('public/events');
         } else {
             // 画像がアップロードされなかった場合は、元の画像パスを使用
@@ -144,7 +141,6 @@ class EventEditUseCase
         // NULLではなくて、画像がアップロードされた場合は、既存の画像を削除して新しい画像を保存
         elseif ($request->hasFile('image_path_d')) {
             // 画像がアップロードされた場合
-            Storage::delete($event->image_path_d);
             $validatedData['image_path_d'] = $request->file('image_path_d')->store('public/events');
         } else {
             // 画像がアップロードされなかった場合は、元の画像パスを使用
@@ -158,7 +154,6 @@ class EventEditUseCase
         // NULLではなくて、画像がアップロードされた場合は、既存の画像を削除して新しい画像を保存
         elseif ($request->hasFile('image_path_e')) {
             // 画像がアップロードされた場合
-            Storage::delete($event->image_path_e);
             $validatedData['image_path_e'] = $request->file('image_path_e')->store('public/events');
         } else {
             // 画像がアップロードされなかった場合は、元の画像パスを使用
@@ -167,23 +162,19 @@ class EventEditUseCase
 
         // 画像削除チェックボックスがtrueなら画像を削除
         if ($request->img_delete_b){
-            Storage::delete($event->image_path_b);
-            $validatedData['image_path_b'] = null;
+            $validatedData['image_path_b'] = 'public/events/noimage.png';
         }
 
         if ($request->img_delete_c){
-            Storage::delete($event->image_path_c);
-            $validatedData['image_path_c'] = null;
+            $validatedData['image_path_c'] = 'public/events/noimage.png';
         }
 
         if ($request->img_delete_d){
-            Storage::delete($event->image_path_d);
-            $validatedData['image_path_d'] = null;
+            $validatedData['image_path_d'] = 'public/events/noimage.png';
         }
 
         if ($request->img_delete_e){
-            Storage::delete($event->image_path_e);
-            $validatedData['image_path_e'] = null;
+            $validatedData['image_path_e'] = 'public/events/noimage.png';
         }
 
         $originalEvent = Event::findOrFail($id); // 原始的なイベントデータを取得
