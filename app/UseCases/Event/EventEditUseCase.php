@@ -121,7 +121,7 @@ class EventEditUseCase
         $img = Image::make($path);
 
         // 画像にテキストを入れる。
-        $img->text($validatedData['name'], 60, 220, function ($font) {
+        $img->text(preg_replace('/[\x{10000}-\x{10FFFF}]/u', '', $validatedData['name']), 60, 220, function ($font) { // 絵文字を除去する
             $font->file(storage_path('app/public/fonts/NotoSansJP-SemiBold.ttf'));
             $font->size(54);
             $font->color("#FFF");
