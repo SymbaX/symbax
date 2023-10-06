@@ -49,6 +49,17 @@ class TitleImageCreateUseCase
             $this->createEventOGP($event);
         }
 
+        // 操作ログを保存
+        $this->operationLogUseCase->store([
+            'detail' => null,
+            'user_id' => null,
+            'target_event_id' => null,
+            'target_user_id' => null,
+            'target_topic_id' => null,
+            'action' => 'event-title-image-create',
+            'ip' => request()->ip(),
+        ]);
+
         return;
     }
 
