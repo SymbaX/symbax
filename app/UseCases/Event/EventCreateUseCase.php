@@ -5,9 +5,9 @@ namespace App\UseCases\Event;
 use App\Http\Requests\Event\CreateRequest;
 use App\Models\Event;
 use App\Models\EventCategories;
-use App\Models\OperationLog;
 use App\UseCases\OperationLog\OperationLogUseCase;
 use Illuminate\Support\Facades\Auth;
+use Intervention\Image\Facades\Image;
 
 /**
  * イベント作成ユースケース
@@ -19,14 +19,14 @@ class EventCreateUseCase
     /**
      * 操作ログを保存するためのビジネスロジックを提供するユースケース
      * このユースケースを利用して、システムの操作に関するログの記録処理を行います。
-     * 
+     *
      * @var OperationLogUseCase
      */
     private $operationLogUseCase;
 
     /**
      * EventCreateUseCaseのコンストラクタ
-     * 
+     *
      * 使用するユースケースをインジェクション（注入）します。
      *
      * @param OperationLogUseCase $operationLogUseCase 操作ログに関するユースケース
@@ -90,6 +90,24 @@ class EventCreateUseCase
             'image_path' => $imagePath,
             'organizer_id' => $organizerId,
         ]);
+
+        // OGPを生成
+        $file_name = 'base.png';
+        $path = storage_path('app/public/event-titles/' . $file_name);
+        $img = Image::make($path);
+
+        // 画像にテキストを入れる。
+        $img->text($validatedData['name'], 60, 220, function ($font) {
+            $font->file(storage_path('app/public/fonts/NotoSansJP-SemiBold.ttf'));
+            $font->size(54);
+            $font->color("#FFF");
+            $font->align("left");
+            $font->valign("top");
+        });
+
+        // OGP画像を保存
+        $save_path = storage_path('app/public/event-titles/ogp_' . $event->id . '.png');
+        $img->save($save_path);
 
         // 操作ログを保存
         $this->operationLogUseCase->store([
