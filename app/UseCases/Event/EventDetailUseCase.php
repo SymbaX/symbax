@@ -70,4 +70,13 @@ class EventDetailUseCase
             'category_name' => $category_name,
         ];
     }
+
+    public function getEventShare($id): array
+    {
+        $event = Event::where('id', $id)->where('is_deleted', false)->firstOrFail();
+
+        return [
+            'event' => $event,
+        ];
+    }
 }
