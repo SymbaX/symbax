@@ -14,7 +14,7 @@ class EventDetailController extends Controller
 {
     /**
      * イベント詳細のビジネスロジックを提供するユースケース
-     * 
+     *
      * @var EventDetailUseCase イベント詳細情報取得に使用するUseCaseインスタンス
      */
     private $eventDetailUseCase;
@@ -23,7 +23,7 @@ class EventDetailController extends Controller
      * EventDetailControllerのコンストラクタ
      *
      * 使用するユースケースをインジェクション（注入）します。
-     * 
+     *
      * @param EventDetailUseCase $eventDetailUseCase イベント詳細情報取得に使用するUseCase
      */
     public function __construct(EventDetailUseCase $eventDetailUseCase)
@@ -35,7 +35,7 @@ class EventDetailController extends Controller
 
     /**
      * イベントの詳細情報を表示するメソッド
-     * 
+     *
      * 指定されたイベントIDに関連する詳細情報を取得し、ビューに渡して表示します。
      *
      * @param int $id 表示するイベントのID
@@ -46,5 +46,12 @@ class EventDetailController extends Controller
         $eventDetail = $this->eventDetailUseCase->getEventDetail($id);
 
         return view('event.detail', $eventDetail);
+    }
+
+    public function showShare($id)
+    {
+        $event = $this->eventDetailUseCase->getEventShare($id);
+
+        return view('event.share', $event);
     }
 }

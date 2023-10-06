@@ -39,3 +39,5 @@ Route::middleware(['auth', 'verified', 'disabled'])->group(function () {
     Route::get('/events/organizer', [EventListController::class, 'indexOrganizer'])->name('index.organizer');
     Route::get('/home', [EventListController::class, 'indexHome'])->name('index.home');
 });
+
+Route::get('/event/{event_id}/share', [EventDetailController::class, 'showShare'])->where('event_id', '[0-9]+')->name('event.share');
