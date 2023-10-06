@@ -225,5 +225,8 @@
     "Copy ID": "IDをコピーする",
     "Post": "投稿",
     "Deadline has passed.": "締切日を過ぎています。",
-    "Close": "閉じる"
+    "Close": "閉じる",
+    "Event Search": "イベント検索",
+    "All Categories": "すべてのカテゴリー",
+    "Select A Category": "カテゴリーを選択"
 }

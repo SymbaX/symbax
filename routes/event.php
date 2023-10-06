@@ -40,5 +40,5 @@ Route::middleware(['auth', 'verified', 'disabled'])->group(function () {
     Route::get('/events/organizer', [EventListController::class, 'indexOrganizer'])->name('index.organizer');
     Route::get('/home', [EventListController::class, 'indexHome'])->name('index.home');
 
-    Route::get('/event/search', [EventSearchController::class, 'indexSearch'])->name('index.Search');
+    Route::get('/event/search', [EventSearchController::class, 'indexSearch'])->name('index.search');
 });
