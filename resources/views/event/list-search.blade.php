@@ -23,23 +23,19 @@
                         </button>
                         <input type="text" name="keyword" value="{{$keyword}}" id="hs-leading-button-add-on-with-icon"  class="py-3 px-4 block w-full border-gray-200 shadow-sm rounded-r-md text-sm focus:z-10 focus:border-gray-500 focus:ring-gray-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400">{{-- name="hs-leading-button-add-on-with-icon" --}}
                     </div>
-                </form>
-            </div>
 
-            <div class="sm:ml-6">
-                <x-input-label for="category" :value="__('Select A Category')"/>
-
-                <select name="category" id="category" class="flex rounded-md shadow-sm"> 
+                    <x-input-label for="category" :value="__('Select A Category')"/>
+                    <select name="category" id="category" class="flex rounded-md shadow-sm"> 
+                    <option value= "All Categories">{{__('All Categories')}}</option>
                     @foreach ($categories as $category)
                         <option value="{{ $category->id }}" {{ $selectedCategoryId == $category->id ? 'selected' : '' }}>
                             {{ $category->name }}
                         </option>
                     @endforeach
                 </select>
-            </div>
-            @php
-            @endphp
+                </form>
 
+            </div>
             
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
 

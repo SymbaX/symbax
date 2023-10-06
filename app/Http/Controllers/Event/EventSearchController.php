@@ -21,9 +21,13 @@ class EventSearchController extends Controller
 
         $query = Event::query();
 
-
-        if (!empty($keyword)) {
+        if ($selectedCategoryId == "All Categories") {
             $query->where('detail', 'LIKE', "%{$keyword}%");
+        } elseif (!empty($keyword)) {
+            $query->where('detail', 'LIKE', "%{$keyword}%")
+                ->where('category', '=', "{$selectedCategoryId}");
+        } else {
+            $query->where('category', '=', "{$selectedCategoryId}");
         }
 
 
