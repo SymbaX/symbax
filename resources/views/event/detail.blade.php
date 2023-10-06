@@ -5,6 +5,15 @@
     <script src="{{ asset('script/loading.js') }}"></script>
 @endpush
 
+@push('meta')
+    <meta property="og:title" content="{{ $event->name }}">
+    <meta property="og:description" content="{{ Str::limit($event->detail, 150) }}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:image" content="{{ asset('storage/event-titles/ogp_' . $event->id . '.png') }}">
+    <meta property="og:site_name" content="SymbaX">
+@endpush
+
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">

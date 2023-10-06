@@ -8,6 +8,7 @@ use App\Models\EventCategories;
 use App\Services\CheckEventOrganizerService;
 use Illuminate\Support\Facades\Storage;
 use App\UseCases\OperationLog\OperationLogUseCase;
+use Intervention\Image\Facades\Image;
 
 /**
  * イベント編集ユースケース
@@ -18,23 +19,23 @@ class EventEditUseCase
 {
     /**
      * 操作ログを保存するためのビジネスロジックを提供するユースケース
-     * 
+     *
      * @var OperationLogUseCase
      */
     private $operationLogUseCase;
 
     /**
      * イベントオーガナイザーを確認するためのサービス
-     * 
+     *
      * @var CheckEventOrganizerService
      */
     private $checkEventOrganizerService;
 
     /**
      * EventEditUseCaseのコンストラクタ
-     * 
+     *
      * 使用するユースケースとサービスをインジェクション（注入）します。
-     * 
+     *
      * @param OperationLogUseCase $operationLogUseCase 操作ログに関するユースケース
      * @param CheckEventOrganizerService $checkEventOrganizerService イベントオーガナイザーを確認するためのサービス
      */
@@ -112,6 +113,24 @@ class EventEditUseCase
         $originalEvent = Event::findOrFail($id); // 原始的なイベントデータを取得
 
         $event->update($validatedData);
+
+
+        // OGPを生成
+        $path = public_path('img/base.png');
+        $img = Image::make($path);
+
+        // 画像にテキストを入れる。
+        $img->text(preg_replace('/[\x{10000}-\x{10FFFF}]/u', '', $validatedData['name']), 60, 220, function ($font) { // 絵文字を除去する
+            $font->file(public_path('fonts/NotoSansJP-SemiBold.ttf'));
+            $font->size(54);
+            $font->color("#000");
+            $font->align("left");
+            $font->valign("top");
+        });
+
+        // OGP画像を保存
+        $save_path = storage_path('app/public/event-titles/ogp_' . $event->id . '.png');
+        $img->save($save_path);
 
         // --- ログを記録 ここから ---
         $detail = "";
