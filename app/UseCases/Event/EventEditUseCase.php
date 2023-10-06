@@ -116,8 +116,7 @@ class EventEditUseCase
 
 
         // OGPを生成
-        $file_name = 'base.png';
-        $path = storage_path('app/public/event-titles/' . $file_name);
+        $path = public_path('img/base.png');
         $img = Image::make($path);
 
         // 画像にテキストを入れる。
