@@ -204,6 +204,10 @@
                     @endif
                 @endif
 
+                <br />
+                <button id="copyShareLink">ページリンクをコピー</button>
+
+
                 <x-status-modal />
             @else
                 <p>Event not found.</p>
@@ -212,3 +216,22 @@
         </div>
     </div>
 </x-app-layout>
+
+<script>
+    $(document).ready(function() {
+        $("#copyShareLink").click(function() {
+            // コピーするリンクを指定
+            var shareLink = "{{ url('/event/' . $event->id . '/share') }}";
+
+            // テキストエリアを一時的に作成してリンクをコピー
+            var $temp = $("<textarea>");
+            $("body").append($temp);
+            $temp.val(shareLink).select();
+            document.execCommand("copy");
+            $temp.remove();
+
+            // コピー完了の通知
+            alert("リンクをコピーしました!");
+        });
+    });
+</script>

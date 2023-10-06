@@ -225,5 +225,7 @@
     "Copy ID": "IDをコピーする",
     "Post": "投稿",
     "Deadline has passed.": "締切日を過ぎています。",
-    "Close": "閉じる"
+    "Close": "閉じる",
+    "You will be automatically redirected to the event details page.": "自動的にイベント詳細ページに移動します。",
+    "If it does not move after waiting for a while, click here.": "しばらく待っても移動しない場合はこちらをクリックしてください。"
 }
