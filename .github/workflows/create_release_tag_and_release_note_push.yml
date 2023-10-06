@@ -1,0 +1,79 @@
+name: "リリースタグとノートを作成する(pushされた場合)"
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  create-release-tag:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: "前回のリリースタグを取得"
+        id: pre_tag
+        run: |
+          response=$(curl -H 'Accept: application/vnd.github.v3+json' -H 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' https://api.github.com/repos/${{ github.repository }}/releases/latest)
+          error_message=$(echo "$response" | jq -r .message)
+
+          if [ "$error_message" == "Not Found" ]; then
+            tag="Ver.0.0.0"
+          else
+            tag=$(echo "$response" | jq -r .tag_name)
+          fi
+
+          tag_version=${tag#Ver.}
+          echo "PREVIOUS_TAG_VERSION=$tag_version" >> $GITHUB_ENV
+          echo "DEBUG: tag_version is $tag_version"
+
+      - name: "コミットログを確認し、マージコミットであれば中断する"
+        id: check_merge
+        run: |
+          commit_message=$(git log --format=%B -n 1)
+          if [[ "$commit_message" == "Merge pull request #"* ]]; then
+            echo "IS_MERGE=true" >> $GITHUB_ENV
+          else
+            echo "IS_MERGE=false" >> $GITHUB_ENV
+          fi
+
+      - name: "バージョンをインクリメントする"
+        id: bump_version
+        if: env.IS_MERGE == 'false'
+        run: |
+          IFS='.' read -ra version_parts <<< "${PREVIOUS_TAG_VERSION:-0.0.0}"
+          major=${version_parts[0]:-0}
+          minor=${version_parts[1]:-0}
+          patch=${version_parts[2]:-0}
+
+          patch=$((patch + 1))
+
+          new_version="Ver.$major.$minor.$patch"
+          echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
+
+      - name: "タグを作成する"
+        if: env.IS_MERGE == 'false'
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git tag ${{ env.NEW_VERSION }}
+          git push origin ${{ env.NEW_VERSION }}
+          echo "DEBUG: new_version is ${{ env.NEW_VERSION }}"
+
+      - name: "リリースノートの本文を生成する"
+        id: release_note
+        if: env.IS_MERGE == 'false'
+        run: |
+          release_note=$(curl -X POST -H 'Accept: application/vnd.github.v3+json' -H 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' https://api.github.com/repos/${{ github.repository }}/releases/generate-notes -d "{\"tag_name\":\"${NEW_VERSION}\", \"previous_tag_name\":\"Ver.${PREVIOUS_TAG_VERSION}\"}" | jq .body | sed 's/"//g')
+          echo "RELEASE_NOTE=$release_note" >> $GITHUB_ENV
+          echo "DEBUG: release_note is $release_note"
+
+      - name: "リリースノートを作成する"
+        if: env.IS_MERGE == 'false'
+        run: |
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -d "{ \"tag_name\": \"${NEW_VERSION}\", \"name\": \"${NEW_VERSION}\", \"body\": \"${RELEASE_NOTE}\"}" \
+            https://api.github.com/repos/${{ github.repository }}/releases

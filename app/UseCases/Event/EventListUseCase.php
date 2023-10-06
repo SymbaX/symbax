@@ -69,6 +69,7 @@ class EventListUseCase
         return $user->joinedEvents()
             ->whereDate('date', '>=', Carbon::today())
             ->where('is_deleted', false)
+            ->where('status', '!=', 'rejected')
             ->orderBy('date', 'desc')
             ->paginate($per_page);
     }
