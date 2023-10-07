@@ -16,19 +16,20 @@
                         <thead>
                             <tr class="head">
                                 <th>{{ __('Log id') }}</th>
+                                <th>{{ __('Date and time') }}</th>
                                 <th>{{ __('User id') }}</th>
                                 <th>{{ __('Target event id') }}</th>
                                 <th>{{ __('Target user id') }}</th>
                                 <th>{{ __('Target topic id') }}</th>
                                 <th>{{ __('Action') }}</th>
                                 <th>{{ __('Detail') }}</th>
-                                <th>{{ __('Date and time') }}</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($operation_logs as $operation_log)
                                 <tr>
                                     <td data-label="{{ __('Log id') }}">{{ $operation_log->id }}</td>
+                                    <td data-label="{{ __('Date and time') }}">{{ $operation_log->created_at }}</td>
                                     <td data-label="{{ __('User id') }}">{{ $operation_log->user_name }}
                                         (ID:{{ $operation_log->user_id }})
                                     </td>
@@ -53,9 +54,6 @@
                                                 <p>{!! nl2br(e($operation_log->detail)) !!}</p>
                                             </div>
                                         </div>
-                                    </td>
-
-                                    <td data-label="{{ __('Date and time') }}">{{ $operation_log->created_at }}
                                     </td>
                                 </tr>
                             @endforeach
