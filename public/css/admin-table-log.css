@@ -5,7 +5,8 @@ table {
 .tb01 th,
 .tb01 td {
     padding: 10px;
-    border: solid 1px #ccc;
+    border-top: solid 1px #ccc;
+    border-bottom: solid 1px #ccc;
     text-align: center;
     box-sizing: border-box;
 }
@@ -16,6 +17,10 @@ table {
 
 .tb01 .text-left {
     text-align: left;
+}
+
+.tb01 tr:hover {
+    background-color: #f1f1f1;
 }
 
 @media screen and (max-width: 1200px) {
