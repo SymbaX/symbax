@@ -1,5 +1,5 @@
 @push('css')
-    <link rel="stylesheet" href="{{ asset('css/admin-table.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin-table-log.css') }}">
 @endpush
 <x-app-layout>
     <x-slot name="header">
