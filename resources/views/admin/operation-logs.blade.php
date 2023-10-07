@@ -40,7 +40,7 @@
                                     <td data-label="{{ __('Target topiic id') }}">
                                         {{ $operation_log->target_topic_id }}</td>
                                     <td data-label="{{ __('Action') }}">{{ $operation_log->action }}</td>
-                                    <td class="text-left" data-label="{{ __('Detail') }}">
+                                    <td data-label="{{ __('Detail') }}">
                                         <a href="#"
                                             onclick="openModal('details-{{ $operation_log->id }}'); return false;">{{ __('Detail') }}</a>
                                         <div id="details-{{ $operation_log->id }}" class="modal">
