@@ -18,11 +18,10 @@
                                 <th>{{ __('Log id') }}</th>
                                 <th>{{ __('Date and time') }}</th>
                                 <th>{{ __('User id') }}</th>
+                                <th>{{ __('Action') }}</th>
                                 <th>{{ __('Target event id') }}</th>
                                 <th>{{ __('Target user id') }}</th>
                                 <th>{{ __('Target topic id') }}</th>
-                                <th>{{ __('Action') }}</th>
-                                <th>{{ __('Detail') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -33,14 +32,9 @@
                                     <td data-label="{{ __('User id') }}">{{ $operation_log->user_name }}
                                         (ID:{{ $operation_log->user_id }})
                                     </td>
-                                    <td data-label="{{ __('Target event id') }}">{{ $operation_log->target_event_id }}
-                                    </td>
-                                    <td data-label="{{ __('Target user id') }}">{{ $operation_log->target_user_id }}
-                                    </td>
-                                    <td data-label="{{ __('Target topiic id') }}">
-                                        {{ $operation_log->target_topic_id }}</td>
-                                    <td data-label="{{ __('Action') }}">{{ $operation_log->action }}</td>
-                                    <td data-label="{{ __('Detail') }}">
+                                    <td data-label="{{ __('Action') }}">
+                                        {{ $operation_log->action }}
+
                                         <a href="#"
                                             onclick="openModal('details-{{ $operation_log->id }}'); return false;">{{ __('Detail') }}</a>
                                         <div id="details-{{ $operation_log->id }}" class="modal">
@@ -54,6 +48,12 @@
                                             </div>
                                         </div>
                                     </td>
+                                    <td data-label="{{ __('Target event id') }}">{{ $operation_log->target_event_id }}
+                                    </td>
+                                    <td data-label="{{ __('Target user id') }}">{{ $operation_log->target_user_id }}
+                                    </td>
+                                    <td data-label="{{ __('Target topiic id') }}">
+                                        {{ $operation_log->target_topic_id }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
