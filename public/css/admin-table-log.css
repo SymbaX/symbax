@@ -23,6 +23,15 @@ table {
     background-color: #f1f1f1;
 }
 
+.tb01 a {
+    color: blue;
+    text-decoration: underline;
+}
+
+.tb01 a:hover {
+    text-decoration: none;
+}
+
 @media screen and (max-width: 1200px) {
     .tb01 .head {
         display: none;

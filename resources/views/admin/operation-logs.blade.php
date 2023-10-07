@@ -33,20 +33,23 @@
                                         (ID:{{ $operation_log->user_id }})
                                     </td>
                                     <td data-label="{{ __('Action') }}">
-                                        {{ $operation_log->action }}
 
-                                        <a href="#"
-                                            onclick="openModal('details-{{ $operation_log->id }}'); return false;">{{ __('Detail') }}</a>
-                                        <div id="details-{{ $operation_log->id }}" class="modal">
-                                            <div class="modal-content">
-                                                <span class="close-btn"
-                                                    onclick="closeModal('details-{{ $operation_log->id }}');">&times;</span>
-                                                <div class="modal-inner"> <!-- New wrapping div -->
-                                                    <h2 class="font-bold text-lg">{{ __('Detail') }}</h2>
-                                                    <p>{!! nl2br(e($operation_log->detail)) !!}</p>
+                                        @if ($operation_log->detail == null)
+                                            {{ $operation_log->action }}
+                                        @else
+                                            <a href="#"
+                                                onclick="openModal('details-{{ $operation_log->id }}'); return false;">{{ $operation_log->action }}</a>
+                                            <div id="details-{{ $operation_log->id }}" class="modal">
+                                                <div class="modal-content">
+                                                    <span class="close-btn"
+                                                        onclick="closeModal('details-{{ $operation_log->id }}');">&times;</span>
+                                                    <div class="modal-inner"> <!-- New wrapping div -->
+                                                        <h2 class="font-bold text-lg">{{ __('Detail') }}</h2>
+                                                        <p>{!! nl2br(e($operation_log->detail)) !!}</p>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        @endif
                                     </td>
                                     <td data-label="{{ __('Target event id') }}">{{ $operation_log->target_event_id }}
                                     </td>
