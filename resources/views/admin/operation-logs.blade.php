@@ -55,7 +55,7 @@
                                     </td>
                                     <td data-label="{{ __('Target user id') }}">{{ $operation_log->target_user_id }}
                                     </td>
-                                    <td data-label="{{ __('Target topiic id') }}">
+                                    <td data-label="{{ __('Target topic id') }}">
                                         {{ $operation_log->target_topic_id }}</td>
                                 </tr>
                             @endforeach
