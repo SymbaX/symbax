@@ -59,4 +59,9 @@ table {
     .tb01 tr:last-child {
         border-bottom: solid 1px #ccc;
     }
+
+    /* 画面サイズが小さい場合は中央 */
+    .tb01 .text-left {
+        text-align: center;
+    }
 }

@@ -32,13 +32,13 @@
                                     <td data-label="{{ __('User id') }}">{{ $operation_log->user_name }}
                                         (ID:{{ $operation_log->user_id }})
                                     </td>
-                                    <td data-label="{{ __('Action') }}">
+                                    <td data-label="{{ __('Action') }}" class="text-left">
 
                                         @if ($operation_log->detail == null)
-                                            {{ $operation_log->action }}
+                                            @lang('log.' . $operation_log->action)
                                         @else
                                             <a href="#"
-                                                onclick="openModal('details-{{ $operation_log->id }}'); return false;">{{ $operation_log->action }}</a>
+                                                onclick="openModal('details-{{ $operation_log->id }}'); return false;">@lang('log.' . $operation_log->action)</a>
                                             <div id="details-{{ $operation_log->id }}" class="modal">
                                                 <div class="modal-content">
                                                     <span class="close-btn"
