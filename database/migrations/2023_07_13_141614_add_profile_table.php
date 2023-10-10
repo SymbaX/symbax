@@ -14,8 +14,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('')->nullable()->default('デフォルトの自己紹介文')->after('department_id');
-            $table->string('profile_photo_path')->nullable()->after('self_introduction');;
+            $table->string('self_introduction')->nullable()->after('department_id');
+            $table->string('profile_photo_path')->nullable()->default('デフォルトの自己紹介文')->after('self_introduction');;
         });
     }
 

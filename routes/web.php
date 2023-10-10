@@ -27,9 +27,3 @@ require __DIR__ . '/auth.php';
 require __DIR__ . '/profile.php';
 require __DIR__ . '/event.php';
 require __DIR__ . '/admin.php';
-
-// 他のルート定義...
-
-Route::post('/self_introduction', 'UserController@updateIntroduction')->name('self_introduction');
-
-// 他のルート定義...

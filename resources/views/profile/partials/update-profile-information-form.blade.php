@@ -25,13 +25,10 @@
             <x-input-error class="mt-2" :messages="$errors->get('picture')" />
         </div>
 
-        @foreach ($errors->all() as $error)
-        <li>{{$error}}</li>
-        @endforeach
-
         <div class="form-group">
             <label for="self_introduction">自己紹介文:</label>
-            <x-textarea name="self_introduction" id="self_introduction"  required autocomplete="off" rows="4">{{ $user->self_introduction }} </x-textarea>
+            <x-textarea name="self_introduction" id="self_introduction"  :value="old('name',$user->name)"required autocomplete="off" rows="4">{{ $user->self_introduction }} </x-textarea>
+            <x-input-error class="mt-2" :messages="$errors->get('name')"/>
         </div>
         <script>
             // 自己紹介文のテキストエリアを取得
