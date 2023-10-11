@@ -19,28 +19,33 @@
                         {{ __('Event list all') }}
                     </x-nav-link>
                 </div>
-
-                
-
             </div>
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
-
-                        <!-- search -->
-                        @if (!request()->routeIs('index.search') && !request()->routeIs('event.create') && !request()->routeIs('event.edit') && !request()->routeIs('profile.edit'))
-                            <form action="{{ route('index.search') }}" method="GET">
-                                <div class="flex rounded-md shadow-sm">
-                                    <button type="submit" onclick="this.form.target='_blank'" class="inline-flex flex-shrink-0 justify-center items-center h-[2.875rem] w-[2.875rem] rounded-l-md border border-transparent font-semibold bg-gray-500 text-white hover:bg-gray-600 focus:z-10 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all text-sm">
-                                        <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-                                        </svg>
-                                    </button>
-                                    <input type="text" name="keyword" value="" placeholder={{__('Keyword Search')}} id="hs-leading-button-add-on-with-icon" name="hs-leading-button-add-on-with-icon" class="py-3 px-4 block w-full border-gray-200 shadow-sm rounded-r-md text-sm focus:z-10 focus:border-gray-500 focus:ring-gray-500">
-                                    <input type="hidden" name="selectcategory">
-                                </div>
-                            </form>
-                        @endif
+                <!-- search -->
+                @if (
+                    !request()->routeIs('index.search') &&
+                        !request()->routeIs('event.create') &&
+                        !request()->routeIs('event.edit') &&
+                        !request()->routeIs('profile.edit'))
+                    <form action="{{ route('index.search') }}" method="GET">
+                        <div class="flex rounded-md shadow-sm">
+                            <button type="submit" onclick="this.form.target='_blank'"
+                                class="inline-flex flex-shrink-0 justify-center items-center h-[2.875rem] w-[2.875rem] rounded-l-md border border-transparent font-semibold bg-gray-500 text-white hover:bg-gray-600 focus:z-10 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all text-sm">
+                                <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    fill="currentColor" viewBox="0 0 16 16">
+                                    <path
+                                        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                                </svg>
+                            </button>
+                            <input type="text" name="keyword" value="" placeholder={{ __('Keyword Search') }}
+                                id="hs-leading-button-add-on-with-icon" name="hs-leading-button-add-on-with-icon"
+                                class="py-3 px-4 block w-full border-gray-200 shadow-sm rounded-r-md text-sm focus:z-10 focus:border-gray-500 focus:ring-gray-500">
+                            <input type="hidden" name="selectcategory">
+                        </div>
+                    </form>
+                @endif
 
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
