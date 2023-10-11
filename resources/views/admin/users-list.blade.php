@@ -57,14 +57,27 @@
 
                                     {{ $user->email }}
                                 </td>
-                                <td data-label="{{ __('Role') }}">{{ $user->role->name }}</td>
+                                <td data-label="{{ __('Role') }}">
+                                    @if ($user->deleted_at == null)
+                                        {{ $user->role->name }}
+                                    @else
+                                        {{ $user->role->name }}<br />
+                                        <span class="text-red-500"> {{ __('Deleted') }}</span>
+                                    @endif
+                                </td>
                                 <td data-label="{{ __('College') }}">{{ $user->college->name }}</td>
                                 <td data-label="{{ __('Department') }}">{{ $user->department->name }}</td>
                                 <td data-label="{{ __('Created At') }}">{{ $user->created_at }}</td>
                                 <td data-label="{{ __('Edit') }}">
-                                    <x-primary-button
-                                        onclick="openEditModal('{{ $user->id }}','{{ $user->login_id }}','{{ $user->name }}','{{ $user->email }}','{{ $user->college_id }}', '{{ $user->department_id }}', '{{ $user->role_id }}')">
-                                        {{ __('Edit') }}</x-primary-button>
+                                    @if ($user->deleted_at == null)
+                                        <x-primary-button
+                                            onclick="openEditModal('{{ $user->id }}','{{ $user->login_id }}','{{ $user->name }}','{{ $user->email }}','{{ $user->college_id }}', '{{ $user->department_id }}', '{{ $user->role_id }}')">
+                                            {{ __('Edit') }}</x-primary-button>
+                                    @else
+                                        <x-primary-button disabled>
+                                            {{ __('Edit') }}
+                                        </x-primary-button>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
