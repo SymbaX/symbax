@@ -7,6 +7,7 @@ use App\Http\Controllers\Event\EventEditController;
 use App\Http\Controllers\Event\EventListController;
 use App\Http\Controllers\Event\EventStatusController;
 use App\Http\Controllers\Event\EventCommunityController;
+use App\Http\Controllers\Event\EventSearchController;
 use App\Http\Controllers\Event\ReactionController;
 use App\Http\Controllers\Profile\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -38,6 +39,8 @@ Route::middleware(['auth', 'verified', 'disabled'])->group(function () {
     Route::get('/events/join', [EventListController::class, 'indexJoin'])->name('index.join');
     Route::get('/events/organizer', [EventListController::class, 'indexOrganizer'])->name('index.organizer');
     Route::get('/home', [EventListController::class, 'indexHome'])->name('index.home');
+
+    Route::get('/event/search', [EventSearchController::class, 'indexSearch'])->name('index.search');
 });
 
 Route::get('/event/{event_id}/share', [EventDetailController::class, 'showShare'])->where('event_id', '[0-9]+')->name('event.share');

@@ -80,9 +80,6 @@ class EventCreateUseCase
             'name' => $validatedData['name'],
             'detail' => $validatedData['detail'],
             'category' => $validatedData['category'],
-            'tag' => $validatedData['tag'],
-            'participation_condition' => $validatedData['participation_condition'],
-            'external_link' => $validatedData['external_link'],
             'date' => $validatedData['date'],
             'deadline_date' => $validatedData['deadline_date'],
             'place' => $validatedData['place'],
@@ -113,9 +110,6 @@ class EventCreateUseCase
             'detail' => "name: {$event->name}\n" .
                 "detail: \n\n{$event->detail}\n\n" .
                 "category: {$event->category}\n" .
-                "tag: {$event->tag}\n" .
-                "participation_condition: {$event->participation_condition}\n" .
-                "external_link: {$event->external_link}\n" .
                 "date: {$event->date}\n" .
                 "deadline_date: {$event->deadline_date}\n" .
                 "place: {$event->place}\n" .

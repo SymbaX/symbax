@@ -26,42 +26,31 @@
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="event-detail">
                     @if ($event)
-                    <div class="event-flex">
-                        <img class="event_image" src="{{ Storage::url($event->image_path) }} " alt="">
+                        <div class="event-flex">
+                            <img class="event_image" src="{{ Storage::url($event->image_path) }} " alt="">
 
-                        <div class="right">
-                            <div class="scroll">
-                                <table border="1" cellspacing="0" cellpadding="5">
-                                    <tbody>
-                                        <tr>
-                                            <th>{{ __('Organizer') }}</th>
-                                            <td>{{ $organizer_name }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>{{ __('Location') }}</th>
-                                            <td>{{ $event->place }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>{{ __('Participation condition') }}</th>
-                                            <td>{{ $event->participation_condition }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>{{ __('Category') }}</th>
-                                            <td>{{ $category_name }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>{{ __('Tag') }}</th>
-                                            <td>{{ $event->tag }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>{{ __('External link') }}</th>
-                                            <td><a href="{{ $event->external_link }}">{{ __('External link') }}</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            {{-- 参加者数 リクエスト承認待ち、承認済みの数 --}}
-                                            <th>{{ __('Number of recruits') }}</th>
-                                            <td>{{ $participants->filter(function ($participant) {
+                            <div class="right">
+                                <div class="scroll">
+                                    <table border="1" cellspacing="0" cellpadding="5">
+                                        <tbody>
+                                            <tr>
+                                                <th>{{ __('Organizer') }}</th>
+                                                <td>{{ $organizer_name }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>{{ __('Location') }}</th>
+                                                <td>{{ $event->place }}</td>
+                                            </tr>
+                                            
+                                            <tr>
+                                                <th>{{ __('Category') }}</th>
+                                                <td>{{ $category_name }}</td>
+                                            </tr>
+                                            
+                                            <tr>
+                                                {{-- 参加者数 リクエスト承認待ち、承認済みの数 --}}
+                                                <th>{{ __('Number of recruits') }}</th>
+                                                <td>{{ $participants->filter(function ($participant) {
                                                         return $participant->status === 'approved' || $participant->status === 'pending';
                                                     })->count() }}
                                                 / {{ $event->number_of_recruits }}

@@ -1,0 +1,67 @@
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+.tb01 th,
+.tb01 td {
+    padding: 10px;
+    border-top: solid 1px #ccc;
+    border-bottom: solid 1px #ccc;
+    text-align: center;
+    box-sizing: border-box;
+}
+.tb01 th {
+    background: #555;
+    color: #fff;
+}
+
+.tb01 .text-left {
+    text-align: left;
+}
+
+.tb01 tr:hover {
+    background-color: #f1f1f1;
+}
+
+.tb01 a {
+    color: blue;
+    text-decoration: underline;
+}
+
+.tb01 a:hover {
+    text-decoration: none;
+}
+
+@media screen and (max-width: 1200px) {
+    .tb01 .head {
+        display: none;
+    }
+    .tb01 {
+        width: 100%;
+    }
+    table.tb01 td {
+        display: block;
+        width: 100%;
+        border-bottom: none;
+    }
+    table.tb01 td:first-child {
+        background: #555;
+        color: #fff;
+        font-weight: bold;
+    }
+    table.tb01 td:before {
+        content: attr(data-label);
+        font-size: 0.7rem;
+        font-weight: bold;
+        color: #999;
+        display: block;
+    }
+    .tb01 tr:last-child {
+        border-bottom: solid 1px #ccc;
+    }
+
+    /* 画面サイズが小さい場合は中央 */
+    .tb01 .text-left {
+        text-align: center;
+    }
+}

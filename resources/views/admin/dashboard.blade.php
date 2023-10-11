@@ -19,8 +19,25 @@
                     <a href="{{ route('admin.mail') }}" class="text-blue-500 hover:text-blue-700">
                         {{ __('Mail') }}</a>
                     <br />
+                    <a href="{{ route('admin.title-image') }}" class="text-blue-500 hover:text-blue-700 link_confirm">
+                        {{ __('Generate title images in batches') }}</a>
+                    <br />
                 </div>
             </div>
         </div>
     </div>
 </x-app-layout>
+
+<script>
+    jQuery(function($) {
+        const linkConfirms = $('.link_confirm');
+        if (linkConfirms.length) {
+            linkConfirms.click(function(event) {
+                const resultConfirm = confirm('この操作はOGPをあとから生成する機能です。');
+                if (!resultConfirm) {
+                    event.preventDefault();
+                }
+            })
+        }
+    });
+</script>
