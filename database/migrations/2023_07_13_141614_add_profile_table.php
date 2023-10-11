@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('self_introduction')->nullable()->after('department_id');
-            $table->string('profile_photo_path')->nullable()->default('デフォルトの自己紹介文')->after('self_introduction');;
+            $table->string('profile_photo_path')->nullable()->after('self_introduction');
         });
     }
 
