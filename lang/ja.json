@@ -229,5 +229,8 @@
     "Event Search": "イベント検索",
     "All Categories": "すべてのカテゴリー",
     "Select A Category": "カテゴリーを選択",
-    "Keyword Search": "キーワード検索"
+    "Keyword Search": "キーワード検索",
+    "You will be automatically redirected to the event details page.": "自動的にイベント詳細ページに移動します。",
+    "If it does not move after waiting for a while, click here.": "しばらく待っても移動しない場合はこちらをクリックしてください。",
+    "Generate title images in batches": "タイトルイメージを一括で生成する"
 }

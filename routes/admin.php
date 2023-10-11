@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\ListUsersController;
 use App\Http\Controllers\Admin\UserUpdateController;
 use App\Http\Controllers\Admin\ListOperationLogsController;
 use App\Http\Controllers\Admin\MailSendController;
+use App\Http\Controllers\Admin\TitleImageCreateController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'verified', 'admin', 'disabled'])->group(function () {
@@ -17,4 +18,6 @@ Route::middleware(['auth', 'verified', 'admin', 'disabled'])->group(function () 
 
     Route::get('/admin/mail', [MailSendController::class, 'showMailForm'])->name('admin.mail');
     Route::patch('/admin/mail', [MailSendController::class, 'sendMail'])->name('admin.mail.send');
+
+    Route::get('/admin/create/title-image', [TitleImageCreateController::class, 'createImage'])->name('admin.title-image');
 });

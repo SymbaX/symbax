@@ -42,3 +42,5 @@ Route::middleware(['auth', 'verified', 'disabled'])->group(function () {
 
     Route::get('/event/search', [EventSearchController::class, 'indexSearch'])->name('index.search');
 });
+
+Route::get('/event/{event_id}/share', [EventDetailController::class, 'showShare'])->where('event_id', '[0-9]+')->name('event.share');
