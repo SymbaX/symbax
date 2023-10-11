@@ -21,6 +21,11 @@ class EventSearchController extends Controller
 
         $query = Event::query();
 
+        // 主催者が論理削除されていないイベントのみを取得
+        $query->whereHas('organizer', function ($q) {
+            $q->whereNull('deleted_at');
+        });
+
         if ($selectedCategoryId == "All Categories") {
             $query->where('detail', 'LIKE', "%{$keyword}%");
         } elseif (!empty($keyword)) {

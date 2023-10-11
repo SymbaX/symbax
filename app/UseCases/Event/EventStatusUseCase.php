@@ -24,23 +24,23 @@ class EventStatusUseCase
 {
     /**
      * 操作ログを保存するためのビジネスロジックを提供するユースケース
-     * 
+     *
      * @var OperationLogUseCase
      */
     private $operationLogUseCase;
 
     /**
      * イベントオーガナイザーを確認するためのサービス
-     * 
+     *
      * @var CheckEventOrganizerService
      */
     private $checkEventOrganizerService;
 
     /**
      * EventStatusUseCaseのコンストラクタ
-     * 
+     *
      * 使用するユースケースとサービスをインジェクション（注入）します。
-     * 
+     *
      * @param OperationLogUseCase $operationLogUseCase 操作ログに関するユースケース
      * @param CheckEventOrganizerService $checkEventOrganizerService イベントオーガナイザーを確認するためのサービス
      */
@@ -202,6 +202,12 @@ class EventStatusUseCase
         // 参加者が存在しない場合はエラー
         if (!$participant) {
             return 'not-change-status';
+        }
+
+        // ユーザーが論理削除されている場合はエラー
+        $user = User::where('id', $user_id)->whereNull('deleted_at')->first();
+        if (!$user) {
+            return 'no-change';
         }
 
         $originalStatus = $participant->status; // 変更前のステータスを保存

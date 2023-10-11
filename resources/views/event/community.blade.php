@@ -68,13 +68,18 @@
                                     src="{{ isset($topic->user->profile_photo_path) ? Storage::url($topic->user->profile_photo_path) : asset('img/default-user.png') }}"
                                     alt="" class="w-10 h-10 rounded-full object-cover border-none bg-gray-200">
                                 <div class="user-info">
-                                    <div>{{ $topic->user->name }} <span
-                                            class="login-id">{{ $topic->user->login_id }}</span></div>
+                                    @if ($topic->user)
+                                        <div>{{ $topic->user->name }} <span
+                                                class="login-id">{{ $topic->user->login_id }}</span></div>
+                                    @else
+                                        <div>{{ __('Unknown') }} <span class="login-id">{{ __('Unknown') }}</span>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                             <div class="comment-detail-wrapper">
                                 <div class="comment-detail">
-                                    @if ($topic->is_deleted == true)
+                                    @if ($topic->is_deleted == true or $topic->user == null)
                                         <div class="p-2 is_deleted"><i>{{ __('This post has been deleted') }}</i></div>
                                     @else
                                         <div class="p-2">{{ $topic->content }}</div>
