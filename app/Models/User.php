@@ -10,6 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * ユーザーモデルクラス
@@ -20,6 +21,7 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
     use HasApiTokens, HasFactory, Notifiable;
+    use SoftDeletes;
 
     /**
      * フィルアブル属性の定義
@@ -54,6 +56,14 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * 日付を格納する属性の定義
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
+
 
     public function college()
     {

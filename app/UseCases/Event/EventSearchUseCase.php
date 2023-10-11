@@ -25,6 +25,11 @@ class EventSearchUseCase
         // イベントの検索のクエリを作成
         $query = Event::query();
 
+        // 主催者が論理削除されていないイベントのみを取得
+        $query->whereHas('organizer', function ($q) {
+            $q->whereNull('deleted_at');
+        });
+
         if ($selectedCategoryId == "All Categories") {      // カテゴリーが「すべて」の場合
             // キーワードのみで検索
             $query->where('detail', 'LIKE', "%{$keyword}%");
