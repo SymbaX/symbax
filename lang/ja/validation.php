@@ -271,5 +271,6 @@ return [
         'image_path' => '画像',
         "login_id" => "ログインID",
         "emoji" => "絵文字",
+        "self_introduction" => "自己紹介文"
     ]
 ];
