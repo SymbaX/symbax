@@ -42,12 +42,17 @@ class EventSearchController extends Controller
      */
     public function indexSearch(Request $request)
     {
+        // カテゴリー一覧を取得
         $categories = EventCategories::all();
+
+        // 検索条件を取得
         $selectedCategoryId = $request->input('category');
         $keyword = $request->input('keyword');
 
+        // イベントを検索
         $events = $this->eventSearchUseCase->search($selectedCategoryId, $keyword);
 
+        // イベント検索画面を表示
         return view('event.list-search', compact('events', 'keyword', 'categories', 'selectedCategoryId'));
     }
 }
