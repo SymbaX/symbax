@@ -4,9 +4,6 @@ $(document).ready(function () {
         name: false,
         detail: false,
         category: true,
-        tag: false,
-        participation_condition: false,
-        external_link: false,
         date: false,
         deadline_date: false,
         place: false,
@@ -58,56 +55,6 @@ $(document).ready(function () {
         } else {
             removeError($(this));
             validationResults.category = true;
-        }
-        checkValidation();
-    });
-
-    $("#tag").blur(function () {
-        var tag = $(this).val();
-        if (tag === "") {
-            showError($(this), "タグは必須です。");
-            validationResults.tag = false;
-        } else if (tag.length > 30) {
-            showError($(this), "タグは30文字以下である必要があります。");
-            validationResults.tag = false;
-        } else {
-            removeError($(this));
-            validationResults.tag = true;
-        }
-        checkValidation();
-    });
-
-    $("#participation_condition").blur(function () {
-        var condition = $(this).val();
-        if (condition === "") {
-            showError($(this), "参加条件は必須です。");
-            validationResults.participation_condition = false;
-        } else if (condition.length > 100) {
-            showError($(this), "参加条件は100文字以下である必要があります。");
-            validationResults.participation_condition = false;
-        } else {
-            removeError($(this));
-            validationResults.participation_condition = true;
-        }
-        checkValidation();
-    });
-
-    $("#external_link").blur(function () {
-        var link = $(this).val();
-        var urlPattern =
-            /^(https?:\/\/)?((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|((\d{1,3}\.){3}\d{1,3}))(:\d+)?(\/[-a-z\d%_.~+]*)*(\?[;&a-z\d%_.~+=-]*)?(\#[-a-z\d_]*)?$/i;
-        if (link === "") {
-            showError($(this), "リンクは必須です。");
-            validationResults.external_link = false;
-        } else if (link.length > 255) {
-            showError($(this), "リンクは255文字以下である必要があります。");
-            validationResults.external_link = false;
-        } else if (!urlPattern.test(link)) {
-            showError($(this), "有効なURLを入力してください。");
-            validationResults.external_link = false;
-        } else {
-            removeError($(this));
-            validationResults.external_link = true;
         }
         checkValidation();
     });
