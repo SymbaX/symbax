@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Event;
 
 use App\Http\Controllers\Controller;
-use App\Models\Event;
 use App\Models\EventCategories;
 use App\UseCases\Event\EventSearchUseCase;
 use Illuminate\Http\Request;
