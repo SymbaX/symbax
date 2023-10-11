@@ -4,9 +4,22 @@ namespace App\UseCases\Event;
 
 use App\Models\Event;
 
+/**
+ * イベント検索ユースケース
+ *
+ * イベントの検索機能に関連するユースケースを提供するクラスです。
+ */
 class EventSearchUseCase
 {
     /* =================== 以下メインの処理 =================== */
+
+    /**
+     * イベントの検索
+     *
+     * @param [type] $selectedCategoryId
+     * @param [type] $keyword
+     * @return void
+     */
     public function search($selectedCategoryId, $keyword)
     {
         $query = Event::query();
