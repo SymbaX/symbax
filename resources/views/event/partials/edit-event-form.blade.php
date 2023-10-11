@@ -43,26 +43,6 @@
             </select>
         </div>
 
-        <div>
-            <x-input-label for="tag" class="required" :value="__('Tag')" />
-            <x-text-input id="tag" name="tag" type="text" class="mt-1 block w-full" :value="old('tag', $event->tag)"
-                required autocomplete="off" />
-            <x-input-error class="mt-2" :messages="$errors->get('tag')" />
-        </div>
-
-        <div>
-            <x-input-label for="participation_condition" class="required" :value="__('Participation condition')" />
-            <x-text-input id="participation_condition" name="participation_condition" type="text"
-                class="mt-1 block w-full" :value="old('participation_condition', $event->participation_condition)" required autocomplete="off" />
-            <x-input-error class="mt-2" :messages="$errors->get('participation_condition')" />
-        </div>
-
-        <div>
-            <x-input-label for="external_link" class="required" :value="__('External link')" />
-            <x-text-input id="external_link" name="external_link" type="text" class="mt-1 block w-full"
-                :value="old('external_link', $event->external_link)" required autocomplete="url" />
-            <x-input-error class="mt-2" :messages="$errors->get('external_link')" />
-        </div>
 
         <div>
             <x-input-label for="date" :value="__('Date')" />

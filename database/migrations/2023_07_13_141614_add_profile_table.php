@@ -3,6 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Http\Request;
+use App\Models\User;
 
 return new class extends Migration
 {
@@ -13,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('self_introduction')->nullable()->after('department_id');
-            $table->string('profile_photo_path')->nullable()->after('self_introduction');;
+            $table->string('profile_photo_path')->nullable()->after('self_introduction');
         });
     }
 

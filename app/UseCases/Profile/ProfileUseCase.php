@@ -19,14 +19,14 @@ class ProfileUseCase
     /**
      * 操作ログを保存するためのビジネスロジックを提供するユースケース
      * このユースケースを利用して、システムの操作に関するログの記録処理を行います。
-     * 
+     *
      * @var OperationLogUseCase
      */
     private $operationLogUseCase;
 
     /**
      * ProfileUseCaseのコンストラクタ
-     * 
+     *
      * 使用するユースケースをインジェクション（注入）します。
      *
      * @param OperationLogUseCase $operationLogUseCase 操作ログに関するユースケース
@@ -52,6 +52,9 @@ class ProfileUseCase
         $originalUser = clone $user;
 
         $user->fill($request->validated());
+
+        // フォームから送信された自己紹介文を更新
+        $user->self_introduction = $request->input('self_introduction');
 
         if ($request->hasFile('picture')) {
             if ($user->profile_photo_path != null) {
