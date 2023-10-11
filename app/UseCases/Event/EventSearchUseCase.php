@@ -16,8 +16,8 @@ class EventSearchUseCase
     /**
      * イベントの検索
      *
-     * @param [type] $selectedCategoryId
-     * @param [type] $keyword
+     * @param string $selectedCategoryId
+     * @param string $keyword
      * @return void
      */
     public function search($selectedCategoryId, $keyword)
