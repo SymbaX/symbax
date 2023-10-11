@@ -23,14 +23,14 @@ class EventCommunityUseCase
 {
     /**
      * イベント参加者のステータスをチェックするサービス
-     * 
+     *
      * @var CheckEventParticipantStatusService
      */
     protected $checkParticipantStatusService;
 
     /**
      * イベントオーガナイザーサービスをチェックするサービス
-     * 
+     *
      * @var CheckEventOrganizerService
      */
     protected $checkEventOrganizerService;
@@ -38,14 +38,14 @@ class EventCommunityUseCase
     /**
      * 操作ログを保存するためのビジネスロジックを提供するユースケース
      * このユースケースを利用して、システムの操作に関するログの記録処理を行います。
-     * 
+     *
      * @var OperationLogUseCase
      */
     private $operationLogUseCase;
 
     /**
      * EventCommunityUseCaseのコンストラクタ
-     * 
+     *
      * 使用するユースケースとサービスをインジェクション（注入）します。
      *
      * @param CheckEventParticipantStatusService $checkParticipantStatusService イベント参加者のステータスをチェックするユースケース
@@ -76,7 +76,13 @@ class EventCommunityUseCase
         $isParticipantApproved = $this->checkParticipantStatusService->check($id); // user_idはcheck関数内のAuth::id()で取得
 
         // イベントに削除フラグが立っている場合は404を返す
-        Event::where('id', $id)->where('is_deleted', false)->firstOrFail();
+        $event = Event::where('id', $id)->where('is_deleted', false)->firstOrFail();
+
+        // このイベント主催者が論理削除されている場合は404を返す
+        $organizer = User::where('id', $event->organizer_id)->whereNull('deleted_at')->first();
+        if (!$organizer) {
+            abort(404, 'The organizer of the event has been deleted.');
+        }
 
         // 参加者が承認されているか、またはイベント主催者である場合はtrueを返す
         if ($isParticipantApproved === "approved" || $this->checkEventOrganizerService->check($id)) {
@@ -89,7 +95,7 @@ class EventCommunityUseCase
 
     /**
      *  イベントを取得する
-     * 
+     *
      * @param int $id イベントのID
      * @return \Illuminate\Database\Eloquent\Collection 最新のトピックのコレクションを返す
      */
@@ -127,7 +133,7 @@ class EventCommunityUseCase
      *
      * メンションは @ユーザー名 の形式で、全てのメンションをHTMLリンクに変換します。
      * 特別なメンション @all は全員を指すものとしてスタイルを適用します。
-     * 
+     *
      * @param string $content 元の文字列
      * @param int $eventId イベントID
      * @return string 変換後の文字列
@@ -211,7 +217,7 @@ class EventCommunityUseCase
 
     /**
      * ユーザーがイベントの参加者、または主催者であるかを判定します。
-     * 
+     *
      * @param int $eventId イベントID
      * @param int $userId ユーザーID
      * @return bool 参加者または主催者であればtrue、そうでなければfalse
@@ -236,7 +242,7 @@ class EventCommunityUseCase
 
     /**
      * 新規トピックを作成します。
-     * 
+     *
      * @param \Illuminate\Http\Request $request HTTPリクエストインスタンス
      * @return \App\Models\Topic 作成したトピックのインスタンス
      */
@@ -259,7 +265,7 @@ class EventCommunityUseCase
 
     /**
      * トピック作成の操作ログを保存します。
-     * 
+     *
      * @param \App\Models\Topic $topic トピックモデル
      * @param \Illuminate\Http\Request $request HTTPリクエストインスタンス
      * @return void
@@ -280,7 +286,7 @@ class EventCommunityUseCase
 
     /**
      * 文字列中のメンションから、メンションされたユーザーの一覧を取得します。
-     * 
+     *
      * @param string $content 元の文字列
      * @param int $eventId イベントID
      * @return array<User> メンションされたユーザーモデルの配列
