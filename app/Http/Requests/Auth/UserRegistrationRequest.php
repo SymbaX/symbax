@@ -21,7 +21,13 @@ class UserRegistrationRequest extends FormRequest
                 'not_in:all'
             ],
             'email' => [
-                'required', 'string', 'email', 'max:255', Rule::unique('users'), 'regex:/^[a-zA-Z0-9][^@]+@g\.neec\.ac\.jp$/', 'regex:/^(?!.*[+]).*$/'
+                'required',
+                'string',
+                'email',
+                'max:255',
+                'unique:users,email,NULL,id,deleted_at,NULL',
+                'regex:/^[a-zA-Z0-9][^@]+@g\.neec\.ac\.jp$/',
+                'regex:/^(?!.*[+]).*$/'
             ],
             'password' => ['required', 'confirmed', Password::defaults()],
             'college' => ['required', 'exists:colleges,id'],

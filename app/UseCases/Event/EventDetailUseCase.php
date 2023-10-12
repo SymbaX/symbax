@@ -55,6 +55,13 @@ class EventDetailUseCase
 
         $category_name = EventCategories::where('id', $event->category)->value('name');
 
+        // 主催者が論理削除されている場合は、エラー
+        $user = User::where('id', $event->organizer_id)->whereNull('deleted_at')->first();
+        if (!$user) {
+            abort(404, 'The organizer of this event has been removed.');
+        }
+
+
         // セッションにイベントIDとトークンを保存
         session()->put('status_change_event_id', $id);
         session()->put('status_change_token', str()->uuid()->toString());

@@ -26,9 +26,9 @@ return new class extends Migration
     {
         Schema::table('events', function (Blueprint $table) {
             //
-            $table->dropColumn('tag');
-            $table->dropColumn('participation_condition');
-            $table->dropColumn('external_link');
+            $table->string('tag');
+            $table->string('participation_condition');
+            $table->string('external_link');
         });
     }
 };

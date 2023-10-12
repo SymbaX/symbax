@@ -16,14 +16,14 @@ class ListUsersUseCase
     /**
      * 操作ログを保存するためのビジネスロジックを提供するユースケース
      * このユースケースを利用して、システムの操作に関するログの記録処理を行います。
-     * 
+     *
      * @var OperationLogUseCase
      */
     private $operationLogUseCase;
 
     /**
      * ListUsersUseCaseのコンストラクタ
-     * 
+     *
      * 使用するユースケースをインジェクション（注入）します。
      *
      * @param OperationLogUseCase $operationLogUseCase 操作ログに関するユースケース
@@ -42,7 +42,7 @@ class ListUsersUseCase
      */
     public function fetchUsersData()
     {
-        $users = User::paginate(10);
+        $users = User::withTrashed()->paginate(10);
         $colleges = College::all();
         $departments = Department::all();
         $roles = Role::all();

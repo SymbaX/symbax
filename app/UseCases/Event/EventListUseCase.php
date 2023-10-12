@@ -27,6 +27,9 @@ class EventListUseCase
     {
         return Event::whereDate('date', '>=', Carbon::today())
             ->where('is_deleted', false)
+            ->whereHas('organizer', function ($query) {
+                $query->whereNull('deleted_at');
+            })
             ->orderBy('date', 'desc')
             ->paginate($per_page);
     }
@@ -35,6 +38,9 @@ class EventListUseCase
     {
         return Event::whereDate('date', '>=', Carbon::today())
             ->where('is_deleted', false)
+            ->whereHas('organizer', function ($query) {
+                $query->whereNull('deleted_at');
+            })
             ->orderBy('created_at', 'desc')
             ->take($limit)
             ->get();
@@ -51,6 +57,9 @@ class EventListUseCase
     public function getAllEvents($per_page = 12)
     {
         return Event::where('is_deleted', false)
+            ->whereHas('organizer', function ($query) {
+                $query->whereNull('deleted_at');
+            })
             ->orderBy('date', 'desc')
             ->paginate($per_page);
     }
@@ -70,6 +79,9 @@ class EventListUseCase
             ->whereDate('date', '>=', Carbon::today())
             ->where('is_deleted', false)
             ->where('status', '!=', 'rejected')
+            ->whereHas('organizer', function ($query) {
+                $query->whereNull('deleted_at');
+            })
             ->orderBy('date', 'desc')
             ->paginate($per_page);
     }
@@ -87,6 +99,9 @@ class EventListUseCase
     {
         return $user->organizedEvents()
             ->where('is_deleted', false)
+            ->whereHas('organizer', function ($query) {
+                $query->whereNull('deleted_at');
+            })
             ->orderBy('date', 'desc')
             ->paginate($per_page);
     }
