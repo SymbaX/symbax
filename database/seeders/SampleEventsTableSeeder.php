@@ -16,7 +16,7 @@ class SampleEventsTableSeeder extends Seeder
 {
     /**
      * eventsテーブルにダミーデータを挿入します。
-     * 
+     *
      * @return void
      */
     public function run(): void
@@ -46,10 +46,7 @@ class SampleEventsTableSeeder extends Seeder
             DB::table('events')->insert([
                 'name' => 'イベントタイトル' . $formattedNum,
                 'detail' => "## イベント詳細" . $formattedNum,
-                "category" => "カテゴリー" . $formattedNum,
-                "tag" => "タグ" . $formattedNum,
-                "participation_condition" => "参加条件" . $formattedNum,
-                "external_link" => "https://example.com/" . $formattedNum,
+                "category" => '99_others',
                 "date" => $eventDate->format('Y-m-d'),
                 "deadline_date" => $deadlineDate->format('Y-m-d'),
                 "place" => "開催場所" . $formattedNum,
