@@ -40,7 +40,7 @@ class ListEventsUseCase
     public function fetchEventsData()
     {
         // イベントリストを取得する
-        $events = Event::where('is_deleted', false)->paginate(100);
+        $events = Event::paginate(100);
 
         // 操作ログを記録する
         $this->operationLogUseCase->store([

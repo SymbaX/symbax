@@ -22,6 +22,7 @@
                             <th>{{ __('ID') }}</th>
                             <th>{{ __('Name') }}</th>
                             <th>{{ __('Organizer') }}</th>
+                            <th>{{ __('Event Status') }}</th>
                             <th>{{ __('Date') }}</th>
                             <th>{{ __('Deadline date') }}</th>
 
@@ -31,6 +32,7 @@
                                 <td data-label="{{ __('ID') }}">{{ $event->id }}</td>
                                 <td data-label="{{ __('Name') }}">{{ $event->name }}</td>
                                 <td data-label="{{ __('Organizer') }}">{{ $event->organizer_id }}</td>
+                                <td data-label="{{ __('Event Status') }}">{{ $event->getStatus() }}</td>
                                 <td data-label="{{ __('Date') }}">
                                     {{ Carbon\Carbon::parse($event->date)->format('Y/m/d') }}
                                 <td data-label="{{ __('Deadline date') }}">
