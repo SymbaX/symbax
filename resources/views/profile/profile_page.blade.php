@@ -1,3 +1,7 @@
+@push('css')
+    <link rel="stylesheet" href="{{ asset('css/profile_page.blade.css') }}">
+@endpush
+
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -5,22 +9,29 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    <div class="mr-3">
-                        <img id="preview"
-                            src="{{ isset($user->profile_photo_path) ? Storage::url($user->profile_photo_path) : asset('img/default-user.png') }}"
-                            alt="" class="w-16 h-16 rounded-full object-cover border-none bg-gray-200">
+    <div class="py-6">
+        <div class="container mx-auto">
+            <div class="bg-white p-4 rounded-lg shadow">
+                <div class="max-w-xl mx-auto">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-16 h-16 rounded-full overflow-hidden">
+                            <img id="preview"
+                                src="{{ isset($user->profile_photo_path) ? Storage::url($user->profile_photo_path) : asset('img/default-user.png') }}"
+                                alt="" class="w-16 h-16 object-cover">
+                        </div>
+                        <div class="ml-4"> <!-- この行のマージンを追加 -->
+                            <h1 class="text-2xl font-semibold">{{ $user->name }}</h1>
+                            <p class="text-gray-600">{{ $user->login_id }}</p>
+                            <p class="text-gray-600">{{ $user->college->name }}</p>
+                            <p class="text-gray-600">{{ $user->department->name }}</p>
+                        </div>
                     </div>
-                    <h1>{{ $user->name }}</h1>
-                    <p>{{ $user->self_introduction }}</p>
-                    <p>{{ $user->login_id }}</p>
-                    <p>{{ $user->college->name }}</p>
-                    <p>{{ $user->department->name }}</p>
+                    <div class="mt-6"> <!-- この行のマージンを調整 -->
+                        <p class="line-break">{{ $user->self_introduction }}</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </x-app-layout>
+
