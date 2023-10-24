@@ -32,7 +32,9 @@
                                 <td data-label="{{ __('ID') }}">{{ $event->id }}</td>
                                 <td data-label="{{ __('Name') }}">{{ $event->name }}</td>
                                 <td data-label="{{ __('Organizer') }}">{{ $event->organizer_id }}</td>
-                                <td data-label="{{ __('Event Status') }}">{{ $event->getStatus() }}</td>
+                                <td data-label="{{ __('Event Status') }}">
+                                    @lang('status.' . $event->getStatus())
+                                </td>
                                 <td data-label="{{ __('Date') }}">
                                     {{ Carbon\Carbon::parse($event->date)->format('Y/m/d') }}
                                 <td data-label="{{ __('Deadline date') }}">
