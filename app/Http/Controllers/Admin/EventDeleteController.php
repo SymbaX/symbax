@@ -38,9 +38,9 @@ class EventDeleteController extends Controller
         $result = $this->eventDeleteUseCase->deleteEvent($event->id);
 
         if ($result) {
-            return redirect()->route('admin.events')->with('status', 'Event successfully deleted.');
+            return redirect()->route('admin.events')->with('status', 'event-deleted');
         }
 
-        return redirect()->route('admin.events')->with('status', 'Error deleting event.');
+        return redirect()->route('admin.events')->with('status', 'cannot-delete-event');
     }
 }
