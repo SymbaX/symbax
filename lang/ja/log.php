@@ -28,5 +28,6 @@ return [
     'event-request-join'        => 'イベントへの参加リクエスト',
     'event-cancel-join'         => 'イベントへの参加キャンセル',
     'event-change-status'       => 'イベントのステータス変更',
-
+    'admin-events-list-show'    => '[管理者権限] イベントリストを表示しました',
+    'admin-event-delete'        => '[管理者権限] イベントを削除しました',
 ];
