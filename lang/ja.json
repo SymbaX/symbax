@@ -234,5 +234,6 @@
     "If it does not move after waiting for a while, click here.": "しばらく待っても移動しない場合はこちらをクリックしてください。",
     "Generate title images in batches": "タイトルイメージを一括で生成する",
     "Deleted": "削除済み",
-    "Event Status": "イベントステータス"
+    "Event Status": "イベントステータス",
+    "Event lists": "イベント一覧"
 }
