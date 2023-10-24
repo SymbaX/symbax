@@ -1,3 +1,7 @@
+@push('css')
+    <link rel="stylesheet" href="{{ asset('css/profile_page.blade.css') }}">
+@endpush
+
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -23,7 +27,7 @@
                         </div>
                     </div>
                     <div class="mt-6"> <!-- この行のマージンを調整 -->
-                        <p class="text-lg leading-7">{{ $user->self_introduction }}</p>
+                        <p class="line-break">{{ $user->self_introduction }}</p>
                     </div>
                 </div>
             </div>
