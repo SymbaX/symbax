@@ -38,12 +38,21 @@
                                 <td data-label="{{ __('Deadline date') }}">
                                     {{ Carbon\Carbon::parse($event->deadline_date)->format('Y/m/d') }}
                                 <td data-label="{{ __('Delete') }}">
-                                    <form action="{{ route('admin.event.delete', ['event' => $event->id]) }}"
-                                        method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger">{{ __('Delete') }}</button>
-                                    </form>
+                                    @if ($event->is_deleted)
+                                        <x-primary-button disabled>
+                                            {{ __('Delete') }}
+                                        </x-primary-button>
+                                    @else
+                                        <form action="{{ route('admin.event.delete', ['event' => $event->id]) }}"
+                                            method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <x-primary-button>
+                                                {{ __('Delete') }}
+                                            </x-primary-button>
+                                        </form>
+                                    @endif
+
                                 </td>
 
                             </tr>
