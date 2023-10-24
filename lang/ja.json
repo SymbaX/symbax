@@ -235,5 +235,7 @@
     "Generate title images in batches": "タイトルイメージを一括で生成する",
     "Deleted": "削除済み",
     "Event Status": "イベントステータス",
-    "Event lists": "イベント一覧"
+    "Event lists": "イベント一覧",
+    "Mail send": "メール送信",
+    "Mail": "メール"
 }
