@@ -30,7 +30,17 @@
                         @foreach ($events as $event)
                             <tr>
                                 <td data-label="{{ __('ID') }}">{{ $event->id }}</td>
-                                <td data-label="{{ __('Name') }}">{{ $event->name }}</td>
+                                <td data-label="{{ __('Name') }}">
+                                    @if ($event->is_deleted)
+                                        {{ $event->name }}
+                                    @else
+                                        <a href="{{ route('event.show', $event->id) }}"
+                                            class="text-blue-500 hover:text-blue-700">
+                                            {{ $event->name }}
+                                        </a>
+                                    @endif
+
+                                </td>
                                 <td data-label="{{ __('Organizer') }}">{{ $event->organizer_id }}</td>
                                 <td data-label="{{ __('Event Status') }}">
                                     @lang('status.' . $event->getStatus())
