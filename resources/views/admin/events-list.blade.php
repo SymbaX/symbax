@@ -25,7 +25,7 @@
                             <th>{{ __('Event Status') }}</th>
                             <th>{{ __('Date') }}</th>
                             <th>{{ __('Deadline date') }}</th>
-
+                            <th>{{ __('Delete') }}</th>
                         </tr>
                         @foreach ($events as $event)
                             <tr>
@@ -37,6 +37,15 @@
                                     {{ Carbon\Carbon::parse($event->date)->format('Y/m/d') }}
                                 <td data-label="{{ __('Deadline date') }}">
                                     {{ Carbon\Carbon::parse($event->deadline_date)->format('Y/m/d') }}
+                                <td data-label="{{ __('Delete') }}">
+                                    <form action="{{ route('admin.event.delete', ['event' => $event->id]) }}"
+                                        method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger">{{ __('Delete') }}</button>
+                                    </form>
+                                </td>
+
                             </tr>
                         @endforeach
 
@@ -44,6 +53,20 @@
                     {{ $events->links('vendor.pagination.tailwind02') }}
                 </div>
             </div>
+            <x-status-modal />
+
         </div>
     </div>
 </x-app-layout>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.btn-danger').forEach(function(button) {
+            button.addEventListener('click', function(e) {
+                if (!confirm('Are you sure you want to delete this event?')) {
+                    e.preventDefault();
+                }
+            });
+        });
+    });
+</script>
