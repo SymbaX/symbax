@@ -28,7 +28,7 @@
         <div class="form-group">
             <label for="self_introduction">自己紹介文:</label>
 
-            <x-textarea name="self_introduction" id="self_introduction" required rows="4">
+            <x-textarea name="self_introduction" id="self_introduction" rows="4">
                 {{ old('self_introduction', $user->self_introduction) }}
             </x-textarea>
 
