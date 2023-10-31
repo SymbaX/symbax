@@ -9,16 +9,20 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <a href="{{ route('admin.users') }}" class="text-blue-500 hover:text-blue-700">
-                        {{ __('Account lists') }}</a>
-                    <br />
+
                     <a href="{{ route('admin.operation-logs') }}" class="text-blue-500 hover:text-blue-700">
                         {{ __('Operation logs') }}
                     </a>
+                    <br /><br />
+                    <a href="{{ route('admin.users') }}" class="text-blue-500 hover:text-blue-700">
+                        {{ __('Account lists') }}</a>
                     <br />
+                    <a href="{{ route('admin.events') }}" class="text-blue-500 hover:text-blue-700">
+                        {{ __('Event lists') }}</a>
+                    <br /><br />
                     <a href="{{ route('admin.mail') }}" class="text-blue-500 hover:text-blue-700">
-                        {{ __('Mail') }}</a>
-                    <br />
+                        {{ __('Mail send') }}</a>
+                    <br /><br />
                     <a href="{{ route('admin.title-image') }}" class="text-blue-500 hover:text-blue-700 link_confirm">
                         {{ __('Generate title images in batches') }}</a>
                     <br />

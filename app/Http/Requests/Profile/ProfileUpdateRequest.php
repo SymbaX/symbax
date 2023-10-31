@@ -23,7 +23,7 @@ class ProfileUpdateRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:20'],
             'picture' => ['file', 'mimes:gif,png,jpg,webp', 'max:3072'],
-            'self_introduction' => ['string', 'max:255', 'required'],
+            'self_introduction' => ['nullable', 'string', 'max:255'],
         ];
     }
 }

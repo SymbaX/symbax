@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\EventDeleteController;
+use App\Http\Controllers\Admin\ListEventsController;
 use App\Http\Controllers\Admin\ListUsersController;
 use App\Http\Controllers\Admin\UserUpdateController;
 use App\Http\Controllers\Admin\ListOperationLogsController;
@@ -20,4 +22,7 @@ Route::middleware(['auth', 'verified', 'admin', 'disabled'])->group(function () 
     Route::patch('/admin/mail', [MailSendController::class, 'sendMail'])->name('admin.mail.send');
 
     Route::get('/admin/create/title-image', [TitleImageCreateController::class, 'createImage'])->name('admin.title-image');
+
+    Route::get('/admin/events', [ListEventsController::class, 'listEvents'])->name('admin.events');
+    Route::delete('event/{event}', [EventDeleteController::class, 'destroy'])->name('admin.event.delete');
 });
