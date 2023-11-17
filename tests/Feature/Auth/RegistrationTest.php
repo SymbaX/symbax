@@ -49,4 +49,27 @@ class RegistrationTest extends TestCase
         $this->assertAuthenticated();
         $response->assertRedirect(RouteServiceProvider::HOME);
     }
+
+    /**
+     * 学校ドメイン以外で登録できないことをテストします。
+     *
+     * @return void
+     */
+    public function test_学校ドメイン以外で登録できないことをテストします(): void
+    {
+        $response = $this->post('/register', [
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+            'password' => 'password',
+            'password_confirmation' => 'password',
+            'college' => 'it',
+            'department' => 'specialist',
+            'login_id' => 'test',
+            'terms' => true,
+            'privacy_policy' => true,
+        ]);
+
+        $this->assertGuest(); // ユーザーが認証されていないことを確認
+        $response->assertSessionHasErrors(['email']); // メールアドレスに関するエラーがあることを確認
+    }
 }
