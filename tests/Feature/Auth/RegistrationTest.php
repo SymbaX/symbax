@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Auth;
 
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -71,5 +72,33 @@ class RegistrationTest extends TestCase
 
         $this->assertGuest(); // ユーザーが認証されていないことを確認
         $response->assertSessionHasErrors(['email']); // メールアドレスに関するエラーがあることを確認
+    }
+
+    /**
+     * すでに存在するログインIDで登録できないことをテストします
+     *
+     * @return void
+     */
+    public function test_すでに存在するログインIDで登録できないことをテストします(): void
+    {
+        // 既存のユーザーをファクトリを使用してデータベースに作成
+        User::factory()->create(['login_id' => 'existing_user']);
+
+        // 既存のログインIDを使用して新しいユーザーを登録しようとする
+        $response = $this->post('/register', [
+            'name' => 'Test User',
+            'email' => 'test@g.neec.ac.jp',
+            'password' => 'password',
+            'password_confirmation' => 'password',
+            'college' => 'it',
+            'department' => 'specialist',
+            'login_id' => 'existing_user', // 既存のログインIDを使用
+            'terms' => true,
+            'privacy_policy' => true,
+        ]);
+
+        // 登録が失敗し、エラーがログインIDに関するものであることを確認
+        $this->assertGuest();
+        $response->assertSessionHasErrors(['login_id']);
     }
 }
