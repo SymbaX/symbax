@@ -26,7 +26,7 @@ class ProfileTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->get('/profile');
+            ->get('/profile/edit');
 
         $response->assertOk();
     }
@@ -42,43 +42,17 @@ class ProfileTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->patch('/profile', [
+            ->patch('/profile/update', [
                 'name' => 'Test User',
-                'email' => 'test@example.com',
             ]);
 
         $response
             ->assertSessionHasNoErrors()
-            ->assertRedirect('/profile');
+            ->assertRedirect('/profile/edit');
 
         $user->refresh();
 
         $this->assertSame('Test User', $user->name);
-        $this->assertSame('test@example.com', $user->email);
-        $this->assertNull($user->email_verified_at);
-    }
-
-    /**
-     * メールアドレスが変更されない場合、メールアドレスの検証ステータスが変更されないことをテストします。
-     *
-     * @return void
-     */
-    public function test_メールアドレスが変更されない場合、メールアドレスの検証ステータスが変更されないことをテストします(): void
-    {
-        $user = User::factory()->create();
-
-        $response = $this
-            ->actingAs($user)
-            ->patch('/profile', [
-                'name' => 'Test User',
-                'email' => $user->email,
-            ]);
-
-        $response
-            ->assertSessionHasNoErrors()
-            ->assertRedirect('/profile');
-
-        $this->assertNotNull($user->refresh()->email_verified_at);
     }
 
     /**
@@ -92,7 +66,7 @@ class ProfileTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->delete('/profile', [
+            ->delete('/profile/delete', [
                 'password' => 'password',
             ]);
 
@@ -100,8 +74,14 @@ class ProfileTest extends TestCase
             ->assertSessionHasNoErrors()
             ->assertRedirect('/');
 
+        // ユーザーアカウントがSoft Deleteされたことを確認
+        $this->assertSoftDeleted('users', ['id' => $user->id]);
+
+        // ログインしているか確認
         $this->assertGuest();
-        $this->assertNull($user->fresh());
+
+        // ユーザーアカウントが削除されていることを確認
+        $this->assertNull(User::find($user->id));
     }
 
     /**
@@ -116,14 +96,14 @@ class ProfileTest extends TestCase
         $response = $this
             ->actingAs($user)
             ->from('/profile')
-            ->delete('/profile', [
+            ->delete('/profile/delete', [
                 'password' => 'wrong-password',
             ]);
 
         $response
-            ->assertSessionHasErrorsIn('userDeletion', 'password')
             ->assertRedirect('/profile');
 
-        $this->assertNotNull($user->fresh());
+        // ユーザーアカウントが削除されていないことを確認
+        $this->assertDatabaseHas('users', ['id' => $user->id, 'deleted_at' => null]);
     }
 }

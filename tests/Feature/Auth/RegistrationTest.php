@@ -41,6 +41,9 @@ class RegistrationTest extends TestCase
             'password_confirmation' => 'password',
             'college' => 'it',
             'department' => 'specialist',
+            'login_id' => 'test',
+            'terms' => true,
+            'privacy_policy' => true,
         ]);
 
         $this->assertAuthenticated();
