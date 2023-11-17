@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\Auth;
 
+use App\Models\College;
+use App\Models\Department;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -186,5 +188,52 @@ class RegistrationTest extends TestCase
 
         $this->assertGuest();
         $response->assertSessionHasErrors(['terms']);
+    }
+
+
+    /**
+     * 特定の college に紐づく department を使用して新しいユーザーが登録できることをテストします。
+     *
+     * @return void
+     */
+    public function test_特定のcollegeに紐づくdepartmentを使用して新しいユーザーが登録できることをテストします(): void
+    {
+        $response = $this->post('/register', [
+            'name' => 'Test User',
+            'email' => 'test@g.neec.ac.jp',
+            'password' => 'password',
+            'password_confirmation' => 'password',
+            'college' => 'music',
+            'department' => 'dance', // 特定の college に紐づく department を指定
+            'login_id' => 'test',
+            'terms' => true,
+            'privacy_policy' => true,
+        ]);
+
+        $this->assertAuthenticated();
+        $response->assertRedirect(RouteServiceProvider::HOME);
+    }
+
+    /**
+     * 特定の college に含まれていない department を使用して新しいユーザーが登録できないことをテストします。
+     *
+     * @return void
+     */
+    public function test_特定のcollegeに含まれていないdepartmentを使用して新しいユーザーが登録できないことをテストします(): void
+    {
+        $response = $this->post('/register', [
+            'name' => 'Test User',
+            'email' => 'test@g.neec.ac.jp',
+            'password' => 'password',
+            'password_confirmation' => 'password',
+            'college' => 'creators',
+            'department' => 'design', // 特定の college に含まれていない department を指定
+            'login_id' => 'test',
+            'terms' => true,
+            'privacy_policy' => true,
+        ]);
+
+        $this->assertGuest();
+        $response->assertSessionHasErrors(['department']);
     }
 }
