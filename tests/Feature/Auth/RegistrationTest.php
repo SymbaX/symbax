@@ -101,4 +101,90 @@ class RegistrationTest extends TestCase
         $this->assertGuest();
         $response->assertSessionHasErrors(['login_id']);
     }
+
+    /**
+     * ユーザー登録時のパスワード確認不一致をテストします。
+     *
+     * @return void
+     */
+    public function test_パスワード確認が一致しない場合に登録できないことをテストします(): void
+    {
+        $response = $this->post('/register', [
+            'name' => 'Test User',
+            'email' => 'test@g.neec.ac.jp',
+            'password' => 'password',
+            'password_confirmation' => 'wrong_password', // 不一致なパスワード
+            'college' => 'it',
+            'department' => 'specialist',
+            'login_id' => 'test',
+            'terms' => true,
+            'privacy_policy' => true,
+        ]);
+
+        $this->assertGuest();
+        $response->assertSessionHasErrors(['password']);
+    }
+
+    /**
+     * 利用規約とプライバシーポリシーに同意しない場合に登録できないことをテストします。
+     *
+     * @return void
+     */
+    public function test_利用規約とプライバシーポリシーに同意しない場合に登録できないことをテストします(): void
+    {
+        $response = $this->post('/register', [
+            'name' => 'Test User',
+            'email' => 'test@g.neec.ac.jp',
+            'password' => 'password',
+            'password_confirmation' => 'password',
+            'college' => 'it',
+            'department' => 'specialist',
+            'login_id' => 'test',
+            'terms' => false, // 利用規約に同意しない
+            'privacy_policy' => false, // プライバシーポリシーに同意しない
+        ]);
+
+        $this->assertGuest();
+        $response->assertSessionHasErrors(['terms', 'privacy_policy']);
+    }
+
+    /**
+     * 利用規約またはプライバシーポリシーに同意しない場合に登録できないことをテストします。
+     *
+     * @return void
+     */
+    public function test_利用規約またはプライバシーポリシーに同意しない場合に登録できないことをテストします(): void
+    {
+        // 利用規約に同意し、プライバシーポリシーには同意しない
+        $response = $this->post('/register', [
+            'name' => 'Test User',
+            'email' => 'test@g.neec.ac.jp',
+            'password' => 'password',
+            'password_confirmation' => 'password',
+            'college' => 'it',
+            'department' => 'specialist',
+            'login_id' => 'test',
+            'terms' => true, // 利用規約に同意
+            'privacy_policy' => false, // プライバシーポリシーに同意しない
+        ]);
+
+        $this->assertGuest();
+        $response->assertSessionHasErrors(['privacy_policy']);
+
+        // 利用規約には同意せず、プライバシーポリシーに同意
+        $response = $this->post('/register', [
+            'name' => 'Test User',
+            'email' => 'test@g.neec.ac.jp',
+            'password' => 'password',
+            'password_confirmation' => 'password',
+            'college' => 'it',
+            'department' => 'specialist',
+            'login_id' => 'test',
+            'terms' => false, // 利用規約に同意しない
+            'privacy_policy' => true, // プライバシーポリシーに同意
+        ]);
+
+        $this->assertGuest();
+        $response->assertSessionHasErrors(['terms']);
+    }
 }
