@@ -18,5 +18,5 @@
                     target="__blank">{{ __('Inquiry form') }}</a></li>
         </ul>
     </nav>
-    <p class="footer__copyright">@ 2023 SymbaX.</p>
+    <p class="footer__copyright">&copy; 2023 SymbaX.</p>
 </footer>
