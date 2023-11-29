@@ -34,6 +34,18 @@ class EventCreateTest extends TestCase
     }
 
     /**
+     * ログインしていないときにイベント作成フォームにアクセスすると、ログイン画面にリダイレクトされることをテストします。
+     *
+     * @return void
+     */
+    public function test_ログインしていないときにイベント作成フォームにアクセスすると、ログイン画面にリダイレクトされることをテストします(): void
+    {
+        $response = $this->get('/event/create');
+
+        $response->assertRedirect('/login');
+    }
+
+    /**
      * イベントが正しく作成されることをテストします。
      *
      * @return void
