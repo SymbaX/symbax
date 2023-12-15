@@ -1,0 +1,86 @@
+name: テストを実行する
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
+      - develop
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: testing
+        ports:
+          - 3306:3306
+        # 以下のオプションは、サービスコンテナの起動を待つために使用されます。
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=10s
+          --health-retries=3
+
+    steps:
+      - uses: actions/checkout@v3
+
+      # Composerの依存関係をキャッシュし、インストールします。
+      - name: Cache Composer dependencies
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      # .envファイルをセットアップします。
+      - name: Set up .env file
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+          echo "DB_CONNECTION=mysql" >> .env
+          echo "DB_HOST=127.0.0.1" >> .env
+          echo "DB_PORT=3306" >> .env
+          echo "DB_DATABASE=testing" >> .env
+          echo "DB_USERNAME=root" >> .env
+          echo "DB_PASSWORD=password" >> .env
+
+      - name: Install node modules
+        run: npm install
+
+      - name: Build front-end assets
+        run: npm run build
+
+      # データベースをマイグレーションします。
+      - name: Run migrations
+        run: php artisan migrate --database=testing
+
+      # テストを実行します。
+      - name: Execute Laravel tests
+        run: php artisan test
+
+      # テストの結果をプルリクエストのコメントとして追加します。
+      - name: Comment PR with success test results
+        if: success() # テストが成功した場合にこのステップを実行
+        uses: unsplash/comment-on-pr@v1.3.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          msg: "Test Results: ✅ Tests Passed - [See details](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+          check_for_duplicate_msg: false
+
+      - name: Comment PR with failed test results
+        if: failure() # テストが失敗した場合にこのステップを実行
+        uses: unsplash/comment-on-pr@v1.3.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          msg: "Test Results: ❌ Tests Failed - [See details](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+          check_for_duplicate_msg: false
