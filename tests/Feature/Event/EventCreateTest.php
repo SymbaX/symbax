@@ -87,4 +87,37 @@ class EventCreateTest extends TestCase
         // テスト後にファイルを削除
         Storage::disk()->delete('public/events/' . $imageFile->hashName());
     }
+
+    /**
+     * 過去の日付でイベントを作成できないことをテストします。
+     *
+     * @return void
+     */
+    public function test_過去の日付でイベントを作成できないことをテストします(): void
+    {
+        $requestData = [
+            'name' => 'Test Event',
+            'detail' => 'Test Event Details',
+            'category' => '99_others',
+            'date' => '2000-01-10', // 過去の日付
+            'deadline_date' => '2000-01-01',
+            'place' => 'Test Place',
+            'number_of_recruits' => 10,
+            'organizer_id' => $this->user->id,
+        ];
+
+        $response = $this->actingAs($this->user)->patch('/event/store', $requestData);
+
+        $response->assertSessionHasErrors(['date']);
+        $this->assertDatabaseMissing('events', [
+            'name' => 'Test Event',
+            'detail' => 'Test Event Details',
+            'category' => '99_others',
+            'date' => '2000-01-10',
+            'deadline_date' => '2000-01-01',
+            'place' => 'Test Place',
+            'number_of_recruits' => 10,
+            'organizer_id' => $this->user->id,
+        ]);
+    }
 }
